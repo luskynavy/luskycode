@@ -18,7 +18,7 @@ using System.IO;
 // FAIL 6.0, 5.0, 2.0
 
 namespace JangoGeckoFX
-{
+{    
     public partial class Form1 : Form
     {
         public int volume = 50;
@@ -30,19 +30,7 @@ namespace JangoGeckoFX
 
         public Form1()
         {
-            config = new Config();
-            config.XulrunnerPath = @"xulrunner";
-            config.HomeCommand = "www.jango.com";
-            //_jp.ctrls.onPlayPause(); ; return false;   
-            //"javascript:top.player.onPlayPause();"
-            config.PauseCommand =  "javascript:_jp.ctrls.onPlayPause();";
-            //_jp.ctrls.onSkip(); ; return false;
-            //"javascript:top.player.onSkip(true);"
-            //"javascript:top.player.setTimeout('top.player.onSkip(true)',0);"
-            config.NextCommand = "javascript:_jp.ctrls.onSkip();";
-            //"javascript:top.player.onVolume("{0}");
-            //"javascript:_jp.ctrls.onVolume("{0}");
-            config.VolumeCommand = "javascript:_jp.ctrls.onVolume({0});";
+            config = new Config();            
 
             string configFilePath = @"config.xml";
 
@@ -57,6 +45,24 @@ namespace JangoGeckoFX
             {
                 config = configRead;
             }
+
+            if (config.XulrunnerPath == null)
+                config.XulrunnerPath = @"xulrunner";
+            if (config.HomeCommand == null)
+                config.HomeCommand = "www.jango.com";
+            //_jp.ctrls.onPlayPause(); ; return false;
+            //"javascript:top.player.onPlayPause();"
+            if (config.PauseCommand == null)
+                config.PauseCommand = "javascript:_jp.ctrls.onPlayPause();";
+            //_jp.ctrls.onSkip(); ; return false;
+            //"javascript:top.player.onSkip(true);"
+            //"javascript:top.player.setTimeout('top.player.onSkip(true)',0);"
+            if (config.NextCommand == null)
+                config.NextCommand = "javascript:_jp.ctrls.onSkip();";
+            //"javascript:top.player.onVolume("{0}");
+            //"javascript:_jp.ctrls.onVolume("{0}");
+            if (config.VolumeCommand == null)
+                config.VolumeCommand = "javascript:_jp.ctrls.onVolume({0});";
 
             Xpcom.Initialize(config.XulrunnerPath);
             
@@ -81,6 +87,15 @@ namespace JangoGeckoFX
             webBrowser1 = new GeckoWebBrowser();
             webBrowser1.Parent = this;
             webBrowser1.Dock = DockStyle.Fill;
+
+            //if width/height not specified in config file, use the default values
+            if (config.Width == 0)
+                config.Width = this.Width;
+            if (config.Height == 0)
+                config.Height = this.Height;
+
+            this.Width = config.Width;
+            this.Height = config.Height;
 
             hook = new Hooks();
 
@@ -204,10 +219,12 @@ namespace JangoGeckoFX
     //Data read from config file
     public class Config
     {
-        public string XulrunnerPath { get; set; }
-        public string HomeCommand   { get; set; }        
-        public string PauseCommand  { get; set; }
-        public string NextCommand   { get; set; }
-        public string VolumeCommand { get; set; }
+        public string   XulrunnerPath { get; set; }
+        public string   HomeCommand { get; set; }
+        public string   PauseCommand { get; set; }
+        public string   NextCommand { get; set; }
+        public string   VolumeCommand { get; set; }
+        public int      Width { get; set; }
+        public int      Height { get; set; }
     }
 }
