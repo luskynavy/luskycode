@@ -19,7 +19,7 @@ namespace FTPTest
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void listDir_Click(object sender, EventArgs e)
         {
             // Get the object used to communicate with the server.            
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://ftp.free.fr/tmp/");
@@ -54,7 +54,42 @@ namespace FTPTest
             textBox1.Text += "Directory List Complete, status " + response.StatusDescription;            
 
             reader.Close();
-            response.Close(); 
+            response.Close();
         }
+
+        private void upload_Click(object sender, EventArgs e)
+        {
+            WebClient client = new WebClient();
+            Uri uri = new Uri("ftp://ykalafatov.free.fr/test.txt");
+            string text = "Time = 12:00am temperature = 60";
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(text);
+
+            client.Credentials = new NetworkCredential("ykalafatov", "*");
+            client.UploadDataCompleted += UploadDataCallback;
+            client.UploadFileCompleted += UploadFileCallback;
+            client.UploadProgressChanged += UploadProgressChanged;
+            //client.UploadDataAsync(uri, data); //time of file : upload date of server (GMT -1 ?)
+            client.UploadFileAsync(new Uri("ftp://ykalafatov.free.fr/testFile.txt"), "testFile.txt"); //time of file : upload date of server (GMT -1 ?)
+        }
+
+        private void UploadProgressChanged(Object sender, UploadProgressChangedEventArgs e)
+        {
+            textBox1.Text += e.ProgressPercentage + "%\r\n";
+        }
+
+        private void UploadDataCallback(Object sender, UploadDataCompletedEventArgs e)
+        {
+            byte[] data = (byte[])e.Result;
+            string reply = System.Text.Encoding.UTF8.GetString(data);            
+            textBox1.Text += reply;            
+        }
+
+        private void UploadFileCallback(Object sender, UploadFileCompletedEventArgs e)
+        {
+            byte[] data = (byte[])e.Result;
+            string reply = System.Text.Encoding.UTF8.GetString(data);
+            textBox1.Text += reply;
+        }       
+
     }
 }
