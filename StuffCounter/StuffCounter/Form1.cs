@@ -315,8 +315,13 @@ namespace StuffCounter
                     totalValue += value17;
 
                 //print the stuff counters for current member
-                results.Text += name + "\t\tT9_245:" + nbT9245 + "\tT9_232:" + nbT9232;
-                results.Text += " 245:" + nb245 + " 232:" + nb232 + " 226:" + nb226 + " 219:" + nb219 + " 213:" + nb213 + " 200:" + nb200;
+                //results.Text += name + "\t\tT9_245:" + nbT9245 + "\tT9_232:" + nbT9232;
+                //results.Text += " 245:" + nb245 + " 232:" + nb232 + " 226:" + nb226 + " 219:" + nb219 + " 213:" + nb213 + " 200:" + nb200;
+                if (name.Length > 7)
+                    results.Text += name + "\t" + nbT9245 + "\t" + nbT9232;
+                else
+                    results.Text += name + "\t\t" + nbT9245 + "\t" + nbT9232;
+                results.Text += " " + nb245 + " " + nb232 + " " + nb226 + " " + nb219 + " " + nb213 + " " + nb200;
                 results.Text += " total:" + totalValue + "\r\n";
             }
 

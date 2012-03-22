@@ -1,0 +1,245 @@
+<members>
+	<character name="Raadnak" rank="7">
+		<Item id="46191" ilvl="226" slot="0" />
+		<Item id="45822" ilvl="226" slot="1" />
+		<Item id="48161" ilvl="232" slot="2" />
+		<Item id="46194" ilvl="226" slot="4" />
+		<Item id="45830" ilvl="226" slot="5" />
+		<Item id="47186" ilvl="245" slot="6" />
+		<Item id="47560" ilvl="219" slot="7" />
+		<Item id="47141" ilvl="245" slot="8" />
+		<Item id="48163" ilvl="245" slot="9" />
+		<Item id="48999" ilvl="226" slot="10" />
+		<Item id="42644" ilvl="200" slot="11" />
+		<Item id="40255" ilvl="213" slot="12" />
+		<Item id="40682" ilvl="200" slot="13" />
+		<Item id="46042" ilvl="226" slot="14" />
+		<Item id="47569" ilvl="219" slot="15" />
+		<Item id="40698" ilvl="200" slot="16" />
+		<Item id="47670" ilvl="245" slot="17" />
+	</character>
+	<character name="Sophistie" rank="1">
+		<Item id="48639" ilvl="245" slot="0" />
+		<Item id="47116" ilvl="245" slot="1" />
+		<Item id="47944" ilvl="245" slot="2" />
+		<Item id="47591" ilvl="245" slot="4" />
+		<Item id="47072" ilvl="245" slot="5" />
+		<Item id="47061" ilvl="258" slot="6" />
+		<Item id="47003" ilvl="258" slot="7" />
+		<Item id="47918" ilvl="245" slot="8" />
+		<Item id="48640" ilvl="245" slot="9" />
+		<Item id="47731" ilvl="245" slot="10" />
+		<Item id="47955" ilvl="245" slot="11" />
+		<Item id="47080" ilvl="245" slot="12" />
+		<Item id="49118" ilvl="200" slot="13" />
+		<Item id="47063" ilvl="258" slot="14" />
+		<Item id="47810" ilvl="232" slot="15" />
+		<Item id="47978" ilvl="245" slot="16" />
+		<Item id="45145" ilvl="226" slot="17" />
+	</character>
+	<character name="Amilïa" rank="1">
+		<Item id="48577" ilvl="245" slot="0" />
+		<Item id="47930" ilvl="245" slot="1" />
+		<Item id="48579" ilvl="245" slot="2" />
+		<Item id="48575" ilvl="245" slot="4" />
+		<Item id="45554" ilvl="226" slot="5" />
+		<Item id="47057" ilvl="245" slot="6" />
+		<Item id="45615" ilvl="239" slot="7" />
+		<Item id="45252" ilvl="226" slot="8" />
+		<Item id="48576" ilvl="245" slot="9" />
+		<Item id="46323" ilvl="226" slot="10" />
+		<Item id="45946" ilvl="226" slot="11" />
+		<Item id="47041" ilvl="245" slot="12" />
+		<Item id="45308" ilvl="219" slot="13" />
+		<Item id="47225" ilvl="245" slot="14" />
+		<Item id="46017" ilvl="245" slot="15" />
+		<Item id="47079" ilvl="245" slot="16" />
+		<Item id="42614" ilvl="213" slot="17" />
+	</character>
+	<character name="Neofit" rank="7">
+		<Item id="40528" ilvl="213" slot="0" />
+		<Item id="44664" ilvl="226" slot="1" />
+		<Item id="40530" ilvl="213" slot="2" />
+		<Item id="40525" ilvl="213" slot="4" />
+		<Item id="40317" ilvl="213" slot="5" />
+		<Item id="40529" ilvl="213" slot="6" />
+		<Item id="47150" ilvl="245" slot="7" />
+		<Item id="40330" ilvl="213" slot="8" />
+		<Item id="40527" ilvl="213" slot="9" />
+		<Item id="46959" ilvl="245" slot="10" />
+		<Item id="40075" ilvl="213" slot="11" />
+		<Item id="42987" ilvl="200" slot="12" />
+		<Item id="40431" ilvl="213" slot="13" />
+		<Item id="40250" ilvl="213" slot="14" />
+		<Item id="40384" ilvl="226" slot="15" />
+		<Item id="40384" ilvl="226" slot="16" />
+		<Item id="40385" ilvl="226" slot="17" />
+	</character>
+	<character name="Noxer" rank="7">
+		<Item id="48577" ilvl="245" slot="0" />
+		<Item id="45933" ilvl="226" slot="1" />
+		<Item id="48579" ilvl="245" slot="2" />
+		<Item id="45445" ilvl="239" slot="4" />
+		<Item id="45554" ilvl="226" slot="5" />
+		<Item id="47057" ilvl="245" slot="6" />
+		<Item id="46986" ilvl="258" slot="7" />
+		<Item id="45460" ilvl="239" slot="8" />
+		<Item id="48576" ilvl="245" slot="9" />
+		<Item id="45235" ilvl="226" slot="10" />
+		<Item id="46323" ilvl="226" slot="11" />
+		<Item id="45490" ilvl="226" slot="12" />
+		<Item id="48724" ilvl="245" slot="13" />
+		<Item id="49491" ilvl="245" slot="14" />
+		<Item id="45612" ilvl="239" slot="15" />
+		<Item id="47079" ilvl="245" slot="16" />
+		<Item id="40705" ilvl="200" slot="17" />
+	</character>
+	<character name="Ashiara" rank="7">
+		<Item id="47529" ilvl="219" slot="0" />
+		<Item id="37861" ilvl="200" slot="1" />
+		<Item id="47000" ilvl="245" slot="4" />
+		<Item id="47107" ilvl="245" slot="5" />
+		<Item id="37644" ilvl="200" slot="6" />
+		<Item id="37841" ilvl="200" slot="7" />
+		<Item id="37117" ilvl="187" slot="8" />
+		<Item id="46124" ilvl="226" slot="9" />
+		<Item id="43178" ilvl="175" slot="11" />
+		<Item id="49074" ilvl="200" slot="12" />
+		<Item id="43838" ilvl="174" slot="13" />
+		<Item id="44216" ilvl="187" slot="14" />
+		<Item id="49120" ilvl="200" slot="15" />
+		<Item id="37856" ilvl="200" slot="16" />
+		<Item id="37410" ilvl="200" slot="17" />
+	</character>
+	<character name="Tällak" rank="7">
+		<Item id="46212" ilvl="226" slot="0" />
+		<Item id="45820" ilvl="226" slot="1" />
+		<Item id="48345" ilvl="232" slot="2" />
+		<Item id="46205" ilvl="226" slot="4" />
+		<Item id="45553" ilvl="226" slot="5" />
+		<Item id="46208" ilvl="226" slot="6" />
+		<Item id="47683" ilvl="232" slot="7" />
+		<Item id="45301" ilvl="219" slot="8" />
+		<Item id="46200" ilvl="226" slot="9" />
+		<Item id="45303" ilvl="219" slot="10" />
+		<Item id="40717" ilvl="213" slot="11" />
+		<Item id="45522" ilvl="226" slot="12" />
+		<Item id="40684" ilvl="200" slot="13" />
+		<Item id="45873" ilvl="219" slot="14" />
+		<Item id="45463" ilvl="232" slot="15" />
+		<Item id="45315" ilvl="232" slot="16" />
+		<Item id="47667" ilvl="245" slot="17" />
+	</character>
+	<character name="Franael" rank="1">
+		<Item id="46143" ilvl="226" slot="0" />
+		<Item id="45820" ilvl="226" slot="1" />
+		<Item id="45543" ilvl="226" slot="2" />
+		<Item id="46141" ilvl="226" slot="4" />
+		<Item id="45553" ilvl="226" slot="5" />
+		<Item id="46144" ilvl="226" slot="6" />
+		<Item id="45562" ilvl="226" slot="7" />
+		<Item id="40282" ilvl="213" slot="8" />
+		<Item id="45836" ilvl="226" slot="9" />
+		<Item id="45688" ilvl="213" slot="10" />
+		<Item id="40474" ilvl="213" slot="11" />
+		<Item id="45522" ilvl="226" slot="12" />
+		<Item id="44253" ilvl="200" slot="13" />
+		<Item id="45224" ilvl="226" slot="14" />
+		<Item id="45233" ilvl="232" slot="15" />
+		<Item id="45327" ilvl="232" slot="17" />
+	</character>
+	<character name="Rødéo" rank="1">
+		<Item id="39578" ilvl="200" slot="0" />
+		<Item id="47043" ilvl="245" slot="1" />
+		<Item id="40507" ilvl="213" slot="2" />
+		<Item id="40277" ilvl="213" slot="4" />
+		<Item id="39379" ilvl="200" slot="5" />
+		<Item id="40331" ilvl="213" slot="6" />
+		<Item id="40367" ilvl="213" slot="7" />
+		<Item id="40282" ilvl="213" slot="8" />
+		<Item id="39194" ilvl="200" slot="9" />
+		<Item id="40074" ilvl="213" slot="10" />
+		<Item id="39277" ilvl="200" slot="11" />
+		<Item id="40684" ilvl="200" slot="12" />
+		<Item id="37166" ilvl="200" slot="13" />
+		<Item id="40250" ilvl="213" slot="14" />
+		<Item id="40388" ilvl="226" slot="15" />
+		<Item id="40385" ilvl="226" slot="17" />
+	</character>
+	<character name="Golsi" rank="7">
+		<Item id="47677" ilvl="245" slot="0" />
+		<Item id="44665" ilvl="226" slot="1" />
+		<Item id="48454" ilvl="245" slot="2" />
+		<Item id="46968" ilvl="258" slot="4" />
+		<Item id="47072" ilvl="245" slot="5" />
+		<Item id="47052" ilvl="245" slot="6" />
+		<Item id="47952" ilvl="245" slot="7" />
+		<Item id="47570" ilvl="245" slot="8" />
+		<Item id="48449" ilvl="232" slot="9" />
+		<Item id="47700" ilvl="232" slot="10" />
+		<Item id="47731" ilvl="245" slot="11" />
+		<Item id="46021" ilvl="219" slot="12" />
+		<Item id="45158" ilvl="226" slot="13" />
+		<Item id="47042" ilvl="245" slot="14" />
+		<Item id="47967" ilvl="245" slot="15" />
+		<Item id="45877" ilvl="232" slot="16" />
+		<Item id="47660" ilvl="245" slot="17" />
+	</character>
+	<character name="Cöline" rank="7">
+		<Item id="48639" ilvl="245" slot="0" />
+		<Item id="47116" ilvl="245" slot="1" />
+		<Item id="48637" ilvl="245" slot="2" />
+		<Item id="46962" ilvl="245" slot="4" />
+		<Item id="47937" ilvl="245" slot="5" />
+		<Item id="48638" ilvl="245" slot="6" />
+		<Item id="45166" ilvl="226" slot="7" />
+		<Item id="45111" ilvl="226" slot="8" />
+		<Item id="48640" ilvl="245" slot="9" />
+		<Item id="47731" ilvl="245" slot="10" />
+		<Item id="47700" ilvl="232" slot="11" />
+		<Item id="47080" ilvl="245" slot="12" />
+		<Item id="45158" ilvl="226" slot="13" />
+		<Item id="45319" ilvl="226" slot="14" />
+		<Item id="47967" ilvl="245" slot="15" />
+		<Item id="46964" ilvl="258" slot="16" />
+		<Item id="45145" ilvl="226" slot="17" />
+	</character>
+	<character name="Meyah" rank="7">
+		<Item id="46151" ilvl="226" slot="0" />
+		<Item id="44659" ilvl="213" slot="1" />
+		<Item id="45433" ilvl="219" slot="2" />
+		<Item id="46146" ilvl="226" slot="4" />
+		<Item id="45550" ilvl="226" slot="5" />
+		<Item id="40529" ilvl="213" slot="6" />
+		<Item id="39706" ilvl="213" slot="7" />
+		<Item id="47565" ilvl="219" slot="8" />
+		<Item id="46148" ilvl="226" slot="9" />
+		<Item id="45106" ilvl="226" slot="10" />
+		<Item id="40075" ilvl="213" slot="11" />
+		<Item id="42987" ilvl="200" slot="12" />
+		<Item id="40256" ilvl="213" slot="13" />
+		<Item id="45318" ilvl="219" slot="14" />
+		<Item id="45521" ilvl="232" slot="15" />
+		<Item id="40384" ilvl="226" slot="16" />
+		<Item id="45309" ilvl="219" slot="17" />
+	</character>
+	<character name="Kléio" rank="3">
+		<Item id="48348" ilvl="245" slot="0" />
+		<Item id="47060" ilvl="258" slot="1" />
+		<Item id="48350" ilvl="245" slot="2" />
+		<Item id="46205" ilvl="226" slot="4" />
+		<Item id="45553" ilvl="226" slot="5" />
+		<Item id="48349" ilvl="245" slot="6" />
+		<Item id="45244" ilvl="239" slot="7" />
+		<Item id="47576" ilvl="245" slot="8" />
+		<Item id="48347" ilvl="245" slot="9" />
+		<Item id="47070" ilvl="245" slot="10" />
+		<Item id="45525" ilvl="226" slot="11" />
+		<Item id="40531" ilvl="226" slot="12" />
+		<Item id="45609" ilvl="239" slot="13" />
+		<Item id="46970" ilvl="245" slot="14" />
+		<Item id="45132" ilvl="239" slot="15" />
+		<Item id="47966" ilvl="245" slot="16" />
+		<Item id="47667" ilvl="245" slot="17" />
+	</character>
+</members>
