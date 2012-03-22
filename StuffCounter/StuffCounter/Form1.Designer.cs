@@ -63,7 +63,7 @@
             this.guild.Name = "guild";
             this.guild.Size = new System.Drawing.Size(100, 20);
             this.guild.TabIndex = 1;
-            this.guild.Text = "Ancesträl";
+            this.guild.Text = "Rage Against the Murloc";
             // 
             // panel1
             // 
@@ -76,7 +76,7 @@
             this.panel1.Controls.Add(this.realm);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(632, 24);
+            this.panel1.Size = new System.Drawing.Size(1096, 24);
             this.panel1.TabIndex = 3;
             // 
             // ranks
@@ -85,7 +85,7 @@
             this.ranks.Name = "ranks";
             this.ranks.Size = new System.Drawing.Size(100, 20);
             this.ranks.TabIndex = 5;
-            this.ranks.Text = "0;1;3;7";
+            this.ranks.Text = "0;1;2";
             // 
             // analyze
             // 
@@ -106,7 +106,7 @@
             this.results.GridLines = true;
             this.results.Location = new System.Drawing.Point(0, 26);
             this.results.Name = "results";
-            this.results.Size = new System.Drawing.Size(632, 320);
+            this.results.Size = new System.Drawing.Size(1096, 320);
             this.results.TabIndex = 4;
             this.results.UseCompatibleStateImageBehavior = false;
             this.results.View = System.Windows.Forms.View.Details;
@@ -118,7 +118,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(632, 344);
+            this.ClientSize = new System.Drawing.Size(1096, 344);
             this.Controls.Add(this.results);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";

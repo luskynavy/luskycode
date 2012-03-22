@@ -24,6 +24,75 @@ namespace StuffCounter
         public int sortColumn = -1;
         private bool guildMode = true;
 
+        //id of t10 277
+        int[] t10_277 = new int[] {
+51285,51286,51287,51288,51289,
+51280,51281,51282,51283,51284,
+51260,51261,51262,51263,51264,
+51255,51256,51257,51258,51259,
+51230,51231,51232,51233,51234,
+51240,51241,51242,51243,51244,
+51245,51246,51247,51248,51249,
+51235,51236,51237,51238,51239,
+51295,51296,51297,51298,51299,
+51300,51301,51302,51303,51304,
+51290,51291,51292,51293,51294,
+51275,51276,51277,51278,51279,
+51270,51271,51272,51273,51274,
+51265,51266,51267,51268,51269,
+51310,51311,51312,51313,51314,
+51305,51306,51307,51308,51309,
+51250,51251,51252,51253,51254,
+51225,51226,51227,51228,51229,
+51220,51221,51222,51223,51224
+        };
+
+        //id of t10 264
+        int[] t10_264 = new int[] {
+51150 ,51151 ,51152 ,51153 ,51154 ,
+51155 ,51156 ,51157 ,51158 ,51159 ,
+51175 ,51176 ,51177 ,51178 ,51179 ,
+51180 ,51181 ,51182 ,51183 ,51184 ,
+51205 ,51206 ,51207 ,51208 ,51209 ,
+51195 ,51196 ,51197 ,51198 ,51199 ,
+51190 ,51191 ,51192 ,51193 ,51194 ,
+51200 ,51201 ,51202 ,51203 ,51204 ,
+51140 ,51141 ,51142 ,51143 ,51144 ,
+51135 ,51136 ,51137 ,51138 ,51139 ,
+51145 ,51146 ,51147 ,51148 ,51149 ,
+51160 ,51161 ,51162 ,51163 ,51164 ,
+51165 ,51166 ,51167 ,51168 ,51169 ,
+51170 ,51171 ,51172 ,51173 ,51174 ,
+51125 ,51126 ,51127 ,51128 ,51129 ,
+51130 ,51131 ,51132 ,51133 ,51134 ,
+51185 ,51186 ,51187 ,51188 ,51189 ,
+51210 ,51211 ,51212 ,51213 ,51214 ,
+51215 ,51216 ,51217 ,51218 ,51219
+        };
+
+        //id of t10 251
+        int[] t10_251 = new int[] {
+50114 ,50115 ,50116 ,50117 ,50118 ,
+50275 ,50276 ,50277 ,50278 ,50279 ,
+50765 ,50766 ,50767 ,50768 ,50769 ,
+50391 ,50392 ,50393 ,50394 ,50396 ,
+50240 ,50241 ,50242 ,50243 ,50244 ,
+50830 ,50831 ,50832 ,50833 ,50834 ,
+50835 ,50836 ,50837 ,50838 ,50839 ,
+50841 ,50842 ,50843 ,50844 ,50845 ,
+50824 ,50825 ,50826 ,50827 ,50828 ,
+50106 ,50107 ,50108 ,50109 ,50113 ,
+50819 ,50820 ,50821 ,50822 ,50823 ,
+50324 ,50325 ,50326 ,50327 ,50328 ,
+50865 ,50866 ,50867 ,50868 ,50869 ,
+50860 ,50861 ,50862 ,50863 ,50864 ,
+50094 ,50095 ,50096 ,50097 ,50098 ,
+50853 ,50854 ,50855 ,50856 ,50857 ,
+50087 ,50088 ,50089 ,50090 ,50105 ,
+50078 ,50079 ,50080 ,50081 ,50082 ,
+50846 ,50847 ,50848 ,50849 ,50850
+        };
+
         //id of t9 245
         int[] t9_245 = new int[] { 47984, 48483, 48225, 48378, 48257, 48134, 48287, 48577, 47778, 47754, 48165, 48164, 48346, 48538, 48641, 48223, 48450, 48484,
 48610, 48226, 48379, 48078, 48542, 48227, 48454, 47753, 48482, 48608, 48224, 48377, 47782, 48163, 48317, 48576, 47983, 48350,
@@ -59,7 +128,7 @@ namespace StuffCounter
         {
             InitializeComponent();
             ReadItemCache();
-            //GetStuff("Soufr");
+            //GetStuff("Lusky");
         }
 
         //RAWR DOWNLOAD CODE BEGIN
@@ -244,10 +313,12 @@ namespace StuffCounter
 
                 foreach (XmlNode node in xml.SelectNodes("page/guildInfo/guild/members/character"))
                 {
+                    Cursor.Current = Cursors.WaitCursor;
+
                     rank = int.Parse(node.Attributes["rank"].Value);
                     level = int.Parse(node.Attributes["level"].Value);
 
-                    if (level == 80 && ranksStr.Contains(rank+""))
+                    if (level == 80 && ranksStr.Contains(rank + "")/* && node.Attributes["name"].Value == "Lusky"*/)
                     //if (level == 80 && (rank == 0 || rank == 1 || rank == 3 || rank == 7))
                     {
                         name = node.Attributes["name"].Value;
@@ -308,8 +379,16 @@ namespace StuffCounter
             results.Clear();
 
             results.Columns.Add("Name");
+            results.Columns.Add("T10 277");
+            results.Columns.Add("T10 264");
+            results.Columns.Add("T10 251");
             results.Columns.Add("T9 245");
             results.Columns.Add("T9 232");
+            results.Columns.Add("277");
+            results.Columns.Add("268");
+            results.Columns.Add("264");
+            results.Columns.Add("259");
+            results.Columns.Add("251");
             results.Columns.Add("245");
             results.Columns.Add("232");
             results.Columns.Add("226");
@@ -324,7 +403,8 @@ namespace StuffCounter
             foreach (XmlNode node in returnDocument.SelectNodes("members/character"))
             {
                 name = node.Attributes["name"].Value;
-                int nbT9245 = 0, nbT9232 = 0, nb245 = 0, nb232 = 0, nb226 = 0, nb219 = 0, nb213 = 0, nb200 = 0;
+                int nbT10277 = 0, nbT10264 = 0, nbT10251 = 0, nbT9245 = 0, nbT9232 = 0, nb277 = 0,
+                    nb268 = 0, nb264 = 0, nb259 = 0, nb251 = 0, nb245 = 0, nb232 = 0, nb226 = 0, nb219 = 0, nb213 = 0, nb200 = 0;
                 int totalValue = 0, value16 = 0, value17 = 0;
 
                 //for each item found
@@ -336,10 +416,26 @@ namespace StuffCounter
                     slot = int.Parse(item.Attributes["slot"].Value);
 
                     //increment counters by stuff (t9 type, ivl)
+                    if (t10_277.Contains(id))
+                        nbT10277++;
+                    if (t10_264.Contains(id))
+                        nbT10264++;
+                    if (t10_251.Contains(id))
+                        nbT10251++;
                     if (t9_245.Contains(id))
                         nbT9245++;
                     if (t9_232.Contains(id))
                         nbT9232++;
+                    if (ilvl == 277)
+                        nb277++;
+                    if (ilvl == 268)
+                        nb268++;
+                    if (ilvl == 264)
+                        nb264++;
+                    if (ilvl == 259)
+                        nb259++;
+                    if (ilvl == 251)
+                        nb251++;
                     if (ilvl == 245)
                         nb245++;
                     if (ilvl == 232)
@@ -369,15 +465,24 @@ namespace StuffCounter
 
                 //print the stuff counters for current member
                 if (name.Length > 7)
-                    analyzeStr += name + "\t" + nbT9245 + "\t" + nbT9232;
+                    analyzeStr += name + "\t";
                 else
-                    analyzeStr += name + "\t\t" + nbT9245 + "\t" + nbT9232;
-                analyzeStr += " " + nb245 + " " + nb232 + " " + nb226 + " " + nb219 + " " + nb213 + " " + nb200;
+                    analyzeStr += name + "\t\t";
+                analyzeStr += nbT10277 + "\t" + nbT10264 + "\t" + nbT10251 + " " + nbT9245 + " " + nbT9232 + " " + nb277 + " " + nb268 + " " + nb264;
+                analyzeStr += " " + nb259 + " " + nb251 + " " + nb245 + " " + nb232 + " " + nb226 + " " + nb219 + " " + nb213 + " " + nb200;
                 analyzeStr += " total:" + totalValue + "\r\n";
 
                 ListViewItem item1 = new ListViewItem(name, 0);
+                item1.SubItems.Add("" + nbT10277);
+                item1.SubItems.Add("" + nbT10264);
+                item1.SubItems.Add("" + nbT10251);
                 item1.SubItems.Add("" + nbT9245);
                 item1.SubItems.Add("" + nbT9232);
+                item1.SubItems.Add("" + nb277);
+                item1.SubItems.Add("" + nb268);
+                item1.SubItems.Add("" + nb264);
+                item1.SubItems.Add("" + nb259);
+                item1.SubItems.Add("" + nb251);                
                 item1.SubItems.Add("" + nb245);
                 item1.SubItems.Add("" + nb232);
                 item1.SubItems.Add("" + nb226);
