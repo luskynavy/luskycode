@@ -27,6 +27,13 @@ namespace JangoGeckoFX
         public Hooks hook;
         GeckoWebBrowser webBrowser1;
         public Config config;
+        Keys pauseKey;
+        Keys pauseKeyAlt;
+        Keys nextKey;
+        Keys nextKeyAlt;
+        Keys volumeDownKey;
+        Keys volumeUpKey;
+
 
         public Form1()
         {
@@ -63,6 +70,27 @@ namespace JangoGeckoFX
             //"javascript:_jp.ctrls.onVolume("{0}");
             if (config.VolumeCommand == null)
                 config.VolumeCommand = "javascript:_jp.ctrls.onVolume({0});";
+            if (config.PauseKey == null)
+                config.PauseKey = "MediaPlayPause";
+            if (config.PauseKeyAlt == null)
+                config.PauseKeyAlt = "P";
+            if (config.NextKey == null)
+                config.NextKey = "MediaNextTrack";
+            if (config.NextKeyAlt == null)
+                config.NextKeyAlt = "N";
+            if (config.VolumeDownKey == null)
+                 config.VolumeDownKey = "MediaStop";
+            if (config.VolumeUpKey == null)
+                config.VolumeUpKey = "MediaPreviousTrack";
+
+            //Get keys from key names
+            pauseKey = (Keys)Enum.Parse(typeof(Keys), config.PauseKey);
+            pauseKeyAlt = (Keys)Enum.Parse(typeof(Keys), config.PauseKeyAlt);
+            nextKey = (Keys)Enum.Parse(typeof(Keys), config.NextKey);
+            nextKeyAlt = (Keys)Enum.Parse(typeof(Keys), config.NextKeyAlt);
+            volumeDownKey = (Keys)Enum.Parse(typeof(Keys), config.VolumeDownKey);
+            volumeUpKey = (Keys)Enum.Parse(typeof(Keys), config.VolumeUpKey);
+
 
             Xpcom.Initialize(config.XulrunnerPath);
             
@@ -115,19 +143,19 @@ namespace JangoGeckoFX
             int now = Environment.TickCount;
 
             //Pause/unpause
-            if (e.KeyData == Keys.MediaPlayPause || (e.Control && e.Alt && e.KeyCode == Keys.P))
+            if (e.KeyData == pauseKey /*Keys.MediaPlayPause*/ || (e.Control && e.Alt && e.KeyCode == pauseKeyAlt /*Keys.P*/))
             {                             
                 webBrowser1.Navigate(config.PauseCommand);
             }
-
+            
             //Next track
-            if (e.KeyData == Keys.MediaNextTrack || (e.Control && e.Alt && e.KeyCode == Keys.N))
+            if (e.KeyData == nextKey /*Keys.MediaNextTrack*/ || (e.Control && e.Alt && e.KeyCode == nextKeyAlt /*Keys.N*/))
             {                                
                 webBrowser1.Navigate(config.NextCommand);                
             }
 
             //Volume down
-            if (e.KeyData == Keys.VolumeDown || e.KeyData == Keys.MediaStop)
+            if (e.KeyData == Keys.VolumeDown || e.KeyData == volumeDownKey /*Keys.MediaStop*/)
             {
                 if (now - lastVolumeChange > 100)
                 {
@@ -142,7 +170,7 @@ namespace JangoGeckoFX
             }
 
             //Volume up
-            if (e.KeyData == Keys.VolumeUp || e.KeyData == Keys.MediaPreviousTrack)
+            if (e.KeyData == Keys.VolumeUp || e.KeyData == volumeUpKey /*Keys.MediaPreviousTrack*/)
             {
                 if (now - lastVolumeChange > 100)
                 {
@@ -155,12 +183,6 @@ namespace JangoGeckoFX
                     webBrowser1.Navigate(String.Format(config.VolumeCommand, volume));
                 }
             }
-
-            /* if (e.Control && e.Alt && e.KeyData == Keys.A)
-               {
-                    MessageBox.Show("ctrl+alt+a");
-               }
-            */
         }
 
         private void update_Tick(object sender, EventArgs e)
@@ -224,6 +246,12 @@ namespace JangoGeckoFX
         public string   PauseCommand { get; set; }
         public string   NextCommand { get; set; }
         public string   VolumeCommand { get; set; }
+        public string   PauseKey { get; set; }
+        public string   PauseKeyAlt { get; set; }
+        public string   NextKey { get; set; }
+        public string   NextKeyAlt { get; set; }
+        public string   VolumeDownKey { get; set; }
+        public string   VolumeUpKey { get; set; }
         public int      Width { get; set; }
         public int      Height { get; set; }
     }
