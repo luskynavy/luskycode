@@ -20,7 +20,7 @@ namespace StuffCounter
         //5 seems to be the magic number when the armory is acting up.
         private const int RETRY_MAX = 5;
         string UserAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.8.1.4) Gecko/20070515 Firefox/2.0.0.4";
-        private int sortColumn = -1;
+        public int sortColumn = -1;
         private bool guildMode = true;
 
         //id of t9 245
@@ -58,7 +58,7 @@ namespace StuffCounter
         {
             InitializeComponent();
             ReadItemCache();
-            //GetStuff("Soufr");
+            GetStuff("Soufr");
         }
 
         //RAWR DOWNLOAD CODE BEGIN
@@ -407,8 +407,23 @@ namespace StuffCounter
             public int Compare(object x, object y) 
             {
                 int returnVal= -1;
-                returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text,
+                //Sorting by name : dictionnary order
+                if (col == 0)
+                    returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text,
                                         ((ListViewItem)y).SubItems[col].Text);
+                //Sorting by value
+                else
+                {
+                    int xvalue = int.Parse(((ListViewItem)x).SubItems[col].Text);
+                    int yvalue = int.Parse(((ListViewItem)y).SubItems[col].Text);
+
+                    if (xvalue == yvalue)
+                        returnVal = 0;
+                    else if (xvalue >= yvalue)
+                        returnVal = 1;
+                    else
+                        returnVal = -1;                    
+                }
                 // Determine whether the sort order is descending.
                 if (order == SortOrder.Descending)
                     // Invert the value returned by String.Compare.
@@ -445,20 +460,22 @@ namespace StuffCounter
             // object
             this.results.ListViewItemSorter = new ListViewItemComparer(e.Column, results.Sorting);
         }
-
+        
         //Copy select lines to clipboard
-        private void results_MouseDown(object sender, MouseEventArgs e)
+        private void results_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle)
+            if (e.Control == true && e.KeyCode == Keys.C)
             {
                 string text = "";
-                for(int i = 0; i <results.Columns.Count; i++)
+                //Extract column names
+                for (int i = 0; i < results.Columns.Count; i++)
                 {
                     text += results.Columns[i].Text;
                     text += "\t";
                 }
                 text += "\r\n";
 
+                //Extract items
                 for (int i = 0; i < results.Items.Count; i++)
                 {
                     if (results.Items[i].Selected)
@@ -472,6 +489,7 @@ namespace StuffCounter
                     }
                 }
 
+                //Send it to the clipboard
                 Clipboard.SetText(text);
             }
         }

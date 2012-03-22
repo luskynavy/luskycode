@@ -32,9 +32,9 @@
             this.realm = new System.Windows.Forms.TextBox();
             this.guild = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ranks = new System.Windows.Forms.TextBox();
             this.analyze = new System.Windows.Forms.Button();
             this.results = new System.Windows.Forms.ListView();
-            this.ranks = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,6 +79,14 @@
             this.panel1.Size = new System.Drawing.Size(632, 24);
             this.panel1.TabIndex = 3;
             // 
+            // ranks
+            // 
+            this.ranks.Location = new System.Drawing.Point(254, 0);
+            this.ranks.Name = "ranks";
+            this.ranks.Size = new System.Drawing.Size(100, 20);
+            this.ranks.TabIndex = 5;
+            this.ranks.Text = "0;1;3;7";
+            // 
             // analyze
             // 
             this.analyze.Location = new System.Drawing.Point(489, 0);
@@ -103,15 +111,7 @@
             this.results.UseCompatibleStateImageBehavior = false;
             this.results.View = System.Windows.Forms.View.Details;
             this.results.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.results_ColumnClick);
-            this.results.MouseDown += new System.Windows.Forms.MouseEventHandler(this.results_MouseDown);
-            // 
-            // ranks
-            // 
-            this.ranks.Location = new System.Drawing.Point(254, 0);
-            this.ranks.Name = "ranks";
-            this.ranks.Size = new System.Drawing.Size(100, 20);
-            this.ranks.TabIndex = 5;
-            this.ranks.Text = "0;1;3;7";
+            this.results.KeyDown += new System.Windows.Forms.KeyEventHandler(this.results_KeyDown);
             // 
             // Form1
             // 
