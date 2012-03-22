@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 
 using Skybound.Gecko;
+using System.Xml.Serialization;
+using System.IO;
 
 // Need add references to C:\Users\Tigra\Downloads\Skybound.GeckoFX.bin.v1.9.1.0\bin\Skybound.Gecko.dll
 // from http://code.google.com/p/geckofx/downloads/list Skybound.GeckoFX.bin.v1.9.1.0.zip
@@ -24,11 +26,42 @@ namespace JangoGeckoFX
         public bool noTitle = false;
         public Hooks hook;
         GeckoWebBrowser webBrowser1;
+        public Config config;
 
         public Form1()
         {
+            config = new Config();
+            config.XulrunnerPath = @"xulrunner";
+            config.HomeCommand = "www.jango.com";
+            //_jp.ctrls.onPlayPause(); ; return false;   
+            //"javascript:top.player.onPlayPause();"
+            config.PauseCommand =  "javascript:_jp.ctrls.onPlayPause();";
+            //_jp.ctrls.onSkip(); ; return false;
+            //"javascript:top.player.onSkip(true);"
+            //"javascript:top.player.setTimeout('top.player.onSkip(true)',0);"
+            config.NextCommand = "javascript:_jp.ctrls.onSkip();";
+            //"javascript:top.player.onVolume("{0}");
+            //"javascript:_jp.ctrls.onVolume("{0}");
+            config.VolumeCommand = "javascript:_jp.ctrls.onVolume({0});";
+
+            string configFilePath = @"config.xml";
+
+            //Get config file path from command line if not using default
+            if (Environment.GetCommandLineArgs().Length == 2)
+            {
+                configFilePath = Environment.GetCommandLineArgs()[1];
+            }
+
+            Config configRead = DeserializeFromXML(configFilePath);
+            if (configRead != null)
+            {
+                config = configRead;
+            }
+
+            Xpcom.Initialize(config.XulrunnerPath);
+            
             //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-1.9.0.13.en-US.win32\xulrunner"); //OK with Skybound.GeckoFX.bin.v1.9.1.0
-            Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-1.9.2.19.en-US.win32\xulrunner"); //OK with Skybound.GeckoFX.bin.v1.9.1.0
+            //Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-1.9.2.19.en-US.win32\xulrunner"); //OK with Skybound.GeckoFX.bin.v1.9.1.0
             //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-6.0.en-US.win32\xulrunner"); // OK with GeckoFx-Windows-6.0-0.3
             //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-7.0b1.en-US.win32\xulrunner"); // OK with GeckoFx-Windows-7.0-0.1
             //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-5.0.en-US.win32\xulrunner"); // FAIL: Le cast spécifié n'est pas valide.
@@ -58,7 +91,7 @@ namespace JangoGeckoFX
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            webBrowser1.Navigate("www.jango.com");
+            webBrowser1.Navigate(config.HomeCommand);
         }
 
         //Manage hook keys
@@ -66,21 +99,19 @@ namespace JangoGeckoFX
         {
             int now = Environment.TickCount;
 
-            if (e.KeyData == Keys.MediaPlayPause || (e.Control && e.Alt && e.KeyCode == Keys.P)/*.GetHashCode()*/)
-            {
-                //_jp.ctrls.onPlayPause(); ; return false;
-                //webBrowser1.Navigate("javascript:top.player.onPlayPause();");
-                webBrowser1.Navigate("javascript:_jp.ctrls.onPlayPause();");
+            //Pause/unpause
+            if (e.KeyData == Keys.MediaPlayPause || (e.Control && e.Alt && e.KeyCode == Keys.P))
+            {                             
+                webBrowser1.Navigate(config.PauseCommand);
             }
 
+            //Next track
             if (e.KeyData == Keys.MediaNextTrack || (e.Control && e.Alt && e.KeyCode == Keys.N))
-            {
-                //_jp.ctrls.onSkip(); ; return false;
-                //webBrowser1.Navigate("javascript:top.player.onSkip(true);");
-                webBrowser1.Navigate("javascript:_jp.ctrls.onSkip();");
-                //webBrowser1.Navigate("javascript:top.player.setTimeout('top.player.onSkip(true)',0);");
+            {                                
+                webBrowser1.Navigate(config.NextCommand);                
             }
 
+            //Volume down
             if (e.KeyData == Keys.VolumeDown || e.KeyData == Keys.MediaStop)
             {
                 if (now - lastVolumeChange > 100)
@@ -91,11 +122,11 @@ namespace JangoGeckoFX
                         volume = 0;
                     }
                     lastVolumeChange = Environment.TickCount;
-                    //webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");
-                    webBrowser1.Navigate("javascript:_jp.ctrls.onVolume(" + volume + ");");
+                    webBrowser1.Navigate(String.Format(config.VolumeCommand, volume));
                 }
             }
 
+            //Volume up
             if (e.KeyData == Keys.VolumeUp || e.KeyData == Keys.MediaPreviousTrack)
             {
                 if (now - lastVolumeChange > 100)
@@ -106,15 +137,14 @@ namespace JangoGeckoFX
                         volume = 100;
                     }
                     lastVolumeChange = Environment.TickCount;
-                    //webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");
-                    webBrowser1.Navigate("javascript:_jp.ctrls.onVolume(" + volume + ");");
+                    webBrowser1.Navigate(String.Format(config.VolumeCommand, volume));
                 }
             }
 
-            /*            if (e.Control && e.Alt && e.KeyData == Keys.A)
-                        {
-                            MessageBox.Show("ctrl+alt+a");
-                        }
+            /* if (e.Control && e.Alt && e.KeyData == Keys.A)
+               {
+                    MessageBox.Show("ctrl+alt+a");
+               }
             */
         }
 
@@ -124,22 +154,7 @@ namespace JangoGeckoFX
             if (noTitle == false)
             {
                 try
-                {
-                    /*if (webBrowser1.Document.Title.Length > 0)
-                    {
-                        //byte[] unicodeBytes = Encoding.Unicode.GetBytes(webBrowser1.Document.Title);
-                        byte[] unicodeBytes1;
-                        if (webBrowser1.Document.Title[webBrowser1.Document.Title.Length - 1] != '\0')
-                        {
-                            unicodeBytes1 = Encoding.ASCII.GetBytes(webBrowser1.Document.Title + '\0');
-                        }
-                        else
-                        {
-                            unicodeBytes1 = Encoding.ASCII.GetBytes(webBrowser1.Document.Title);
-                        }
-                        //Text = Encoding.Convert(Encoding.Unicode, Encoding.ASCII, unicodeBytes);
-                        Text = Encoding.Unicode.GetString(unicodeBytes1);
-                    }*/
+                {                    
                     Text = webBrowser1.DocumentTitle;
                 }
                 catch
@@ -160,5 +175,39 @@ namespace JangoGeckoFX
 
             hook.KeyDown += new KeyEventHandler(hook_KeyDown);
         }
+
+        //Reset page, sometimes usefull if a command fails (multiples commands at the same time ?)
+        private void Home_Click(object sender, EventArgs e)
+        {
+            webBrowser1.Navigate(config.HomeCommand);
+        }
+
+        //Read the data from xml
+        static Config DeserializeFromXML(string path)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(Config));
+            Config config = null;
+            try
+            {
+                TextReader textReader = new StreamReader(path);
+                config = (Config)deserializer.Deserialize(textReader);
+                textReader.Close();
+            }
+            catch
+            {
+            }
+
+            return config;
+        }
+    }
+
+    //Data read from config file
+    public class Config
+    {
+        public string XulrunnerPath { get; set; }
+        public string HomeCommand   { get; set; }        
+        public string PauseCommand  { get; set; }
+        public string NextCommand   { get; set; }
+        public string VolumeCommand { get; set; }
     }
 }

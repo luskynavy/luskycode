@@ -32,12 +32,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.ReHook = new System.Windows.Forms.Button();
             this.toolTipReHook = new System.Windows.Forms.ToolTip(this.components);
+            this.Home = new System.Windows.Forms.Button();
             this.update = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // ReHook
             // 
             this.ReHook.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.ReHook.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ReHook.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.ReHook.Location = new System.Drawing.Point(0, 0);
             this.ReHook.Name = "ReHook";
@@ -47,6 +49,21 @@
             this.toolTipReHook.SetToolTip(this.ReHook, "Reinstall hook keys");
             this.ReHook.UseVisualStyleBackColor = false;
             this.ReHook.Click += new System.EventHandler(this.ReHook_Click);
+            // 
+            // Home
+            // 
+            this.Home.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Home.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.Home.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.Home.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Home.Location = new System.Drawing.Point(23, 0);
+            this.Home.Name = "Home";
+            this.Home.Size = new System.Drawing.Size(23, 23);
+            this.Home.TabIndex = 0;
+            this.Home.Text = "H";
+            this.toolTipReHook.SetToolTip(this.Home, "Home");
+            this.Home.UseVisualStyleBackColor = false;
+            this.Home.Click += new System.EventHandler(this.Home_Click);
             // 
             // update
             // 
@@ -59,6 +76,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(999, 321);
+            this.Controls.Add(this.Home);
             this.Controls.Add(this.ReHook);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -73,6 +91,7 @@
         private System.Windows.Forms.Button ReHook;
         private System.Windows.Forms.ToolTip toolTipReHook;
         private System.Windows.Forms.Timer update;
+        private System.Windows.Forms.Button Home;
     }
 }
 
