@@ -11,9 +11,11 @@ namespace HookTest
 {
     public partial class Form1 : Form
     {
+        public int volume = 50;
+
         public Form1()
         {
-            //ClearCache();
+            ClearCache();
 
             InitializeComponent();
 
@@ -28,17 +30,33 @@ namespace HookTest
         {
             if (e.KeyData == Keys.MediaPlayPause)
             {
-                webBrowser1.Navigate("javascript:top.player.onPlayPause();");            
-                //MessageBox.Show("pause");
-                //throw new NotImplementedException();
+                webBrowser1.Navigate("javascript:top.player.onPlayPause();");                         
             }
 
             if (e.KeyData == Keys.MediaNextTrack)
             {
                 webBrowser1.Navigate("javascript:top.player.onSkip(true);");
                 //webBrowser1.Navigate("javascript:top.player.setTimeout('top.player.onSkip(true)',0);");
-                //MessageBox.Show("pause");
-                //throw new NotImplementedException();
+            }
+
+            if (e.KeyData == Keys.VolumeDown || e.KeyData == Keys.MediaStop)
+            {
+                volume -= 5;
+                if (volume < 0)
+                {
+                    volume = 0;
+                }
+                webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");
+            }
+
+            if (e.KeyData == Keys.VolumeUp || e.KeyData == Keys.MediaPreviousTrack)
+            {
+                volume += 5;
+                if (volume > 100)
+                {
+                    volume = 100;
+                }
+                webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");
             }
 
 /*            if (e.Control && e.Alt && e.KeyData == Keys.A)

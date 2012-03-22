@@ -7,7 +7,7 @@ using System.IO;
 
 namespace HookTest
 {
-    partial class Toto
+    partial class Form1
     {
         /// <summary>
         /// Method for clearing internet cache through code
@@ -39,28 +39,12 @@ namespace HookTest
         /// <summary>
         /// Method passing the "internet cache" folder information
         /// to EmptyCacheFolder for emptying IE cache
-        /// </summary>
-        /// <returns></returns>
-        public bool ClearCache()
+        /// </summary>        
+        public void ClearCache()
         {
-            //variable to hold our status
-            bool isEmpty;
-            //try
-            {
-                //call EmptyCacheFolder passing the default internet cache
-                //folder
-                EmptyCacheFolder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache)));
-                //successful so return true
-                isEmpty = true;
-            }
-            //catch
-            {
-                //failed
-                isEmpty = false;
-                
-            }
-            //return status
-            return isEmpty;
+            //call EmptyCacheFolder passing the default internet cache
+            //folder
+            EmptyCacheFolder(new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache)));            
         }
     }
 }
