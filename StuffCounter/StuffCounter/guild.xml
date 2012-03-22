@@ -1,0 +1,1001 @@
+<members>
+	<character name="Rizlazbis" rank="7">
+		<Item id="46140" ilvl="226" />
+		<Item id="45822" ilvl="226" />
+		<Item id="47713" ilvl="245" />
+		<Item id="46137" ilvl="226" />
+		<Item id="45831" ilvl="226" />
+		<Item id="45848" ilvl="226" />
+		<Item id="40558" ilvl="226" />
+		<Item id="40325" ilvl="213" />
+		<Item id="47783" ilvl="232" />
+		<Item id="47512" ilvl="219" />
+		<Item id="40719" ilvl="213" />
+		<Item id="47213" ilvl="200" />
+		<Item id="49076" ilvl="200" />
+		<Item id="47501" ilvl="219" />
+		<Item id="47569" ilvl="219" />
+		<Item id="40273" ilvl="213" />
+		<Item id="47612" ilvl="232" />
+	</character>
+	<character name="Heb" rank="7">
+		<Item id="46161" ilvl="226" />
+		<Item id="45696" ilvl="219" />
+		<Item id="48208" ilvl="245" />
+		<Item id="40471" ilvl="213" />
+		<Item id="37194" ilvl="200" />
+		<Item id="45357" ilvl="219" />
+		<Item id="47608" ilvl="232" />
+		<Item id="39765" ilvl="213" />
+		<Item id="48212" ilvl="245" />
+		<Item id="47731" ilvl="245" />
+		<Item id="45112" ilvl="226" />
+		<Item id="49116" ilvl="200" />
+		<Item id="49118" ilvl="200" />
+		<Item id="40252" ilvl="213" />
+		<Item id="47114" ilvl="245" />
+		<Item id="47668" ilvl="245" />
+	</character>
+	<character name="Kess" rank="7">
+		<Item id="47984" ilvl="245" />
+		<Item id="44662" ilvl="226" />
+		<Item id="45253" ilvl="226" />
+		<Item id="46193" ilvl="226" />
+		<Item id="45119" ilvl="226" />
+		<Item id="45388" ilvl="219" />
+		<Item id="47560" ilvl="219" />
+		<Item id="40198" ilvl="213" />
+		<Item id="45840" ilvl="226" />
+		<Item id="40375" ilvl="213" />
+		<Item id="40720" ilvl="213" />
+		<Item id="40258" ilvl="213" />
+		<Item id="45292" ilvl="219" />
+		<Item id="40253" ilvl="213" />
+		<Item id="46350" ilvl="219" />
+		<Item id="40245" ilvl="213" />
+	</character>
+	<character name="Garhfild" rank="7">
+		<Item id="46184" ilvl="226" />
+		<Item id="45822" ilvl="226" />
+		<Item id="40063" ilvl="213" />
+		<Item id="46186" ilvl="226" />
+		<Item id="47174" ilvl="200" />
+		<Item id="45847" ilvl="226" />
+		<Item id="40749" ilvl="213" />
+		<Item id="40323" ilvl="213" />
+		<Item id="40460" ilvl="213" />
+		<Item id="44283" ilvl="200" />
+		<Item id="40719" ilvl="213" />
+		<Item id="47215" ilvl="200" />
+		<Item id="40258" ilvl="213" />
+		<Item id="40251" ilvl="213" />
+		<Item id="40455" ilvl="213" />
+		<Item id="47671" ilvl="245" />
+	</character>
+	<character name="Soufr" rank="7">
+		<Item id="46201" ilvl="226" />
+		<Item id="47139" ilvl="245" />
+		<Item id="47616" ilvl="232" />
+		<Item id="47204" ilvl="245" />
+		<Item id="45151" ilvl="226" />
+		<Item id="46202" ilvl="226" />
+		<Item id="47090" ilvl="245" />
+		<Item id="47056" ilvl="245" />
+		<Item id="40564" ilvl="226" />
+		<Item id="47733" ilvl="245" />
+		<Item id="40720" ilvl="213" />
+		<Item id="47728" ilvl="232" />
+		<Item id="40382" ilvl="213" />
+		<Item id="40251" ilvl="213" />
+		<Item id="40395" ilvl="226" />
+		<Item id="47812" ilvl="232" />
+		<Item id="45114" ilvl="226" />
+	</character>
+	<character name="Elenaïh" rank="1">
+		<Item id="47217" ilvl="200" />
+		<Item id="47219" ilvl="200" />
+		<Item id="47210" ilvl="200" />
+		<Item id="40469" ilvl="213" />
+		<Item id="44181" ilvl="200" />
+		<Item id="47249" ilvl="219" />
+		<Item id="47504" ilvl="219" />
+		<Item id="37696" ilvl="200" />
+		<Item id="47498" ilvl="219" />
+		<Item id="47512" ilvl="219" />
+		<Item id="47732" ilvl="245" />
+		<Item id="47213" ilvl="200" />
+		<Item id="49076" ilvl="200" />
+		<Item id="47501" ilvl="219" />
+		<Item id="47509" ilvl="219" />
+		<Item id="44210" ilvl="200" />
+		<Item id="40321" ilvl="213" />
+	</character>
+	<character name="Sylve" rank="1">
+		<Item id="46125" ilvl="226" />
+		<Item id="49485" ilvl="245" />
+		<Item id="47832" ilvl="232" />
+		<Item id="46123" ilvl="226" />
+		<Item id="45829" ilvl="226" />
+		<Item id="48226" ilvl="245" />
+		<Item id="47071" ilvl="245" />
+		<Item id="45108" ilvl="226" />
+		<Item id="48224" ilvl="245" />
+		<Item id="47703" ilvl="232" />
+		<Item id="47730" ilvl="245" />
+		<Item id="47725" ilvl="232" />
+		<Item id="45263" ilvl="226" />
+		<Item id="40250" ilvl="213" />
+		<Item id="46958" ilvl="245" />
+		<Item id="47676" ilvl="232" />
+		<Item id="47740" ilvl="232" />
+	</character>
+	<character name="Distronius" rank="7">
+		<Item id="46191" ilvl="226" />
+		<Item id="40378" ilvl="213" />
+		<Item id="45186" ilvl="226" />
+		<Item id="46194" ilvl="226" />
+		<Item id="47081" ilvl="245" />
+		<Item id="45847" ilvl="226" />
+		<Item id="45260" ilvl="226" />
+		<Item id="47055" ilvl="245" />
+		<Item id="47498" ilvl="219" />
+		<Item id="42644" ilvl="200" />
+		<Item id="40080" ilvl="213" />
+		<Item id="40373" ilvl="213" />
+		<Item id="40682" ilvl="200" />
+		<Item id="41610" ilvl="200" />
+		<Item id="45171" ilvl="232" />
+		<Item id="47670" ilvl="245" />
+	</character>
+	<character name="Fence" rank="7">
+		<Item id="47529" ilvl="219" />
+		<Item id="47494" ilvl="219" />
+		<Item id="40502" ilvl="213" />
+		<Item id="46123" ilvl="226" />
+		<Item id="45709" ilvl="219" />
+		<Item id="46126" ilvl="226" />
+		<Item id="45302" ilvl="219" />
+		<Item id="45108" ilvl="226" />
+		<Item id="45325" ilvl="226" />
+		<Item id="39277" ilvl="200" />
+		<Item id="40474" ilvl="213" />
+		<Item id="45286" ilvl="219" />
+		<Item id="40684" ilvl="200" />
+		<Item id="46970" ilvl="245" />
+		<Item id="45266" ilvl="232" />
+		<Item id="45142" ilvl="232" />
+		<Item id="47568" ilvl="219" />
+	</character>
+	<character name="Manraël" rank="7">
+		<Item id="46143" ilvl="226" />
+		<Item id="49485" ilvl="245" />
+		<Item id="47704" ilvl="245" />
+		<Item id="46141" ilvl="226" />
+		<Item id="45827" ilvl="226" />
+		<Item id="48258" ilvl="245" />
+		<Item id="45249" ilvl="226" />
+		<Item id="47610" ilvl="232" />
+		<Item id="48256" ilvl="245" />
+		<Item id="47730" ilvl="245" />
+		<Item id="48954" ilvl="226" />
+		<Item id="44253" ilvl="200" />
+		<Item id="47115" ilvl="245" />
+		<Item id="45873" ilvl="219" />
+		<Item id="47233" ilvl="245" />
+		<Item id="47740" ilvl="232" />
+	</character>
+	<character name="Amstaff" rank="7">
+		<Item id="46125" ilvl="226" />
+		<Item id="47043" ilvl="245" />
+		<Item id="48221" ilvl="232" />
+		<Item id="46123" ilvl="226" />
+		<Item id="47107" ilvl="245" />
+		<Item id="46126" ilvl="226" />
+		<Item id="47071" ilvl="245" />
+		<Item id="45108" ilvl="226" />
+		<Item id="46124" ilvl="226" />
+		<Item id="47730" ilvl="245" />
+		<Item id="45157" ilvl="226" />
+		<Item id="47734" ilvl="245" />
+		<Item id="44253" ilvl="200" />
+		<Item id="45873" ilvl="219" />
+		<Item id="47148" ilvl="245" />
+		<Item id="46996" ilvl="245" />
+		<Item id="45086" ilvl="232" />
+	</character>
+	<character name="Deathkanif" rank="7">
+		<Item id="40820" ilvl="200" />
+		<Item id="42034" ilvl="226" />
+		<Item id="40860" ilvl="200" />
+		<Item id="40781" ilvl="200" />
+		<Item id="46072" ilvl="213" />
+		<Item id="40841" ilvl="200" />
+		<Item id="44895" ilvl="200" />
+		<Item id="40887" ilvl="200" />
+		<Item id="40809" ilvl="232" />
+		<Item id="42115" ilvl="213" />
+		<Item id="42112" ilvl="200" />
+		<Item id="45131" ilvl="200" />
+		<Item id="46086" ilvl="213" />
+		<Item id="42061" ilvl="200" />
+		<Item id="40208" ilvl="213" />
+		<Item id="40207" ilvl="213" />
+	</character>
+	<character name="Jandyr" rank="7">
+		<Item id="46156" ilvl="226" />
+		<Item id="45819" ilvl="226" />
+		<Item id="48606" ilvl="232" />
+		<Item id="46154" ilvl="226" />
+		<Item id="45824" ilvl="226" />
+		<Item id="45379" ilvl="219" />
+		<Item id="39706" ilvl="213" />
+		<Item id="40733" ilvl="213" />
+		<Item id="48603" ilvl="232" />
+		<Item id="47578" ilvl="232" />
+		<Item id="45250" ilvl="226" />
+		<Item id="42987" ilvl="200" />
+		<Item id="40684" ilvl="200" />
+		<Item id="45138" ilvl="226" />
+		<Item id="47493" ilvl="219" />
+		<Item id="47661" ilvl="245" />
+	</character>
+	<character name="Verdandy" rank="7">
+		<Item id="46212" ilvl="226" />
+		<Item id="45480" ilvl="226" />
+		<Item id="48350" ilvl="245" />
+		<Item id="46205" ilvl="226" />
+		<Item id="45553" ilvl="226" />
+		<Item id="46208" ilvl="226" />
+		<Item id="40549" ilvl="226" />
+		<Item id="45454" ilvl="226" />
+		<Item id="46200" ilvl="226" />
+		<Item id="40074" ilvl="213" />
+		<Item id="40717" ilvl="213" />
+		<Item id="40431" ilvl="213" />
+		<Item id="45286" ilvl="219" />
+		<Item id="40721" ilvl="213" />
+		<Item id="47808" ilvl="232" />
+		<Item id="45463" ilvl="232" />
+		<Item id="47667" ilvl="245" />
+	</character>
+	<character name="Naglfar" rank="7">
+		<Item id="46115" ilvl="226" />
+		<Item id="47105" ilvl="245" />
+		<Item id="40557" ilvl="213" />
+		<Item id="46111" ilvl="226" />
+		<Item id="45824" ilvl="226" />
+		<Item id="45841" ilvl="226" />
+		<Item id="47511" ilvl="219" />
+		<Item id="47565" ilvl="219" />
+		<Item id="47609" ilvl="232" />
+		<Item id="47729" ilvl="245" />
+		<Item id="40474" ilvl="213" />
+		<Item id="45286" ilvl="219" />
+		<Item id="47725" ilvl="232" />
+		<Item id="45318" ilvl="219" />
+		<Item id="40384" ilvl="226" />
+		<Item id="40207" ilvl="213" />
+	</character>
+	<character name="Guimlis" rank="7">
+		<Item id="41386" ilvl="200" />
+		<Item id="45820" ilvl="226" />
+		<Item id="40414" ilvl="213" />
+		<Item id="39767" ilvl="213" />
+		<Item id="40317" ilvl="213" />
+		<Item id="47495" ilvl="219" />
+		<Item id="47511" ilvl="219" />
+		<Item id="39195" ilvl="200" />
+		<Item id="40527" ilvl="213" />
+		<Item id="40075" ilvl="213" />
+		<Item id="47222" ilvl="200" />
+		<Item id="40684" ilvl="200" />
+		<Item id="47214" ilvl="200" />
+		<Item id="43566" ilvl="200" />
+		<Item id="39758" ilvl="213" />
+		<Item id="41257" ilvl="200" />
+		<Item id="47568" ilvl="219" />
+	</character>
+	<character name="Phénicia" rank="7">
+		<Item id="46197" ilvl="226" />
+		<Item id="45116" ilvl="226" />
+		<Item id="47987" ilvl="245" />
+		<Item id="46193" ilvl="226" />
+		<Item id="45119" ilvl="226" />
+		<Item id="47620" ilvl="232" />
+		<Item id="40326" ilvl="213" />
+		<Item id="40741" ilvl="213" />
+		<Item id="45273" ilvl="226" />
+		<Item id="45235" ilvl="226" />
+		<Item id="45418" ilvl="219" />
+		<Item id="47728" ilvl="232" />
+		<Item id="39388" ilvl="200" />
+		<Item id="40253" ilvl="213" />
+		<Item id="47743" ilvl="232" />
+		<Item id="37619" ilvl="200" />
+	</character>
+	<character name="Elltharion" rank="7">
+		<Item id="46129" ilvl="226" />
+		<Item id="40374" ilvl="213" />
+		<Item id="46344" ilvl="219" />
+		<Item id="46130" ilvl="226" />
+		<Item id="47617" ilvl="232" />
+		<Item id="45238" ilvl="226" />
+		<Item id="47560" ilvl="219" />
+		<Item id="45275" ilvl="226" />
+		<Item id="47745" ilvl="232" />
+		<Item id="47512" ilvl="219" />
+		<Item id="40399" ilvl="226" />
+		<Item id="39229" ilvl="200" />
+		<Item id="47726" ilvl="232" />
+		<Item id="40253" ilvl="213" />
+		<Item id="47569" ilvl="219" />
+		<Item id="47053" ilvl="245" />
+		<Item id="47658" ilvl="245" />
+	</character>
+	<character name="Vilio" rank="7">
+		<Item id="46172" ilvl="226" />
+		<Item id="45823" ilvl="226" />
+		<Item id="40286" ilvl="213" />
+		<Item id="48075" ilvl="232" />
+		<Item id="47081" ilvl="245" />
+		<Item id="47187" ilvl="245" />
+		<Item id="47560" ilvl="219" />
+		<Item id="45146" ilvl="226" />
+		<Item id="45392" ilvl="219" />
+		<Item id="47512" ilvl="219" />
+		<Item id="40719" ilvl="213" />
+		<Item id="40682" ilvl="200" />
+		<Item id="47726" ilvl="232" />
+		<Item id="47089" ilvl="245" />
+		<Item id="47569" ilvl="219" />
+		<Item id="40698" ilvl="200" />
+		<Item id="39712" ilvl="213" />
+	</character>
+	<character name="Roumy" rank="7">
+		<Item id="48225" ilvl="245" />
+		<Item id="49485" ilvl="245" />
+		<Item id="47832" ilvl="232" />
+		<Item id="46123" ilvl="226" />
+		<Item id="45829" ilvl="226" />
+		<Item id="46126" ilvl="226" />
+		<Item id="47071" ilvl="245" />
+		<Item id="45108" ilvl="226" />
+		<Item id="48224" ilvl="245" />
+		<Item id="40474" ilvl="213" />
+		<Item id="47730" ilvl="245" />
+		<Item id="40371" ilvl="213" />
+		<Item id="44253" ilvl="200" />
+		<Item id="40250" ilvl="213" />
+		<Item id="40386" ilvl="226" />
+		<Item id="46958" ilvl="245" />
+		<Item id="47740" ilvl="232" />
+	</character>
+	<character name="Rajaelfe" rank="1">
+		<Item id="46143" ilvl="226" />
+		<Item id="45820" ilvl="226" />
+		<Item id="47704" ilvl="245" />
+		<Item id="46141" ilvl="226" />
+		<Item id="45827" ilvl="226" />
+		<Item id="45504" ilvl="226" />
+		<Item id="40746" ilvl="213" />
+		<Item id="39702" ilvl="213" />
+		<Item id="48256" ilvl="245" />
+		<Item id="47730" ilvl="245" />
+		<Item id="40717" ilvl="213" />
+		<Item id="40684" ilvl="200" />
+		<Item id="44253" ilvl="200" />
+		<Item id="45224" ilvl="226" />
+		<Item id="45256" ilvl="232" />
+		<Item id="45261" ilvl="232" />
+	</character>
+	<character name="Flavys" rank="0">
+		<Item id="40581" ilvl="213" />
+		<Item id="44665" ilvl="226" />
+		<Item id="40584" ilvl="213" />
+		<Item id="45334" ilvl="226" />
+		<Item id="45139" ilvl="226" />
+		<Item id="40583" ilvl="213" />
+		<Item id="45542" ilvl="226" />
+		<Item id="47611" ilvl="232" />
+		<Item id="40580" ilvl="213" />
+		<Item id="45247" ilvl="226" />
+		<Item id="45112" ilvl="226" />
+		<Item id="45158" ilvl="226" />
+		<Item id="49118" ilvl="200" />
+		<Item id="40722" ilvl="213" />
+		<Item id="40402" ilvl="226" />
+		<Item id="40400" ilvl="226" />
+		<Item id="40707" ilvl="200" />
+	</character>
+	<character name="Staffie" rank="1">
+		<Item id="47043" ilvl="245" />
+		<Item id="48253" ilvl="232" />
+		<Item id="46141" ilvl="226" />
+		<Item id="45827" ilvl="226" />
+		<Item id="46144" ilvl="226" />
+		<Item id="40184" ilvl="213" />
+		<Item id="45301" ilvl="219" />
+		<Item id="48256" ilvl="245" />
+		<Item id="47730" ilvl="245" />
+		<Item id="48954" ilvl="226" />
+		<Item id="44253" ilvl="200" />
+		<Item id="40256" ilvl="213" />
+		<Item id="45873" ilvl="219" />
+		<Item id="46996" ilvl="245" />
+		<Item id="47676" ilvl="232" />
+		<Item id="40385" ilvl="226" />
+	</character>
+	<character name="Hangdramir" rank="7">
+		<Item id="37188" ilvl="200" />
+		<Item id="40065" ilvl="213" />
+		<Item id="40299" ilvl="213" />
+		<Item id="40503" ilvl="213" />
+		<Item id="40692" ilvl="200" />
+		<Item id="40201" ilvl="213" />
+		<Item id="40184" ilvl="213" />
+		<Item id="37170" ilvl="200" />
+		<Item id="40504" ilvl="213" />
+		<Item id="40717" ilvl="213" />
+		<Item id="40074" ilvl="213" />
+		<Item id="44014" ilvl="174" />
+		<Item id="40684" ilvl="200" />
+		<Item id="40721" ilvl="213" />
+		<Item id="44249" ilvl="200" />
+		<Item id="40265" ilvl="213" />
+	</character>
+	<character name="Irénée" rank="1">
+		<Item id="46197" ilvl="226" />
+		<Item id="44662" ilvl="226" />
+		<Item id="47987" ilvl="245" />
+		<Item id="46193" ilvl="226" />
+		<Item id="45694" ilvl="219" />
+		<Item id="47620" ilvl="232" />
+		<Item id="40236" ilvl="213" />
+		<Item id="39731" ilvl="213" />
+		<Item id="46188" ilvl="226" />
+		<Item id="47054" ilvl="245" />
+		<Item id="47732" ilvl="245" />
+		<Item id="40685" ilvl="200" />
+		<Item id="40382" ilvl="213" />
+		<Item id="46976" ilvl="245" />
+		<Item id="45685" ilvl="219" />
+		<Item id="39311" ilvl="200" />
+		<Item id="45170" ilvl="232" />
+	</character>
+	<character name="Serrena" rank="7">
+		<Item id="39732" ilvl="213" />
+		<Item id="40427" ilvl="200" />
+		<Item id="40424" ilvl="213" />
+		<Item id="39497" ilvl="200" />
+		<Item id="45831" ilvl="226" />
+		<Item id="40422" ilvl="213" />
+		<Item id="45258" ilvl="226" />
+		<Item id="37884" ilvl="200" />
+		<Item id="40197" ilvl="213" />
+		<Item id="47512" ilvl="219" />
+		<Item id="39389" ilvl="200" />
+		<Item id="46081" ilvl="213" />
+		<Item id="40682" ilvl="200" />
+		<Item id="41610" ilvl="200" />
+		<Item id="45129" ilvl="200" />
+		<Item id="39766" ilvl="213" />
+		<Item id="40335" ilvl="213" />
+	</character>
+	<character name="Sticks" rank="7">
+		<Item id="47677" ilvl="245" />
+		<Item id="45262" ilvl="226" />
+		<Item id="48636" ilvl="232" />
+		<Item id="45334" ilvl="226" />
+		<Item id="47711" ilvl="232" />
+		<Item id="45842" ilvl="226" />
+		<Item id="45542" ilvl="226" />
+		<Item id="39764" ilvl="213" />
+		<Item id="45228" ilvl="226" />
+		<Item id="47149" ilvl="245" />
+		<Item id="45247" ilvl="226" />
+		<Item id="47216" ilvl="200" />
+		<Item id="46021" ilvl="219" />
+		<Item id="40722" ilvl="213" />
+		<Item id="47810" ilvl="232" />
+		<Item id="40400" ilvl="226" />
+		<Item id="45145" ilvl="226" />
+	</character>
+	<character name="Lagazelle" rank="1">
+		<Item id="46184" ilvl="226" />
+		<Item id="44662" ilvl="226" />
+		<Item id="45349" ilvl="219" />
+		<Item id="46186" ilvl="226" />
+		<Item id="40566" ilvl="226" />
+		<Item id="40462" ilvl="213" />
+		<Item id="46988" ilvl="245" />
+		<Item id="40323" ilvl="213" />
+		<Item id="45345" ilvl="219" />
+		<Item id="40719" ilvl="213" />
+		<Item id="45113" ilvl="226" />
+		<Item id="45703" ilvl="219" />
+		<Item id="40258" ilvl="213" />
+		<Item id="46976" ilvl="245" />
+		<Item id="45479" ilvl="232" />
+		<Item id="47671" ilvl="245" />
+	</character>
+	<character name="Araneas" rank="7">
+		<Item id="42552" ilvl="200" />
+		<Item id="42028" ilvl="213" />
+		<Item id="44195" ilvl="200" />
+		<Item id="40782" ilvl="200" />
+		<Item id="40879" ilvl="213" />
+		<Item id="37193" ilvl="200" />
+		<Item id="44306" ilvl="200" />
+		<Item id="40887" ilvl="200" />
+		<Item id="40805" ilvl="213" />
+		<Item id="42117" ilvl="226" />
+		<Item id="49000" ilvl="226" />
+		<Item id="42123" ilvl="200" />
+		<Item id="45131" ilvl="200" />
+		<Item id="40252" ilvl="213" />
+		<Item id="45074" ilvl="200" />
+	</character>
+	<character name="Takamura" rank="7">
+		<Item id="46197" ilvl="226" />
+		<Item id="47562" ilvl="219" />
+		<Item id="47987" ilvl="245" />
+		<Item id="46193" ilvl="226" />
+		<Item id="46972" ilvl="245" />
+		<Item id="47051" ilvl="245" />
+		<Item id="40751" ilvl="213" />
+		<Item id="40198" ilvl="213" />
+		<Item id="47983" ilvl="245" />
+		<Item id="40719" ilvl="213" />
+		<Item id="40720" ilvl="213" />
+		<Item id="39388" ilvl="200" />
+		<Item id="40258" ilvl="213" />
+		<Item id="40253" ilvl="213" />
+		<Item id="47743" ilvl="232" />
+		<Item id="40284" ilvl="213" />
+	</character>
+	<character name="Gritche" rank="7">
+		<Item id="46115" ilvl="226" />
+		<Item id="47105" ilvl="245" />
+		<Item id="48485" ilvl="245" />
+		<Item id="46111" ilvl="226" />
+		<Item id="45824" ilvl="226" />
+		<Item id="40556" ilvl="213" />
+		<Item id="40206" ilvl="213" />
+		<Item id="40733" ilvl="213" />
+		<Item id="48480" ilvl="232" />
+		<Item id="47222" ilvl="200" />
+		<Item id="40717" ilvl="213" />
+		<Item id="47115" ilvl="245" />
+		<Item id="40684" ilvl="200" />
+		<Item id="40721" ilvl="213" />
+		<Item id="47493" ilvl="219" />
+		<Item id="40207" ilvl="213" />
+	</character>
+	<character name="Lias" rank="1">
+		<Item id="45365" ilvl="219" />
+		<Item id="44661" ilvl="226" />
+		<Item id="40419" ilvl="213" />
+		<Item id="46130" ilvl="226" />
+		<Item id="40301" ilvl="213" />
+		<Item id="45367" ilvl="219" />
+		<Item id="40269" ilvl="213" />
+		<Item id="39390" ilvl="200" />
+		<Item id="46131" ilvl="219" />
+		<Item id="37694" ilvl="200" />
+		<Item id="40080" ilvl="213" />
+		<Item id="45308" ilvl="219" />
+		<Item id="40255" ilvl="213" />
+		<Item id="40253" ilvl="213" />
+		<Item id="40396" ilvl="226" />
+		<Item id="40192" ilvl="213" />
+		<Item id="37238" ilvl="200" />
+	</character>
+	<character name="Sevenfold" rank="7">
+		<Item id="46201" ilvl="226" />
+		<Item id="47139" ilvl="245" />
+		<Item id="48315" ilvl="232" />
+		<Item id="46206" ilvl="226" />
+		<Item id="45151" ilvl="226" />
+		<Item id="46210" ilvl="226" />
+		<Item id="40237" ilvl="213" />
+		<Item id="40324" ilvl="213" />
+		<Item id="48312" ilvl="232" />
+		<Item id="47618" ilvl="232" />
+		<Item id="40719" ilvl="213" />
+		<Item id="40682" ilvl="200" />
+		<Item id="45308" ilvl="219" />
+		<Item id="46341" ilvl="219" />
+		<Item id="45147" ilvl="232" />
+		<Item id="40401" ilvl="226" />
+		<Item id="47666" ilvl="245" />
+	</character>
+	<character name="Lofna" rank="7">
+		<Item id="40339" ilvl="213" />
+		<Item id="45822" ilvl="226" />
+		<Item id="40459" ilvl="213" />
+		<Item id="40234" ilvl="213" />
+		<Item id="45119" ilvl="226" />
+		<Item id="39720" ilvl="213" />
+		<Item id="40269" ilvl="213" />
+		<Item id="40740" ilvl="213" />
+		<Item id="45273" ilvl="226" />
+		<Item id="40720" ilvl="213" />
+		<Item id="40108" ilvl="213" />
+		<Item id="45148" ilvl="226" />
+		<Item id="40682" ilvl="200" />
+		<Item id="40405" ilvl="226" />
+		<Item id="40488" ilvl="213" />
+		<Item id="40192" ilvl="213" />
+		<Item id="45170" ilvl="232" />
+	</character>
+	<character name="Draconius" rank="7">
+		<Item id="33820" ilvl="115" />
+		<Item id="45819" ilvl="226" />
+		<Item id="47697" ilvl="245" />
+		<Item id="46146" ilvl="226" />
+		<Item id="45824" ilvl="226" />
+		<Item id="45841" ilvl="226" />
+		<Item id="47511" ilvl="219" />
+		<Item id="47565" ilvl="219" />
+		<Item id="45430" ilvl="219" />
+		<Item id="37642" ilvl="200" />
+		<Item id="37151" ilvl="200" />
+		<Item id="40684" ilvl="200" />
+		<Item id="49074" ilvl="200" />
+		<Item id="43566" ilvl="200" />
+		<Item id="44050" ilvl="200" />
+		<Item id="47568" ilvl="219" />
+	</character>
+	<character name="Agraz" rank="7">
+		<Item id="49484" ilvl="245" />
+		<Item id="45539" ilvl="226" />
+		<Item id="47787" ilvl="232" />
+		<Item id="46137" ilvl="226" />
+		<Item id="47837" ilvl="232" />
+		<Item id="47051" ilvl="245" />
+		<Item id="47560" ilvl="219" />
+		<Item id="45146" ilvl="226" />
+		<Item id="47782" ilvl="245" />
+		<Item id="47512" ilvl="219" />
+		<Item id="45702" ilvl="219" />
+		<Item id="45308" ilvl="219" />
+		<Item id="47726" ilvl="232" />
+		<Item id="40405" ilvl="226" />
+		<Item id="47724" ilvl="232" />
+		<Item id="39766" ilvl="213" />
+		<Item id="47658" ilvl="245" />
+	</character>
+	<character name="Worrow" rank="7">
+		<Item id="46115" ilvl="226" />
+		<Item id="45819" ilvl="226" />
+		<Item id="48478" ilvl="232" />
+		<Item id="46111" ilvl="226" />
+		<Item id="46999" ilvl="245" />
+		<Item id="48484" ilvl="245" />
+		<Item id="47511" ilvl="219" />
+		<Item id="40330" ilvl="213" />
+		<Item id="48482" ilvl="245" />
+		<Item id="45250" ilvl="226" />
+		<Item id="47578" ilvl="232" />
+		<Item id="45286" ilvl="219" />
+		<Item id="42987" ilvl="200" />
+		<Item id="40721" ilvl="213" />
+		<Item id="47069" ilvl="245" />
+		<Item id="40207" ilvl="213" />
+	</character>
+	<character name="Groscalinou" rank="7">
+		<Item id="49318" ilvl="232" />
+		<Item id="45823" ilvl="226" />
+		<Item id="47757" ilvl="245" />
+		<Item id="46130" ilvl="226" />
+		<Item id="47081" ilvl="245" />
+		<Item id="46133" ilvl="226" />
+		<Item id="47721" ilvl="232" />
+		<Item id="45146" ilvl="226" />
+		<Item id="47752" ilvl="232" />
+		<Item id="47512" ilvl="219" />
+		<Item id="39244" ilvl="200" />
+		<Item id="40373" ilvl="213" />
+		<Item id="40255" ilvl="213" />
+		<Item id="40251" ilvl="213" />
+		<Item id="47743" ilvl="232" />
+		<Item id="47658" ilvl="245" />
+	</character>
+	<character name="Alcarn" rank="7">
+		<Item id="47717" ilvl="232" />
+		<Item id="45819" ilvl="226" />
+		<Item id="48478" ilvl="232" />
+		<Item id="46111" ilvl="226" />
+		<Item id="45824" ilvl="226" />
+		<Item id="47495" ilvl="219" />
+		<Item id="40591" ilvl="226" />
+		<Item id="47565" ilvl="219" />
+		<Item id="48482" ilvl="245" />
+		<Item id="40075" ilvl="213" />
+		<Item id="47729" ilvl="245" />
+		<Item id="40684" ilvl="200" />
+		<Item id="47214" ilvl="200" />
+		<Item id="40403" ilvl="223" />
+		<Item id="40384" ilvl="226" />
+		<Item id="40207" ilvl="213" />
+	</character>
+	<character name="Adeliah" rank="7">
+		<Item id="46156" ilvl="226" />
+		<Item id="47105" ilvl="245" />
+		<Item id="45320" ilvl="226" />
+		<Item id="46154" ilvl="226" />
+		<Item id="45550" ilvl="226" />
+		<Item id="48610" ilvl="245" />
+		<Item id="45559" ilvl="226" />
+		<Item id="39729" ilvl="213" />
+		<Item id="48603" ilvl="232" />
+		<Item id="45250" ilvl="226" />
+		<Item id="47578" ilvl="232" />
+		<Item id="45263" ilvl="226" />
+		<Item id="42987" ilvl="200" />
+		<Item id="45138" ilvl="226" />
+		<Item id="45165" ilvl="232" />
+		<Item id="47661" ilvl="245" />
+	</character>
+	<character name="Freepon" rank="7">
+		<Item id="46197" ilvl="226" />
+		<Item id="40680" ilvl="200" />
+		<Item id="47715" ilvl="245" />
+		<Item id="47838" ilvl="232" />
+		<Item id="45306" ilvl="219" />
+		<Item id="47985" ilvl="245" />
+		<Item id="49231" ilvl="232" />
+		<Item id="47173" ilvl="200" />
+		<Item id="45927" ilvl="219" />
+		<Item id="47512" ilvl="219" />
+		<Item id="45702" ilvl="219" />
+		<Item id="40255" ilvl="213" />
+		<Item id="40682" ilvl="200" />
+		<Item id="40405" ilvl="226" />
+		<Item id="47612" ilvl="232" />
+	</character>
+	<character name="Aelindhras" rank="1">
+		<Item id="46143" ilvl="226" />
+		<Item id="42028" ilvl="213" />
+		<Item id="47704" ilvl="245" />
+		<Item id="46141" ilvl="226" />
+		<Item id="41234" ilvl="213" />
+		<Item id="41204" ilvl="213" />
+		<Item id="41229" ilvl="213" />
+		<Item id="41224" ilvl="213" />
+		<Item id="41143" ilvl="232" />
+		<Item id="47730" ilvl="245" />
+		<Item id="42115" ilvl="213" />
+		<Item id="42123" ilvl="200" />
+		<Item id="44253" ilvl="200" />
+		<Item id="42067" ilvl="213" />
+		<Item id="47808" ilvl="232" />
+		<Item id="47736" ilvl="232" />
+		<Item id="45327" ilvl="232" />
+	</character>
+	<character name="Slounette" rank="1">
+		<Item id="40456" ilvl="213" />
+		<Item id="44661" ilvl="226" />
+		<Item id="40555" ilvl="226" />
+		<Item id="45240" ilvl="226" />
+		<Item id="39735" ilvl="213" />
+		<Item id="40457" ilvl="213" />
+		<Item id="40246" ilvl="213" />
+		<Item id="37884" ilvl="200" />
+		<Item id="46163" ilvl="226" />
+		<Item id="40080" ilvl="213" />
+		<Item id="47512" ilvl="219" />
+		<Item id="40682" ilvl="200" />
+		<Item id="40255" ilvl="213" />
+		<Item id="41610" ilvl="200" />
+		<Item id="40408" ilvl="213" />
+		<Item id="40698" ilvl="200" />
+		<Item id="40335" ilvl="213" />
+	</character>
+	<character name="Jmartelfer" rank="7">
+		<Item id="46180" ilvl="226" />
+		<Item id="45823" ilvl="226" />
+		<Item id="48572" ilvl="232" />
+		<Item id="46178" ilvl="226" />
+		<Item id="45826" ilvl="226" />
+		<Item id="45843" ilvl="226" />
+		<Item id="40320" ilvl="213" />
+		<Item id="47093" ilvl="245" />
+		<Item id="48574" ilvl="232" />
+		<Item id="45691" ilvl="213" />
+		<Item id="40108" ilvl="213" />
+		<Item id="47215" ilvl="200" />
+		<Item id="40258" ilvl="213" />
+		<Item id="40251" ilvl="213" />
+		<Item id="39423" ilvl="213" />
+		<Item id="40700" ilvl="200" />
+		<Item id="42614" ilvl="213" />
+	</character>
+	<character name="Nellam" rank="7">
+		<Item id="47677" ilvl="245" />
+		<Item id="45262" ilvl="226" />
+		<Item id="45251" ilvl="226" />
+		<Item id="46162" ilvl="226" />
+		<Item id="45551" ilvl="226" />
+		<Item id="45267" ilvl="226" />
+		<Item id="45166" ilvl="226" />
+		<Item id="40306" ilvl="213" />
+		<Item id="45834" ilvl="226" />
+		<Item id="40718" ilvl="213" />
+		<Item id="40107" ilvl="213" />
+		<Item id="47216" ilvl="200" />
+		<Item id="37220" ilvl="200" />
+		<Item id="40722" ilvl="213" />
+		<Item id="45110" ilvl="232" />
+		<Item id="45450" ilvl="226" />
+		<Item id="45137" ilvl="232" />
+	</character>
+	<character name="Mîdoban" rank="7">
+		<Item id="46180" ilvl="226" />
+		<Item id="47562" ilvl="219" />
+		<Item id="48572" ilvl="232" />
+		<Item id="46178" ilvl="226" />
+		<Item id="45151" ilvl="226" />
+		<Item id="45452" ilvl="226" />
+		<Item id="46985" ilvl="245" />
+		<Item id="47093" ilvl="245" />
+		<Item id="48574" ilvl="232" />
+		<Item id="40080" ilvl="213" />
+		<Item id="40108" ilvl="213" />
+		<Item id="40382" ilvl="213" />
+		<Item id="48724" ilvl="245" />
+		<Item id="40251" ilvl="213" />
+		<Item id="47509" ilvl="219" />
+		<Item id="40401" ilvl="226" />
+		<Item id="45436" ilvl="226" />
+	</character>
+	<character name="Makøtch" rank="7">
+		<Item id="46184" ilvl="226" />
+		<Item id="45822" ilvl="226" />
+		<Item id="48137" ilvl="245" />
+		<Item id="48136" ilvl="245" />
+		<Item id="47140" ilvl="245" />
+		<Item id="46185" ilvl="226" />
+		<Item id="46988" ilvl="245" />
+		<Item id="45149" ilvl="226" />
+		<Item id="45512" ilvl="226" />
+		<Item id="47732" ilvl="245" />
+		<Item id="47223" ilvl="245" />
+		<Item id="40258" ilvl="213" />
+		<Item id="45703" ilvl="219" />
+		<Item id="40723" ilvl="213" />
+		<Item id="45234" ilvl="232" />
+		<Item id="47671" ilvl="245" />
+	</character>
+	<character name="Lusky" rank="7">
+		<Item id="46161" ilvl="226" />
+		<Item id="47043" ilvl="245" />
+		<Item id="48208" ilvl="245" />
+		<Item id="47739" ilvl="232" />
+		<Item id="45491" ilvl="226" />
+		<Item id="45357" ilvl="219" />
+		<Item id="45162" ilvl="226" />
+		<Item id="45869" ilvl="226" />
+		<Item id="48212" ilvl="245" />
+		<Item id="47070" ilvl="245" />
+		<Item id="47730" ilvl="245" />
+		<Item id="44253" ilvl="200" />
+		<Item id="47115" ilvl="245" />
+		<Item id="45704" ilvl="219" />
+		<Item id="47114" ilvl="245" />
+		<Item id="47668" ilvl="245" />
+	</character>
+	<character name="Lenaianel" rank="7">
+		<Item id="40366" ilvl="213" />
+		<Item id="44665" ilvl="226" />
+		<Item id="45697" ilvl="219" />
+		<Item id="40544" ilvl="213" />
+		<Item id="47072" ilvl="245" />
+		<Item id="40547" ilvl="213" />
+		<Item id="40297" ilvl="213" />
+		<Item id="47108" ilvl="245" />
+		<Item id="40545" ilvl="213" />
+		<Item id="45112" ilvl="226" />
+		<Item id="40718" ilvl="213" />
+		<Item id="40257" ilvl="213" />
+		<Item id="47080" ilvl="245" />
+		<Item id="40722" ilvl="213" />
+		<Item id="45700" ilvl="219" />
+		<Item id="40266" ilvl="213" />
+		<Item id="45137" ilvl="232" />
+	</character>
+	<character name="Zhoule" rank="7">
+		<Item id="46209" ilvl="226" />
+		<Item id="45699" ilvl="219" />
+		<Item id="47616" ilvl="232" />
+		<Item id="46206" ilvl="226" />
+		<Item id="45828" ilvl="226" />
+		<Item id="48288" ilvl="245" />
+		<Item id="49235" ilvl="232" />
+		<Item id="45316" ilvl="219" />
+		<Item id="46199" ilvl="226" />
+		<Item id="47733" ilvl="245" />
+		<Item id="45438" ilvl="226" />
+		<Item id="45866" ilvl="219" />
+		<Item id="40682" ilvl="200" />
+		<Item id="45541" ilvl="226" />
+		<Item id="45147" ilvl="232" />
+		<Item id="39716" ilvl="213" />
+		<Item id="40267" ilvl="213" />
+	</character>
+	<character name="Azulean" rank="7">
+		<Item id="45118" ilvl="226" />
+		<Item id="44657" ilvl="213" />
+		<Item id="40513" ilvl="213" />
+		<Item id="45259" ilvl="226" />
+		<Item id="45151" ilvl="226" />
+		<Item id="45544" ilvl="226" />
+		<Item id="45701" ilvl="219" />
+		<Item id="45316" ilvl="219" />
+		<Item id="40564" ilvl="226" />
+		<Item id="39407" ilvl="200" />
+		<Item id="40720" ilvl="213" />
+		<Item id="40685" ilvl="200" />
+		<Item id="49078" ilvl="200" />
+		<Item id="46347" ilvl="219" />
+		<Item id="47569" ilvl="219" />
+		<Item id="45682" ilvl="219" />
+		<Item id="45114" ilvl="226" />
+	</character>
+	<character name="Bacman" rank="7">
+		<Item id="45299" ilvl="219" />
+		<Item id="45193" ilvl="226" />
+		<Item id="45320" ilvl="226" />
+		<Item id="40525" ilvl="213" />
+		<Item id="45824" ilvl="226" />
+		<Item id="46150" ilvl="226" />
+		<Item id="40591" ilvl="226" />
+		<Item id="46961" ilvl="245" />
+		<Item id="45833" ilvl="226" />
+		<Item id="45250" ilvl="226" />
+		<Item id="45540" ilvl="226" />
+		<Item id="42987" ilvl="200" />
+		<Item id="40684" ilvl="200" />
+		<Item id="45318" ilvl="219" />
+		<Item id="40406" ilvl="213" />
+		<Item id="40406" ilvl="213" />
+		<Item id="45086" ilvl="232" />
+	</character>
+	<character name="Darkwars" rank="7">
+		<Item id="46172" ilvl="226" />
+		<Item id="45822" ilvl="226" />
+		<Item id="48081" ilvl="245" />
+		<Item id="46168" ilvl="226" />
+		<Item id="45557" ilvl="226" />
+		<Item id="45848" ilvl="226" />
+		<Item id="47560" ilvl="219" />
+		<Item id="47141" ilvl="245" />
+		<Item id="48072" ilvl="232" />
+		<Item id="48957" ilvl="226" />
+		<Item id="45702" ilvl="219" />
+		<Item id="40682" ilvl="200" />
+		<Item id="45308" ilvl="219" />
+		<Item id="40251" ilvl="213" />
+		<Item id="47743" ilvl="232" />
+		<Item id="47612" ilvl="232" />
+	</character>
+	<character name="Franckul" rank="7">
+		<Item id="46180" ilvl="226" />
+		<Item id="47562" ilvl="219" />
+		<Item id="48572" ilvl="232" />
+		<Item id="46178" ilvl="226" />
+		<Item id="47510" ilvl="219" />
+		<Item id="47057" ilvl="245" />
+		<Item id="46985" ilvl="245" />
+		<Item id="47093" ilvl="245" />
+		<Item id="48574" ilvl="232" />
+		<Item id="40433" ilvl="213" />
+		<Item id="42644" ilvl="200" />
+		<Item id="47215" ilvl="200" />
+		<Item id="42988" ilvl="200" />
+		<Item id="39415" ilvl="200" />
+		<Item id="47509" ilvl="219" />
+		<Item id="40401" ilvl="226" />
+		<Item id="45436" ilvl="226" />
+	</character>
+</members>

@@ -33,17 +33,17 @@
             this.guild = new System.Windows.Forms.TextBox();
             this.results = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.analyze = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // go
             // 
-            this.go.Dock = System.Windows.Forms.DockStyle.Right;
             this.go.Location = new System.Drawing.Point(253, 0);
             this.go.Name = "go";
             this.go.Size = new System.Drawing.Size(75, 24);
             this.go.TabIndex = 0;
-            this.go.Text = "Go";
+            this.go.Text = "Get guild";
             this.go.UseVisualStyleBackColor = true;
             this.go.Click += new System.EventHandler(this.go_Click);
             // 
@@ -73,7 +73,7 @@
             this.results.Multiline = true;
             this.results.Name = "results";
             this.results.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.results.Size = new System.Drawing.Size(558, 314);
+            this.results.Size = new System.Drawing.Size(509, 314);
             this.results.TabIndex = 2;
             this.results.Text = "Results";
             // 
@@ -81,19 +81,30 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.analyze);
             this.panel1.Controls.Add(this.go);
             this.panel1.Controls.Add(this.guild);
             this.panel1.Controls.Add(this.realm);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(328, 24);
+            this.panel1.Size = new System.Drawing.Size(509, 24);
             this.panel1.TabIndex = 3;
+            // 
+            // analyze
+            // 
+            this.analyze.Location = new System.Drawing.Point(351, 0);
+            this.analyze.Name = "analyze";
+            this.analyze.Size = new System.Drawing.Size(75, 23);
+            this.analyze.TabIndex = 4;
+            this.analyze.Text = "Analyze";
+            this.analyze.UseVisualStyleBackColor = true;
+            this.analyze.Click += new System.EventHandler(this.analyze_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(558, 344);
+            this.ClientSize = new System.Drawing.Size(509, 344);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.results);
             this.Name = "Form1";
@@ -112,6 +123,7 @@
         private System.Windows.Forms.TextBox guild;
         private System.Windows.Forms.TextBox results;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button analyze;
     }
 }
 
