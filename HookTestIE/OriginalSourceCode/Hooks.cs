@@ -295,8 +295,7 @@ namespace HookTest
                     Stop(true, false, false);
 
                     // Initializes and throws a new instance of the Win32Exception class with the specified error. 
-                    //throw new Win32Exception(errorCode);
-
+                    throw new Win32Exception(errorCode);
                 }
             }
 
