@@ -39,6 +39,8 @@
             this.textBoxResult = new System.Windows.Forms.TextBox();
             this.labelNslookup = new System.Windows.Forms.Label();
             this.textBoxNslookup = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxCountry = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonGo
@@ -57,7 +59,7 @@
             this.textBoxIp.Name = "textBoxIp";
             this.textBoxIp.Size = new System.Drawing.Size(204, 20);
             this.textBoxIp.TabIndex = 1;
-            this.textBoxIp.Text = "google.fr";            
+            this.textBoxIp.Text = "google.fr";
             // 
             // label1
             // 
@@ -142,14 +144,36 @@
             this.textBoxNslookup.Location = new System.Drawing.Point(12, 74);
             this.textBoxNslookup.Name = "textBoxNslookup";
             this.textBoxNslookup.ReadOnly = true;
-            this.textBoxNslookup.Size = new System.Drawing.Size(580, 20);
+            this.textBoxNslookup.Size = new System.Drawing.Size(496, 20);
             this.textBoxNslookup.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(514, 58);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(46, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Country:";
+            // 
+            // textBoxCountry
+            // 
+            this.textBoxCountry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxCountry.HideSelection = false;
+            this.textBoxCountry.Location = new System.Drawing.Point(517, 74);
+            this.textBoxCountry.Name = "textBoxCountry";
+            this.textBoxCountry.ReadOnly = true;
+            this.textBoxCountry.Size = new System.Drawing.Size(75, 20);
+            this.textBoxCountry.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(604, 488);
+            this.Controls.Add(this.textBoxCountry);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.textBoxNslookup);
             this.Controls.Add(this.labelNslookup);
             this.Controls.Add(this.textBoxResult);
@@ -181,6 +205,8 @@
         private System.Windows.Forms.TextBox textBoxResult;
         private System.Windows.Forms.Label labelNslookup;
         private System.Windows.Forms.TextBox textBoxNslookup;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxCountry;
     }
 }
 

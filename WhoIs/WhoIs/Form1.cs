@@ -26,6 +26,29 @@ namespace WhoIs
         public Form1()
         {
             InitializeComponent();
+
+            // Init IPCountryTable
+            table = new IPCountryTable(1/*indexLength*/);
+//             table.LoadStatisticsFile(@"..\..\resources\ripencc.latest", true);
+//             table.LoadStatisticsFile(@"..\..\resources\arin.latest", true);
+//             table.LoadStatisticsFile(@"..\..\resources\apnic.latest", false);
+//             table.LoadStatisticsFile(@"..\..\resources\lacnic.latest", true);
+
+            //Source
+//         ftp://ftp.afrinic.net/pub/stats/afrinic/delegated-afrinic-latest
+//         ftp://ftp.apnic.net/pub/stats/apnic/delegated-apnic-latest
+//         ftp://ftp.arin.net/pub/stats/arin/delegated-arin-latest
+//         ftp://ftp.lacnic.net/pub/stats/lacnic/delegated-lacnic-latest
+// 
+//         ftp://ftp.ripe.net/ripe/stats/delegated-ripencc-latest
+//         ftp://ftp.apnic.net/pub/stats/iana/delegated-iana-latest
+
+            table.LoadStatisticsFile(@"..\..\resources\delegated-iana-latest", true);
+            table.LoadStatisticsFile(@"..\..\resources\delegated-apnic-latest", true);
+            table.LoadStatisticsFile(@"..\..\resources\delegated-ripencc-latest.txt", true);
+            table.LoadStatisticsFile(@"..\..\resources\delegated-lacnic-latest", true);
+            table.LoadStatisticsFile(@"..\..\resources\delegated-arin-latest", true);
+            table.LoadStatisticsFile(@"..\..\resources\delegated-afrinic-latest", true);
         }
 
         // Source : http://www.asp-php.net/ressources/bouts_de_code.aspx?id=961
@@ -68,8 +91,26 @@ namespace WhoIs
             }
         }
 
+        static IPCountryTable table;
+
         private void Go()
         {
+            // IpLookupCountry
+            IPAddress ip;
+
+            if (textBoxIp.Text[0] > '9')
+                ip = System.Net.Dns.GetHostEntry(textBoxIp.Text).AddressList[0];
+            else
+                ip = IPAddress.Parse(textBoxIp.Text);
+            String resultIp = table.GetCountry(ip.ToString());
+
+            textBoxCountry.Text = resultIp;
+
+
+            // Refresh app to show info during next phase
+            Application.DoEvents();
+
+
             // NsLookup
             IPHostEntry ipEntry;
 
@@ -90,7 +131,13 @@ namespace WhoIs
             {
                 textBoxNslookup.Text = ex.Message;
             }
-            
+
+
+            // Refresh app to show info during next phase
+            Application.DoEvents();
+
+
+            return;
 
             // Do the who is
             string result = QueryWhoisServer(textBoxIp.Text, textBoxServerIp.Text, 43/*0 + textBoxServerPort.Text*/);
@@ -108,7 +155,7 @@ namespace WhoIs
         private void buttonGo_Click(object sender, EventArgs e)
         {
             Go();
-        }                
+        }       
     }
 }
 
