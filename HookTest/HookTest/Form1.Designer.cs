@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.update = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -42,6 +44,12 @@
             this.webBrowser1.Size = new System.Drawing.Size(1003, 288);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.Url = new System.Uri("http://www.jango.com/profiles/1972516?c=1&l=0", System.UriKind.Absolute);
+            // 
+            // update
+            // 
+            this.update.Enabled = true;
+            this.update.Interval = 1000;
+            this.update.Tick += new System.EventHandler(this.update_Tick);
             // 
             // Form1
             // 
@@ -59,6 +67,7 @@
         #endregion
 
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Timer update;
     }
 }
 

@@ -16,9 +16,9 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>-NoErrors -noclearcache</StartArguments>
+    <StartArguments>-NoErrorszz -noclearcachezz</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>-NoErrors -noclearcache</StartArguments>
+    <StartArguments>-NoErrorszz -noclearcachezz</StartArguments>
   </PropertyGroup>
 </Project>

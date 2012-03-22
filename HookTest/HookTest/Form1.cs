@@ -13,11 +13,12 @@ namespace HookTest
     {
         public int volume = 50;
         public int lastVolumeChange = 0;
+        public bool noTitle = false;
 
         public Form1()
         {
             bool scriptErrorsOption = false;
-            bool clearCacheOption = true;
+            bool clearCacheOption = true;            
 
             foreach (string arg in Environment.GetCommandLineArgs())
             {
@@ -26,6 +27,9 @@ namespace HookTest
 
                 if (System.String.Compare(arg, "-noclearcache", true) == 0)
                     clearCacheOption = false;
+
+                if (System.String.Compare(arg, "-notitle", true) == 0)
+                    noTitle = true;
             }
 
             if (clearCacheOption)
@@ -55,12 +59,16 @@ namespace HookTest
 
             if (key == Keys.MediaPlayPause/*.GetHashCode()*/)
             {
-                webBrowser1.Navigate("javascript:top.player.onPlayPause();");                         
+                //_jp.ctrls.onPlayPause(); ; return false;
+                //webBrowser1.Navigate("javascript:top.player.onPlayPause();");
+                webBrowser1.Navigate("javascript:_jp.ctrls.onPlayPause();");                         
             }
 
             if (key == Keys.MediaNextTrack/*.GetHashCode()*/)
             {
-                webBrowser1.Navigate("javascript:top.player.onSkip(true);");
+                //_jp.ctrls.onSkip(); ; return false;
+                //webBrowser1.Navigate("javascript:top.player.onSkip(true);");
+                webBrowser1.Navigate("javascript:_jp.ctrls.onSkip();");
                 //webBrowser1.Navigate("javascript:top.player.setTimeout('top.player.onSkip(true)',0);");
             }
             
@@ -74,7 +82,8 @@ namespace HookTest
                         volume = 0;
                     }
                     lastVolumeChange = Environment.TickCount;
-                    webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");                    
+                    //webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");
+                    webBrowser1.Navigate("javascript:_jp.ctrls.onVolume(" + volume + ");");
                 }
             }
 
@@ -103,6 +112,20 @@ namespace HookTest
         {
             webBrowser1.Navigate("about:blank");
             //webBrowser1.Stop();
+        }
+
+        private void update_Tick(object sender, EventArgs e)
+        {
+            if (noTitle == false)
+            {
+                try
+                {
+                    Text = webBrowser1.Document.Title;
+                }
+                catch
+                {
+                }
+            }
         }
     }
 }
