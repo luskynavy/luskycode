@@ -91,7 +91,7 @@ namespace JangoGeckoFX
             volumeDownKey = (Keys)Enum.Parse(typeof(Keys), config.VolumeDownKey);
             volumeUpKey = (Keys)Enum.Parse(typeof(Keys), config.VolumeUpKey);
 
-
+           
             Xpcom.Initialize(config.XulrunnerPath);
             
             //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-1.9.0.13.en-US.win32\xulrunner"); //OK with Skybound.GeckoFX.bin.v1.9.1.0
@@ -206,9 +206,15 @@ namespace JangoGeckoFX
             hook.KeyDown -= new KeyEventHandler(hook_KeyDown);
 
             //Reinstall it
-            //hook = new Hooks();
-            hook.Stop();
-            hook.Start();
+            try
+            {
+                hook.Stop();
+                hook.Start();
+            }
+            catch (Win32Exception ex)
+            {
+                hook = new Hooks(); //some times hook become invalid, so it can't no be stopped, try this
+            }
 
             hook.KeyDown += new KeyEventHandler(hook_KeyDown);
         }
@@ -235,6 +241,72 @@ namespace JangoGeckoFX
             }
 
             return config;
+        }
+
+        //Dump the current song
+        //Extract the name from title and get the last file from cache bigger than 1Mo
+        private void Dump_Click(object sender, EventArgs e)
+        {
+            //Get cache directory files
+            string pathSrc = Xpcom.ProfileDirectory + @"\Cache";
+            DirectoryInfo dir = new DirectoryInfo(pathSrc);
+            FileInfo[] files = null;
+            try
+            {
+                files = dir.GetFiles();
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("Invalid directory: " + pathSrc);
+            }
+
+            //if directory exists and there are files
+            if (files != null && files.Count() > 0)
+            {
+                DateTime lastOne = new DateTime();
+                int fileIndexToCopy = -1;
+                for (int i = 0; i < files.Count(); i++)
+                {
+                    //get a file bigger than 1Mo and skip the cache map and index
+                    if ((files[i].Length > 1024 * 1024) &&
+                        !files[i].Name.StartsWith("_CACHE_"))
+                    {
+                        //is it more recent than previous one ?
+                        if (files[i].LastWriteTime.CompareTo(lastOne) > 0)
+                        {
+                            lastOne = files[i].LastWriteTime;
+                            fileIndexToCopy = i;
+                        }                            
+                    }
+                }
+
+                //if found a file
+                if (fileIndexToCopy != -1)
+                {
+                    //string webBrowser1DocumentTitle = "artiste: chanson - Jango";
+                    //build the file name: extract artist, song name and remove the " - Jango" at the end
+                    int songStart = webBrowser1.DocumentTitle.IndexOf(":");
+                    string dst = webBrowser1.DocumentTitle.Substring(0, songStart)
+                        + " - "
+                        + webBrowser1.DocumentTitle.Substring(songStart + 2, webBrowser1.DocumentTitle.Length - 8 - (songStart + 2))
+                        + ".mp3";
+
+                    //remove special chars
+                    foreach (char c in Path.GetInvalidFileNameChars())
+                    {
+                        dst = dst.Replace(c, '_');
+                    }
+                    //copy the file
+                    try
+                    {
+                        System.IO.File.Copy(pathSrc + "\\" + files[fileIndexToCopy].Name, dst, false);
+                    }
+                    catch (IOException ex)
+                    {
+
+                    }
+                }
+            }
         }
     }
 

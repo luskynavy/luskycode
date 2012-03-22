@@ -34,6 +34,7 @@
             this.toolTipReHook = new System.Windows.Forms.ToolTip(this.components);
             this.Home = new System.Windows.Forms.Button();
             this.update = new System.Windows.Forms.Timer(this.components);
+            this.Dump = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ReHook
@@ -71,11 +72,27 @@
             this.update.Interval = 1000;
             this.update.Tick += new System.EventHandler(this.update_Tick);
             // 
+            // Dump
+            // 
+            this.Dump.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Dump.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.Dump.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.Dump.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Dump.Location = new System.Drawing.Point(46, 0);
+            this.Dump.Name = "Dump";
+            this.Dump.Size = new System.Drawing.Size(23, 23);
+            this.Dump.TabIndex = 1;
+            this.Dump.Text = "D";
+            this.toolTipReHook.SetToolTip(this.Dump, "Dump");
+            this.Dump.UseVisualStyleBackColor = false;
+            this.Dump.Click += new System.EventHandler(this.Dump_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(999, 321);
+            this.Controls.Add(this.Dump);
             this.Controls.Add(this.Home);
             this.Controls.Add(this.ReHook);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -92,6 +109,7 @@
         private System.Windows.Forms.ToolTip toolTipReHook;
         private System.Windows.Forms.Timer update;
         private System.Windows.Forms.Button Home;
+        private System.Windows.Forms.Button Dump;
     }
 }
 
