@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace HookTest
 {
-    static class Program
+    static partial class  Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -13,7 +13,9 @@ namespace HookTest
         [STAThread]
         static void Main()
         {
-            
+            Toto tot = new Toto();
+            tot.ClearCache();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());            

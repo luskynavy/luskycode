@@ -13,6 +13,8 @@ namespace HookTest
     {
         public Form1()
         {
+            //ClearCache();
+
             InitializeComponent();
 
             Hooks hook = new Hooks();
@@ -46,6 +48,12 @@ namespace HookTest
 */            
         }
 
-
+        private void Form1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            webBrowser1.Navigate("about:blank");
+            //webBrowser1.Stop();
+        }
     }
 }
+
+
