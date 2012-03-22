@@ -97,7 +97,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.results);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "StuffCounter";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

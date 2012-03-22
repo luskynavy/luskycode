@@ -38,7 +38,22 @@ namespace StuffCounter
         private void button1_Click(object sender, EventArgs e)
         {
             XmlDocument xml = DownloadXml("http://eu.wowarmory.com/guild-info.xml?r=Eldre%27Thalas&gn=Ancestr%C3%A4l");
-            results.Text = xml.InnerXml;
+            //results.Text = xml.InnerXml;
+            results.Text = "";
+            string name;
+            int level;
+            int rank;
+            foreach (XmlNode node in xml.SelectNodes("page/guildInfo/guild/members/character"))
+            {
+                rank = int.Parse(node.Attributes["rank"].Value);
+                if (rank >= 0 && rank <= 3 || rank == 7)
+                {
+                    level = int.Parse(node.Attributes["level"].Value);
+                    name = node.Attributes["name"].Value;
+                    results.Text += name + " " + level + " " + rank;
+                    results.Text += "\r\n";
+                }
+            };
         }
 
         /// <summary>
