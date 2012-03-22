@@ -14,4 +14,10 @@
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartArguments>"C:\Program Files\SlimBrowser\sbrowser.exe" sbrowserX</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <StartArguments>"C:\Program Files\SlimBrowser\sbrowser.exe" sbrowserX</StartArguments>
+  </PropertyGroup>
 </Project>

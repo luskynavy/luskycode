@@ -22,8 +22,10 @@ namespace HookTest
         //private string BrowserExecutable = "C:\\Program Files\\Orca Browser\\orca.exe";
         //private string BrowserName = "Orca";
 
-        private string BrowserExecutable = "C:\\Program Files\\SlimBrowser\\sbrowser.exe";
+        private string BrowserExecutable = @"C:\Program Files\SlimBrowser\sbrowser.exe";        
         private string BrowserName = "sbrowser";
+        //private string BrowserExecutable = @"C:\Program Files\SlimBrowser\sbframe.exe";
+        //private string BrowserName = "sbrender";
 
         public Form1()
         {
@@ -40,6 +42,13 @@ namespace HookTest
             //Process JangoIE = Process.Start("C:\\Program Files (x86)\\Crazy Browser\\Crazy Browser.exe", "http://www.jango.com/profiles/1972516?c=1&l=0");
             //Process JangoIE = Process.Start("C:\\Program Files (x86)\\Avant Browser\\avant.exe", "http://www.jango.com/profiles/1972516?c=1&l=0");            
             //Process JangoIE = Process.Start("IExplore.exe");
+
+            //Get BrowserExecutable and BrowserName from command line if not using default
+            if (Environment.GetCommandLineArgs().Length == 3)
+            {
+                BrowserExecutable = Environment.GetCommandLineArgs()[1];
+                BrowserName = Environment.GetCommandLineArgs()[2];
+            }
 
             
             Process[] Browser = Process.GetProcessesByName(BrowserName);
@@ -118,7 +127,17 @@ namespace HookTest
             ProcessStartInfo startInfo = new ProcessStartInfo(BrowserExecutable);
             startInfo.WindowStyle = ProcessWindowStyle.Minimized; //launching browser minimized make orca bug
 
-            return Process.Start(startInfo);             
+            //Message box if browser can not be launched
+            Process p = null;
+            try
+            {
+                p = Process.Start(startInfo);
+            }
+            catch(System.ComponentModel.Win32Exception)
+            {
+                MessageBox.Show("Browser not found : " + BrowserExecutable);
+            }
+            return p;
         }
 
         //Close the browser
