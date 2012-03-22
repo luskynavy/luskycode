@@ -27,13 +27,16 @@ namespace JangoGeckoFX
 
         public Form1()
         {
-            //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-1.9.0.13.en-US.win32\xulrunner"); //OK
-            Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-1.9.2.19.en-US.win32\xulrunner"); //OK
-            //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-6.0.en-US.win32\xulrunner"); // FAIL: Le cast spécifié n'est pas valide.
+            //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-1.9.0.13.en-US.win32\xulrunner"); //OK with Skybound.GeckoFX.bin.v1.9.1.0
+            Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-1.9.2.19.en-US.win32\xulrunner"); //OK with Skybound.GeckoFX.bin.v1.9.1.0
+            //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-6.0.en-US.win32\xulrunner"); // OK with GeckoFx-Windows-6.0-0.3
+            //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-7.0b1.en-US.win32\xulrunner"); // OK with GeckoFx-Windows-7.0-0.1
             //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-5.0.en-US.win32\xulrunner"); // FAIL: Le cast spécifié n'est pas valide.
             //Skybound.Gecko.Xpcom.Initialize(@"C:\Users\Tigra\Downloads\xulrunner-2.0.en-US.win32\xulrunner"); // FAIL: Le cast spécifié n'est pas valide.
             //Skybound.Gecko.Xpcom.Initialize(@"C:\NVN\FirefoxPortable 4\App\Firefox"); // FAIL: Le cast spécifié n'est pas valide.
             //Skybound.Gecko.Xpcom.Initialize(@"C:\Program Files\Mozilla Firefox"); // FAIL: Le cast spécifié n'est pas valide.
+
+            GeckoPreferences.User["browser.cache.memory.enable"] = false;
 
             foreach (string arg in Environment.GetCommandLineArgs())
             {
