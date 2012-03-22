@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="/_layout/character/sheet.xsl"?><page globalSearch="1" lang="fr_fr" requestUrl="/character-sheet.xml">
+  <tabInfo subTab="profile" tab="character" tabGroup="character" tabUrl="r=Eldre%27Thalas&amp;cn=Sylve&amp;gn=Ancestr%C3%A4l"/>
+  <characterInfo>
+    <character battleGroup="Vengeance / Rache" charUrl="r=Eldre%27Thalas&amp;n=Sylve" class="Voleur" classId="4" classUrl="c=Voleur" faction="Alliance" factionId="0" gender="(M)" genderId="0" guildName="Ancesträl" guildUrl="r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l" lastModified="27 septembre 2009" level="80" name="Sylve" points="4655" prefix="" race="Elfe de la nuit" raceId="4" realm="Eldre'Thalas" suffix=" l'increvable" titleId="109">
+      <arenaTeams>
+        <arenaTeam battleGroup="Vengeance / Rache" created="1232582400000" faction="Alliance" factionId="0" gamesPlayed="0" gamesWon="0" lastSeasonRanking="0" name="les bucheron en force" ranking="0" rating="0" realm="Eldre'Thalas" realmUrl="b=Vengeance+%2F+Rache&amp;r=Eldre%27Thalas&amp;ts=2&amp;t=les+bucheron+en+force&amp;ff=realm&amp;fv=Eldre%27Thalas&amp;select=les+bucheron+en+force" season="0" seasonGamesPlayed="0" seasonGamesWon="0" size="2" teamSize="2" teamUrl="r=Eldre%27Thalas&amp;ts=2&amp;t=les+bucheron+en+force&amp;select=les+bucheron+en+force" url="r=Eldre%27Thalas&amp;ts=2&amp;t=les+bucheron+en+force&amp;select=les+bucheron+en+force">
+          <emblem background="ff3b44eb" borderColor="ffd0dbd7" borderStyle="2" iconColor="ffeb329e" iconStyle="75"/>
+          <members>
+            <character battleGroup="" charUrl="r=Eldre%27Thalas&amp;n=Furiandre" class="Druide" classId="11" contribution="0" gamesPlayed="0" gamesWon="0" gender="(F)" genderId="1" guild="Ancesträl" guildId="16160" guildUrl="r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l" name="Furiandre" race="Elfe de la nuit" raceId="4" seasonGamesPlayed="0" seasonGamesWon="0" teamRank="0"/>
+            <character battleGroup="" charUrl="r=Eldre%27Thalas&amp;n=Bacman" class="Guerrier" classId="1" contribution="0" gamesPlayed="0" gamesWon="0" gender="(M)" genderId="0" guild="Ancesträl" guildId="16160" guildUrl="r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l" name="Bacman" race="Elfe de la nuit" raceId="4" seasonGamesPlayed="0" seasonGamesWon="0" teamRank="1"/>
+            <character battleGroup="" charUrl="r=Eldre%27Thalas&amp;n=Sylve" class="Voleur" classId="4" contribution="0" gamesPlayed="0" gamesWon="0" gender="(M)" genderId="0" guild="Ancesträl" guildId="16160" guildUrl="r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l" name="Sylve" race="Elfe de la nuit" raceId="4" seasonGamesPlayed="0" seasonGamesWon="0" teamRank="1"/>
+          </members>
+        </arenaTeam>
+      </arenaTeams>
+    </character>
+    <characterTab>
+      <talentSpecs>
+        <talentSpec group="2" icon="ability_rogue_eviscerate" prim="Assassinat" treeOne="8" treeThree="0" treeTwo="1"/>
+        <talentSpec active="1" group="1" icon="ability_rogue_eviscerate" prim="Assassinat" treeOne="51" treeThree="7" treeTwo="13"/>
+      </talentSpecs>
+      <buffs/>
+      <debuffs/>
+      <pvp>
+        <lifetimehonorablekills value="8710"/>
+        <arenacurrency value="0"/>
+      </pvp>
+      <professions>
+        <skill id="393" key="skinning" max="450" name="Dépeçage" value="450"/>
+        <skill id="165" key="leatherworking" max="450" name="Travail du cuir" value="450"/>
+      </professions>
+      <characterBars>
+        <health effective="20104"/>
+        <secondBar casting="-1" effective="100" notCasting="-1" type="e"/>
+      </characterBars>
+      <baseStats>
+        <strength attack="110" base="110" block="-1" effective="120"/>
+        <agility armor="3188" attack="1584" base="194" critHitPercent="18.83" effective="1594"/>
+        <stamina base="104" effective="1268" health="12500" petBonus="-1"/>
+        <intellect base="43" critHitPercent="-1.00" effective="53" mana="-1" petBonus="-1"/>
+        <spirit base="67" effective="77" healthRegen="26" manaRegen="-1"/>
+        <armor base="6814" effective="6814" percent="30.91" petBonus="-1"/>
+      </baseStats>
+      <resistances>
+        <arcane petBonus="-1" value="0"/>
+        <fire petBonus="-1" value="10"/>
+        <frost petBonus="-1" value="0"/>
+        <holy petBonus="-1" value="0"/>
+        <nature petBonus="-1" value="0"/>
+        <shadow petBonus="-1" value="0"/>
+      </resistances>
+      <melee>
+        <mainHandDamage dps="504.6" max="714" min="603" percent="0" speed="1.30"/>
+        <offHandDamage dps="364.3" max="514" min="437" percent="0" speed="1.30"/>
+        <mainHandSpeed hastePercent="7.32" hasteRating="240" value="1.30"/>
+        <offHandSpeed hastePercent="7.32" hasteRating="240" value="1.30"/>
+        <power base="1854" effective="3835" increasedDps="273.0"/>
+        <hitRating increasedHitPercent="13.36" penetration="288" reducedArmorPercent="20.58" value="438"/>
+        <critChance percent="42.84" plusPercent="16.01" rating="735"/>
+        <expertise additional="26" percent="6.50" rating="216" value="26"/>
+      </melee>
+      <ranged>
+        <weaponSkill rating="0" value="0"/>
+        <damage dps="481.0" max="1392" min="1118" percent="0" speed="2.61"/>
+        <speed hastePercent="7.32" hasteRating="240" value="2.61"/>
+        <power base="1664" effective="3645" increasedDps="260.0" petAttack="-1.00" petSpell="-1.00"/>
+        <hitRating increasedHitPercent="13.36" penetration="288" reducedArmorPercent="20.58" value="438"/>
+        <critChance percent="23.88" plusPercent="16.01" rating="735"/>
+      </ranged>
+      <spell>
+        <bonusDamage>
+          <arcane value="0"/>
+          <fire value="0"/>
+          <frost value="0"/>
+          <holy value="0"/>
+          <nature value="0"/>
+          <shadow value="0"/>
+          <petBonus attack="-1" damage="-1" fromType=""/>
+        </bonusDamage>
+        <bonusHealing value="0"/>
+        <hitRating increasedHitPercent="16.70" penetration="0" reducedResist="0" value="438"/>
+        <critChance rating="735">
+          <arcane percent="16.01"/>
+          <fire percent="16.01"/>
+          <frost percent="16.01"/>
+          <holy percent="16.01"/>
+          <nature percent="16.01"/>
+          <shadow percent="16.01"/>
+        </critChance>
+        <penetration value="0"/>
+        <manaRegen casting="0.00" notCasting="0.00"/>
+        <hasteRating hastePercent="7.32" hasteRating="240"/>
+      </spell>
+      <defenses>
+        <armor base="6814" effective="6814" percent="30.91" petBonus="-1"/>
+        <defense decreasePercent="0.00" increasePercent="0.00" plusDefense="0" rating="0" value="400.00"/>
+        <dodge increasePercent="0.00" percent="30.76" rating="0"/>
+        <parry increasePercent="0.00" percent="5.00" rating="0"/>
+        <block increasePercent="0.00" percent="0.00" rating="0"/>
+        <resilience damagePercent="0.00" hitPercent="0.00" value="0.00"/>
+      </defenses>
+      <items>
+        <item durability="68" gem0Id="41398" gem1Id="40112" gem2Id="0" icon="inv_helmet_15" id="46125" maxDurability="70" permanentenchant="3817" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="0" slot="0"/>
+        <item durability="0" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_jewelry_necklace_09" id="49485" maxDurability="0" permanentenchant="0" pickUp="PickUpRing" putDown="PutDownRing" randomPropertiesId="0" seed="1283341952" slot="1"/>
+        <item durability="63" gem0Id="40130" gem1Id="0" gem2Id="0" icon="inv_shoulder_89" id="47832" maxDurability="70" permanentenchant="3808" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="0" slot="2"/>
+        <item durability="0" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_shirt_black_01" id="42360" maxDurability="0" permanentenchant="0" pickUp="" putDown="" randomPropertiesId="0" seed="0" slot="3"/>
+        <item durability="115" gem0Id="40112" gem1Id="45987" gem2Id="0" icon="inv_chest_chain_15" id="46123" maxDurability="120" permanentenchant="3832" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="0" slot="4"/>
+        <item durability="39" gem0Id="40112" gem1Id="0" gem2Id="0" icon="inv_belt_15" id="45829" maxDurability="40" permanentenchant="0" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="0" slot="5"/>
+        <item durability="83" gem0Id="40130" gem1Id="40112" gem2Id="0" icon="inv_pants_leather_28" id="48226" maxDurability="90" permanentenchant="3328" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="0" slot="6"/>
+        <item durability="59" gem0Id="40147" gem1Id="0" gem2Id="0" icon="inv_boots_leather_02" id="47071" maxDurability="60" permanentenchant="3232" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="1275348160" slot="7"/>
+        <item durability="38" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_bracer_23b" id="45108" maxDurability="40" permanentenchant="3756" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="79" slot="8"/>
+        <item durability="37" gem0Id="40112" gem1Id="0" gem2Id="0" icon="inv_gauntlets_77a" id="48224" maxDurability="40" permanentenchant="3222" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="0" slot="9"/>
+        <item durability="0" gem0Id="40147" gem1Id="0" gem2Id="0" icon="inv_jewelry_ring_61" id="47703" maxDurability="0" permanentenchant="0" pickUp="PickUpRing" putDown="PutDownRing" randomPropertiesId="0" seed="0" slot="10"/>
+        <item durability="0" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_jewelry_ring_ahnqiraj_01" id="47730" maxDurability="0" permanentenchant="0" pickUp="PickUpRing" putDown="PutDownRing" randomPropertiesId="0" seed="0" slot="11"/>
+        <item durability="0" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_misc_horn_04" id="47725" maxDurability="0" permanentenchant="0" pickUp="PickUpWand" putDown="PutDownWand" randomPropertiesId="0" seed="1161596160" slot="12"/>
+        <item durability="0" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_pet_scorchedstone" id="45263" maxDurability="0" permanentenchant="0" pickUp="PickUpWand" putDown="PutDownWand" randomPropertiesId="0" seed="1937017728" slot="13"/>
+        <item durability="0" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_misc_cape_naxxramas_01" id="40250" maxDurability="0" permanentenchant="1099" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="2126282624" slot="14"/>
+        <item durability="64" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_weapon_shortblade_95" id="46958" maxDurability="75" permanentenchant="3789" pickUp="PickUpMetalSmall" putDown="PutDownSmallMEtal" randomPropertiesId="0" seed="0" slot="15"/>
+        <item durability="65" gem0Id="40147" gem1Id="0" gem2Id="0" icon="inv_weapon_shortblade_95" id="47676" maxDurability="75" permanentenchant="3788" pickUp="PickUpMetalSmall" putDown="PutDownSmallMEtal" randomPropertiesId="0" seed="685299728" slot="16"/>
+        <item durability="90" gem0Id="40147" gem1Id="0" gem2Id="0" icon="inv_weapon_rifle_35" id="47740" maxDurability="90" permanentenchant="32" pickUp="PickUpMetalSmall" putDown="PutDownSmallMEtal" randomPropertiesId="0" seed="362361152" slot="17"/>
+        <item durability="0" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_shirt_guildtabard_01" id="5976" maxDurability="0" permanentenchant="0" pickUp="PickUpCloth_Leather01" putDown="PutDownCloth_Leather01" randomPropertiesId="0" seed="0" slot="18"/>
+        <item durability="0" gem0Id="0" gem1Id="0" gem2Id="0" icon="inv_ammo_bullet_05" id="41164" maxDurability="0" permanentenchant="0" pickUp="PickUpRocks_Ore01" putDown="PutDownRocks_Ore01" randomPropertiesId="0" seed="1908095104" slot="-1"/>
+      </items>
+      <glyphs>
+        <glyph effect="Réduit le coût d'Estropier de 5 points d'énergie." icon="ui-glyph-rune-4" id="733" name="Glyphe d'estropier" type="major"/>
+        <glyph effect="Votre technique Chute amortie vous permet de tomber encore plus loin sans subir de dégâts." icon="ui-glyph-rune-5" id="467" name="Glyphe de chute amortie" type="minor"/>
+        <glyph effect="Augmente votre vitesse de déplacement de 30% lorsque l'effet de Disparition est actif." icon="ui-glyph-rune-15" id="469" name="Glyphe de disparition" type="minor"/>
+        <glyph effect="Augmente le bonus de dégâts de Soif de sang de 3%." icon="ui-glyph-rune-18" id="714" name="Glyphe de soif de sang" type="major"/>
+        <glyph effect="Réduit le temps d'incantation de votre compétence Crochetage de 100%." icon="ui-glyph-rune-7" id="465" name="Glyphe de crochetage" type="minor"/>
+        <glyph effect="Augmente la durée de Rupture de 4 sec." icon="ui-glyph-rune-20" id="406" name="Glyphe de rupture" type="major"/>
+      </glyphs>
+    </characterTab>
+    <summary>
+      <c earned="436" points="4655" total="986" totalPoints="10850"/>
+      <category id="92" name="Général">
+        <c earned="29" earnedPoints="320" total="54" totalPoints="570"/>
+      </category>
+      <category id="96" name="Quêtes">
+        <c earned="34" earnedPoints="340" total="49" totalPoints="530"/>
+      </category>
+      <category id="97" name="Exploration">
+        <c earned="67" earnedPoints="770" total="70" totalPoints="830"/>
+      </category>
+      <category id="95" name="Joueur contre Joueur">
+        <c earned="50" earnedPoints="520" total="164" totalPoints="1910"/>
+      </category>
+      <category id="168" name="Donjons &amp; raids">
+        <c earned="163" earnedPoints="1740" total="391" totalPoints="4195"/>
+      </category>
+      <category id="169" name="Métiers">
+        <c earned="39" earnedPoints="390" total="75" totalPoints="760"/>
+      </category>
+      <category id="201" name="Réputation">
+        <c earned="18" earnedPoints="205" total="44" totalPoints="545"/>
+      </category>
+      <category id="155" name="Évènements mondiaux">
+        <c earned="36" earnedPoints="370" total="139" totalPoints="1510"/>
+      </category>
+      <category id="81" name="Tours de force">
+        <c earned="6"/>
+      </category>
+    </summary>
+  </characterInfo>
+</page>

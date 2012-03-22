@@ -1,0 +1,15 @@
+Guilde : r=realm gn=guild name
+http://eu.wowarmory.com/guild-info.xml?r=Eldre%27Thalas&gn=Ancestr%C3%A4l
+
+Lusky : r=realm cn=character name
+http://eu.wowarmory.com/character-sheet.xml?r=Eldre%27Thalas&n=Lusky
+
+Gants T9 245 druide : i=item
+http://eu.wowarmory.com/item-info.xml?i=48212
+
+
+
+public XmlDocument DownloadCharacterSheet(string characterName, CharacterRegion region, string realm)
+private XmlDocument DownloadXml(string URI, bool allowTable)
+public string DownloadText(string URI)
+webClient.DownloadString(URI)

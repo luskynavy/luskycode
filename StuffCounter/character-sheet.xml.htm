@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><link href="http://eu.wowarmory.com/favicon.ico" rel="shortcut icon"><title>L’Armurerie de World of Warcraft</title><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="L’Armurerie de World of Warcraft est une vaste base de données régulièrement mise à jour à partir des royaumes de jeu&nbsp;: vous y trouverez tout sur les personnages, les équipes d’arène, les guildes, les objets et les récompenses de faction du jeu." name="description"><style media="screen, projection" type="text/css">
+		@import "/_css/master.css";
+		@import "/shared/global/menu/topnav/topnav.css";
+		
+			@import "/_css/int.css";
+		
+		@import "/_css/_lang/fr_fr/language.css";
+		@import "/_css/_region/eu/region.css";
+	</style><script src="character-sheet.xml_files/jquery_005.js" type="text/javascript"></script><script src="character-sheet.xml_files/datefunctions.js" type="text/javascript"></script><script src="character-sheet.xml_files/jquery_002.js" type="text/javascript"></script><script src="character-sheet.xml_files/jquery_003.js" type="text/javascript"></script><script src="character-sheet.xml_files/jquery.js" type="text/javascript"></script><script src="character-sheet.xml_files/jquery_004.js" type="text/javascript"></script><script src="character-sheet.xml_files/sarissa.js" type="text/javascript"></script><script src="character-sheet.xml_files/common.js" type="text/javascript"></script><script src="character-sheet.xml_files/armory.js" type="text/javascript"></script><script type="text/javascript">
+		/*  */
+		if(Browser.iphone && Number(getcookie2("mobIntPageVisits")) < 3 && getcookie2("hasSeenMobInt") == ""){
+			setcookie("mobIntPageOrigin",window.location.href,"session");
+			window.location.href = "/mobile-armory-splash.xml";
+		}
+		/* */
+	</script><script type="text/javascript">
+		//browser detection		
+		if($.browser.msie){
+			if($.browser.version == "7.0")		addStylesheet('/_css/browser/ie7.css');
+			if($.browser.version == "6.0")		addStylesheet('/_css/browser/ie.css');
+		}else if($.browser.mozilla){
+			if(parseFloat($.browser.version) <= 1.9)	addStylesheet('/_css/browser/firefox2.css');
+		}else if($.browser.opera)				addStylesheet('/_css/browser/opera.css');
+		else if($.browser.safari)				addStylesheet('/_css/browser/safari.css');
+
+		//set global login var
+		var isLoggedIn = ("" != '');
+		var bookmarkToolTip = "Vous pouvez mettre en raccourci jusqu’à 30 fiches de personnages.";
+
+		var isHomepage 		 = ("true" != "true");
+		var globalSearch 	 = "1";
+		var theLang 		 = "fr_fr";
+		var region 			 = "EU"; //in language.xsl DO NOT REMOVE
+		
+		var regionUrl = {
+			armory: 	"http://eu.wowarmory.com/",
+			forums: 	"http://forums.wow-europe.com/",
+			wow: 		"http://www.wow-europe.com/"
+		}	
+
+		/*  */		
+		$(document).ready(function() {			
+			initializeArmory(); //initialize the armory!
+		});		
+		/* */		
+	</script><link href="character-sheet.xml_files/firefox2.css" media="screen, projection" type="text/css" rel="stylesheet"></head><body style="background-position: 50% 26px;"><form method="GET" id="historyStorageForm"><textarea name="historyStorageField" id="historyStorageField"></textarea></form><script src="character-sheet.xml_files/strings.js" type="text/javascript"></script><script type="text/javascript">global_nav_lang = 'fr_fr'</script><div class="tn_armory" id="shared_topnav"><div class="topnav"><div class="tn_interior"><a href="http://www.wow-europe.com/fr/index.xml">WoW-Europe.com</a><img src="character-sheet.xml_files/topnav_div.gif"><a href="http://eu.wowarmory.com/?locale=fr_fr">l'Armurerie</a><img src="character-sheet.xml_files/topnav_div.gif"><a href="http://forums.wow-europe.com/index.html?sid=2">Forums</a><img src="character-sheet.xml_files/topnav_div.gif"><a href="http://eu.blizzard.com/store/">Boutique</a><img src="character-sheet.xml_files/topnav_div.gif"><a href="http://eu.blizzard.com/support/index.xml">Assistance Blizzard</a><img src="character-sheet.xml_files/topnav_div.gif"><a href="http://www.wow-europe.com/fr/info/contact.html">Contact</a></div></div><div class="tn_push"></div></div><div class="outer-container"><div class="inner-container"><div class="int-top"><div class="logo"><a href="http://eu.wowarmory.com/"><span>L’Armurerie de World of Warcraft</span></a></div><div class="adbox"><div class="ad-container"><div id="ad_728x90"><iframe class=" glszthprqdoxfhkdaxuh" marginwidth="0" marginheight="0" src="character-sheet.xml_files/pageid86242280.htm" width="728" frameborder="0" height="90" scrolling="no">&lt;script
+type="text/javacript"
+src="http://cgm.adbureau.net/jnserver/acc_random=88188856/SITE=WOW.ARMORY.COM/AREA=NETWORK/AAMSZ=728X90/pageid=86242280"&gt;&lt;/script&gt;</iframe></div></div></div></div><div class="int"><div class="search-bar"><div class="module"><div class="search-container"><div class="search-module"><em class="search-icon"></em><form onsubmit="return menuCheckLength(document.formSearch);" method="get" action="/search.xml" name="formSearch"><input onkeypress="$('#formSearch_errorSearchLength').html('')" maxlength="72" size="16" name="searchQuery" id="armorySearch" type="text"><a onclick="return menuCheckLength(document.formSearch)" class="submit" href="javascript:void(0);"><span>Chercher</span></a><div id="errorSearchType"></div><div id="formSearch_errorSearchLength"></div><input value="all" name="searchType" type="hidden"></form><div class="navigation"><iframe style="" marginheight="0" marginwidth="0" src="javascript:'';" id="iframeNav" align="bottom" frameborder="1" scrolling="no"></iframe><ul id="nav"><li class="fly toplevel-li"><a class="toplevel" href="javascript:void(0)">Objets</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="fly"><span>Collections d'objets</span><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="fly"><a href="http://eu.wowarmory.com/dungeons.xml">Donjons et raids</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/dungeons1.xml">Wrath of the Lich King</a></li><li class="nofly"><a href="http://eu.wowarmory.com/dungeons0.xml">Burning Crusade</a></li><li class="nofly"><a href="http://eu.wowarmory.com/dungeons.xml">Classique</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/factions.xml">Factions</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/factions1.xml">Wrath of the Lich King</a></li><li class="nofly"><a href="http://eu.wowarmory.com/factions0.xml">Burning Crusade</a></li><li class="nofly"><a href="http://eu.wowarmory.com/factions.xml">Classique</a></li></ul></li><li class="fly"><span>Marques</span><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=dungeon&amp;fl[dungeon]=badgeofjustice&amp;searchType=items">Insigne de justice</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=dungeon&amp;fl[dungeon]=emblemofheroism&amp;searchType=items">Emblème d'héroïsme</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=dungeon&amp;fl[dungeon]=emblemofvalor&amp;searchType=items">Emblème de vaillance</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=dungeon&amp;fl[dungeon]=emblemofconquest&amp;searchType=items">Emblème de conquête</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=dungeon&amp;fl[dungeon]=emblemoftriumph&amp;searchType=items">Emblème de triomphe</a></li></ul></li><li class="nofly"><a href="http://eu.wowarmory.com/pvprewards.xml">Récompenses JcJ</a></li><li class="fly"><span>Récompenses d'arène</span><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=pvpAlliance&amp;fl[pvp]=arena7&amp;fl[type]=all&amp;searchType=items">Saison 7</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=pvpAlliance&amp;fl[pvp]=arena6&amp;fl[type]=all&amp;searchType=items">Saison 6</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=pvpAlliance&amp;fl[pvp]=arena5&amp;fl[type]=all&amp;searchType=items">Saison 5</a></li></ul></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=all&amp;searchType=items">Armes</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=1haxe&amp;searchType=items">Haches à une main</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=2haxe&amp;searchType=items">Haches à deux mains</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=bow&amp;searchType=items">Arcs</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=gun&amp;searchType=items">Armes à feu</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=1hmce&amp;searchType=items">Masses à une main</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=2hmce&amp;searchType=items">Masses à deux mains</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=plarm&amp;searchType=items">Armes d’hast</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=1hswd&amp;searchType=items">Épées à une main</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=2hswd&amp;searchType=items">Épées à deux mains</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=stv&amp;searchType=items">Bâtons</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=fwpn&amp;searchType=items">Armes de pugilat</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=misc&amp;searchType=items">Divers</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=dggr&amp;searchType=items">Dagues</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=thrwn&amp;searchType=items">Armes de jet</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=xbow&amp;searchType=items">Arbalètes</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=wnd&amp;searchType=items">Baguettes</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=weapons&amp;fl[subTp]=fshpl&amp;searchType=items">Cannes à pêche</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=all&amp;searchType=items">Armure</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=cloth&amp;searchType=items">Tissu</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=leather&amp;searchType=items">Cuir</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=mail&amp;searchType=items">Mailles</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=plate&amp;searchType=items">Plaques</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=shield&amp;searchType=items">Bouclier</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=idol&amp;searchType=items">Idole</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=libram&amp;searchType=items">Libram</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=totem&amp;searchType=items">Totem</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=sigil&amp;searchType=items">Cachet</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=armor&amp;fl[subTp]=miscellaneous&amp;searchType=items">Divers</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=all&amp;searchType=items">Gemmes</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=blue&amp;searchType=items">Bleue</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=red&amp;searchType=items">Rouge</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=yellow&amp;searchType=items">Jaune</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=meta&amp;searchType=items">Meta</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=green&amp;searchType=items">Verte</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=orange&amp;searchType=items">Orange</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=purple&amp;searchType=items">Violette</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=gems&amp;fl[subTp]=prismatic&amp;searchType=items">Prismatique</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=all&amp;searchType=items">Glyphes</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=deathknight&amp;searchType=items">Chevalier de la mort</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=deathknight&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=deathknight&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=druid&amp;searchType=items">Druide</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=druid&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=druid&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=hunter&amp;searchType=items">Chasseur</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=hunter&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=hunter&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=mage&amp;searchType=items">Mage</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=mage&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=mage&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=paladin&amp;searchType=items">Paladin</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=paladin&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=paladin&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=priest&amp;searchType=items">Prêtre</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=priest&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=priest&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=rogue&amp;searchType=items">Voleur</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=rogue&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=rogue&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=shaman&amp;searchType=items">Chaman</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=shaman&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=shaman&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=warlock&amp;searchType=items">Démoniste</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=warlock&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=warlock&amp;searchType=items">Majeur</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=warrior&amp;searchType=items">Guerrier</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=warrior&amp;searchType=items">Mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=glyphs&amp;fl[subTp]=warrior&amp;searchType=items">Majeur</a></li></ul></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=all&amp;searchType=items">Conteneurs</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=bag&amp;searchType=items">Sac</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=soul&amp;searchType=items">Sac d’âmes</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=herb&amp;searchType=items">Sac d’herbes</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=enchanting&amp;searchType=items">Sac d’enchanteur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=engineering&amp;searchType=items">Sac d’ingénieur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=gem&amp;searchType=items">Sac de gemmes</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=mining&amp;searchType=items">Sac de mineur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=leatherworking&amp;searchType=items">Sac de travail du cuir</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=containers&amp;fl[subTp]=inscription&amp;searchType=items">Sac de calligraphie</a></li></ul></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=consumables&amp;fl[subTp]=all&amp;searchType=items">Consommables</a></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=tradegoods&amp;fl[subTp]=all&amp;searchType=items">Artisanat</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=recipes&amp;fl[subTp]=all&amp;searchType=items">Recettes</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=reagents&amp;fl[subTp]=all&amp;searchType=items">Composants</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=enchP&amp;fl[subTp]=all&amp;searchType=items">Enchantements</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=projectiles&amp;fl[subTp]=all&amp;searchType=items">Projectiles</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=projectiles&amp;fl[subTp]=arrow&amp;searchType=items">Flèche</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=projectiles&amp;fl[subTp]=bullet&amp;searchType=items">Balle</a></li></ul></li><li class="fly"><span>Divers</span><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=keys&amp;fl[subTp]=all&amp;searchType=items">Clés</a></li></ul></li><li class="fly"><span>Mascottes</span><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=mounts&amp;fl[subTp]=all&amp;searchType=items">Montures</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[source]=all&amp;fl[type]=smallpets&amp;fl[subTp]=all&amp;searchType=items">Mascottes</a></li></ul></li><li class="nofly"><a href="http://eu.wowarmory.com/search.xml?fl[rrt]=hm&amp;searchType=items">Héritages</a></li><li class="nofly"><a href="http://eu.wowarmory.com/item-search.xml">Recherche avancée d'objets</a></li></ul></li><li class="fly toplevel-li"><a class="toplevel" href="javascript:void(0)">Arène</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="fly"><a href="http://eu.wowarmory.com/battlegroups.xml?ts=2">Classement 2c2</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Blackout">Blackout</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Blutdurst">Blutdurst</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Cataclysme+%2F+Cataclysm">Cataclysme / Cataclysm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Cruelty+%2F+Crueldad">Cruelty / Crueldad</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Cyclone+%2F+Wirbelsturm">Cyclone / Wirbelsturm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Embuscade+%2F+Hinterhalt">Embuscade / Hinterhalt</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Glutsturm+%2F+Emberstorm">Glutsturm / Emberstorm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Misery">Misery</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Rampage+%2F+Saccage">Rampage / Saccage</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Raserei+%2F+Frenzy">Raserei / Frenzy</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Reckoning+%2F+Abrechnung">Reckoning / Abrechnung</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Sturmangriff+%2F+Charge">Sturmangriff / Charge</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Vengeance+%2F+Rache">Vengeance / Rache</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=Vindication">Vindication</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=%D0%92%D0%B8%D1%85%D1%80%D1%8C">Вихрь</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=2&amp;b=%D0%A8%D0%BA%D0%B2%D0%B0%D0%BB">Шквал</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/battlegroups.xml?ts=3">Classement 3c3</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Blackout">Blackout</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Blutdurst">Blutdurst</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Cataclysme+%2F+Cataclysm">Cataclysme / Cataclysm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Cruelty+%2F+Crueldad">Cruelty / Crueldad</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Cyclone+%2F+Wirbelsturm">Cyclone / Wirbelsturm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Embuscade+%2F+Hinterhalt">Embuscade / Hinterhalt</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Glutsturm+%2F+Emberstorm">Glutsturm / Emberstorm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Misery">Misery</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Rampage+%2F+Saccage">Rampage / Saccage</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Raserei+%2F+Frenzy">Raserei / Frenzy</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Reckoning+%2F+Abrechnung">Reckoning / Abrechnung</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Sturmangriff+%2F+Charge">Sturmangriff / Charge</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Vengeance+%2F+Rache">Vengeance / Rache</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Vindication">Vindication</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=%D0%92%D0%B8%D1%85%D1%80%D1%8C">Вихрь</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=%D0%A8%D0%BA%D0%B2%D0%B0%D0%BB">Шквал</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/battlegroups.xml?ts=5">Classement 5c5</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Blackout">Blackout</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Blutdurst">Blutdurst</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Cataclysme+%2F+Cataclysm">Cataclysme / Cataclysm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Cruelty+%2F+Crueldad">Cruelty / Crueldad</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Cyclone+%2F+Wirbelsturm">Cyclone / Wirbelsturm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Embuscade+%2F+Hinterhalt">Embuscade / Hinterhalt</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Glutsturm+%2F+Emberstorm">Glutsturm / Emberstorm</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Misery">Misery</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Rampage+%2F+Saccage">Rampage / Saccage</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Raserei+%2F+Frenzy">Raserei / Frenzy</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Reckoning+%2F+Abrechnung">Reckoning / Abrechnung</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Sturmangriff+%2F+Charge">Sturmangriff / Charge</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Vengeance+%2F+Rache">Vengeance / Rache</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=Vindication">Vindication</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=%D0%92%D0%B8%D1%85%D1%80%D1%8C">Вихрь</a></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=5&amp;b=%D0%A8%D0%BA%D0%B2%D0%B0%D0%BB">Шквал</a></li></ul></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-ladder.xml?ts=3&amp;b=Coliseum+1">Tournoi d’arène</a></li><li class="nofly"><a href="http://eu.wowarmory.com/battlegroups.xml">Corps de bataille</a></li></ul></li><li class="fly toplevel-li"><a class="toplevel" href="javascript:void(0)">Infos</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/achievement-firsts.xml">Prem's des hauts faits</a></li><li class="nofly"><a href="http://eu.wowarmory.com/updates.xml">Mises à jour de l'Armurerie</a></li><li class="nofly"><a href="http://eu.wowarmory.com/faq-armory.xml">F.A.Q. de l'Armurerie</a></li></ul></li><li class="fly toplevel-li"><a class="toplevel" href="javascript:void(0)">Outils</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="fly"><a href="http://eu.wowarmory.com/talent-calc.xml">Calculateur de talents</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Death+Knight">Chevalier de la mort</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Druid">Druide</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Hunter">Chasseur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Mage">Mage</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Paladin">Paladin</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Priest">Prêtre</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Rogue">Voleur</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Shaman">Chaman</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Warlock">Démoniste</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?c=Warrior">Guerrier</a></li></ul></li><li class="fly"><a href="http://eu.wowarmory.com/talent-calc.xml?pid=-1">Calculateur de talents des familiers</a><ul style="display: none;"><iframe marginheight="0" marginwidth="0" src="javascript:'';" class="iframeFix" align="bottom" frameborder="1" scrolling="no"></iframe><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?pid=-1">Férocité</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?pid=-2">Ténacité</a></li><li class="nofly"><a href="http://eu.wowarmory.com/talent-calc.xml?pid=-3">Ruse</a></li></ul></li><li class="nofly"><a href="http://eu.wowarmory.com/arena-calculator.xml">Calculateur d’arène</a></li><li class="nofly"><a href="http://eu.wowarmory.com/search-plugin.xml">Module de recherche de l'Armurerie</a></li></ul></li></ul></div></div></div><div class="login-container"><a href="http://eu.wowarmory.com/character-sheet.xml?r=Eldre%27Thalas&amp;n=Lusky&amp;login=1" class="loginLink" id="loginLinkRedirect">Connectez-vous</a></div></div></div><div class="data-container"><div class="data-shadow-top"><!----></div><div class="data-shadow-sides"><div class="parch-int"><div class="parch-bot"><div id="replaceMain">
+  <tabinfo taburl="r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l" tabgroup="character" tab="character" subtab="profile"></tabinfo>
+  <link href="character-sheet.xml_files/sheet.css" type="text/css" rel="stylesheet"><div id="dataElement"><div class="parchment-top"><div class="parchment-content"><div class="list"><script type="text/javascript">	
+								var theClassId 		= 11;
+								var theRaceId 		= 4;
+								var theClassName 	= "Druidesse";
+								var theLevel 		= 80;		
+								var theRealmName 	= "Eldre'Thalas";
+								var theCharName 	= "Lusky";		
+						
+								var talentsTreeArray = new Array;
+										
+								$(document).ready(function(){
+								
+									talentsTreeArray["group1"] = [];
+									talentsTreeArray["group2"] = [];
+									
+									talentsTreeArray["group1"][0] = [1, 0, 
+																"Équilibre"];
+									talentsTreeArray["group1"][1] = [2, 55, 
+																"Combat farouche"];
+									talentsTreeArray["group1"][2] = [3, 16, 
+																"Restauration"];
+									
+									talentsTreeArray["group2"][0] = [1, 0, 
+																"Équilibre"];
+									talentsTreeArray["group2"][1] = [2, 60, 
+																"Combat farouche"];
+									talentsTreeArray["group2"][2] = [3, 11, 
+																"Restauration"];	
+								
+									calcTalentSpecs();
+									
+									setCharSheetUpgradeMenu();
+								
+								});	
+							</script><link type="text/css" href="character-sheet.xml_files/global.css" rel="stylesheet"><div class="tabs"><div class="selected-tab" id="tab_character"><a href="http://eu.wowarmory.com/character-sheet.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l">Personnage</a></div><div class="tab" id="tab_guild"><a href="http://eu.wowarmory.com/guild-info.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l">Guilde</a></div><div class="clear"></div></div><div class="subTabs"><div class="upperLeftCorner"></div><div class="upperRightCorner"></div><a class="
+											selected-subTab" href="http://eu.wowarmory.com/character-sheet.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l" id="profile_subTab"><span>Fiche</span></a><a class="" href="http://eu.wowarmory.com/character-talents.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l" id="talents_subTab"><span>Talents et Glyphes</span></a><a class="" href="http://eu.wowarmory.com/character-reputation.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l" id="reputation_subTab"><span>Réputations</span></a><a class="
+											subTabLocked
+										" href="http://eu.wowarmory.com/vault/character-calendar.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l" id="calendar_subTab"><span>Calendrier</span></a><a class="" href="http://eu.wowarmory.com/character-achievements.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l" id="achievements_subTab"><span>Hauts faits</span></a><a class="" href="http://eu.wowarmory.com/character-statistics.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l" id="statistics_subTab"><span>Statistiques</span></a><a class="" href="http://eu.wowarmory.com/character-arenateams.xml?r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l"><span>Arène</span></a></div><div class="full-list"><div class="info-pane"><div class="profile-wrapper"><div class="profile"><script type="text/javascript">
+		var charUrl = "r=Eldre%27Thalas&n=Lusky";
+		var bookmarkMaxedToolTip = "Vous pouvez mettre en raccourci jusqu’à 30 fiches de personnages. Afin d’y accéder, utilisez le menu situé dans le coin supérieur droit de la fenêtre de l’Armurerie.";
+		var bookmarkThisChar = "Mettre ce personnage en favori";	
+	</script><div class="faction-alliance"><div class="profile-right" id="profileRight"><a href="http://eu.wowarmory.com/character-sheet.xml?r=Eldre%27Thalas&amp;n=Lusky&amp;login=1" class="bmcLink" id="bmcLink"><span>Se connecter pour mettre ce personnage en favori</span><em></em></a></div><div class="profile-achieve"><img src="character-sheet.xml_files/1-4-11.gif"><div class="points"><a href="http://eu.wowarmory.com/character-achievements.xml?r=Eldre%27Thalas&amp;n=Lusky">3915</a></div><div><link type="application/atom+xml" rel="alternate" title="WoW Feed" href="http://eu.wowarmory.com/atom/character.xml?r=Eldre%27Thalas&amp;n=Lusky"></div><div style="display: block;" id="leveltext"><object id="leveltextFlash" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="38" height="38"><param name="movie" value="/_images/fr_fr/flash/level.swf"><param name="quality" value="best"><param name="base" value="/_images/fr_fr/flash"><param name="flashvars" value="charLevel=80&amp;pts=3915"><param name="bgcolor" value=""><param name="wmode" value="transparent"><param name="salign" value="tl"><embed name="leveltextFlash" src="character-sheet.xml_files/level.swf" wmode="transparent" menu="" bgcolor="" quality="best" pluginspage="http://www.macromedia.com/go/getflas/new-hplayer" type="application/x-shockwave-flash" salign="tl" base="/_images/fr_fr/flash" flashvars="charLevel=80&amp;pts=3915" width="38" height="38"><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/fr_fr/flash/level.swf"></a><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/fr_fr/flash/level.swf"></a></object></div><script type="text/javascript">
+		var flashId="leveltext";
+		if ((Browser.safari && flashId=="flashback") || (Browser.linux && flashId=="flashback")){//kill the searchbox flash for safari or linux
+		   document.getElementById("searchFlash").innerHTML = '<div class="search-noflash"></div>';
+		}else
+			printFlash("leveltext", "/_images/fr_fr/flash/level.swf", "transparent", "", "", "38", "38", "best", "/_images/fr_fr/flash", "charLevel=80&amp;pts=3915", "&lt;div class=level-noflash&gt;80&lt;em&gt;80&lt;/em&gt;&lt;/div&gt;")
+		
+		</script></div><div id="charHeaderTxt_Dark"><span class="emptyPrefix"></span><div class="charNameHeader">Lusky<span class="suffix"> du crépuscule</span></div><a class="charGuildName" href="http://eu.wowarmory.com/guild-info.xml?r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l">Ancesträl</a><span class="charLvl">Niveau&nbsp;80&nbsp;Elfe de la nuit&nbsp;Druidesse
+    </span></div><div id="charHeaderTxt_Light"><span class="emptyPrefix"></span><div class="charNameHeader">Lusky<span class="suffix"> du crépuscule</span></div><a class="charGuildName" href="http://eu.wowarmory.com/guild-info.xml?r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l">Ancesträl</a><span class="charLvl">Niveau&nbsp;80&nbsp;Elfe de la nuit&nbsp;Druidesse
+    </span></div><div id="forumLinks"><a onmouseover="setTipText('Cliquer sur ce lien vous emmènera vers les forums des royaumes');" href="http://forums.wow-europe.com/board.html?sid=1&amp;forumName=Eldre%27Thalas" class="smFrame staticTip"><div>Eldre'Thalas</div><img src="character-sheet.xml_files/icon-header-realm.gif"></a><a onmouseover="setTipText('Cliquer sur ce lien vous emmènera vers les forums des corps de bataille');" href="http://forums.wow-europe.com/board.html?sid=1&amp;forumName=Vengeance%20/%20Rache" class="smFrame staticTip"><div>Vengeance / Rache</div><img src="character-sheet.xml_files/icon-header-battlegroup.gif"></a></div></div><div class="profile-master2"><div class="leftItems"><div style="background-image: url(/wow-icons/_images/51x51/inv_jewelry_necklace_11.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=46161" id="i=46161&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=0"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=46161" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_jewelry_necklace_34.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=47043" id="i=47043&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=1"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=47043" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_shoulder_89.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=48208" id="i=48208&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=2"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=48208" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_misc_cape_18.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=45704" id="i=45704&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=14"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=45704" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_chest_leather_14.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=47739" id="i=47739&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=4"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=47739" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_shirt_red_01.jpg);" class="gearItem"><a class="staticTip noUpgrade itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=6796" id="i=6796&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=3"></a></div><div style="background-image: url(/wow-icons/_images/51x51/inv_shirt_guildtabard_01.jpg);" class="gearItem"><a class="staticTip noUpgrade itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=5976" id="i=5976&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=18"></a></div><div style="background-image: url(/wow-icons/_images/51x51/inv_bracer_15.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=45869" id="i=45869&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=8"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=45869" class="upgrd">Trouver mieux</a></div></div></div><div class="rightItems"><div style="background-image: url(/wow-icons/_images/51x51/inv_gauntlets_77b.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=48212" id="i=48212&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=9"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=48212" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_belt_15.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=45491" id="i=45491&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=5"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=45491" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_pants_mail_15.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=45357" id="i=45357&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=6"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=45357" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_boots_leather_02.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=45162" id="i=45162&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=7"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=45162" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_jewelry_ring_65.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=47070" id="i=47070&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=10"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=47070" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_jewelry_ring_ahnqiraj_01.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=47730" id="i=47730&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=11"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=47730" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_inscription_tarotgreatness.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=44253" id="i=44253&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=12"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=44253" class="upgrd">Trouver mieux</a></div></div><div style="background-image: url(/wow-icons/_images/51x51/inv_misc_bone_skull_02.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=47115" id="i=47115&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=13"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=47115" class="upgrd">Trouver mieux</a></div></div></div><div class="bottomItems"><div style="background-image: url(/wow-icons/_images/51x51/inv_staff_100.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=47114" id="i=47114&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=15"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=47114" class="upgrd">Trouver mieux</a></div></div><div class="gearItem"><a onmouseover="setTipText(getEmptySlotToolTip('16','11'))" class="staticTip noUpgrade gearFrame" href="javascript:void(0)" id="i=&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=16"></a></div><div style="background-image: url(/wow-icons/_images/51x51/inv_qirajidol_strife.jpg);" class="gearItem"><a class="staticTip itemToolTip gearFrame" href="http://eu.wowarmory.com/item-info.xml?i=47668" id="i=47668&amp;r=Eldre%27Thalas&amp;n=Lusky&amp;s=17"><div class="upgradeBox"></div></a><div class="fly-horz"><a href="http://eu.wowarmory.com/search.xml?searchType=items&amp;pr=Eldre%27Thalas&amp;pn=Lusky&amp;pi=47668" class="upgrd">Trouver mieux</a></div></div></div><div class="profileCenter"><div class="statsLeft"><div style="height: 120px;" class="brownBox"><em class="ptl"><!----></em><em class="ptr"><!----></em><em class="pbl"><!----></em><em class="pbr"><!----></em><div class="spec"><h4>Spécialisation de talents&nbsp;:</h4><div class="spec-wrapper"><div class="activeSpecTxt">Actif</div><div style="position: absolute; left: 12px;"><img src="character-sheet.xml_files/2.gif" id="talentSpecImage"></div><h4><a href="http://eu.wowarmory.com/character-talents.xml?r=Eldre%27Thalas&amp;n=Lusky&amp;group=1" id="replaceTalentSpecText">Combat farouche</a></h4><span>0 / 55 / 16</span></div><div class="spec-wrapper disabledSpec"><div style="position: absolute; left: 12px;"><img src="character-sheet.xml_files/2.gif" id="talentSpecImage2"></div><h4><a href="http://eu.wowarmory.com/character-talents.xml?r=Eldre%27Thalas&amp;n=Lusky&amp;group=2" id="replaceTalentSpecText2">Combat farouche</a></h4><span>0 / 60 / 11</span></div></div><div class="clear"></div></div><div style="margin-top: 2px; height: 70px;" class="brownBox"><em class="ptl"><!----></em><em class="ptr"><!----></em><em class="pbl"><!----></em><em class="pbr"><!----></em><h4>Métiers principaux&nbsp;:</h4><div style="background: transparent url(/_images/icons/professions/skinning-sm.gif) no-repeat scroll 0pt 50%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" class="prof1"><div onmouseover="setTipText('Dépeçage')" class="bar-container staticTip"><b style="width: 100%;">450 / 450</b></div></div><div style="background: transparent url(/_images/icons/professions/leatherworking-sm.gif) no-repeat scroll 0pt 50%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;" class="prof1"><div onmouseover="setTipText('Travail du cuir')" class="bar-container staticTip"><b style="width: 100%;">450 / 450</b></div></div><div class="clear"></div></div><div class="brownBox hp_mana_stats"><em class="ptl"><!----></em><em class="ptr"><!----></em><em class="pbl"><!----></em><em class="pbr"><!----></em><div class="health-stat"><p><span>Vie&nbsp;:&nbsp;&nbsp;21137</span></p></div><div class="mana-stat"><p><span>Mana&nbsp;:&nbsp;&nbsp;6366</span></p></div><div class="clear"></div></div></div><div class="achRight"><em class="ptl"><!----></em><em class="ptr"><!----></em><em class="pbl"><!----></em><em class="pbr"><!----></em><h4>Hauts faits</h4><a href="http://eu.wowarmory.com/character-achievements.xml?r=Eldre%27Thalas&amp;n=Lusky" class="achPointsLink"><span style="margin: 0pt 0px 0pt 0pt; color: rgb(255, 255, 255); float: right;">3915</span>Points</a><div style="text-align: center;" class="achieve-bar"><div class="progressTxt">&nbsp;&nbsp;Progression générale&nbsp;372/986</div><b style="width: 37.7282%;"></b></div><div class="achList"><span>24/54</span>Général</div><div class="achList"><span>24/49</span>Quêtes</div><div class="achList"><span>36/70</span>Exploration</div><div class="achList"><span>49/164</span>Joueur contre Joueur</div><div class="achList"><span>179/391</span>Donjons &amp; raids</div><div class="achList"><span>30/75</span>Métiers</div><div class="achList"><span>16/44</span>Réputation</div><div class="achList"><span>14/139</span>Évènements mondiaux</div><div class="achList"><span>8</span>Tours de force</div></div><script type="text/javascript">
+		var varOverLeft = 0;
+
+		function dropdownMenuToggle(whichOne){
+			theStyle = document.getElementById(whichOne).style;
+	
+			if (theStyle.display == "none")	theStyle.display = "block";
+			else							theStyle.display = "none";	
+		}
+	</script><div onmouseout="javascript: varOverLeft = 0;" onmouseover="javascript: varOverLeft = 1;" class="dropdown1"><a href="javascript:%20document.formDropdownLeft.dummyLeft.focus();" id="displayLeft" class="profile-stats">Caractéristiques</a></div><div style="position: relative;"><div style="position: absolute;"><form style="height: 0px;" id="formDropdownLeft" name="formDropdownLeft"><input style="position: relative; left: -5000px;" size="2" onblur="javascript: if(!varOverLeft) document.getElementById('dropdownHiddenLeft').style.display='none';" onfocus="javascript: dropdownMenuToggle('dropdownHiddenLeft');" id="dummyLeft" type="button"></form></div></div><div onmouseout="javascript: varOverLeft=0;" onmouseover="javascript: varOverLeft=1;" id="dropdownHiddenLeft" style="display: none; z-index: 99999;" class="drop-stats"><div class="tooltip"><table width="98%"><tbody><tr><td class="tl"></td><td class="t"></td><td class="tr"></td></tr><tr><td class="l"></td><td class="bg"><ul><li><a onclick="changeStats('Left', replaceStringBaseStats, 'BaseStats', baseStatsDisplay); return false;" href="#">Caractéristiques<img class="checkmark" style="visibility: visible;" src="character-sheet.xml_files/icon-check.gif" id="checkLeftBaseStats"></a></li><li><a onclick="changeStats('Left', replaceStringMelee, 'Melee', meleeDisplay); return false;" href="#">En mêlée<img class="checkmark" style="visibility: hidden;" src="character-sheet.xml_files/icon-check.gif" id="checkLeftMelee"></a></li><li><a onclick="changeStats('Left', replaceStringRanged, 'Ranged', rangedDisplay); return false;" href="#">À distance<img class="checkmark" style="visibility: hidden;" src="character-sheet.xml_files/icon-check.gif" id="checkLeftRanged"></a></li><li><a onclick="changeStats('Left', replaceStringSpell, 'Spell', spellDisplay); return false;" href="#">Sortilèges<img class="checkmark" style="visibility: hidden;" src="character-sheet.xml_files/icon-check.gif" id="checkLeftSpell"></a></li><li><a onclick="changeStats('Left', replaceStringDefenses, 'Defenses', defensesDisplay); return false;" href="#">Défense<img class="checkmark" style="visibility: hidden;" src="character-sheet.xml_files/icon-check.gif" id="checkLeftDefenses"></a></li></ul></td><td class="r"></td></tr><tr><td class="bl"></td><td class="b"></td><td class="br"></td></tr></tbody></table></div></div><script type="text/javascript">
+		var varOverRight = 0;
+
+		function dropdownMenuToggle(whichOne){
+			theStyle = document.getElementById(whichOne).style;
+	
+			if (theStyle.display == "none")	theStyle.display = "block";
+			else							theStyle.display = "none";	
+		}
+	</script><div onmouseout="javascript: varOverRight = 0;" onmouseover="javascript: varOverRight = 1;" class="dropdown2"><a href="javascript:%20document.formDropdownRight.dummyRight.focus();" id="displayRight" class="profile-stats">Sortilèges</a></div><div style="position: relative;"><div style="position: absolute;"><form style="height: 0px;" id="formDropdownRight" name="formDropdownRight"><input style="position: relative; left: -5000px;" size="2" onblur="javascript: if(!varOverRight) document.getElementById('dropdownHiddenRight').style.display='none';" onfocus="javascript: dropdownMenuToggle('dropdownHiddenRight');" id="dummyRight" type="button"></form></div></div><div onmouseout="javascript: varOverRight=0;" onmouseover="javascript: varOverRight=1;" id="dropdownHiddenRight" style="display: none; z-index: 9999999; left: 190px;" class="drop-stats"><div class="tooltip"><table width="98%"><tbody><tr><td class="tl"></td><td class="t"></td><td class="tr"></td></tr><tr><td class="l"></td><td class="bg"><ul><li><a onclick="changeStats('Right', replaceStringBaseStats, 'BaseStats', baseStatsDisplay); return false;" href="#">Caractéristiques<img class="checkmark" style="visibility: hidden;" src="character-sheet.xml_files/icon-check.gif" id="checkRightBaseStats"></a></li><li><a onclick="changeStats('Right', replaceStringMelee, 'Melee', meleeDisplay); return false;" href="#">En mêlée<img class="checkmark" style="visibility: hidden;" src="character-sheet.xml_files/icon-check.gif" id="checkRightMelee"></a></li><li><a onclick="changeStats('Right', replaceStringRanged, 'Ranged', rangedDisplay); return false;" href="#">À distance<img class="checkmark" style="visibility: hidden;" src="character-sheet.xml_files/icon-check.gif" id="checkRightRanged"></a></li><li><a onclick="changeStats('Right', replaceStringSpell, 'Spell', spellDisplay); return false;" href="#">Sortilèges<img class="checkmark" style="visibility: visible;" src="character-sheet.xml_files/icon-check.gif" id="checkRightSpell"></a></li><li><a onclick="changeStats('Right', replaceStringDefenses, 'Defenses', defensesDisplay); return false;" href="#">Défense<img class="checkmark" style="visibility: hidden;" src="character-sheet.xml_files/icon-check.gif" id="checkRightDefenses"></a></li></ul></td><td class="r"></td></tr><tr><td class="bl"></td><td class="b"></td><td class="br"></td></tr></tbody></table></div></div><div class="stats1"><em class="ptl"><!----></em><em class="ptr"><!----></em><em class="pbl"><!----></em><em class="pbr"><!----></em><div class="character-stats"><div id="replaceStatsLeft"><ul><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Force 113 (92<i class = 'mod'> + 21</i>)</span><span class = 'tooltipContentSpecial'>Augmente la puissance d’attaque de 206</span>&quot;);"><span>Force&nbsp;: </span><i class="mod">113</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Agilité 1707 (94<i class = 'mod'> + 1613</i>)</span><span class = 'tooltipContentSpecial'>Augmente les chances d’infliger un coup critique de 27.96%</span><span class = 'tooltipContentSpecial'>Augmente l’armure de 3414</span>&quot;);"><span>Agilité&nbsp;: </span><i class="mod">1707</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Endurance 1390 (104<i class = 'mod'> + 1286</i>)</span><span class = 'tooltipContentSpecial'>Augmente les points de vie de 13720</span>&quot;);"><span>Endurance&nbsp;: </span><i class="mod">1390</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Intelligence 210 (185<i class = 'mod'> + 25</i>)</span><span class = 'tooltipContentSpecial'>Augmente les points de mana de 2870</span><span class = 'tooltipContentSpecial'>Augmente le score de critiques avec les sorts de 3.11%</span>&quot;);"><span>Intelligence&nbsp;: </span><i class="mod">210</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Esprit 192 (171<i class = 'mod'> + 21</i>)</span><span class = 'tooltipContentSpecial'>Améliore la régénération de points de vie de 15 par seconde en dehors des combats</span><span class = 'tooltipContentSpecial'>Augmente la régénération de mana de 46 toutes les 5 secondes quand vous ne lancez pas de sort</span>&quot;);"><span>Esprit&nbsp;: </span><i class="mod">192</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Armure 7010</span><span class = 'tooltipContentSpecial'>Réduit les dégâts physiques reçus de 31.52%</span>&quot;);"><span>Armure&nbsp;: </span><i>7010</i></li></ul></div></div></div><div class="stats2"><em class="ptl"><!----></em><em class="ptr"><!----></em><em class="pbl"><!----></em><em class="pbr"><!----></em><div class="character-stats"><div id="replaceStatsRight"><ul><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Bon. dégâts 0</span><br/><span class = 'tooltipContentSpecial'><span class='floatRight' style='padding-left: 10px;' >0</span><span class = 'icon-holy'>Sacré</span><br/><span class='floatRight' style='padding-left: 10px;'>0</span><span class = 'icon-fire'>Feu</span><br/><span class='floatRight' style='padding-left: 10px;'>0</span><span class = 'icon-nature'>Nature</span><br/><span class='floatRight' style='padding-left: 10px;'>0</span><span class = 'icon-frost'>Givre</span><br/><span class='floatRight' style='padding-left: 10px;'>0</span><span class = 'icon-shadow'>Ombre</span><br/><span class='floatRight' style='padding-left: 10px;'>0</span><span class = 'icon-arcane'>Arcane</span><br/></span>&quot;);"><span>Bon. dégâts&nbsp;: </span><i undefined="">0</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Bon. soins </span><span class = 'tooltipContentSpecial'>Augmente les soins prodigués jusqu’à 0 de plus.</span>&quot;);"><span>Bon. soins&nbsp;:</span><i undefined="">0</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Sc. toucher 149</span><span class = 'tooltipContentSpecial'>Augmente les chances que vos sorts touchent une cible de niveau 80 de 5.68%<br />Pénétration des sorts 0 (Réduit la résistance adverse de 0)</span>&quot;);"><span>Sc. toucher&nbsp;: </span><i undefined="">149</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<div class='spellCritWidth'><span class='tooltipTitle'>Critiques 677</span><br/><span class = 'tooltipContentSpecial'><span class='floatRight'>17.86%</span><span class = 'icon-holy'>Sacré</span><br/><span class='floatRight'>17.86%</span><span class = 'icon-fire'>Feu</span><br/><span class='floatRight'>17.86%</span><span class = 'icon-nature'>Nature</span><br/><span class='floatRight'>17.86%</span><span class = 'icon-frost'>Givre</span><br/><span class='floatRight'>17.86%</span><span class = 'icon-shadow'>Ombre</span><br/><span class='floatRight'>17.86%</span><span class = 'icon-arcane'>Arcane</span><br/></span></div>&quot;);"><span>Critiques&nbsp;: </span><i undefined="">17.86%</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Score de hâte</span><span class = 'tooltipContentSpecial'>Augmente la vitesse d'incantation de vos sorts de 17.96%.</span>&quot;);"><span>Score de hâte : </span><i undefined="">453</i></li><li class="staticTip" onmouseover="javascript: setTipText(&quot;<span class='tooltipTitle'>Régén. mana </span><span class = 'tooltipContentSpecial'>46 points de mana régénérés toutes les 5 secondes sans incantation</span><span class = 'tooltipContentSpecial'>0 points de mana régénérés toutes les 5 secondes pendant une incantation</span>&quot;);"><span>Régén. mana&nbsp;: </span><i undefined="">46</i></li></ul></div></div></div><script src="character-sheet.xml_files/functions.js" type="text/javascript"></script><script type="text/javascript">
+	
+		function strengthObject() {
+			this.base="92";
+			this.effective="113";
+			this.block="-1";
+			this.attack="206";
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function agilityObject() {
+			this.base="94";
+			this.effective="1707";
+			this.critHitPercent="27.96";
+			this.attack="-1";
+			this.armor="3414";
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function staminaObject(base, effective, health, petBonus) {
+			this.base="104";
+			this.effective="1390";
+			this.health="13720";
+			this.petBonus="-1";
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function intellectObject() {
+			this.base="185";
+			this.effective="210";
+			this.mana="2870";
+			this.critHitPercent="3.11";
+			this.petBonus="-1";
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function spiritObject() {
+			this.base="171";
+			this.effective="192";
+			this.healthRegen="15";
+			this.manaRegen="46";
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function armorObject() {
+			this.base="7010";
+			this.effective="7010";
+			this.reductionPercent="31.52";
+			this.petBonus="-1";
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function resistancesObject() {
+			this.arcane=new resistArcaneObject("0", "-1");
+			this.nature=new resistNatureObject("0", "-1");
+			this.fire=new resistFireObject("0", "-1");
+			this.frost=new resistFrostObject("0", "-1");
+			this.shadow=new resistShadowObject("0", "-1");
+		}
+		
+		function meleeMainHandWeaponSkillObject() {
+			this.value="10";
+			this.rating="0";
+			this.additional="0";
+			this.percent="2.50";
+		}
+		
+		function meleeOffHandWeaponSkillObject() {
+			this.value="";
+			this.rating="";
+		}	
+		
+		function meleeMainHandDamageObject() {
+			this.speed="2.04";
+			this.min="969";
+			this.max="1241";
+			this.percent="0";
+			this.dps="542.9";
+		
+			if (this.percent > 0)		this.effectiveColor="class='mod'";
+			else if (this.percent < 0)	this.effectiveColor="class='moddown'";
+		}
+		
+		function meleeOffHandDamageObject() {
+			this.speed="1.70";
+			this.min="179";
+			this.max="180";
+			this.percent="0";
+			this.dps="106.1";
+		}
+		
+		
+		function meleeMainHandSpeedObject() {
+			this.value="2.04";
+			this.hasteRating="453";
+			this.hastePercent="17.96";
+		}
+		
+		function meleeOffHandSpeedObject() {
+			this.value="1.70";
+			this.hasteRating="453";
+			this.hastePercent="17.96";
+		}
+		
+		function meleePowerObject() {
+			this.base="206";
+			this.effective="2283";
+			this.increasedDps="163.0";
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function meleeHitRatingObject() {
+			this.value="149";
+			this.increasedHitPercent="4.54";
+			this.armorPenetration="330";	
+			this.reducedArmorPercent="23.58";
+		}
+		
+		function meleeCritChanceObject() {
+			this.percent="42.43";
+			this.rating="677";
+			this.plusPercent="14.75";
+		}
+		
+		function rangedWeaponSkillObject() {
+			this.value=0;
+			this.rating=0;
+		}
+		
+		function rangedDamageObject() {
+			this.speed=0.00;
+			this.min=0;
+			this.max=0;
+			this.dps=0.0;
+			this.percent=0;
+		
+			if (this.percent > 0)		this.effectiveColor="class='mod'";
+			else if (this.percent < 0)	this.effectiveColor="class='moddown'";
+		
+		}
+		
+		function rangedSpeedObject() {
+			this.value=0.00;
+			this.hasteRating=453;
+			this.hastePercent=17.96;
+		}
+		
+		function rangedPowerObject() {
+			this.base=1697;
+			this.effective=3774;
+			this.increasedDps=269.0;
+			this.petAttack=-1.00;
+			this.petSpell=-1.00;
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function rangedHitRatingObject() {
+			this.value="149";
+			this.increasedHitPercent="4.54";
+			this.armorPenetration="330";
+			this.reducedArmorPercent="23.58";
+		}
+		
+		function rangedCritChanceObject() {
+			this.percent=33.19;
+			this.rating=677;
+			this.plusPercent=14.75;
+		}
+		
+		function spellBonusDamageObject() {
+			this.holy=0;
+			this.arcane=0;
+			this.fire=0;
+			this.nature=0;
+			this.frost=0;
+			this.shadow=0;
+			this.petBonusAttack=-1;
+			this.petBonusDamage=-1;
+			this.petBonusFromType="";
+		
+			this.value=this.holy;
+			
+			if (this.value > this.arcane)	this.value=this.arcane;
+			if (this.value > this.fire)		this.value=this.fire;
+			if (this.value > this.nature)	this.value=this.nature;
+			if (this.value > this.frost)		this.value=this.frost;
+			if (this.value > this.shadow)	this.value=this.shadow;
+		}
+		
+		function spellBonusHealingObject() {
+			this.value=0;
+		}
+		
+		function spellHasteRatingObject(){
+			this.value=453;
+			this.percent=17.96;
+		}
+		
+		function spellHitRatingObject() {
+			this.value=149;
+			this.increasedHitPercent=5.68;
+			this.spellPenetration= 0;	
+		}
+		
+		function spellCritChanceObject() {
+			this.rating=677;
+			this.holy=17.86;
+			this.arcane=17.86;
+			this.fire=17.86;
+			this.nature=17.86;
+			this.frost=17.86;
+			this.shadow=17.86;
+		
+			this.percent=this.holy;
+			
+			if (this.percent > this.arcane)	this.percent=this.arcane;
+			if (this.percent > this.fire)	this.percent=this.fire;
+			if (this.percent > this.nature)	this.percent=this.nature;
+			if (this.percent > this.frost)	this.percent=this.frost;
+			if (this.percent > this.shadow)	this.percent=this.shadow;
+		}
+		
+		function spellPenetrationObject() {
+			this.value=0;
+		}
+		
+		function spellManaRegenObject() {
+			this.casting=0.00;
+			this.notCasting=46.00;
+		}
+		
+		function defensesArmorObject() {
+			this.base=7010;
+			this.effective=7010;
+			this.percent=31.52;
+			this.petBonus=-1;
+		
+			this.diff=this.effective - this.base;
+		}
+		
+		function defensesDefenseObject() {
+			this.rating=0;
+			this.plusDefense=0;
+			this.increasePercent=0.00;
+			this.decreasePercent=0.00;
+			this.value=400.00 + this.plusDefense;
+		}
+		
+		function defensesDodgeObject() {
+			this.percent=34.26;
+			this.rating=0;
+			this.increasePercent=0.00;
+		}
+		
+		function defensesParryObject() {
+			this.percent=0.00;
+			this.rating=0;
+			this.increasePercent=0.00;
+		}
+		
+		function defensesBlockObject() {
+			this.percent=0.00;
+			this.rating=0;
+			this.increasePercent=0.00;
+		}
+		
+		function defensesResilienceObject() {
+			this.value=0.00;
+			this.hitPercent=0.00;
+			this.damagePercent=0.00;
+		}	
+		
+		var theCharacter = new characterObject();		
+		var theCharUrl = "r=Eldre%27Thalas&n=Lusky";
+	
+	</script><script src="character-sheet.xml_files/character-sheet.js" type="text/javascript"></script><script src="character-sheet.xml_files/textObjects.js" type="text/javascript"></script></div></div><div style="margin: 5px auto 20px; width: 500px;"><span style="float: right;">Victoires honorables à vie&nbsp;: <strong>24516</strong></span>Dernière mise à jour&nbsp;:&nbsp;
+		<strong>27 septembre 2009</strong></div><div class="bonus-stats"><table class="deco-frame"><thead><tr><td class="sl"></td><td class="ct st"></td><td class="sr"></td></tr></thead><tbody><tr><td class="sl"><b><em class="port"></em></b></td><td class="ct"><div class="arena-ranking"><h2>Arène</h2></div><ul class="badges-pvp"><li><div class="arenacontainer"><h4>2c2</h4><em><span>Cote&nbsp;: 0</span></em><div style="background-image: url(/_images/icons/badges/arena/arena-6.jpg); cursor: pointer;" onclick="window.location='/team-info.xml?r=Eldre%27Thalas&amp;ts=2&amp;t=Les+Semi+Croustillants&amp;select=Les+Semi+Croustillants'" class="icon"><img src="character-sheet.xml_files/badge-border-pvp-parchment.gif" border="0"><div style="display: block;" id="arenarank2_2" class="rank-num"><object id="arenarank2_2Flash" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100" height="40"><param name="movie" value="/_images/rank.swf"><param name="quality" value="best"><param name="flashvars" value="rankNum="><param name="bgcolor" value=""><param name="wmode" value="transparent"><param name="salign" value="tl"><embed name="arenarank2_2Flash" src="character-sheet.xml_files/rank.swf" wmode="transparent" menu="" bgcolor="" quality="best" pluginspage="http://www.macromedia.com/go/getflas/new-hplayer" type="application/x-shockwave-flash" salign="tl" base="" flashvars="rankNum=" width="100" height="40"><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/rank.swf"></a><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/rank.swf"></a><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/rank.swf"></a><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/rank.swf"></a></object></div></div></div></li><li><div class="arena-team-faded"><h4>3c3</h4><em><span>Pas d’équipe</span></em></div></li><li><div class="arena-team-faded"><h4>5c5</h4><em><span>Pas d’équipe</span></em></div></li></ul><ul class="badges-pvp personalrating"><li><div><em><span><b>Les Semi Croustillants</b><br>Cote personnelle :0<br></span></em></div></li><li><div><em><span></span></em></div></li><li><div><em><span></span></em></div></li></ul></td><td class="sr"><b><em class="star"></em></b></td></tr></tbody><tfoot><tr><td class="sl"></td><td class="ct sb" align="center"></td><td class="sr"></td></tr></tfoot></table></div><div class="clear"></div><br><br></div></div></div></div></div></div></div></div>
+</div></div></div></div><div class="data-shadow-bot"><!----></div></div><div class="page-bot"></div><div class="module-block-left"><div class="rinfo"><div class="module"><h1>Foire aux questions</h1><div class="faq"><div class="rlbox2"><div class="module-lite"><div class="faq-links"><ol><li><a id="faqlink1" class="faq-over" href="javascript:faqSwitch(1);">Que fait la fonction «&nbsp;Trouver mieux&nbsp;» sur les objets d’une fiche de personnage&nbsp;?</a></li><li><a id="faqlink2" class="faq-off" href="javascript:faqSwitch(2);">Pourquoi mon personnage n'apparaît-il pas&nbsp;?</a></li><li><a id="faqlink3" class="faq-off" href="javascript:faqSwitch(3);">Pourquoi ne puis-je trouver mon personnage de bas niveau&nbsp;?</a></li><li><a id="faqlink4" class="faq-off" href="javascript:faqSwitch(4);">Pourquoi est-ce que le total de mes victoires honorables à vie n'est pas affiché&nbsp;?</a></li><li><a id="faqlink5" class="faq-off" href="javascript:faqSwitch(5);">Pourquoi l'emplacement pour les munitions n'apparaît-il pas sur la feuille de personnage&nbsp;?</a></li><li><a id="faqlink6" class="faq-off" href="javascript:faqSwitch(6);">Pourquoi mon portrait est-il faux&nbsp;?</a></li><li><a id="faqlink7" class="faq-off" href="javascript:faqSwitch(7);">Quels sont les différents titres que les joueurs peuvent gagner&nbsp;?</a></li></ol></div></div><div style="margin-top: 5px;" class="module-lite"><div class="speak-bubble"><div style="display: none;" id="faq1"><h2>Que fait la fonction «&nbsp;Trouver mieux&nbsp;» sur les objets d’une fiche de personnage&nbsp;?</h2>
+Si vous passez votre souris sur un objet d’une feuille de personnage,
+vous verrez apparaître une petite flèche qui se transforme en bouton.
+Si vous cliquez sur ce bouton «&nbsp;Trouver mieux&nbsp;», vous serez
+dirigé vers une page de résultats de recherche d’objets. Sur cette
+page, les objets affichés sont ceux qui sont considérés comme
+«&nbsp;meilleurs&nbsp;» pour ce personnage en particulier. <p></p> Ces améliorations recommandées prennent en compte la
+classe de personnage, les caractéristiques et la qualité générale de
+l’équipement. De cette façon, vous pourrez rechercher quelle
+amélioration votre personnage ou n’importe quel autre personnage de
+World of Warcraft peut désirer. Cette fonctionnalité est aussi là pour
+faciliter les choix des personnages qui ont plusieurs ensembles
+différents d’équipement suivant les circonstances, leur permettant de
+trouver les améliorations pour chaque ensemble. <p></p>
+			Plus de détails sont disponibles sur notre F.A.Q. <a href="http://eu.wowarmory.com/faq-item-info-recommended.xml;">Trouver mieux</a>.
+		</div><div style="display: none;" id="faq2"><h2>Pourquoi mon personnage n'apparaît-il pas&nbsp;?</h2>
+Seuls les personnages européens sont répertoriés sur la région Europe
+de l'Armurerie. Pour changer de région (USA, Corée, etc...) utilisez le
+menu déroulant de changement de région. Vous devez aussi jouer
+régulièrement votre personnage pour continuer à le voir apparaître dans
+l'Armurerie. Enfin, un personnage doit être au moins de niveau 10 pour
+que sa fiche de personnage soit disponible. </div><div style="display: none;" id="faq3"><h2>Pourquoi ne puis-je trouver mon personnage de bas niveau&nbsp;?</h2>
+Les personnages doivent être au moins de niveau 10 pour apparaitre dans
+l'Armurerie, de même que pour avoir leurs profiles et être affichés
+dans la page des résultats lors d'une recherche par nom de personnage. </div><div style="display: none;" id="faq4"><h2>Pourquoi est-ce que le total de mes victoires honorables à vie n'est pas affiché&nbsp;?</h2>
+Pour voir le total des victoires honorables que votre personnage a
+acquises depuis le début de sa carrière, il faut que ce total soit au
+moins de 1337. </div><div style="display: none;" id="faq5"><h2>Pourquoi l'emplacement pour les munitions n'apparaît-il pas sur la feuille de personnage&nbsp;?</h2>
+			Cette fonctionnalité serait ajoutée dans l'avenir.
+		</div><div style="display: none;" id="faq6"><h2>Pourquoi mon portrait est-il faux&nbsp;?</h2>
+L'Armurerie ne montre pas l'image courante en jeu de votre personnage
+en haut à gauche de votre fiche. Cette image est un avatar générique
+pour tous les personnages de même race, classe et genre. </div><div style="display: none;" id="faq7"><h2>Quels sont les différents titres que les joueurs peuvent gagner&nbsp;?</h2>
+			Pour consulter la liste complète des titres, veuillez visiter notre <a href="http://www.wow-europe.com/fr/info/basics/titles.html">page des titres de personnage</a>.
+		</div><div class="faq-desc"><div id="faq-container"><h2>Que fait la fonction «&nbsp;Trouver mieux&nbsp;» sur les objets d’une fiche de personnage&nbsp;?</h2>
+Si vous passez votre souris sur un objet d’une feuille de personnage,
+vous verrez apparaître une petite flèche qui se transforme en bouton.
+Si vous cliquez sur ce bouton «&nbsp;Trouver mieux&nbsp;», vous serez
+dirigé vers une page de résultats de recherche d’objets. Sur cette
+page, les objets affichés sont ceux qui sont considérés comme
+«&nbsp;meilleurs&nbsp;» pour ce personnage en particulier. <p></p> Ces améliorations recommandées prennent en compte la
+classe de personnage, les caractéristiques et la qualité générale de
+l’équipement. De cette façon, vous pourrez rechercher quelle
+amélioration votre personnage ou n’importe quel autre personnage de
+World of Warcraft peut désirer. Cette fonctionnalité est aussi là pour
+faciliter les choix des personnages qui ont plusieurs ensembles
+différents d’équipement suivant les circonstances, leur permettant de
+trouver les améliorations pour chaque ensemble. <p></p>
+			Plus de détails sont disponibles sur notre F.A.Q. <a href="http://eu.wowarmory.com/faq-item-info-recommended.xml;">Trouver mieux</a>.
+		</div></div></div></div></div></div></div></div></div><div class="module-block-right"><div class="armory300" id="ad_300x250"><iframe class=" glszthprqdoxfhkdaxuh" marginwidth="0" marginheight="0" src="character-sheet.xml_files/pageid86242280_002.htm" width="300" frameborder="0" height="250" scrolling="no">&lt;script
+type="text/javascript"
+src="http://cgm.adbureau.net/jnserver/acc_random=88188856/SITE=WOW.ARMORY.COM/AREA=NETWORK/AAMSZ=300X250/pageid=86242280"&gt;&lt;/script&gt;</iframe></div><div style="margin: 0pt 0pt 10px;"><div style="display: block;" id="mobile_armory_banner"><object id="mobile_armory_bannerFlash" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="300" height="175"><param name="movie" value="/_images/fr_fr/flash/mobile_armory_banner.swf"><param name="quality" value="best"><param name="flashvars" value="linkUrl=/iphone.xml"><param name="bgcolor" value=""><param name="wmode" value="transparent"><param name="salign" value="tl"><embed name="mobile_armory_bannerFlash" src="character-sheet.xml_files/mobile_armory_banner.swf" wmode="transparent" menu="" bgcolor="" quality="best" pluginspage="http://www.macromedia.com/go/getflas/new-hplayer" type="application/x-shockwave-flash" salign="tl" base="" flashvars="linkUrl=/iphone.xml" width="300" height="175"><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/fr_fr/flash/mobile_armory_banner.swf"></a><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/fr_fr/flash/mobile_armory_banner.swf"></a><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/fr_fr/flash/mobile_armory_banner.swf"></a><a class="agiqrwwitovqwztnzgum" href="http://eu.wowarmory.com/_images/fr_fr/flash/mobile_armory_banner.swf"></a></object></div><script type="text/javascript">
+		var flashId="mobile_armory_banner";
+		if ((Browser.safari && flashId=="flashback") || (Browser.linux && flashId=="flashback")){//kill the searchbox flash for safari or linux
+		   document.getElementById("searchFlash").innerHTML = '<div class="search-noflash"></div>';
+		}else
+			printFlash("mobile_armory_banner", "/_images/fr_fr/flash/mobile_armory_banner.swf", "transparent", "", "", "300", "175", "best", "", "linkUrl=/iphone.xml", "")
+		
+		</script></div><div class="rinfo"><div class="module"><h1>Sujets liés à cette page</h1><div class="related-links" id="noflash-message"><div class="module-lite"><div class="rlbox1"><p><b class="noflash">Attention&nbsp;: Adobe Flash Player 8+ est nécessaire&nbsp;!</b><br><a class="noflash" target="_blank" href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"><img class="p" src="character-sheet.xml_files/getflash.gif" align="right"></a>Nous
+avons détecté que vous n’avez pas Adobe Flash Player ou que vous
+utilisez une version antérieure à la version 8. L’Armurerie nécessite
+que vous ayez installé Flash Player 8 (ou une version ultérieure) afin
+de bénéficier de toutes les fonctionnalités du site. Cliquez sur le
+bouton ci-dessus pour installer la dernière version d’Adobe Flash
+Player.</p></div></div></div><div class="related-links"><div class="module-lite"><ul><li class=""><a href="http://eu.wowarmory.com/character-search.xml">Recherche de personnage</a></li><div class="hr"></div><li class="external"><a target="_blank" onmouseover="setTipText('Ce lien vous emmènera en dehors de l’Armurerie')" class="staticTip" href="http://www.wow-europe.com/fr/info/basics/characters.html">Guide des caractéristiques des personnages</a></li><li class="external"><a target="_blank" onmouseover="setTipText('Ce lien vous emmènera en dehors de l’Armurerie')" class="staticTip" href="http://www.wow-europe.com/fr/info/races/index.html">Races</a></li><li class="external"><a target="_blank" onmouseover="setTipText('Ce lien vous emmènera en dehors de l’Armurerie')" class="staticTip" href="http://www.wow-europe.com/fr/info/classes/index.html">Classes</a></li><li class="external"><a target="_blank" onmouseover="setTipText('Ce lien vous emmènera en dehors de l’Armurerie')" class="staticTip" href="http://www.wow-europe.com/fr/info/professions/index.html">Métiers</a></li><div class="hr"></div><li class=""><a href="http://eu.wowarmory.com/faq-armory.xml">F.A.Q.</a></li><li class="external"><a target="_blank" onmouseover="setTipText('Ce lien vous emmènera en dehors de l’Armurerie')" class="staticTip" href="http://forums.wow-europe.com/thread.html?topicId=1016252442&amp;sid=2">Problèmes connus</a></li><li class="report"><a onmouseover="setTipText('Signalez les problèmes et bugs techniques de l’Armurerie sur le forum anglais Website Error Reports (écrivez en anglais svp).')" href="http://forums.wow-europe.com/board.html?forumId=11088&amp;sid=1" class="staticTip" id="reportLinkError">Signaler une erreur technique</a><script type="text/javascript">
+															fixReportLink("reportLinkError", "http://eu.wowarmory.com");
+														</script></li><li class=""><a target="_blank" onmouseover="setTipText('Signalez les problèmes et bugs de traduction de l’Armurerie sur le forum de traduction et localisation.')" class="staticTip" href="http://forums.wow-europe.com/board.html?forumId=11213&amp;sid=2" id="reportLinkTranslation">Signaler une erreur de traduction</a><script type="text/javascript">
+															fixReportLink("reportLinkTranslation", "http://eu.wowarmory.com");
+														</script></li></ul></div></div></div></div></div><script type="text/javascript">
+			faqSwitch(currentFaq);
+		</script></div></div><div class="language" id="languageFooter"><div class="module"><em>Choisir une langue&nbsp;:</em><a class="langLink" href="http://eu.wowarmory.com/character-sheet.xml?locale=de_de&amp;r=Eldre%27Thalas&amp;n=Lusky">Deutsch</a><span>|</span><a class="langLink" href="http://eu.wowarmory.com/character-sheet.xml?locale=en_gb&amp;r=Eldre%27Thalas&amp;n=Lusky">English (EU)</a><span>|</span><a class="langLink" href="http://eu.wowarmory.com/character-sheet.xml?locale=en_us&amp;r=Eldre%27Thalas&amp;n=Lusky">English (US)</a><span>|</span><a class="langLink" href="http://eu.wowarmory.com/character-sheet.xml?locale=es_mx&amp;r=Eldre%27Thalas&amp;n=Lusky">Español (AL)</a><span>|</span><a class="langLink" href="http://eu.wowarmory.com/character-sheet.xml?locale=es_es&amp;r=Eldre%27Thalas&amp;n=Lusky">Español (EU)</a><span>|</span><a class="langLink select" href="http://eu.wowarmory.com/character-sheet.xml?locale=fr_fr&amp;r=Eldre%27Thalas&amp;n=Lusky">Français</a><span>|</span><a class="langLink" href="http://eu.wowarmory.com/character-sheet.xml?locale=ru_ru&amp;r=Eldre%27Thalas&amp;n=Lusky">Русский</a><span>|</span><a class="langLink" href="http://eu.wowarmory.com/character-sheet.xml?locale=ko_kr&amp;r=Eldre%27Thalas&amp;n=Lusky">한국어</a><br><em>Choisir une région&nbsp;:</em><a class="" href="http://www.wowarmory.com/">Amériques</a><span>|</span><a class="select" href="http://eu.wowarmory.com/">Europe</a><span>|</span><a class="" href="http://kr.wowarmory.com/">Corée</a><span>|</span><a class="" href="http://cn.wowarmory.com/">Chine</a><span>|</span><a class="" href="http://tw.wowarmory.com/">Taïwan</a><span>|</span></div></div><div class="footer"><a class="blizzard" href="http://eu.blizzard.com/fr/"></a><p><a href="http://eu.blizzard.com/en/privacy.html">Politique de confidentialité en ligne</a><br><a href="http://eu.blizzard.com/en/legalfaq.html">©2009 Blizzard Entertainment, Inc. Tous droits réservés.</a><br>Les
+données contenues sur ce site sont la propriété de Blizzard
+Entertainment, Inc. Une licence limitée vous est accordée pour la seule
+utilisation personnelle et non commerciale des informations hébergées
+sur ce site.</p><div class="clear"><!----></div></div></div><div id="globalToolTip"><table><tbody><tr><td class="tl"><em></em></td><td class="tm"></td><td class="tr"><em></em></td></tr><tr><td class="ml"></td><td class="mm" valign="top"><div id="globalToolTip_text"></div></td><td class="mr"></td></tr><tr><td class="bl"><em></em></td><td class="bm"></td><td class="br"><em></em></td></tr></tbody></table></div><div id="output"></div><div style="display: none;" id="blackout"></div><script src="character-sheet.xml_files/ga.js" type="text/javascript"></script><script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-544112-17");
+		pageTracker._setDomainName("wowarmory.com");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+		
+		/*  */	
+		if($.browser.msie && $.browser.version == "6.0"){		
+			$("select").bgiframe();
+		}
+		/* */
+	</script></body></html>
