@@ -82,8 +82,6 @@ namespace StuffCounter
                 id = int.Parse(nodeId.InnerText);
                 
                 itemCache.Add(id, new item(id,ilvl));
-                //results.Text += ilvl + " " + id;
-                //results.Text += "\r\n";
             }
         }
 
@@ -92,12 +90,6 @@ namespace StuffCounter
             XmlDocument xml = DownloadXml("http://eu.wowarmory.com/character-sheet.xml?r=" + HttpUtility.UrlEncode(realm.Text) + "&n=" + HttpUtility.UrlEncode(name));
             if (xml != null)
             {
-                int nb245 = 0;
-                int nb232 = 0;
-                int nb226 = 0;
-                int nb219 = 0;
-                int nb213 = 0;
-                int nb200 = 0;
                 int id;
                 int slot;
                 foreach (XmlNode node in xml.SelectNodes("page/characterInfo/characterTab/items/item"))
@@ -107,27 +99,9 @@ namespace StuffCounter
                     //-1 = ammo, 3 = shirt, 18 = tabard
                     if (slot != -1 && slot != 3 && slot != 18 && itemCache.ContainsKey(id))
                     {
-                        if (itemCache[id].ilvl == 245)
-                            nb245++;
-                        if (itemCache[id].ilvl == 232)
-                            nb232++;
-                        if (itemCache[id].ilvl == 226)
-                            nb226++;
-                        if (itemCache[id].ilvl == 219)
-                            nb219++;
-                        if (itemCache[id].ilvl == 213)
-                            nb213++;
-                        if (itemCache[id].ilvl == 200)
-                            nb200++;
-                        //results.Text += " " + id + ":" + itemCache[id].ilvl;
                         results.Text += "\t\t<Item id=\"" + id + "\" ilvl=\"" + itemCache[id].ilvl + "\" />\r\n";
                     }
-                    else
-                    {
-                        //results.Text += " " + id + ":" + 0;
-                    }
                 }
-                //results.Text += " 245:" + nb245 + " 232:" + nb232 + " 226:" + nb226 + " 219:" + nb219 + " 213:" + nb213 + " 200:" + nb200;
             }
         }
 
@@ -153,10 +127,8 @@ namespace StuffCounter
                     if (level == 80 && (rank == 0 || rank == 1 || rank == 3 || rank == 7))
                     {                        
                         name = node.Attributes["name"].Value;
-                        //results.Text += name + " " + level + " " + rank;
                         results.Text += "\t<character name=\"" + name + "\" rank=\"" + rank + "\">\r\n";
                         GetStuff(name);
-                        //results.Text += "\r\n";
                         results.Text += "\t</character>\r\n";
                         Application.DoEvents();
                     }
@@ -280,25 +252,36 @@ namespace StuffCounter
                 name = node.Attributes["name"].Value;
                 int nbT9245 = 0;
                 int nbT9232 = 0;
+                int nb245 = 0;
+                int nb232 = 0;
+                int nb226 = 0;
+                int nb219 = 0;
+                int nb213 = 0;
+                int nb200 = 0;
                 foreach (XmlNode item in node.SelectNodes("Item"))
                 {
                     id = int.Parse(item.Attributes["id"].Value);
                     ilvl = int.Parse(item.Attributes["ilvl"].Value);
 
                     if (t9_245.Contains(id))
-                    {
                         nbT9245++;
-                    }
-
                     if (t9_232.Contains(id))
-                    {
-                        nbT9232++;
-                    }
+                        nbT9232++;                    
+                    if (ilvl == 245)
+                        nb245++;
+                    if (ilvl == 232)
+                        nb232++;
+                    if (ilvl == 226)
+                        nb226++;
+                    if (ilvl == 219)
+                        nb219++;
+                    if (ilvl == 213)
+                        nb213++;
+                    if (ilvl == 200)
+                        nb200++;
                 }
-                if (name.Length < 10)
-                    results.Text += name + "\t\tT9 245:" + nbT9245 + "\tT9 232:" + nbT9232 + "\r\n";
-                else
-                    results.Text += name + "\tT9 245:" + nbT9245 + "\tT9 232:" + nbT9232 + "\r\n";
+                results.Text += name + "\t\tT9 245:" + nbT9245 + "\tT9 232:" + nbT9232;
+                results.Text += " 245:" + nb245 + " 232:" + nb232 + " 226:" + nb226 + " 219:" + nb219 + " 213:" + nb213 + " 200:" + nb200 + "\r\n";
             }
         }
     }
