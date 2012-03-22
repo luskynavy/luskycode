@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.update = new System.Windows.Forms.Timer(this.components);
+            this.ReHook = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -51,12 +52,26 @@
             this.update.Interval = 1000;
             this.update.Tick += new System.EventHandler(this.update_Tick);
             // 
+            // ReHook
+            // 
+            this.ReHook.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.ReHook.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ReHook.Location = new System.Drawing.Point(0, 0);
+            this.ReHook.Name = "ReHook";
+            this.ReHook.Size = new System.Drawing.Size(23, 23);
+            this.ReHook.TabIndex = 2;
+            this.ReHook.Text = "R";
+            this.ReHook.UseVisualStyleBackColor = false;
+            this.ReHook.Click += new System.EventHandler(this.ReHook_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1003, 288);
+            this.Controls.Add(this.ReHook);
             this.Controls.Add(this.webBrowser1);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.Form1_Closing);
@@ -68,6 +83,7 @@
 
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Timer update;
+        private System.Windows.Forms.Button ReHook;
     }
 }
 

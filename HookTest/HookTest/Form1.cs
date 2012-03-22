@@ -14,11 +14,13 @@ namespace HookTest
         public int volume = 50;
         public int lastVolumeChange = 0;
         public bool noTitle = false;
+        public Hooks hook;
+
 
         public Form1()
         {
             bool scriptErrorsOption = false;
-            bool clearCacheOption = true;            
+            bool clearCacheOption = true;
 
             foreach (string arg in Environment.GetCommandLineArgs())
             {
@@ -40,13 +42,13 @@ namespace HookTest
             if (scriptErrorsOption)
                 webBrowser1.ScriptErrorsSuppressed = true;
 
-            Hooks hook = new Hooks();
+            hook = new Hooks();
 
             //hook.KeyPress += new KeyPressEventHandler(hook_KeyDown);
             hook.KeyDown += new KeyEventHandler(hook_KeyDown);
             //hook.KeyUp += new KeyEventHandler(hook_KeyDown);
 
-            //webBrowser1.Refresh(System.Windows.Forms.WebBrowserRefreshOption.Normal);            
+            //webBrowser1.Refresh(System.Windows.Forms.WebBrowserRefreshOption.Normal);
         }
 
         void hook_KeyDown(object sender, KeyEventArgs e)
@@ -61,7 +63,7 @@ namespace HookTest
             {
                 //_jp.ctrls.onPlayPause(); ; return false;
                 //webBrowser1.Navigate("javascript:top.player.onPlayPause();");
-                webBrowser1.Navigate("javascript:_jp.ctrls.onPlayPause();");                         
+                webBrowser1.Navigate("javascript:_jp.ctrls.onPlayPause();");
             }
 
             if (key == Keys.MediaNextTrack/*.GetHashCode()*/)
@@ -97,7 +99,7 @@ namespace HookTest
                         volume = 100;
                     }
                     lastVolumeChange = Environment.TickCount;
-                    webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");                    
+                    webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");
                 }
             }
 
@@ -116,6 +118,7 @@ namespace HookTest
 
         private void update_Tick(object sender, EventArgs e)
         {
+            //Update the title
             if (noTitle == false)
             {
                 try
@@ -127,7 +130,16 @@ namespace HookTest
                 }
             }
         }
+
+        private void ReHook_Click(object sender, EventArgs e)
+        {
+            //remove the old hook
+            hook.KeyDown -= new KeyEventHandler(hook_KeyDown);
+
+            //Reinstall it
+            hook = new Hooks();
+            
+            hook.KeyDown += new KeyEventHandler(hook_KeyDown);
+        }
     }
 }
-
-
