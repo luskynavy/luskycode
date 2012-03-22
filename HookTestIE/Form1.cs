@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+//using System.Collections.Generic;
+//using System.ComponentModel;
+//using System.Data;
+//using System.Drawing;
+//using System.Linq;
+//using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 
@@ -13,6 +13,7 @@ namespace HookTest
     public partial class Form1 : Form
     {
         private bool suspended = false;
+        public Hooks hook;
 
         //private string BrowserExecutable = "C:\\Program Files (x86)\\Avant Browser\\avant.exe";
         //private string BrowserExecutable = "C:\\Program Files\\Avant Browser\\avant.exe";
@@ -48,7 +49,7 @@ namespace HookTest
                 StartBrowser();
             }
         
-            Hooks hook = new Hooks();
+            hook = new Hooks();
 
             hook.KeyDown += new KeyEventHandler(hook_KeyDown);            
         }
@@ -56,12 +57,12 @@ namespace HookTest
         //Manage hook keys
         void hook_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.MediaPlayPause)
+            if (e.KeyData == Keys.MediaPlayPause || (e.Control && e.Alt && e.KeyCode == Keys.P))
             {
                 Pause();
             }
 
-            if (e.KeyData == Keys.MediaNextTrack)
+            if (e.KeyData == Keys.MediaNextTrack || (e.Control && e.Alt && e.KeyCode == Keys.N))
             {
                 CloseBrowser();
 
@@ -105,8 +106,10 @@ namespace HookTest
                     }
 
                     suspended = !suspended;
-                }
+                }                
             }
+
+            GC.Collect(); //instantly free the memory used by Process.GetProcessesByName (128 kB)
         }
 
         //Start the browser minimized
@@ -133,12 +136,33 @@ namespace HookTest
             {
                 Pause();
             }
-            JangoBrowser.CloseMainWindow();
+            bool ret = JangoBrowser.CloseMainWindow();
+            if (!ret)
+            {
+                JangoBrowser.Kill();
+            }
+            else
+            {
+                JangoBrowser.Close();
+            }
         }
 
         private void Form1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             CloseBrowser();
+        }
+
+        private void ReHook_Click(object sender, EventArgs e)
+        {
+            //Remove the old hook
+            hook.KeyDown -= new KeyEventHandler(hook_KeyDown);
+
+            //Reinstall it
+            //hook = new Hooks();
+            hook.Stop();
+            hook.Start();
+
+            hook.KeyDown += new KeyEventHandler(hook_KeyDown);
         }
     }
 }

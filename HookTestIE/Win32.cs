@@ -117,6 +117,8 @@ namespace HookTest
 
         // Keyboard state
         public const byte VK_SHIFT                      = 0x10;
+        public const byte VK_CONTROL                    = 0x11;
+        public const byte VK_MENU                       = 0x12;
         public const byte VK_CAPITAL                    = 0x14;
         public const byte VK_NUMLOCK                    = 0x90;
 

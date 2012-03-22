@@ -432,6 +432,21 @@ namespace HookTest
             return Win32.CallNextHookEx(m_hMouseHook, nCode, wParam, lParam);
         }
 
+        // Set Control, Alt and Shift modifiers.
+        private Keys SetModifiers(Keys keyData)
+        {
+            if ((Win32.GetKeyState(Win32.VK_CONTROL) & 0x8000) == 0x8000)
+                keyData |= Keys.Control;
+
+            if ((Win32.GetKeyState(Win32.VK_MENU) & 0x8000) == 0x8000)
+                keyData |= Keys.Alt;
+
+            if ((Win32.GetKeyState(Win32.VK_SHIFT) & 0x8000) == 0x8000)
+                keyData |= Keys.Shift;
+
+            return keyData;
+        }
+
         // A callback function which will be called every time a keyboard activity detected.
         private int KeyboardHookProc(int nCode, Int32 wParam, IntPtr lParam)
         {
@@ -443,11 +458,15 @@ namespace HookTest
             {
                 // Read structure KeyboardHookStruct at lParam
                 KEYBDINPUT MyKeyboardHookStruct = (KEYBDINPUT)Marshal.PtrToStructure(lParam, typeof(KEYBDINPUT));
+
                 
                 // Raise KeyDown
                 if (KeyDown != null && (wParam == Win32.WM_KEYDOWN || wParam == Win32.WM_SYSKEYDOWN))
                 {
                     Keys keyData   = (Keys)MyKeyboardHookStruct.wVk;
+
+                    keyData = SetModifiers(keyData);
+
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     KeyDown(this, e);
                     handled = handled || e.Handled;
@@ -476,6 +495,9 @@ namespace HookTest
                 if (KeyUp != null && (wParam == Win32.WM_KEYUP || wParam == Win32.WM_SYSKEYUP))
                 {
                     Keys keyData   = (Keys)MyKeyboardHookStruct.wVk;
+
+                    keyData = SetModifiers(keyData);
+
                     KeyEventArgs e = new KeyEventArgs(keyData);
                     KeyUp(this, e);
                     handled = handled || e.Handled;
