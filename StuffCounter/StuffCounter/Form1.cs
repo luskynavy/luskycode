@@ -157,7 +157,7 @@ namespace StuffCounter
         
         // If the last request received a 407 or no response. Used to prevent a lot of bad calls.
         // It also has the good side effect of not locking someone's account out if they enter the proxy info incorrectly
-        // by sending lots of bad authorization attempts.        
+        // by sending lots of bad authorization attempts.
         public static bool LastWasFatalError
         {
             get { return _fatalError != null; }
@@ -211,11 +211,17 @@ namespace StuffCounter
         //Get the guild member list and infos
         private void go_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             guildMode = true;
             results.Sorting = SortOrder.None;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+
+            char[] delimiterChars = { ' ', ',', '.', ':', ';' };
+
+            string[] ranksStr = ranks.Text.Split(delimiterChars);
 
             ListViewItem item1;
 
@@ -232,12 +238,16 @@ namespace StuffCounter
                 string name;
                 int level;
                 int rank;
+                int nbMembers = 0;
+
                 foreach (XmlNode node in xml.SelectNodes("page/guildInfo/guild/members/character"))
                 {
                     rank = int.Parse(node.Attributes["rank"].Value);
                     level = int.Parse(node.Attributes["level"].Value);
-                    if (level == 80 && (rank == 0 || rank == 1 || rank == 3 || rank == 7))
-                    {                        
+
+                    if (level == 80 && ranksStr.Contains(rank+""))
+                    //if (level == 80 && (rank == 0 || rank == 1 || rank == 3 || rank == 7))
+                    {
                         name = node.Attributes["name"].Value;
 
                         item1 = new ListViewItem("    <character name=\"" + name + "\" rank=\"" + rank + "\">", 0);
@@ -248,11 +258,14 @@ namespace StuffCounter
                         results.Text += "\t</character>\r\n";
                         item1 = new ListViewItem("    </character>", 0);
                         results.Items.Add(item1);
+                        nbMembers++;
                         Application.DoEvents();
                     }
                 }
                 results.Text += "</members>\r\n";
                 item1 = new ListViewItem("</members>", 0);
+                results.Items.Add(item1);
+                item1 = new ListViewItem("Nb members filtered:" + nbMembers, 0);
                 results.Items.Add(item1);
             }
             else
@@ -271,6 +284,8 @@ namespace StuffCounter
             results.Text += "Total time: " + elapsedTimeInMilliSeconds / 1000;
             item1 = new ListViewItem("Total time: " + elapsedTimeInMilliSeconds / 1000);
             results.Items.Add(item1);
+
+            Cursor.Current = Cursors.Arrow;
         }
         
         //Analyze the guild.xml datas
@@ -317,7 +332,7 @@ namespace StuffCounter
                     ilvl = int.Parse(item.Attributes["ilvl"].Value);
                     slot = int.Parse(item.Attributes["slot"].Value);
 
-                    //increment countersr by stuff (t9 type, ivl)
+                    //increment counters by stuff (t9 type, ivl)
                     if (t9_245.Contains(id))
                         nbT9245++;
                     if (t9_232.Contains(id))
@@ -427,8 +442,38 @@ namespace StuffCounter
             // Call the sort method to manually sort.
             results.Sort();
             // Set the ListViewItemSorter property to a new ListViewItemComparer
-            // object.            
+            // object
             this.results.ListViewItemSorter = new ListViewItemComparer(e.Column, results.Sorting);
+        }
+
+        //Copy select lines to clipboard
+        private void results_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                string text = "";
+                for(int i = 0; i <results.Columns.Count; i++)
+                {
+                    text += results.Columns[i].Text;
+                    text += "\t";
+                }
+                text += "\r\n";
+
+                for (int i = 0; i < results.Items.Count; i++)
+                {
+                    if (results.Items[i].Selected)
+                    {
+                        for (int j = 0; j < results.Columns.Count; j++)
+                        {
+                            text += results.Items[i].SubItems[j].Text;
+                            text += "\t";
+                        }
+                        text += "\r\n";
+                    }
+                }
+
+                Clipboard.SetText(text);
+            }
         }
     }
 }

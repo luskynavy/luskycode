@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="/_layout/character/statistics.xsl"?><page globalSearch="1" lang="fr_fr" requestUrl="/character-statistics.xml">
+  <tabInfo subTab="statistics" tab="character" tabGroup="character" tabUrl="r=Eldre%27Thalas&amp;cn=Lusky&amp;gn=Ancestr%C3%A4l"/>
+  <characterInfo>
+    <character battleGroup="Vengeance / Rache" charUrl="r=Eldre%27Thalas&amp;n=Lusky" class="Druidesse" classId="11" classUrl="c=Druidesse" faction="Alliance" factionId="0" gender="(F)" genderId="1" guildName="Ancesträl" guildUrl="r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l" lastModified="4 octobre 2009" level="80" name="Lusky" points="3955" prefix="" race="Elfe de la nuit" raceId="4" realm="Eldre'Thalas" suffix=" du crépuscule" titleId="107">
+      <arenaTeams>
+        <arenaTeam battleGroup="Vengeance / Rache" created="1229558400000" faction="Alliance" factionId="0" gamesPlayed="0" gamesWon="0" lastSeasonRanking="0" name="Les Semi Croustillants" ranking="0" rating="0" realm="Eldre'Thalas" realmUrl="b=Vengeance+%2F+Rache&amp;r=Eldre%27Thalas&amp;ts=2&amp;t=Les+Semi+Croustillants&amp;ff=realm&amp;fv=Eldre%27Thalas&amp;select=Les+Semi+Croustillants" season="0" seasonGamesPlayed="0" seasonGamesWon="0" size="2" teamSize="2" teamUrl="r=Eldre%27Thalas&amp;ts=2&amp;t=Les+Semi+Croustillants&amp;select=Les+Semi+Croustillants" url="r=Eldre%27Thalas&amp;ts=2&amp;t=Les+Semi+Croustillants&amp;select=Les+Semi+Croustillants">
+          <emblem background="ffb61371" borderColor="fff8fffa" borderStyle="6" iconColor="fff2fff1" iconStyle="67"/>
+          <members>
+            <character battleGroup="" charUrl="r=Eldre%27Thalas&amp;n=Verdandy" class="Chaman" classId="7" contribution="0" gamesPlayed="0" gamesWon="0" gender="(F)" genderId="1" guild="Ancesträl" guildId="16160" guildUrl="r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l" name="Verdandy" race="Draeneï" raceId="11" seasonGamesPlayed="0" seasonGamesWon="0" teamRank="0"/>
+            <character battleGroup="" charUrl="r=Eldre%27Thalas&amp;n=Lusky" class="Druide" classId="11" contribution="0" gamesPlayed="0" gamesWon="0" gender="(F)" genderId="1" guild="Ancesträl" guildId="16160" guildUrl="r=Eldre%27Thalas&amp;gn=Ancestr%C3%A4l" name="Lusky" race="Elfe de la nuit" raceId="4" seasonGamesPlayed="0" seasonGamesWon="0" teamRank="1"/>
+          </members>
+        </arenaTeam>
+      </arenaTeams>
+    </character>
+  </characterInfo>
+  <statistics>
+    <summary>
+      <statistic id="353" name="Nombre d'utilisations de la pierre de foyer" quantity="128"/>
+      <statistic id="98" name="Quêtes achevées" quantity="2389"/>
+      <statistic id="97" name="Quêtes journalières achevées" quantity="347"/>
+    </summary>
+    <rootCategories>
+      <category id="130" name="Personnage">
+        <category name="Consommables"/>
+        <category name="Réputation"/>
+        <category name="Équipement"/>
+        <category name="Caractéristiques"/>
+      </category>
+      <category id="141" name="Combat"/>
+      <category id="128" name="Victimes">
+        <category name="Créatures"/>
+        <category name="Victoires honorables"/>
+        <category name="Coups fatals"/>
+      </category>
+      <category id="122" name="Morts">
+        <category name="Arènes"/>
+        <category name="Champs de bataille"/>
+        <category name="Donjons"/>
+        <category name="En extérieur"/>
+        <category name="Résurrection"/>
+      </category>
+      <category id="133" name="Quêtes"/>
+      <category id="14807" name="Donjons &amp; raids">
+        <category name="Classique"/>
+        <category name="The Burning Crusade"/>
+        <category name="Wrath of the Lich King"/>
+        <category name="Les secrets d'Ulduar"/>
+        <category name="L'appel de la Croisade"/>
+      </category>
+      <category id="132" name="Compétences">
+        <category name="Compétences secondaires"/>
+        <category name="Métiers"/>
+      </category>
+      <category id="134" name="Voyages"/>
+      <category id="131" name="Social">
+        <category name="Amis"/>
+        <category name="Communication"/>
+        <category name="Groupes"/>
+      </category>
+      <category id="21" name="Joueur contre Joueur">
+        <category name="Arènes cotées"/>
+        <category name="Champs de bataille"/>
+        <category name="En extérieur"/>
+      </category>
+    </rootCategories>
+  </statistics>
+</page>

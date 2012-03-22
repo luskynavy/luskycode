@@ -34,12 +34,13 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.analyze = new System.Windows.Forms.Button();
             this.results = new System.Windows.Forms.ListView();
+            this.ranks = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // go
             // 
-            this.go.Location = new System.Drawing.Point(253, 0);
+            this.go.Location = new System.Drawing.Point(386, 0);
             this.go.Name = "go";
             this.go.Size = new System.Drawing.Size(75, 24);
             this.go.TabIndex = 0;
@@ -68,6 +69,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.ranks);
             this.panel1.Controls.Add(this.analyze);
             this.panel1.Controls.Add(this.go);
             this.panel1.Controls.Add(this.guild);
@@ -79,7 +81,7 @@
             // 
             // analyze
             // 
-            this.analyze.Location = new System.Drawing.Point(351, 0);
+            this.analyze.Location = new System.Drawing.Point(489, 0);
             this.analyze.Name = "analyze";
             this.analyze.Size = new System.Drawing.Size(75, 23);
             this.analyze.TabIndex = 4;
@@ -101,6 +103,15 @@
             this.results.UseCompatibleStateImageBehavior = false;
             this.results.View = System.Windows.Forms.View.Details;
             this.results.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.results_ColumnClick);
+            this.results.MouseDown += new System.Windows.Forms.MouseEventHandler(this.results_MouseDown);
+            // 
+            // ranks
+            // 
+            this.ranks.Location = new System.Drawing.Point(254, 0);
+            this.ranks.Name = "ranks";
+            this.ranks.Size = new System.Drawing.Size(100, 20);
+            this.ranks.TabIndex = 5;
+            this.ranks.Text = "0;1;3;7";
             // 
             // Form1
             // 
@@ -125,6 +136,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button analyze;
         private System.Windows.Forms.ListView results;
+        private System.Windows.Forms.TextBox ranks;
     }
 }
 
