@@ -85,6 +85,9 @@ namespace JangoGeckoFX
                 config.VolumeUpKey = "MediaPreviousTrack";
             if (config.DumpKey == null)
                 config.DumpKey = "LaunchMail";
+            if (config.DumpPath == null)
+                config.DumpPath = "";
+
 
             //Get keys from key names
             pauseKey = (Keys)Enum.Parse(typeof(Keys), config.PauseKey);
@@ -315,7 +318,7 @@ namespace JangoGeckoFX
                     //copy the file
                     try
                     {
-                        System.IO.File.Copy(pathSrc + "\\" + files[fileIndexToCopy].Name, dst, false);
+                        System.IO.File.Copy(pathSrc + "\\" + files[fileIndexToCopy].Name, config.DumpPath + dst, false);
                     }
                     catch (IOException ex)
                     {
@@ -341,6 +344,7 @@ namespace JangoGeckoFX
         public string   VolumeDownKey { get; set; }
         public string   VolumeUpKey { get; set; }
         public string   DumpKey { get; set; }
+        public string   DumpPath { get; set; }
         public int      Width { get; set; }
         public int      Height { get; set; }
     }
