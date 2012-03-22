@@ -31,9 +31,9 @@
             this.go = new System.Windows.Forms.Button();
             this.realm = new System.Windows.Forms.TextBox();
             this.guild = new System.Windows.Forms.TextBox();
-            this.results = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.analyze = new System.Windows.Forms.Button();
+            this.results = new System.Windows.Forms.ListView();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,20 +64,6 @@
             this.guild.TabIndex = 1;
             this.guild.Text = "Ancesträl";
             // 
-            // results
-            // 
-            this.results.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.results.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.results.Location = new System.Drawing.Point(0, 30);
-            this.results.Multiline = true;
-            this.results.Name = "results";
-            this.results.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.results.Size = new System.Drawing.Size(509, 314);
-            this.results.TabIndex = 2;
-            this.results.Text = "Results";
-            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -88,7 +74,7 @@
             this.panel1.Controls.Add(this.realm);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(509, 24);
+            this.panel1.Size = new System.Drawing.Size(632, 24);
             this.panel1.TabIndex = 3;
             // 
             // analyze
@@ -101,19 +87,33 @@
             this.analyze.UseVisualStyleBackColor = true;
             this.analyze.Click += new System.EventHandler(this.analyze_Click);
             // 
+            // results
+            // 
+            this.results.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.results.FullRowSelect = true;
+            this.results.GridLines = true;
+            this.results.Location = new System.Drawing.Point(0, 26);
+            this.results.Name = "results";
+            this.results.Size = new System.Drawing.Size(632, 320);
+            this.results.TabIndex = 4;
+            this.results.UseCompatibleStateImageBehavior = false;
+            this.results.View = System.Windows.Forms.View.Details;
+            this.results.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.results_ColumnClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 344);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(632, 344);
             this.Controls.Add(this.results);
+            this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "StuffCounter";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -122,9 +122,9 @@
         private System.Windows.Forms.Button go;
         private System.Windows.Forms.TextBox realm;
         private System.Windows.Forms.TextBox guild;
-        private System.Windows.Forms.TextBox results;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button analyze;
+        private System.Windows.Forms.ListView results;
     }
 }
 
