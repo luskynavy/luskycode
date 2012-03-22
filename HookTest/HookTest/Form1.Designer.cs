@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.update = new System.Windows.Forms.Timer(this.components);
             this.ReHook = new System.Windows.Forms.Button();
@@ -71,6 +72,7 @@
             this.ClientSize = new System.Drawing.Size(1003, 288);
             this.Controls.Add(this.ReHook);
             this.Controls.Add(this.webBrowser1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
