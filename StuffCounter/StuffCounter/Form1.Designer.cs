@@ -45,7 +45,7 @@
             this.go.TabIndex = 0;
             this.go.Text = "Go";
             this.go.UseVisualStyleBackColor = true;
-            this.go.Click += new System.EventHandler(this.button1_Click);
+            this.go.Click += new System.EventHandler(this.go_Click);
             // 
             // realm
             // 
