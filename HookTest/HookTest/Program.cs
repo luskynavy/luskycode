@@ -13,9 +13,6 @@ namespace HookTest
         [STAThread]
         static void Main()
         {
-            //Toto tot = new Toto();
-            //tot.ClearCache();
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());            

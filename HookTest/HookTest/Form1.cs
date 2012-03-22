@@ -12,51 +12,84 @@ namespace HookTest
     public partial class Form1 : Form
     {
         public int volume = 50;
+        public int lastVolumeChange = 0;
 
         public Form1()
         {
-            ClearCache();
+            bool scriptErrorsOption = false;
+            bool clearCacheOption = true;
+
+            foreach (string arg in Environment.GetCommandLineArgs())
+            {
+                if (System.String.Compare(arg, "-noerrors", true) == 0)
+                    scriptErrorsOption = true;
+
+                if (System.String.Compare(arg, "-noclearcache", true) == 0)
+                    clearCacheOption = false;
+            }
+
+            if (clearCacheOption)
+                ClearCache();
 
             InitializeComponent();
 
+            if (scriptErrorsOption)
+                webBrowser1.ScriptErrorsSuppressed = true;
+
             Hooks hook = new Hooks();
 
+            //hook.KeyPress += new KeyPressEventHandler(hook_KeyDown);
             hook.KeyDown += new KeyEventHandler(hook_KeyDown);
+            //hook.KeyUp += new KeyEventHandler(hook_KeyDown);
 
             //webBrowser1.Refresh(System.Windows.Forms.WebBrowserRefreshOption.Normal);            
         }
 
         void hook_KeyDown(object sender, KeyEventArgs e)
+        //void hook_KeyDown(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyData == Keys.MediaPlayPause)
+            //int key = e.GetHashCode();
+            Keys key = e.KeyData;
+            int now = Environment.TickCount;
+                
+
+            if (key == Keys.MediaPlayPause/*.GetHashCode()*/)
             {
                 webBrowser1.Navigate("javascript:top.player.onPlayPause();");                         
             }
 
-            if (e.KeyData == Keys.MediaNextTrack)
+            if (key == Keys.MediaNextTrack/*.GetHashCode()*/)
             {
                 webBrowser1.Navigate("javascript:top.player.onSkip(true);");
                 //webBrowser1.Navigate("javascript:top.player.setTimeout('top.player.onSkip(true)',0);");
             }
-
-            if (e.KeyData == Keys.VolumeDown || e.KeyData == Keys.MediaStop)
+            
+            if (key == Keys.VolumeDown/*.GetHashCode()*/ || key == Keys.MediaStop/*.GetHashCode()*/)
             {
-                volume -= 5;
-                if (volume < 0)
+                if (now - lastVolumeChange > 100)
                 {
-                    volume = 0;
+                    volume -= 5;
+                    if (volume < 0)
+                    {
+                        volume = 0;
+                    }
+                    lastVolumeChange = Environment.TickCount;
+                    webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");                    
                 }
-                webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");
             }
 
-            if (e.KeyData == Keys.VolumeUp || e.KeyData == Keys.MediaPreviousTrack)
+            if (key == Keys.VolumeUp/*.GetHashCode()*/ || key == Keys.MediaPreviousTrack/*.GetHashCode()*/)
             {
-                volume += 5;
-                if (volume > 100)
+                if (now - lastVolumeChange > 100)
                 {
-                    volume = 100;
+                    volume += 5;
+                    if (volume > 100)
+                    {
+                        volume = 100;
+                    }
+                    lastVolumeChange = Environment.TickCount;
+                    webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");                    
                 }
-                webBrowser1.Navigate("javascript:top.player.onVolume(" + volume + ");");
             }
 
 /*            if (e.Control && e.Alt && e.KeyData == Keys.A)
