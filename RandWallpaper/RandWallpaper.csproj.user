@@ -1,8 +1,8 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>"C:\Documents and Settings\Lusky.MAISON-A30A2F2A\Mes documents\Mes images\Wallpaper\bmp"</StartArguments>
+    <StartArguments>"E:\Documents and Settings\Lusky.MAISON-A30A2F2A\Mes documents\Mes images\Wallpaper\bmp"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>"C:\Documents and Settings\Lusky.MAISON-A30A2F2A\Mes documents\Mes images\Wallpaper\bmp"</StartArguments>
+    <StartArguments>"E:\Documents and Settings\Lusky.MAISON-A30A2F2A\Mes documents\Mes images\Wallpaper\bmp"</StartArguments>
   </PropertyGroup>
 </Project>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using System.IO;
@@ -19,7 +18,7 @@ namespace RandWallpaper
     {
         static void Main(string[] args)
         {
-            if (args.Count() == 1)
+            if (args.Length == 1)
             {
                 DirectoryInfo dir = new DirectoryInfo(args[0]);
                 FileInfo[] files = null;
@@ -33,10 +32,10 @@ namespace RandWallpaper
                 }
 
                 //if directory exists and there are files
-                if (files != null && files.Count() > 0)
+                if (files != null && files.Length > 0)
                 {
                     Random rand = new Random();
-                    int i = rand.Next(files.Count());
+                    int i = rand.Next(files.Length);
 
                     string wallpaper = args[0] + @"\" + files[i].Name;
 
