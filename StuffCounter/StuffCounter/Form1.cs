@@ -12,6 +12,7 @@ using System.Net;
 using System.Xml;
 using System.Web;
 using System.Diagnostics;
+using System.Threading;
 
 namespace StuffCounter
 {
@@ -58,7 +59,7 @@ namespace StuffCounter
         {
             InitializeComponent();
             ReadItemCache();
-            GetStuff("Soufr");
+            //GetStuff("Soufr");
         }
 
         //RAWR DOWNLOAD CODE BEGIN
@@ -146,6 +147,7 @@ namespace StuffCounter
                     }
                 }
                 retry++;
+                Thread.Sleep(4000);
             } while (returnDocument == null && !LastWasFatalError && retry < RETRY_MAX);
 
             return returnDocument;
@@ -259,6 +261,7 @@ namespace StuffCounter
                         item1 = new ListViewItem("    </character>", 0);
                         results.Items.Add(item1);
                         nbMembers++;
+                        Thread.Sleep(4000);
                         Application.DoEvents();
                     }
                 }
@@ -299,7 +302,7 @@ namespace StuffCounter
             XmlDocument returnDocument = new XmlDocument();
             //returnDocument.XmlResolver = null; //usefull ?
             returnDocument.LoadXml(xml);
-            itemCache = new Dictionary<int, item>();
+            //itemCache = new Dictionary<int, item>();
             String analyzeStr = "";
 
             results.Clear();
@@ -493,5 +496,20 @@ namespace StuffCounter
                 Clipboard.SetText(text);
             }
         }
+
+        private void results_DoubleClick(object sender, EventArgs e)
+        {
+            if (guildMode)
+                return;
+
+            guildMode = true;
+
+            string name = results.SelectedItems[0].Text; 
+
+            results.Sorting = SortOrder.None;
+            results.Clear();
+            results.Columns.Add("Guild", -2);
+            GetStuff(name);
+        }       
     }
 }

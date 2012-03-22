@@ -444,23 +444,6 @@
 		<Item id="45170" ilvl="232" slot="17" />
 	</character>
 	<character name="Sticks" rank="7">
-        <Item id="47677" ilvl="245" slot="0" />	
-        <Item id="45262" ilvl="226" slot="1" />	
-        <Item id="48636" ilvl="232" slot="2" />	
-        <Item id="45334" ilvl="226" slot="4" />	
-        <Item id="47711" ilvl="232" slot="5" />	
-        <Item id="48635" ilvl="232" slot="6" />	
-        <Item id="47738" ilvl="232" slot="7" />	
-        <Item id="47570" ilvl="245" slot="8" />	
-        <Item id="48640" ilvl="245" slot="9" />	
-        <Item id="47149" ilvl="245" slot="10" />	
-        <Item id="45247" ilvl="226" slot="11" />	
-        <Item id="47080" ilvl="245" slot="12" />	
-        <Item id="46021" ilvl="219" slot="13" />	
-        <Item id="40722" ilvl="213" slot="14" />	
-        <Item id="47810" ilvl="232" slot="15" />	
-        <Item id="40400" ilvl="226" slot="16" />	
-        <Item id="47664" ilvl="245" slot="17" />	
 	</character>
 	<character name="Lagazelle" rank="1">
 		<Item id="46184" ilvl="226" slot="0" />
@@ -499,22 +482,6 @@
 		<Item id="42852" ilvl="213" slot="17" />
 	</character>
 	<character name="Takamura" rank="7">
-        <Item id="46197" ilvl="226" slot="0" />	
-        <Item id="47562" ilvl="219" slot="1" />	
-        <Item id="47987" ilvl="245" slot="2" />	
-        <Item id="46193" ilvl="226" slot="4" />	
-        <Item id="46972" ilvl="245" slot="5" />	
-        <Item id="47051" ilvl="245" slot="6" />	
-        <Item id="40751" ilvl="213" slot="7" />	
-        <Item id="40198" ilvl="213" slot="8" />	
-        <Item id="47983" ilvl="245" slot="9" />	
-        <Item id="40719" ilvl="213" slot="10" />	
-        <Item id="40720" ilvl="213" slot="11" />	
-        <Item id="39388" ilvl="200" slot="12" />	
-        <Item id="40258" ilvl="213" slot="13" />	
-        <Item id="40253" ilvl="213" slot="14" />	
-        <Item id="47743" ilvl="232" slot="15" />	
-        <Item id="40284" ilvl="213" slot="17" />	
 	</character>
 	<character name="Gritche" rank="7">
 		<Item id="46115" ilvl="226" slot="0" />
@@ -701,22 +668,6 @@
 		<Item id="40207" ilvl="213" slot="17" />
 	</character>
 	<character name="Adeliah" rank="7">
-        <Item id="46156" ilvl="226" slot="0" />	
-        <Item id="47105" ilvl="245" slot="1" />	
-        <Item id="45320" ilvl="226" slot="2" />	
-        <Item id="46154" ilvl="226" slot="4" />	
-        <Item id="45550" ilvl="226" slot="5" />	
-        <Item id="48610" ilvl="245" slot="6" />	
-        <Item id="45559" ilvl="226" slot="7" />	
-        <Item id="39729" ilvl="213" slot="8" />	
-        <Item id="48603" ilvl="232" slot="9" />	
-        <Item id="45250" ilvl="226" slot="10" />	
-        <Item id="47578" ilvl="232" slot="11" />	
-        <Item id="45263" ilvl="226" slot="12" />	
-        <Item id="42987" ilvl="200" slot="13" />	
-        <Item id="45138" ilvl="226" slot="14" />	
-        <Item id="45165" ilvl="232" slot="15" />	
-        <Item id="47661" ilvl="245" slot="17" />	
 	</character>
 	<character name="Freepon" rank="7">
 		<Item id="47562" ilvl="219" slot="1" />

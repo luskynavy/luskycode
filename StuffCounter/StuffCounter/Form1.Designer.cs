@@ -110,6 +110,7 @@
             this.results.TabIndex = 4;
             this.results.UseCompatibleStateImageBehavior = false;
             this.results.View = System.Windows.Forms.View.Details;
+            this.results.DoubleClick += new System.EventHandler(this.results_DoubleClick);
             this.results.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.results_ColumnClick);
             this.results.KeyDown += new System.Windows.Forms.KeyEventHandler(this.results_KeyDown);
             // 
