@@ -20,7 +20,7 @@ namespace HookTest
         public Form1()
         {
             bool scriptErrorsOption = false;
-            bool clearCacheOption = true;
+            bool clearCacheOption = true;           
 
             foreach (string arg in Environment.GetCommandLineArgs())
             {
@@ -138,7 +138,9 @@ namespace HookTest
             hook.KeyDown -= new KeyEventHandler(hook_KeyDown);
 
             //Reinstall it
-            hook = new Hooks();
+            //hook = new Hooks();
+            hook.Stop();
+            hook.Start();
             
             hook.KeyDown += new KeyEventHandler(hook_KeyDown);
         }

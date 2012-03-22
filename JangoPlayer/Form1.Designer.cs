@@ -33,6 +33,7 @@
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.update = new System.Windows.Forms.Timer(this.components);
             this.ReHook = new System.Windows.Forms.Button();
+            this.toolTipReHook = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -45,7 +46,8 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(1003, 288);
             this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.Url = new System.Uri("http://www.jango.com/profiles/1972516?c=1&l=0", System.UriKind.Absolute);
+            this.webBrowser1.Url = new System.Uri("http://www.jango.com", System.UriKind.Absolute);
+            //this.webBrowser1.Url = new System.Uri("about:blank", System.UriKind.Absolute);  //for testing
             // 
             // update
             // 
@@ -64,6 +66,11 @@
             this.ReHook.Text = "R";
             this.ReHook.UseVisualStyleBackColor = false;
             this.ReHook.Click += new System.EventHandler(this.ReHook_Click);
+            // 
+            // toolTipReHook
+            // 
+            //this.toolTipReHook.ToolTipTitle = "ReHook";
+            this.toolTipReHook.SetToolTip(this.ReHook, "Reinstall hook keys");
             // 
             // Form1
             // 
@@ -86,6 +93,7 @@
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Timer update;
         private System.Windows.Forms.Button ReHook;
+        private System.Windows.Forms.ToolTip toolTipReHook;
     }
 }
 
