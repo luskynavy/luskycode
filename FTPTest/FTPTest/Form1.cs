@@ -9,16 +9,44 @@ using System.Windows.Forms;
 
 using System.Net;
 using System.IO;
+using System.Diagnostics;
 
 namespace FTPTest
 {
     public partial class Form1 : Form
     {
+        private long lastBytesReceived = 0;        
+        private double lastTimeReceived;
+        private Stopwatch sw;
+
+        [System.Runtime.InteropServices.DllImport("KERNEL32")]
+        private static extern bool QueryPerformanceCounter(ref long lpPerformanceCount);
+
+        [System.Runtime.InteropServices.DllImport("KERNEL32")]
+        private static extern bool QueryPerformanceFrequency(ref long lpFrequency);
+
+
+        public static double CurrentSecond
+        {
+            get
+            {
+                long current = 0;
+                QueryPerformanceCounter(ref current);
+                long frequency = 0;
+                QueryPerformanceFrequency(ref frequency);
+                return (double)current / (double)frequency;
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
         }
 
+
+        /**********************************************************************
+         * List dir
+         **********************************************************************/
         private void listDir_Click(object sender, EventArgs e)
         {
             // Get the object used to communicate with the server.            
@@ -57,8 +85,13 @@ namespace FTPTest
             response.Close();
         }
 
+
+        /**********************************************************************
+         * Upload
+         **********************************************************************/
         private void upload_Click(object sender, EventArgs e)
         {
+            textBox1.Text = "";
             WebClient client = new WebClient();
             Uri uri = new Uri("ftp://ykalafatov.free.fr/test.txt");
             string text = "Time = 12:00am temperature = 60";
@@ -89,7 +122,52 @@ namespace FTPTest
             byte[] data = (byte[])e.Result;
             string reply = System.Text.Encoding.UTF8.GetString(data);
             textBox1.Text += reply;
-        }       
+        }
 
+        /**********************************************************************
+         * Download
+         **********************************************************************/
+        private void download_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            WebClient client = new WebClient();            
+
+            client.Credentials = new NetworkCredential("anonymous", "anonymous@free.fr");
+            client.DownloadDataCompleted += DownloadDataCallback;
+            client.DownloadFileCompleted += DownloadFileCallback;
+            client.DownloadProgressChanged += DownloadProgressChanged;
+            //client.UploadDataAsync(uri, data); //time of file : upload date of server (GMT -1 ?)
+            //client.DownloadFileAsync(new Uri("ftp://ykalafatov.free.fr/testFile.txt"), "testFileDl.txt"); //time of file : up
+            client.DownloadFileAsync(new Uri("ftp://ftp.free.fr/pub/support/DongleUSB80211n/setup_windows.exe"), "testFileDl.txt");
+            sw = Stopwatch.StartNew();
+        }
+
+        private void DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
+        {            
+            double dt = CurrentSecond - lastTimeReceived;
+            sw.Stop();
+            textBox1.Text += e.ProgressPercentage + "% at "
+                + (double)(e.BytesReceived - lastBytesReceived) / 1024 / dt + "ko/s"
+                + (double)(e.BytesReceived - lastBytesReceived) / 1024 + " " + dt + " \r\n";
+            //textBox1.Text += e.ProgressPercentage + "% at "
+            //    + ((double)(e.BytesReceived - lastBytesReceived) / 1024) / sw.Elapsed.TotalSeconds + "ko/s"
+            //    + (double)(e.BytesReceived - lastBytesReceived) / 1024 + " " + sw.Elapsed.TotalSeconds + " \r\n";
+
+            lastBytesReceived = e.BytesReceived;         
+            lastTimeReceived = CurrentSecond;
+            sw = Stopwatch.StartNew();
+        }
+
+        private void DownloadDataCallback(Object sender, DownloadDataCompletedEventArgs e)
+        {
+            byte[] data = (byte[])e.Result;
+            string reply = System.Text.Encoding.UTF8.GetString(data);
+            textBox1.Text += reply;
+        }
+
+        private void DownloadFileCallback(Object sender, AsyncCompletedEventArgs e)
+        {
+            textBox1.Text += e.Error;
+        }
     }
 }
