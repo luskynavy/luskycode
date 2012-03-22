@@ -33,6 +33,7 @@ namespace JangoGeckoFX
         Keys nextKeyAlt;
         Keys volumeDownKey;
         Keys volumeUpKey;
+        Keys dumpKey;
 
 
         public Form1()
@@ -82,6 +83,8 @@ namespace JangoGeckoFX
                  config.VolumeDownKey = "MediaStop";
             if (config.VolumeUpKey == null)
                 config.VolumeUpKey = "MediaPreviousTrack";
+            if (config.DumpKey == null)
+                config.DumpKey = "LaunchMail";
 
             //Get keys from key names
             pauseKey = (Keys)Enum.Parse(typeof(Keys), config.PauseKey);
@@ -90,6 +93,7 @@ namespace JangoGeckoFX
             nextKeyAlt = (Keys)Enum.Parse(typeof(Keys), config.NextKeyAlt);
             volumeDownKey = (Keys)Enum.Parse(typeof(Keys), config.VolumeDownKey);
             volumeUpKey = (Keys)Enum.Parse(typeof(Keys), config.VolumeUpKey);
+            dumpKey = (Keys)Enum.Parse(typeof(Keys), config.DumpKey);
 
            
             Xpcom.Initialize(config.XulrunnerPath);
@@ -183,6 +187,12 @@ namespace JangoGeckoFX
                     webBrowser1.Navigate(String.Format(config.VolumeCommand, volume));
                 }
             }
+
+            //Dump the current song
+            if (e.KeyData == dumpKey /*Keys.LaunchMail*/)
+            {
+                DumpSong();
+            }
         }
 
         private void update_Tick(object sender, EventArgs e)
@@ -247,7 +257,13 @@ namespace JangoGeckoFX
         //Extract the name from title and get the last file from cache bigger than 1Mo
         private void Dump_Click(object sender, EventArgs e)
         {
-            //Get cache directory files
+            DumpSong();
+        }
+
+        //Dump the current song
+        //Extract the name from title and get the last file from cache bigger than 1Mo
+        private void DumpSong()
+        {//Get cache directory files
             string pathSrc = Xpcom.ProfileDirectory + @"\Cache";
             DirectoryInfo dir = new DirectoryInfo(pathSrc);
             FileInfo[] files = null;
@@ -324,6 +340,7 @@ namespace JangoGeckoFX
         public string   NextKeyAlt { get; set; }
         public string   VolumeDownKey { get; set; }
         public string   VolumeUpKey { get; set; }
+        public string   DumpKey { get; set; }
         public int      Width { get; set; }
         public int      Height { get; set; }
     }
