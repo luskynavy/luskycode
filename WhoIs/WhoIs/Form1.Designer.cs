@@ -41,6 +41,8 @@
             this.textBoxNslookup = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxCountry = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxCountryName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonGo
@@ -107,7 +109,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 107);
+            this.label4.Location = new System.Drawing.Point(12, 136);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 3;
@@ -119,12 +121,12 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxResult.HideSelection = false;
-            this.textBoxResult.Location = new System.Drawing.Point(12, 123);
+            this.textBoxResult.Location = new System.Drawing.Point(12, 152);
             this.textBoxResult.Multiline = true;
             this.textBoxResult.Name = "textBoxResult";
             this.textBoxResult.ReadOnly = true;
             this.textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxResult.Size = new System.Drawing.Size(580, 353);
+            this.textBoxResult.Size = new System.Drawing.Size(580, 324);
             this.textBoxResult.TabIndex = 6;
             // 
             // labelNslookup
@@ -167,11 +169,33 @@
             this.textBoxCountry.Size = new System.Drawing.Size(75, 20);
             this.textBoxCountry.TabIndex = 5;
             // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(334, 97);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Country name:";
+            // 
+            // textBoxCountryName
+            // 
+            this.textBoxCountryName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxCountryName.HideSelection = false;
+            this.textBoxCountryName.Location = new System.Drawing.Point(337, 113);
+            this.textBoxCountryName.Name = "textBoxCountryName";
+            this.textBoxCountryName.ReadOnly = true;
+            this.textBoxCountryName.Size = new System.Drawing.Size(255, 20);
+            this.textBoxCountryName.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(604, 488);
+            this.Controls.Add(this.textBoxCountryName);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.textBoxCountry);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBoxNslookup);
@@ -207,6 +231,8 @@
         private System.Windows.Forms.TextBox textBoxNslookup;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxCountry;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBoxCountryName;
     }
 }
 

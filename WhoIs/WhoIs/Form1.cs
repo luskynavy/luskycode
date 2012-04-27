@@ -11,6 +11,7 @@ using System.IO;
 using System.Net.Sockets;
 
 using System.Net;
+using System.Xml;
 
 // Who is de Romain
 // http://www.netreport.fr/whois/redirect.asp?ip=82.67.16.100<asp>
@@ -49,6 +50,14 @@ namespace WhoIs
             table.LoadStatisticsFile(@"..\..\resources\delegated-lacnic-latest", true);
             table.LoadStatisticsFile(@"..\..\resources\delegated-arin-latest", true);
             table.LoadStatisticsFile(@"..\..\resources\delegated-afrinic-latest", true);
+
+            ReadCountryCache();
+
+            /*bool ret = countryCache.ContainsKey("US");
+            if (ret)
+            {
+                string found = countryCache["US"].name;
+            }*/
         }
 
         // Source : http://www.asp-php.net/ressources/bouts_de_code.aspx?id=961
@@ -80,7 +89,8 @@ namespace WhoIs
                         stream.Write(query, 0, query.Length);
 
                         // Lecture de la réponse
-                        using (var reader = new StreamReader(stream, Encoding.ASCII)) return reader.ReadToEnd().Trim();
+                        using (var reader = new StreamReader(stream, Encoding.ASCII))
+                            return reader.ReadToEnd().Trim();
                     }
                 }
             }
@@ -90,6 +100,47 @@ namespace WhoIs
                 return ex.Message;
             }
         }
+
+        //http://www.iso.org/iso/country_codes/iso_3166_code_lists.htm
+
+        //country class used by cache
+        class country
+        {
+            public country(string _code, string _name)
+            {
+                code = _code;
+                name = _name;
+            }
+
+            public string code;
+            public string name;
+        }
+
+        Dictionary<string, country> countryCache;
+
+        private void ReadCountryCache()
+        {
+            //english version here @"..\..\resources\iso_3166-1_list_en.xml"
+            string xml = System.IO.File.ReadAllText(@"..\..\resources\iso_3166-1_list_fr.xml", Encoding.UTF7);
+            string name, code;
+            XmlDocument returnDocument = new XmlDocument();
+            returnDocument.XmlResolver = null;
+            returnDocument.LoadXml(xml);
+            countryCache = new Dictionary<string, country>();
+            foreach (XmlNode node in returnDocument.SelectNodes("ISO_3166-1_List_fr/ISO_3166-1_Entry"))
+            {
+                XmlNode nodeName = node.SelectSingleNode("ISO_3166-1_Country_name");
+                name = /*Encoding.ASCII.GetString(Encoding.UTF8.GetBytes(*/nodeName.InnerText/*))*/;
+                XmlNode nodeCode = node.SelectSingleNode("ISO_3166-1_Alpha-2_code");
+                code = nodeCode.InnerText;
+
+                //for debug
+                //textBoxResult.Text += name + " : " + code + "\r\n";
+
+                countryCache.Add(code, new country(code, name));
+            }
+        }
+
 
         static IPCountryTable table;
 
@@ -105,6 +156,14 @@ namespace WhoIs
             String resultIp = table.GetCountry(ip.ToString());
 
             textBoxCountry.Text = resultIp;
+            if (countryCache.ContainsKey(resultIp))
+            {
+                textBoxCountryName.Text = countryCache[resultIp].name;
+            }
+            else
+            {
+                textBoxCountryName.Text = "";
+            }
 
 
             // Refresh app to show info during next phase
