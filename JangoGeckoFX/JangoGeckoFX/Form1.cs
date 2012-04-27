@@ -130,9 +130,9 @@ namespace JangoGeckoFX
                 config.Height = this.Height;
 
             this.Width = config.Width;
-            this.Height = config.Height;
+            this.Height = config.Height;            
 
-            hook = new Hooks();
+            hook = new Hooks(false, true);
 
             //hook.KeyPress += new KeyPressEventHandler(hook_KeyDown);
             hook.KeyDown += new KeyEventHandler(hook_KeyDown);
@@ -286,8 +286,8 @@ namespace JangoGeckoFX
                 int fileIndexToCopy = -1;
                 for (int i = 0; i < files.Count(); i++)
                 {
-                    //get a file bigger than 1Mo and skip the cache map and index
-                    if ((files[i].Length > 1024 * 1024) &&
+                    //get a file bigger than 500ko and skip the cache map and index
+                    if ((files[i].Length > 500 * 1024) &&
                         !files[i].Name.StartsWith("_CACHE_"))
                     {
                         //is it more recent than previous one ?

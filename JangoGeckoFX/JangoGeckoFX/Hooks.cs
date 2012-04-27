@@ -242,22 +242,53 @@ namespace JangoGeckoFX
         public event KeyPressEventHandler KeyPress;
         public event KeyEventHandler KeyUp;
 
+        int useThread = 0;
+        Thread myThread;
+
         // Data members
         private int m_hMouseHook = 0;
         private int m_hKeyboardHook = 0;
         private static Win32.HookProc m_MouseHookProcedure;
         private static Win32.HookProc m_KeyboardHookProcedure;
 
+        public void ThreadLoop()
+        {
+            Start();
+            int x = AppDomain.GetCurrentThreadId();
+            int y = Thread.CurrentThread.ManagedThreadId;
+            // Tant que le thread n'est pas tué, on travaille
+            while (Thread.CurrentThread.IsAlive)
+            {
+                Thread.Sleep(1);
+            }
+        }
+
         // Default constructor
         public Hooks()
         {
-            Start();
+            if (useThread == 1)
+            {
+                myThread = new Thread(new ThreadStart(ThreadLoop));
+                myThread.Start();
+            }
+            else
+            {
+                Start();
+            }
         }
 
         // Constructor with flags to what to hook
         public Hooks(bool InstallMouseHook, bool InstallKeyboardHook)
         {
-            Start(InstallMouseHook, InstallKeyboardHook);
+            if (useThread == 1)
+            {
+                myThread = new Thread(new ThreadStart(ThreadLoop));
+                myThread.Start();
+            }
+            else
+            {
+                Start(InstallMouseHook, InstallKeyboardHook);
+            }
         }
 
         // Destructor, stop hooks
@@ -284,6 +315,7 @@ namespace JangoGeckoFX
 
                 // Install hook
                 m_hMouseHook = Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, m_MouseHookProcedure, Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().GetModules()[0]), 0);
+
 
                 // If SetWindowsHookEx fails.
                 if (m_hMouseHook == 0)
