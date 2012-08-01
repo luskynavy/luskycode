@@ -34,6 +34,7 @@ namespace JangoGeckoFX
         Keys volumeDownKey;
         Keys volumeUpKey;
         Keys dumpKey;
+        Keys dumpKeyAlt;
 
 
         public Form1()
@@ -45,7 +46,28 @@ namespace JangoGeckoFX
             //Get config file path from command line if not using default
             if (Environment.GetCommandLineArgs().Length == 2)
             {
-                configFilePath = Environment.GetCommandLineArgs()[1];
+                if (System.String.Compare(Environment.GetCommandLineArgs()[1], "-notitle", true) != 0)
+                {
+                    configFilePath = Environment.GetCommandLineArgs()[1];
+                }
+            }
+            else if (Environment.GetCommandLineArgs().Length == 3)
+            {
+                if (System.String.Compare(Environment.GetCommandLineArgs()[1], "-notitle", true) == 0)
+                {
+                    configFilePath = Environment.GetCommandLineArgs()[2];
+                }
+                else
+                {
+                    configFilePath = Environment.GetCommandLineArgs()[1];
+                }
+            }
+
+            //if -notitle option found, title update is disabled
+            foreach (string arg in Environment.GetCommandLineArgs())
+            {
+                if (System.String.Compare(arg, "-notitle", true) == 0)
+                    noTitle = true;
             }
 
             Config configRead = DeserializeFromXML(configFilePath);
@@ -80,11 +102,13 @@ namespace JangoGeckoFX
             if (config.NextKeyAlt == null)
                 config.NextKeyAlt = "N";
             if (config.VolumeDownKey == null)
-                 config.VolumeDownKey = "MediaStop";
+                config.VolumeDownKey = "MediaStop";
             if (config.VolumeUpKey == null)
                 config.VolumeUpKey = "MediaPreviousTrack";
             if (config.DumpKey == null)
                 config.DumpKey = "LaunchMail";
+            if (config.DumpKeyAlt == null)
+                config.DumpKeyAlt = "D";
             if (config.DumpPath == null)
                 config.DumpPath = "";
 
@@ -97,6 +121,7 @@ namespace JangoGeckoFX
             volumeDownKey = (Keys)Enum.Parse(typeof(Keys), config.VolumeDownKey);
             volumeUpKey = (Keys)Enum.Parse(typeof(Keys), config.VolumeUpKey);
             dumpKey = (Keys)Enum.Parse(typeof(Keys), config.DumpKey);
+            dumpKeyAlt = (Keys)Enum.Parse(typeof(Keys), config.DumpKeyAlt);
 
            
             Xpcom.Initialize(config.XulrunnerPath);
@@ -112,11 +137,19 @@ namespace JangoGeckoFX
 
             GeckoPreferences.User["browser.cache.memory.enable"] = false;
 
-            foreach (string arg in Environment.GetCommandLineArgs())
+            //use socks param if found
+            if (config.Socks != "")
             {
-                if (System.String.Compare(arg, "-notitle", true) == 0)
-                    noTitle = true;
-            }
+                GeckoPreferences.User["network.proxy.type"] = 1;
+
+                //url and port are separated by a ':'
+                string[] socks = config.Socks.Split(new Char[] { ':' });
+                if (socks.Length == 2)
+                {
+                    GeckoPreferences.User["network.proxy.socks"] = socks[0];
+                    GeckoPreferences.User["network.proxy.socks_port"] = Convert.ToInt32(socks[1]);
+                }
+            } 
 
             InitializeComponent();
             webBrowser1 = new GeckoWebBrowser();
@@ -130,9 +163,9 @@ namespace JangoGeckoFX
                 config.Height = this.Height;
 
             this.Width = config.Width;
-            this.Height = config.Height;            
+            this.Height = config.Height;
 
-            hook = new Hooks(false, true);
+            hook = new Hooks();
 
             //hook.KeyPress += new KeyPressEventHandler(hook_KeyDown);
             hook.KeyDown += new KeyEventHandler(hook_KeyDown);
@@ -192,7 +225,7 @@ namespace JangoGeckoFX
             }
 
             //Dump the current song
-            if (e.KeyData == dumpKey /*Keys.LaunchMail*/)
+            if (e.KeyData == dumpKey /*Keys.LaunchMail*/  || (e.Control && e.Alt && e.KeyCode == dumpKeyAlt /*Keys.D*/))
             {
                 DumpSong();
             }
@@ -224,7 +257,7 @@ namespace JangoGeckoFX
                 hook.Stop();
                 hook.Start();
             }
-            catch (Win32Exception ex)
+            catch (Win32Exception)
             {
                 hook = new Hooks(); //some times hook become invalid, so it can't no be stopped, try this
             }
@@ -286,8 +319,8 @@ namespace JangoGeckoFX
                 int fileIndexToCopy = -1;
                 for (int i = 0; i < files.Count(); i++)
                 {
-                    //get a file bigger than 500ko and skip the cache map and index
-                    if ((files[i].Length > 500 * 1024) &&
+                    //get a file bigger than 1Mo and skip the cache map and index
+                    if ((files[i].Length > 1024 * 1024) &&
                         !files[i].Name.StartsWith("_CACHE_"))
                     {
                         //is it more recent than previous one ?
@@ -320,7 +353,7 @@ namespace JangoGeckoFX
                     {
                         System.IO.File.Copy(pathSrc + "\\" + files[fileIndexToCopy].Name, config.DumpPath + dst, false);
                     }
-                    catch (IOException ex)
+                    catch (IOException)
                     {
 
                     }
@@ -344,8 +377,10 @@ namespace JangoGeckoFX
         public string   VolumeDownKey { get; set; }
         public string   VolumeUpKey { get; set; }
         public string   DumpKey { get; set; }
+        public string   DumpKeyAlt { get; set; }
         public string   DumpPath { get; set; }
         public int      Width { get; set; }
         public int      Height { get; set; }
+        public string   Socks { get; set; }
     }
 }
