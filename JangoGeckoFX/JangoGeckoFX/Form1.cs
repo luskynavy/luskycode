@@ -138,7 +138,7 @@ namespace JangoGeckoFX
             GeckoPreferences.User["browser.cache.memory.enable"] = false;
 
             //use socks param if found
-            if (config.Socks != "")
+            if (config.Socks != null)
             {
                 GeckoPreferences.User["network.proxy.type"] = 1;
 
