@@ -341,14 +341,25 @@ namespace JangoGeckoFX
                     string dst = webBrowser1.DocumentTitle.Substring(0, songStart)
                         + " - "
                         + webBrowser1.DocumentTitle.Substring(songStart + 2, webBrowser1.DocumentTitle.Length - 8 - (songStart + 2))
-                        + ".mp3";
+                        + ".mp";
+
+                    //mp3 or mp4 ?
+                    if (IsMp4(pathSrc + "\\" + files[fileIndexToCopy].Name))
+                    {
+                        dst += "4";
+                    }
+                    else
+                    {
+                        dst += "3";
+                    }
 
                     //remove special chars
                     foreach (char c in Path.GetInvalidFileNameChars())
                     {
                         dst = dst.Replace(c, '_');
                     }
-                    //copy the file
+
+                    //copy the file but don't overwrite if exists
                     try
                     {
                         System.IO.File.Copy(pathSrc + "\\" + files[fileIndexToCopy].Name, config.DumpPath + dst, false);
@@ -359,6 +370,26 @@ namespace JangoGeckoFX
                     }
                 }
             }
+        }
+
+        //Test if the file is a MP4
+        private bool IsMp4(string fileName)
+        {
+            using (BinaryReader reader = new BinaryReader(File.Open(fileName, FileMode.Open)))
+            {
+                int magic1 = reader.ReadInt32();
+                int magic2 = reader.ReadInt32();
+                int magic3 = reader.ReadInt32();
+
+                //http://www.ftyps.com/
+                if ((magic1 == 0x18000000) &&   //?
+                    (magic2 == 0x70797466) &&   //"ftyp"
+                    (magic3 == 0x2041344d))     //"M4A "
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
