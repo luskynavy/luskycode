@@ -7,5 +7,6 @@
 	<VolumeCommand>javascript:_jp.ctrls.onVolume({0});</VolumeCommand>
 	<PauseKey>MediaPlayPause</PauseKey>
 	<DumpPath>E:\Music\Jango\</DumpPath>
+	<Width>1022</Width>
 	<!--Socks>127.0.0.1:9050</Socks-->
 </Config>

@@ -340,17 +340,16 @@ namespace JangoGeckoFX
                     int songStart = webBrowser1.DocumentTitle.IndexOf(":");
                     string dst = webBrowser1.DocumentTitle.Substring(0, songStart)
                         + " - "
-                        + webBrowser1.DocumentTitle.Substring(songStart + 2, webBrowser1.DocumentTitle.Length - 8 - (songStart + 2))
-                        + ".mp";
+                        + webBrowser1.DocumentTitle.Substring(songStart + 2, webBrowser1.DocumentTitle.Length - 8 - (songStart + 2));                        
 
-                    //mp3 or mp4 ?
-                    if (IsMp4(pathSrc + "\\" + files[fileIndexToCopy].Name))
+                    //mp3 or m4a ?
+                    if (IsM4a(pathSrc + "\\" + files[fileIndexToCopy].Name))
                     {
-                        dst += "4";
+                        dst += ".m4a";
                     }
                     else
                     {
-                        dst += "3";
+                        dst += ".mp3";
                     }
 
                     //remove special chars
@@ -372,8 +371,8 @@ namespace JangoGeckoFX
             }
         }
 
-        //Test if the file is a MP4
-        private bool IsMp4(string fileName)
+        //Test if the file is a M4A
+        private bool IsM4a(string fileName)
         {
             using (BinaryReader reader = new BinaryReader(File.Open(fileName, FileMode.Open)))
             {
