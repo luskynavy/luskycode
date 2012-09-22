@@ -8,5 +8,6 @@
 	<PauseKey>MediaPlayPause</PauseKey>
 	<DumpPath>E:\Music\Jango\</DumpPath>
 	<Width>1022</Width>
+	<Height>375</Height>
 	<!--Socks>127.0.0.1:9050</Socks-->
 </Config>
