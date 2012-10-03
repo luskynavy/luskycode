@@ -6,6 +6,10 @@
 	<NextCommand>javascript:_jp.ctrls.onSkip();</NextCommand>
 	<VolumeCommand>javascript:_jp.ctrls.onVolume({0});</VolumeCommand>
 	<PauseKey>MediaPlayPause</PauseKey>
+	<PauseKeyAlt>O</PauseKeyAlt>
+	<NextKeyAlt>B</NextKeyAlt>
 	<DumpPath>D:\Data\Music\Jango\</DumpPath>
+	<Width>1022</Width>
+	<Height>375</Height>
 	<Socks>127.0.0.1:9050</Socks>
 </Config>
