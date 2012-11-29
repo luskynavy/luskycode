@@ -24,6 +24,9 @@ namespace JangoGeckoFX
         public int volume = 50;
         public int lastVolumeChange = 0;
         public bool noTitle = false;
+        public bool mp3Present = false; //shown in title if mp3 is already dumped
+        public bool m4aPresent = false; //shown in title if m4a is already dumped
+        public string lastTitle;
         public Hooks hook;
         GeckoWebBrowser webBrowser1;
         public Config config;
@@ -237,8 +240,19 @@ namespace JangoGeckoFX
             if (noTitle == false)
             {
                 try
-                {                    
-                    Text = webBrowser1.DocumentTitle;
+                {
+                    //add MP3 or M4A to title if MP3 or M4A is present when title (song) change
+                    if (lastTitle != webBrowser1.DocumentTitle)
+                    {
+                        lastTitle = webBrowser1.DocumentTitle;
+
+                        string dst = GetSongFilename();
+
+                        mp3Present = File.Exists(config.DumpPath + dst + ".mp3");
+                        m4aPresent = File.Exists(config.DumpPath + dst + ".m4a");
+                    }
+
+                    Text = webBrowser1.DocumentTitle + (mp3Present ? " MP3": "")  + (m4aPresent ? " M4A" : "");
                 }
                 catch
                 {
@@ -296,10 +310,33 @@ namespace JangoGeckoFX
             DumpSong();
         }
 
+        //Get the song filename from the document title
+        //string webBrowser1DocumentTitle = "artist: song - Jango";
+        //build the file name: extract artist, song name and remove the " - Jango" at the end
+        private string GetSongFilename()
+        {
+            int songStart = webBrowser1.DocumentTitle.IndexOf(":");
+            string dst = webBrowser1.DocumentTitle.Substring(0, songStart)
+                + " - "
+                + webBrowser1.DocumentTitle.Substring(songStart + 2, webBrowser1.DocumentTitle.Length - 8 - (songStart + 2));
+
+            //remove special chars
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                dst = dst.Replace(c, '_');
+            }
+
+            return dst;
+        }
+
         //Dump the current song
         //Extract the name from title and get the last file from cache bigger than 1Mo
         private void DumpSong()
-        {//Get cache directory files
+        {
+            //clear the lastTitle to force title update (for MP3 and M4A)
+            lastTitle = "";
+
+            //Get cache directory files
             string pathSrc = Xpcom.ProfileDirectory + @"\Cache";
             DirectoryInfo dir = new DirectoryInfo(pathSrc);
             FileInfo[] files = null;
@@ -335,12 +372,8 @@ namespace JangoGeckoFX
                 //if found a file
                 if (fileIndexToCopy != -1)
                 {
-                    //string webBrowser1DocumentTitle = "artiste: chanson - Jango";
-                    //build the file name: extract artist, song name and remove the " - Jango" at the end
-                    int songStart = webBrowser1.DocumentTitle.IndexOf(":");
-                    string dst = webBrowser1.DocumentTitle.Substring(0, songStart)
-                        + " - "
-                        + webBrowser1.DocumentTitle.Substring(songStart + 2, webBrowser1.DocumentTitle.Length - 8 - (songStart + 2));                        
+                    //get the song file name
+                    string dst = GetSongFilename();
 
                     //mp3 or m4a ?
                     if (IsM4a(pathSrc + "\\" + files[fileIndexToCopy].Name))
@@ -350,12 +383,6 @@ namespace JangoGeckoFX
                     else
                     {
                         dst += ".mp3";
-                    }
-
-                    //remove special chars
-                    foreach (char c in Path.GetInvalidFileNameChars())
-                    {
-                        dst = dst.Replace(c, '_');
                     }
 
                     //copy the file but don't overwrite if exists
