@@ -403,9 +403,20 @@ namespace JangoGeckoFX
         {
             using (BinaryReader reader = new BinaryReader(File.Open(fileName, FileMode.Open)))
             {
-                int magic1 = reader.ReadInt32();
-                int magic2 = reader.ReadInt32();
-                int magic3 = reader.ReadInt32();
+                int magic1 = 0;
+                int magic2 = 0;
+                int magic3 = 0;
+
+                try
+                {
+                    magic1 = reader.ReadInt32();
+                    magic2 = reader.ReadInt32();
+                    magic3 = reader.ReadInt32();
+                }
+                catch (Exception)
+                {
+                }
+
 
                 //http://www.ftyps.com/
                 if ((magic1 == 0x18000000) &&   //?
