@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -350,11 +350,11 @@ namespace JangoGeckoFX
             }
 
             //if directory exists and there are files
-            if (files != null && files.Count() > 0)
+            if (files != null && files.Length > 0)
             {
                 DateTime lastOne = new DateTime();
                 int fileIndexToCopy = -1;
-                for (int i = 0; i < files.Count(); i++)
+                for (int i = 0; i < files.Length; i++)
                 {
                     //get a file bigger than 1Mo and skip the cache map and index
                     if ((files[i].Length > 1024 * 1024) &&
