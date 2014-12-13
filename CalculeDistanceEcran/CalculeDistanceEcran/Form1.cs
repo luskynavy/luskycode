@@ -19,14 +19,30 @@ namespace CalculeDistanceEcran
         {
             try
             {
-                double diag = double.Parse(size.Text);
-                double width = double.Parse(resolutionX.Text);
-                distance.Text = (diag).ToString() /* + radioButton1.Checked + radioButton2.Checked + radioButton3.Checked*/;
+                double diag = double.Parse(size.Text); //diagonal in inches
+                double width = double.Parse(resolutionX.Text); //width in pixels
+                double ratio;
+
+                if (radioButton1610.Checked)
+                {
+                    ratio = 16.0 / 10;
+                }
+                else if (radioButton169.Checked)
+                {
+                    ratio = 16.0 / 9;
+                }
+                else
+                {
+                    ratio = 4.0 / 3;
+                }
+
+                double p = Math.Sqrt(diag*diag/(1+1/(ratio*ratio))) * 2.54 / width; //width of a pixel
+                double d = p / 2 / Math.Tan(Math.PI / 180 / 60 / 2);
+                distance.Text = (Math.Round(d, 2)).ToString() ;
             }
             catch
             {
             }
-
         }
     }
 }
