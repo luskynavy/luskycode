@@ -38,6 +38,9 @@
             this.radioButton1610 = new System.Windows.Forms.RadioButton();
             this.radioButton169 = new System.Windows.Forms.RadioButton();
             this.radioButton43 = new System.Windows.Forms.RadioButton();
+            this.sizeCm = new System.Windows.Forms.Label();
+            this.widthCm = new System.Windows.Forms.Label();
+            this.heightCm = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // size
@@ -47,6 +50,7 @@
             this.size.Size = new System.Drawing.Size(69, 20);
             this.size.TabIndex = 0;
             this.size.Text = "10,1";
+            this.size.TextChanged += new System.EventHandler(this.size_TextChanged);
             this.size.Leave += new System.EventHandler(this.Form1_Load);
             // 
             // label1
@@ -136,11 +140,42 @@
             this.radioButton43.UseVisualStyleBackColor = true;
             this.radioButton43.CheckedChanged += new System.EventHandler(this.Form1_Load);
             // 
+            // sizeCm
+            // 
+            this.sizeCm.AutoSize = true;
+            this.sizeCm.Location = new System.Drawing.Point(182, 32);
+            this.sizeCm.Name = "sizeCm";
+            this.sizeCm.Size = new System.Drawing.Size(21, 13);
+            this.sizeCm.TabIndex = 3;
+            this.sizeCm.Text = "cm";
+            // 
+            // widthCm
+            // 
+            this.widthCm.AutoSize = true;
+            this.widthCm.Location = new System.Drawing.Point(182, 58);
+            this.widthCm.Name = "widthCm";
+            this.widthCm.Size = new System.Drawing.Size(21, 13);
+            this.widthCm.TabIndex = 3;
+            this.widthCm.Text = "cm";
+            this.widthCm.Click += new System.EventHandler(this.widthCm_Click);
+            // 
+            // heightCm
+            // 
+            this.heightCm.AutoSize = true;
+            this.heightCm.Location = new System.Drawing.Point(175, 71);
+            this.heightCm.Name = "heightCm";
+            this.heightCm.Size = new System.Drawing.Size(28, 13);
+            this.heightCm.TabIndex = 3;
+            this.heightCm.Text = "* cm";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(228, 225);
+            this.ClientSize = new System.Drawing.Size(235, 225);
+            this.Controls.Add(this.heightCm);
+            this.Controls.Add(this.widthCm);
+            this.Controls.Add(this.sizeCm);
             this.Controls.Add(this.radioButton43);
             this.Controls.Add(this.radioButton169);
             this.Controls.Add(this.radioButton1610);
@@ -172,6 +207,9 @@
         private System.Windows.Forms.RadioButton radioButton1610;
         private System.Windows.Forms.RadioButton radioButton169;
         private System.Windows.Forms.RadioButton radioButton43;
+        private System.Windows.Forms.Label sizeCm;
+        private System.Windows.Forms.Label widthCm;
+        private System.Windows.Forms.Label heightCm;
     }
 }
 
