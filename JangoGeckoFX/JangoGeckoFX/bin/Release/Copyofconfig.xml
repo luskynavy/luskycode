@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<XulrunnerPath>..\..\..\..\xulrunner-1.9.2.19.en-US.win32\xulrunner</XulrunnerPath>
+	<XulrunnerPath>..\..\..\..\xulrunner-33.0.3.en-US.win32\xulrunner</XulrunnerPath>
 	<HomeCommand>http://www.jango.com/my_song_history</HomeCommand>
 	<!--HomeCommand>http://www.facebook.com/</HomeCommand-->
 	<PauseCommand>javascript:_jp.ctrls.onPlayPause();</PauseCommand>

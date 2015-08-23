@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JangoGeckoFX", "JangoGeckoFX\JangoGeckoFX.csproj", "{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}"
 EndProject
 Global
@@ -15,8 +15,8 @@ Global
 		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Debug|Any CPU.Build.0 = Debug|x86
 		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Debug|x86.ActiveCfg = Debug|x86
 		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Debug|x86.Build.0 = Debug|x86
-		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Release|Any CPU.ActiveCfg = Release|x86
+		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Release|Any CPU.Build.0 = Release|x86
 		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Release|x86.ActiveCfg = Release|x86
 		{C7B4D51D-6397-4E8B-A7E5-E90E40AAF85D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

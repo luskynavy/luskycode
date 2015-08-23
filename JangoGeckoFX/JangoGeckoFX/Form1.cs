@@ -7,14 +7,15 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using Skybound.Gecko;
+using Gecko;
 using System.Xml.Serialization;
 using System.IO;
 
-// Need add references to C:\Users\Tigra\Downloads\Skybound.GeckoFX.bin.v1.9.1.0\bin\Skybound.Gecko.dll
-// from http://code.google.com/p/geckofx/downloads/list Skybound.GeckoFX.bin.v1.9.1.0.zip
+// Need add references to D:\Data\luskycode\JangoGeckoFX\JangoGeckoFX\GeckoFx-Windows-33.0-0.8\Geckofx-Core.dll
+//                    and D:\Data\luskycode\JangoGeckoFX\JangoGeckoFX\GeckoFx-Windows-33.0-0.8\Geckofx-Winforms.dll
+// from https://bitbucket.org/geckofx/geckofx-33.0/downloads GeckoFx-Windows-33.0-0.8.zip
 
-// works with ftp://ftp.mozilla.org/pub/xulrunner/releases/1.9.0.13/runtimes/xulrunner-1.9.0.13.en-US.win32.zip
+// works with https://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/33.0.3/runtimes/xulrunner-33.0.3.en-US.win32.zip
 // FAIL 6.0, 5.0, 2.0
 
 namespace JangoGeckoFX
