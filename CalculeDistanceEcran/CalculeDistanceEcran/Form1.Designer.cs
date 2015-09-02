@@ -49,8 +49,7 @@
             this.size.Name = "size";
             this.size.Size = new System.Drawing.Size(69, 20);
             this.size.TabIndex = 0;
-            this.size.Text = "10,1";
-            this.size.TextChanged += new System.EventHandler(this.size_TextChanged);
+            this.size.Text = "10,1";            
             this.size.Leave += new System.EventHandler(this.Form1_Load);
             // 
             // label1
@@ -157,7 +156,7 @@
             this.widthCm.Size = new System.Drawing.Size(21, 13);
             this.widthCm.TabIndex = 3;
             this.widthCm.Text = "cm";
-            this.widthCm.Click += new System.EventHandler(this.widthCm_Click);
+            
             // 
             // heightCm
             // 
