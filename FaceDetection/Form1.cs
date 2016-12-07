@@ -18,7 +18,9 @@ namespace FaceDetection
 {
     public partial class Form1 : Form
     {
-        private CascadeClassifier _cascadeClassifier;        
+        private CascadeClassifier _cascadeClassifier;
+        private Rectangle[] _rec;
+        OpenFileDialog openFileDialog1;
 
         public Form1()
         {
@@ -42,10 +44,18 @@ namespace FaceDetection
             return face;
         }
 
+        private Rectangle GetPortrait(Rectangle r)
+        {
+            int newWidth = (int)(r.Height * 7 / 2 * .63) /*r.Width * 2*/;
+            int newHeight = r.Height * 7 / 2;
+            Rectangle b = new Rectangle(r.X + r.Width / 2 - newWidth / 2, r.Y - r.Height / 4, newWidth, newHeight);
+            return b;
+        }
+
         private void DetectAndDraw()
         {
             //scale down big images to avoid pc freezes
-            int maxHeight = 900;
+            int maxHeight = 960;
             int maxWidth = 900;
 
             if (pictureBox1.Image.Height > maxHeight)
@@ -59,7 +69,7 @@ namespace FaceDetection
             }
 
             //detect the faces
-            Rectangle[] rec = DetectFaces();
+            _rec = DetectFaces();
 
             //the pens
             Pen pr = new Pen(Color.Red, 1);
@@ -68,15 +78,13 @@ namespace FaceDetection
             //draw rectangles around faces
             using (Graphics gr = Graphics.FromImage(pictureBox1.Image))
             {
-                foreach (var r in rec)
+                foreach (var r in _rec)
                 {
                     //draw the face
                     gr.DrawRectangle(pr, r);
 
                     //draw the portrait around the face
-                    int newWidth = (int)(r.Height * 7 / 2 * .63) /*r.Width * 2*/;
-                    int newHeight = r.Height * 7 / 2;
-                    Rectangle b = new Rectangle(r.X + r.Width / 2 - newWidth / 2, r.Y - r.Height / 4, newWidth, newHeight);
+                    Rectangle b = GetPortrait(r);
                     gr.DrawRectangle(pg, b);                                        
                 }
             }
@@ -84,17 +92,37 @@ namespace FaceDetection
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.InitialDirectory = "." ;
-            openFileDialog1.Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png";
-            openFileDialog1.FilterIndex = 2 ;
-            //openFileDialog1.RestoreDirectory = true ;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (((MouseEventArgs)e).Button == MouseButtons.Right)
             {
-                pictureBox1.Load(openFileDialog1.FileName);
+                pictureBox1_RightClick();
+            }
+            else
+            {
+                /*OpenFileDialog*/ openFileDialog1 = new OpenFileDialog();
+                openFileDialog1.InitialDirectory = ".";
+                openFileDialog1.Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png";
+                openFileDialog1.FilterIndex = 2;
+                //openFileDialog1.RestoreDirectory = true ;
 
-                DetectAndDraw();
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    pictureBox1.Load(openFileDialog1.FileName);
+
+                    DetectAndDraw();
+                }
+            }
+        }
+
+        private void pictureBox1_RightClick()
+        {
+            if (_rec.Length != 0)
+            {
+                //pictureBox1.Load(openFileDialog1.FileName);
+                Bitmap nb = new Bitmap(210, 330);
+                Graphics g = Graphics.FromImage(nb);
+                Rectangle b = GetPortrait(_rec[0]);
+                g.DrawImage(pictureBox1.Image, new Rectangle(0, 0, 210, 330), b, GraphicsUnit.Pixel);
+                pictureBox1.Image = nb;
             }
         }
     }
