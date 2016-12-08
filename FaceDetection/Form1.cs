@@ -39,7 +39,7 @@ namespace FaceDetection
         private Rectangle[] DetectFaces()
         {
             var image = new Image<Gray, byte>(new Bitmap(pictureBox1.Image));
-            Rectangle[] face = _cascadeClassifier.DetectMultiScale(image, 1.1, 10, Size.Empty, Size.Empty); //the actual face detection happens here
+            Rectangle[] face = _cascadeClassifier.DetectMultiScale(image, 1.1, 10, new Size(20,20), Size.Empty); //the actual face detection happens here
 
             return face;
         }
@@ -55,8 +55,8 @@ namespace FaceDetection
         private void DetectAndDraw()
         {
             //scale down big images to avoid pc freezes
-            int maxHeight = 960;
-            int maxWidth = 900;
+            int maxHeight = 1000;
+            int maxWidth = 1000;
 
             if (pictureBox1.Image.Height > maxHeight)
             {
