@@ -55,8 +55,8 @@ namespace FaceDetection
         private void DetectAndDraw()
         {
             //scale down big images to avoid pc freezes
-            int maxHeight = 1000;
-            int maxWidth = 1000;
+            int maxHeight = 1200;
+            int maxWidth = 1200;
 
             if (pictureBox1.Image.Height > maxHeight)
             {
@@ -73,7 +73,7 @@ namespace FaceDetection
 
             //the pens
             Pen pr = new Pen(Color.Red, 1);
-            Pen pg = new Pen(Color.Green, 1);
+            Pen pg = new Pen(Color.Green, 1);            
 
             //draw rectangles around faces
             using (Graphics gr = Graphics.FromImage(pictureBox1.Image))
@@ -82,6 +82,7 @@ namespace FaceDetection
                 {
                     //draw the face
                     gr.DrawRectangle(pr, r);
+                    
 
                     //draw the portrait around the face
                     Rectangle b = GetPortrait(r);
@@ -95,6 +96,21 @@ namespace FaceDetection
             if (((MouseEventArgs)e).Button == MouseButtons.Right)
             {
                 pictureBox1_RightClick();
+            }
+            else if (((MouseEventArgs)e).Button == MouseButtons.Middle)
+            {
+                //add bunny ears and nose to the first face found
+                if (_rec.Length != 0)
+                {
+                    var ears = new Bitmap("bunny.png");
+
+                    Graphics gr = Graphics.FromImage(pictureBox1.Image);
+
+                    Rectangle earRec = new Rectangle(_rec[0].X - _rec[0].Width / 2, _rec[0].Y - _rec[0].Height * 4 / 4, _rec[0].Width * 2, _rec[0].Height * 2);
+                    gr.DrawImage(ears, earRec);
+
+                    pictureBox1.Refresh();
+                }
             }
             else
             {
