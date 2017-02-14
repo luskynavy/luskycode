@@ -5,6 +5,8 @@ using System.Text;
 
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
+
 
 //pour se connecter à mysql : http://dev.mysql.com/downloads/connector/net/6.4.4.html (le 1.0.10 ne s'enregistre pas et est vieux...)
 //ajout de la référence : C:\Program Files\MySQL\MySQL Connector Net 6.4.4\Assemblies\v2.0\MySql.Data.dll
@@ -26,14 +28,14 @@ namespace TestSQL
                 int ret;
 
                 string MyConString = "SERVER=localhost;" +
-                "DATABASE=test;";/* +
-				"UID=testuser;" +
-				"PASSWORD=testpassword;";*/
+                "DATABASE=test;" +
+				"UID=root;" +
+				"PASSWORD=;";
                 MySqlConnection myconnection = new MySqlConnection(MyConString);
+                myconnection.Open();
                 MySqlCommand mycommand = myconnection.CreateCommand();
                 MySqlDataReader mydatareader;
-                mycommand.CommandText = "SELECT * FROM table_1";
-                myconnection.Open();
+                mycommand.CommandText = "SELECT COUNT(*) FROM tableinnodb";
                 mydatareader = mycommand.ExecuteReader();
                 while (mydatareader.Read())
                 {
@@ -45,18 +47,31 @@ namespace TestSQL
                 }
                 mydatareader.Close();
 
-                System.Console.WriteLine("\n for i:0->999 insert into table_1 (val, truc) values (i, '2')");
-                for (int i = 0; i < 1000; i++)
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                //CREATE TABLE `test`.`tableinnodb` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = INNODB;
+                //CREATE TABLE `test`.`tablemyisam` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = MYISAM;
+                //CREATE TABLE `test`.`tablemem` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = MEMORY;
+
+                int maxInsert = 10000;
+                System.Console.WriteLine("\n for i:0->" + maxInsert + "insert into tableinnodb (id, col1, col2) values (i, 2, 3)");
+                for (int i = 0; i < maxInsert; i++)
                 {
-                    mycommand.CommandText = "insert into table_1 (val, truc) values (" + i + ", '2')";
+                    mycommand.CommandText = "insert into tableinnodb (id, col1, col2) values (" + i + ", 2, 3)";
+                    //mycommand.CommandText = "insert into tablemem (id, col1, col2) values (" + i + ", 2, 3)";
+                    //mycommand.CommandText = "insert into tablemyisam (id, col1, col2) values (" + i + ", 2, 3)";
                     ret = mycommand.ExecuteNonQuery();
                     //on ferme le datareader pour pouvoir réexécuter une commande après
-                    mydatareader.Close();
+                    //mydatareader.Close();
+                    if (i % 200 == 0)
+                        System.Console.WriteLine((double)i + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + " : " + (double)i / sw.Elapsed.TotalMilliseconds * 1000);
                 }
+                System.Console.WriteLine((double)maxInsert + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + " : " + (double)maxInsert / sw.Elapsed.TotalMilliseconds * 1000);
                 myconnection.Close();
 
                 //on ouvre
-                connexion.Open();
+                /*connexion.Open();
                 command.Connection = connexion;
 
                 //affiche les données de SYSDATABASES
@@ -134,7 +149,7 @@ namespace TestSQL
 
 
                 //on ferme
-                connexion.Close();                
+                connexion.Close();                */
             }
             catch (System.Exception ex)
             {
