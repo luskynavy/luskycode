@@ -17,12 +17,6 @@ namespace TestSQL
     {
         static void Main(string[] args)
         {
-            SqlConnection connexion = new SqlConnection();
-            SqlCommand command = new SqlCommand();
-
-            //connexion au serveur local en utilisant l'autentification windows
-            connexion.ConnectionString = "Integrated security = SSPI ; server = YKALAS01A8-01\\SQLEXPRESS; database = ";            
-
             try
             {
                 int ret;
@@ -55,12 +49,14 @@ namespace TestSQL
                 //CREATE TABLE `test`.`tablemem` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = MEMORY;
 
                 int maxInsert = 10000;
+                //800 insert par sec pour un p8400 en myisam/innodb avec mysql 5.1
+                //22000 insert par sec pour un i7 4770k en myisam avec mysql 5.1 ou 5.6
                 System.Console.WriteLine("\n for i:0->" + maxInsert + "insert into tableinnodb (id, col1, col2) values (i, 2, 3)");
                 for (int i = 0; i < maxInsert; i++)
                 {
-                    mycommand.CommandText = "insert into tableinnodb (id, col1, col2) values (" + i + ", 2, 3)";
+                    //mycommand.CommandText = "insert into tableinnodb (id, col1, col2) values (" + i + ", 2, 3)";
                     //mycommand.CommandText = "insert into tablemem (id, col1, col2) values (" + i + ", 2, 3)";
-                    //mycommand.CommandText = "insert into tablemyisam (id, col1, col2) values (" + i + ", 2, 3)";
+                    mycommand.CommandText = "insert into tablemyisam (id, col1, col2) values (" + i + ", 2, 3)";
                     ret = mycommand.ExecuteNonQuery();
                     //on ferme le datareader pour pouvoir réexécuter une commande après
                     //mydatareader.Close();
@@ -70,12 +66,19 @@ namespace TestSQL
                 System.Console.WriteLine((double)maxInsert + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + " : " + (double)maxInsert / sw.Elapsed.TotalMilliseconds * 1000);
                 myconnection.Close();
 
+
+                SqlConnection connexion = new SqlConnection();
+                SqlCommand command = new SqlCommand();
+
+                //connexion au serveur local en utilisant l'autentification windows
+                connexion.ConnectionString = "Integrated security = SSPI ; server = LOCALHOST\\SQLEXPRESS; database = ";            
+
                 //on ouvre
-                /*connexion.Open();
+                connexion.Open();
                 command.Connection = connexion;
 
                 //affiche les données de SYSDATABASES
-                System.Console.WriteLine("SELECT NAME FROM SYSDATABASES ORDER BY name ASC");
+                /*System.Console.WriteLine("SELECT NAME FROM SYSDATABASES ORDER BY name ASC");
                 command.CommandText = "SELECT NAME FROM SYSDATABASES ORDER BY name ASC";
                 SqlDataReader datareader = command.ExecuteReader();
                 while (datareader.Read())
@@ -113,21 +116,28 @@ namespace TestSQL
                 command.CommandText = "UPDATE testdb.dbo.Table_1 SET val = 'a' + str(truc)  WHERE truc = 123";
                 ret = command.ExecuteNonQuery();
                 //on ferme le datareader pour pouvoir réexécuter une commande après
-                datareader.Close();
+                datareader.Close();*/
+
+                //redémarre le compteur
+                sw.Reset();
+                sw.Start();
 
                 //update d'une valeur
-                System.Console.WriteLine("\n for i:0->999 insert into [testdb].[dbo].Table_1 (val, truc) values (i, '2')");
-                for (int i = 0; i < 1000; i++)
+                //7300 insert par sec pour un i7 4770k avec sqlexpress 2008
+                System.Console.WriteLine("\n for i:0->9999 insert into [testdb].[dbo].Table_1 (id, col1, col2) values (i, 2, 3)");
+                for (int i = 0; i < 10000; i++)
                 {
-                    command.CommandText = "insert into [testdb].[dbo].Table_1 (val, truc) values (" + i + ", '2')";
+                    command.CommandText = "insert into [testdb].[dbo].Table_1 (id, col1, col2) values (" + i + ", 2, 3)";
                     ret = command.ExecuteNonQuery();
+                    if (i % 200 == 0)
+                        System.Console.WriteLine((double)i + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + " : " + (double)i / sw.Elapsed.TotalMilliseconds * 1000);
                     //on ferme le datareader pour pouvoir réexécuter une commande après
-                    datareader.Close();
+                    //datareader.Close();
                 }
                 
 
                 //test des valeurs d'une table
-                System.Console.WriteLine("\nSELECT * FROM testdb.dbo.Table_1");
+                /*System.Console.WriteLine("\nSELECT * FROM testdb.dbo.Table_1");
                 command.CommandText = "SELECT * FROM testdb.dbo.Table_1";
                 datareader = command.ExecuteReader();
                 while (datareader.Read())
@@ -145,11 +155,11 @@ namespace TestSQL
                         }
                     }
                     System.Console.WriteLine();
-                }
+                }*/
 
 
                 //on ferme
-                connexion.Close();                */
+                connexion.Close();
             }
             catch (System.Exception ex)
             {
