@@ -17,10 +17,11 @@ namespace TestSQL
     {
         static void Main(string[] args)
         {
+            Stopwatch sw = new Stopwatch();
+            int ret;
+
             try
             {
-                int ret;
-
                 string MyConString = "SERVER=localhost;" +
                 "DATABASE=test;" +
 				"UID=root;" +
@@ -40,8 +41,7 @@ namespace TestSQL
                     System.Console.WriteLine();
                 }
                 mydatareader.Close();
-
-                Stopwatch sw = new Stopwatch();
+                
                 sw.Start();
 
                 //CREATE TABLE `test`.`tableinnodb` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = INNODB;
@@ -54,9 +54,9 @@ namespace TestSQL
                 System.Console.WriteLine("\n for i:0->" + maxInsert + "insert into tableinnodb (id, col1, col2) values (i, 2, 3)");
                 for (int i = 0; i < maxInsert; i++)
                 {
-                    //mycommand.CommandText = "insert into tableinnodb (id, col1, col2) values (" + i + ", 2, 3)";
+                    mycommand.CommandText = "insert into tableinnodb (id, col1, col2) values (" + i + ", 2, 3)";
                     //mycommand.CommandText = "insert into tablemem (id, col1, col2) values (" + i + ", 2, 3)";
-                    mycommand.CommandText = "insert into tablemyisam (id, col1, col2) values (" + i + ", 2, 3)";
+                    //mycommand.CommandText = "insert into tablemyisam (id, col1, col2) values (" + i + ", 2, 3)";
                     ret = mycommand.ExecuteNonQuery();
                     //on ferme le datareader pour pouvoir réexécuter une commande après
                     //mydatareader.Close();
@@ -66,12 +66,20 @@ namespace TestSQL
                 System.Console.WriteLine((double)maxInsert + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + " : " + (double)maxInsert / sw.Elapsed.TotalMilliseconds * 1000);
                 myconnection.Close();
 
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
 
+            try
+            {
                 SqlConnection connexion = new SqlConnection();
                 SqlCommand command = new SqlCommand();
 
                 //connexion au serveur local en utilisant l'autentification windows
-                connexion.ConnectionString = "Integrated security = SSPI ; server = LOCALHOST\\SQLEXPRESS; database = ";            
+                //connexion.ConnectionString = "Integrated security = SSPI ; server = LOCALHOST\\SQLEXPRESS; database =testdb ";
+                connexion.ConnectionString = "server = astral-axa\\SQLEXPRESS;user=refdoc;password=refdoc; database =refdoc ";
 
                 //on ouvre
                 connexion.Open();
@@ -127,7 +135,8 @@ namespace TestSQL
                 System.Console.WriteLine("\n for i:0->9999 insert into [testdb].[dbo].Table_1 (id, col1, col2) values (i, 2, 3)");
                 for (int i = 0; i < 10000; i++)
                 {
-                    command.CommandText = "insert into [testdb].[dbo].Table_1 (id, col1, col2) values (" + i + ", 2, 3)";
+                    //command.CommandText = "insert into [testdb].[dbo].Table_1 (id, col1, col2) values (" + i + ", 2, 3)";
+                    command.CommandText = "insert into [dbo].Table_1 (id, col1, col2) values (" + i + ", 2, 3)";
                     ret = command.ExecuteNonQuery();
                     if (i % 200 == 0)
                         System.Console.WriteLine((double)i + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + " : " + (double)i / sw.Elapsed.TotalMilliseconds * 1000);
