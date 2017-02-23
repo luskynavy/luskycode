@@ -11,6 +11,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 
+//how to convert it with ImageMagick 7 and known offset and size
+//convert clxE708.rgb -size 1680x1010+40 -channel bgra -depth 24 test.png
+
 namespace ClipXView
 {
     public partial class Form1 : Form
@@ -20,14 +23,19 @@ namespace ClipXView
         public Form1()
         {
             InitializeComponent();
+            openFileDialog1 = new OpenFileDialog();
+
 
             //LoadClipX(@"E:\Users\yvan.kalafatov\Downloads\t\clxE708.rgb");
 
+            //save to jpeg all files from directory
             /*DirectoryInfo dir = new DirectoryInfo(@"E:\Users\yvan.kalafatov\Downloads\t\");
             FileInfo[] files = dir.GetFiles("*.rgb");
             foreach (FileInfo f in files)
             {
                 LoadClipX(f.FullName);
+                openFileDialog1.FileName = f.FullName;
+                pictureBox1_RightClick();
             }*/
         }
 
@@ -70,8 +78,7 @@ namespace ClipXView
             }
             //left click ask a file and load it
             else
-            {
-                openFileDialog1 = new OpenFileDialog();
+            {                
                 openFileDialog1.InitialDirectory = ".";
                 openFileDialog1.Filter = "All files (*.*)|*.*";
                 openFileDialog1.FilterIndex = 1;
