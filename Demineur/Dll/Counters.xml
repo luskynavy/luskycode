@@ -1,0 +1,255 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Counters</name>
+    </assembly>
+    <members>
+        <member name="T:TimeCounter.Counter">
+            *************************************************************************************/
+             <summary>
+             The counter contains one or more Digits <see cref="T:TimeCounter.Digit"/>.
+             </summary>
+            *************************************************************************************
+        </member>
+        <member name="M:TimeCounter.Counter.#ctor">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Create a new counter.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Counter.Dispose(System.Boolean)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing"></param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Counter.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Redraw the counter. One set the forcolor of all digits and then refresh
+            them to ensure that they have the asked color.
+            </summary>
+            <param name="e"></param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Counter.PutDigits">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Create the digits.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Counter.SetValue(System.Int32)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Set a value to the counter.
+            </summary>
+            <param name="nb"> The value to set. </param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+        </member>
+        <member name="M:TimeCounter.Counter.GetDigit(System.Int32)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+            <summary>
+            Search for the control that has the specified tag.
+            </summary>
+            <param name="tag"> The tag to search for.</param>
+            <returns> The digit with the tag. </returns>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+        </member>
+        <member name="M:TimeCounter.Counter.Counter_Resize(System.Object,System.EventArgs)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+            <summary>
+            When the user resize the counter, redraw the digits.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+        </member>
+        <member name="E:TimeCounter.Counter.TimeOverflow">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Not all digits can be reprensented, due to the fact that the counter 
+            does not have enought digits.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="P:TimeCounter.Counter.NumberOfDigit">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Get or set the maximum digit to display in the counter. If you want
+            that the counter manage manually the digits, set the value to zero.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="P:TimeCounter.Counter.DigitActiveColor">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Get or set the color of the active items.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="P:TimeCounter.Counter.DigitPassiveColor">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Get or set the color of the passive items.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="P:TimeCounter.Counter.AddZero">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Get or set if the control must add some zeros (3 on 3 digits come 003).
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="T:TimeCounter.Digit">
+            *************************************************************************************/
+             <summary>							   _
+             The digit is composed by sevent bar : |_|
+             Internal class.						  |_|
+             </summary>
+            *************************************************************************************
+        </member>
+        <member name="M:TimeCounter.Digit.#ctor">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Create a new Digit.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.Dispose(System.Boolean)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing"></param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            The control must be repaint.
+            </summary>
+            <param name="e"></param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.Draw">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Draw the digit.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.Init(System.Drawing.Graphics)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Set all bars to the passive mode.
+            </summary>
+            <param name="g"></param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.TopBar(System.Boolean,System.Drawing.Graphics)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Top bar.
+            </summary>
+            <param name="enable"> True : active mode, False : passive mode. </param>
+            <param name="g"> The graphic context. </param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.TopLeftBar(System.Boolean,System.Drawing.Graphics)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Top left bar.
+            </summary>
+            <param name="enable"> True : active mode, False : passive mode. </param>
+            <param name="g"> The graphic context. </param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.TopRightBar(System.Boolean,System.Drawing.Graphics)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Top right bar.
+            </summary>
+            <param name="enable"> True : active mode, False : passive mode. </param>
+            <param name="g"> The graphic context. </param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.MiddleBar(System.Boolean,System.Drawing.Graphics)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Middle bar.
+            </summary>
+            <param name="enable"> True : active mode, False : passive mode. </param>
+            <param name="g"> The graphic context. </param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.BottomBar(System.Boolean,System.Drawing.Graphics)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Bottom bar.
+            </summary>
+            <param name="enable"> True : active mode, False : passive mode. </param>
+            <param name="g"> The graphic context. </param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.BottomLeftBar(System.Boolean,System.Drawing.Graphics)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Bottom left bar.
+            </summary>
+            <param name="enable"> True : active mode, False : passive mode. </param>
+            <param name="g"> The graphic context. </param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.BottomRightBar(System.Boolean,System.Drawing.Graphics)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Bottom right bar.
+            </summary>
+            <param name="enable"> True : active mode, False : passive mode. </param>
+            <param name="g"> The graphic context. </param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="M:TimeCounter.Digit.Digit_Resize(System.Object,System.EventArgs)">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Resize the digit.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="P:TimeCounter.Digit.CurrentDigit">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Get or set the current digit.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="P:TimeCounter.Digit.ActiveDigit">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Get or set the color of the active digit.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="P:TimeCounter.Digit.PassiveDigit">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            Get or set the color of the passive digit.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+        <member name="T:TimeCounter.DigitEnum">
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <summary>
+            The digit's value. Internal.
+            </summary>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </member>
+    </members>
+</doc>
