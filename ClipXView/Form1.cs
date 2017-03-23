@@ -29,14 +29,14 @@ namespace ClipXView
             //LoadClipX(@"E:\Users\yvan.kalafatov\Downloads\t\clxE708.rgb");
 
             //save to jpeg all files from directory
-            /*DirectoryInfo dir = new DirectoryInfo(@"E:\Users\yvan.kalafatov\Downloads\t\");
-            FileInfo[] files = dir.GetFiles("*.rgb");
+            DirectoryInfo dir = new DirectoryInfo(@"E:\Users\yvan.kalafatov\AppData\Local\Temp");
+            FileInfo[] files = dir.GetFiles("clx*.tmp");
             foreach (FileInfo f in files)
             {
                 LoadClipX(f.FullName);
                 openFileDialog1.FileName = f.FullName;
                 pictureBox1_RightClick();
-            }*/
+            }
         }
 
         private void LoadClipX(string fileClipX)
