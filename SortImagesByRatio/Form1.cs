@@ -23,6 +23,14 @@ namespace SortImagesByRatio
         public Form1()
         {
             InitializeComponent();
+
+            //set label in vertical
+            label4.Text = "W\ni\nd\nt\nh";
+            label5.Text = "H\ne\ni\ng\nh\nt";
+
+            //set default values
+            desiredWidth.Value = 176;
+            desiredHeight.Value = 220;            
             imagesPath.Text = @"E:\Users\yvan.kalafatov\Downloads\t\ss.php5_fichiers";
         }      
 
@@ -45,11 +53,11 @@ namespace SortImagesByRatio
                 im = new Bitmap(f.FullName);
 
                 //compute scaled size
-                scaledWidth = im.Width * int.Parse(desiredHeight.Text) / im.Height;
-                scaledHeight = im.Height * int.Parse(desiredWidth.Text) / im.Width;
+                scaledWidth = im.Width * (int)desiredHeight.Value / im.Height;
+                scaledHeight = im.Height * (int)desiredWidth.Value / im.Width;
 
                 //if scaled image don't fit in width, put in height result rich text box
-                if (scaledWidth > int.Parse(desiredWidth.Text))
+                if (scaledWidth > desiredWidth.Value)
                 {
                     richTextBoxResultsW.Text += f.Name /*+ " " + im.Width + " x " + im.Height + " " + desiredWidth.Text + " x " + scaledHeight + " " + scaledWidth + " x " + desiredHeight.Text*/ + "\r\n";
                 }
