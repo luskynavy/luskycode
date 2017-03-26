@@ -49,6 +49,7 @@ namespace MandelCSharp
             double starttime = CurrentSecond;
 
             int steps = 4000;
+            int maxLevel = 100;
             TYPE_CALC xmin = -2;
             TYPE_CALC ymin = -1;
             TYPE_CALC xmax = 1;
@@ -61,8 +62,12 @@ namespace MandelCSharp
             int[] mandel = new int[steps * steps];
 
             int xmandel = 0;            
-            for (TYPE_CALC x = xmin; xmandel < steps; x += xstep, xmandel++)
-            {                
+            //for (TYPE_CALC x = xmin; xmandel < steps; x += xstep, xmandel++)
+            for (; xmandel < steps; xmandel++)
+            {
+                //compute x from xformandel
+                TYPE_CALC x = xmin + xmandel * xstep;
+
                 //TYPE_CALC y = ymin;
                 int ymandel = 0;
                 for (ymandel = 0; ymandel < steps; ymandel++)
@@ -72,9 +77,9 @@ namespace MandelCSharp
 
                     TYPE_CALC x1 = 0;
                     TYPE_CALC y1 = 0;
-                    //max level 100
+                    //max level
                     int looper = 0;
-                    while (looper < 100 && Math.Sqrt((x1 * x1) + (y1 * y1)) < 2)
+                    while (looper < maxLevel && Math.Sqrt((x1 * x1) + (y1 * y1)) < 2)
                     {
                         looper++;
                         TYPE_CALC xx = (x1 * x1) - (y1 * y1) + x;
@@ -111,19 +116,25 @@ namespace MandelCSharp
 
             mandel = new int[steps * steps];
 
-            xmandel = 0;
-            for (TYPE_CALC x = xmin; xmandel < steps; x += xstep, xmandel++)
+            //xmandel = 0;
+            //for (TYPE_CALC x = xmin; xmandel < steps; x += xstep, xmandel++)
+            Parallel.For(0, steps, xformandel => 
             {
-                Parallel.For(0, steps, yformandel =>                
+                //compute x from xformandel
+                TYPE_CALC x = xmin + xformandel * xstep;
+
+                int ymandel = 0;
+                for (ymandel = 0; ymandel < steps; ymandel++)
+                //Parallel.For(0, steps, yformandel =>                
                 {
                     //compute y from yformandel
-                    TYPE_CALC y = ymin + yformandel * ystep;
+                    TYPE_CALC y = ymin + ymandel * ystep;
 
                     TYPE_CALC x1 = 0;
                     TYPE_CALC y1 = 0;
-                    //max level 100
+                    //max level
                     int looper = 0;
-                    while (looper < 100 && Math.Sqrt((x1 * x1) + (y1 * y1)) < 2)
+                    while (looper < maxLevel && Math.Sqrt((x1 * x1) + (y1 * y1)) < 2)
                     {
                         looper++;
                         TYPE_CALC xx = (x1 * x1) - (y1 * y1) + x;
@@ -132,11 +143,11 @@ namespace MandelCSharp
                     }
                     //equivalent to "total += looper" but with locks between threads for Parallel.For
                     Interlocked.Add(ref total, looper);
-                    mandel[xmandel + yformandel * steps] = looper;
+                    mandel[xformandel + ymandel * steps] = looper;
                 }
-                );
-            }           
-
+                //);
+            }
+            );
             //end timer
             time = CurrentSecond - starttime;
 
