@@ -49,7 +49,7 @@ namespace MandelCSharp
             double starttime = CurrentSecond;
 
             int steps = 4000;
-            int maxLevel = 100;
+            int maxLevel = 700;
             TYPE_CALC xmin = -2;
             TYPE_CALC ymin = -1;
             TYPE_CALC xmax = 1;
@@ -169,6 +169,8 @@ namespace MandelCSharp
 
             Console.WriteLine("time " + time);
 
+
+            Console.WriteLine("\nPress a key to quit.");
             //wait a key
             Console.ReadKey();
         }
