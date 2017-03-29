@@ -29,13 +29,14 @@ namespace ClipXView
             //LoadClipX(@"E:\Users\yvan.kalafatov\Downloads\t\clxE708.rgb");
 
             //save to jpeg all files from directory
-            DirectoryInfo dir = new DirectoryInfo(@"E:\Users\yvan.kalafatov\AppData\Local\Temp");
+            string temp = System.IO.Path.GetTempPath();
+            DirectoryInfo dir = new DirectoryInfo(temp/*@"E:\Users\yvan.kalafatov\AppData\Local\Temp"*/);
             FileInfo[] files = dir.GetFiles("clx*.tmp");
             foreach (FileInfo f in files)
             {
                 LoadClipX(f.FullName);
                 openFileDialog1.FileName = f.FullName;
-                pictureBox1_RightClick();
+                pictureBox1_RightClick(Application.StartupPath + "\\");
             }
         }
 
@@ -91,19 +92,27 @@ namespace ClipXView
             }
         }
 
-        private void pictureBox1_RightClick()
+        private void pictureBox1_RightClick(string path = null)
         {
             //create a jpeg encoder
             ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
 
-            //param for jpeg with 90ù quality
+            //param for jpeg with 90% quality
             System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;  
             EncoderParameters myEncoderParameters = new EncoderParameters(1);
             EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 90L);
             myEncoderParameters.Param[0] = myEncoderParameter;
 
             //save the image adding ".jpg" to original name
-            pictureBox1.Image.Save(openFileDialog1.FileName + ".jpg", jpgEncoder/*ImageFormat.Jpeg*/, myEncoderParameters);
+            if (path == null)
+            {
+                pictureBox1.Image.Save(openFileDialog1.FileName + ".jpg", jpgEncoder/*ImageFormat.Jpeg*/, myEncoderParameters);
+            }
+            else
+            {
+                pictureBox1.Image.Save(path + Path.GetFileName(openFileDialog1.FileName) + ".jpg", jpgEncoder/*ImageFormat.Jpeg*/, myEncoderParameters);
+            }
+            
         }
 
         //find the wanted encoder
