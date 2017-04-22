@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSQL", "TestSQL\TestSQL.csproj", "{3AA004E7-6C53-448D-B5CC-9DCFE6D7BE38}"
 EndProject
 Global

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using System.Data.SqlClient;
+using System.Data.Odbc;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
 
@@ -15,7 +16,7 @@ namespace TestSQL
 {
     class Program
     {
-        static void Main(string[] args)
+        static void TestMysql()
         {
             Stopwatch sw = new Stopwatch();
             int ret;
@@ -24,8 +25,8 @@ namespace TestSQL
             {
                 string MyConString = "SERVER=localhost;" +
                 "DATABASE=test;" +
-				"UID=root;" +
-				"PASSWORD=;";
+                "UID=root;" +
+                "PASSWORD=;";
                 MySqlConnection myconnection = new MySqlConnection(MyConString);
                 myconnection.Open();
                 MySqlCommand mycommand = myconnection.CreateCommand();
@@ -41,7 +42,7 @@ namespace TestSQL
                     System.Console.WriteLine();
                 }
                 mydatareader.Close();
-                
+
                 sw.Start();
 
                 //CREATE TABLE `test`.`tableinnodb` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = INNODB;
@@ -71,6 +72,12 @@ namespace TestSQL
             {
                 System.Console.WriteLine(ex);
             }
+        }
+
+        static void TestSqlServer()
+        {
+            Stopwatch sw = new Stopwatch();
+            int ret;
 
             try
             {
@@ -143,28 +150,28 @@ namespace TestSQL
                     //on ferme le datareader pour pouvoir réexécuter une commande après
                     //datareader.Close();
                 }
-                
+
 
                 //test des valeurs d'une table
-                /*System.Console.WriteLine("\nSELECT * FROM testdb.dbo.Table_1");
-                command.CommandText = "SELECT * FROM testdb.dbo.Table_1";
-                datareader = command.ExecuteReader();
-                while (datareader.Read())
-                {
-                    for (int i = 0; i < datareader.FieldCount; i++)
-                    {
-                        //si ça vaut NULL
-                        if (datareader.GetValue(i) == System.DBNull.Value)
-                        {
-                            System.Console.Write("NULL ");
-                        }
-                        else
-                        {
-                            System.Console.Write(datareader.GetValue(i).ToString() + " ");
-                        }
-                    }
-                    System.Console.WriteLine();
-                }*/
+                //System.Console.WriteLine("\nSELECT * FROM testdb.dbo.Table_1");
+                //command.CommandText = "SELECT * FROM testdb.dbo.Table_1";
+                //datareader = command.ExecuteReader();
+                //while (datareader.Read())
+                //{
+                //    for (int i = 0; i < datareader.FieldCount; i++)
+                //    {
+                //        //si ça vaut NULL
+                //        if (datareader.GetValue(i) == System.DBNull.Value)
+                //        {
+                //            System.Console.Write("NULL ");
+                //        }
+                //        else
+                //        {
+                //            System.Console.Write(datareader.GetValue(i).ToString() + " ");
+                //        }
+                //    }
+                //    System.Console.WriteLine();
+                //}
 
 
                 //on ferme
@@ -174,8 +181,65 @@ namespace TestSQL
             {
                 System.Console.WriteLine(ex);
             }
+        }
 
-            System.Console.ReadLine();
+        static void TestOdbc()
+        {
+            try
+            {
+                //open connexion 
+                OdbcConnection connection = new OdbcConnection("Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=..\\..\\;Extensions=asc,csv,tab,txt;");
+                connection.Open();                
+
+                //execute command
+                OdbcCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM books.csv";
+                OdbcDataReader datareader = command.ExecuteReader();
+
+                //for each line
+                while (datareader.Read())
+                {
+                    for (int i = 0; i < datareader.FieldCount; i++)
+                    {
+                        //no ; for 1st field
+                        if (i != 0)
+                        {
+                            System.Console.Write(";");
+                        }
+
+                        //show NULL for NULL
+                        if (datareader.GetValue(i) == System.DBNull.Value)
+                        {
+                            System.Console.Write("NULL ");
+                        }
+                        else
+                        {
+                            System.Console.Write(datareader.GetValue(i).ToString() + " ");
+                        }
+                        
+                    }
+                    System.Console.WriteLine();
+                }
+
+                //closing
+                connection.Close();
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            //TestMysql();
+
+            //TestSqlServer();
+
+            TestOdbc();
+
+            System.Console.WriteLine("Press any key to quit");
+            System.Console.ReadKey();
         }
     }
 }
