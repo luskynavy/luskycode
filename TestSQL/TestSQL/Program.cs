@@ -7,10 +7,14 @@ using System.Data.SqlClient;
 using System.Data.Odbc;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
+using System.Data.SQLite;
 
 
 //pour se connecter à mysql : http://dev.mysql.com/downloads/connector/net/6.4.4.html (le 1.0.10 ne s'enregistre pas et est vieux...)
 //ajout de la référence : C:\Program Files\MySQL\MySQL Connector Net 6.4.4\Assemblies\v2.0\MySql.Data.dll
+
+//pour sqlite http://system.data.sqlite.org/downloads/1.0.105.0/sqlite-netFx40-setup-bundle-x86-2010-1.0.105.0.exe
+// ajout de la référence : C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll
 
 namespace TestSQL
 {
@@ -29,10 +33,12 @@ namespace TestSQL
                 "PASSWORD=;";
                 MySqlConnection myconnection = new MySqlConnection(MyConString);
                 myconnection.Open();
+
                 MySqlCommand mycommand = myconnection.CreateCommand();
                 MySqlDataReader mydatareader;
                 mycommand.CommandText = "SELECT COUNT(*) FROM tableinnodb";
                 mydatareader = mycommand.ExecuteReader();
+
                 while (mydatareader.Read())
                 {
                     for (int i = 0; i < mydatareader.FieldCount; i++)
@@ -41,6 +47,7 @@ namespace TestSQL
                     }
                     System.Console.WriteLine();
                 }
+
                 mydatareader.Close();
 
                 sw.Start();
@@ -187,6 +194,8 @@ namespace TestSQL
         {
             try
             {
+                System.Console.WriteLine("Odbc Test");
+
                 //open connexion 
                 OdbcConnection connection = new OdbcConnection("Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=..\\..\\;Extensions=asc,csv,tab,txt;");
                 connection.Open();                
@@ -196,6 +205,13 @@ namespace TestSQL
                 command.CommandText = "SELECT * FROM books.csv";
                 OdbcDataReader datareader = command.ExecuteReader();
 
+                List<Books> books = new List<Books>();
+                Books b = new Books();
+                b.Id = 0;
+                b.Name = "";
+                b.Author = "";
+                b.Note = 0;
+                
                 //for each line
                 while (datareader.Read())
                 {
@@ -218,11 +234,64 @@ namespace TestSQL
                         }
                         
                     }
+                    books.Add(b);
                     System.Console.WriteLine();
                 }
 
                 //closing
                 connection.Close();
+
+                System.Console.WriteLine();
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
+        }
+
+        static void TestSQLite()
+        {
+            try
+            {
+                System.Console.WriteLine("SQLite Test");
+
+                //open connexion 
+                SQLiteConnection connection = new SQLiteConnection("Data Source=..\\..\\books.sqlite;Version=3;");
+                connection.Open();
+
+                //execute command
+                SQLiteCommand command = new SQLiteCommand("SELECT * FROM books", connection);
+                SQLiteDataReader datareader = command.ExecuteReader();
+
+                //for each line
+                while (datareader.Read())
+                {
+                    for (int i = 0; i < datareader.FieldCount; i++)
+                    {
+                        //no ; for 1st field
+                        if (i != 0)
+                        {
+                            System.Console.Write(";");
+                        }
+
+                        //show NULL for NULL
+                        if (datareader.GetValue(i) == System.DBNull.Value)
+                        {
+                            System.Console.Write("NULL ");
+                        }
+                        else
+                        {
+                            System.Console.Write(datareader.GetValue(i).ToString() + " ");
+                        }
+
+                    }
+                    //books.Add(b);
+                    System.Console.WriteLine();
+                }
+
+                connection.Close();
+
+                System.Console.WriteLine();
             }
             catch (System.Exception ex)
             {
@@ -237,6 +306,8 @@ namespace TestSQL
             //TestSqlServer();
 
             TestOdbc();
+
+            TestSQLite();
 
             System.Console.WriteLine("Press any key to quit");
             System.Console.ReadKey();
