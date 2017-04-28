@@ -9,12 +9,24 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Data.SQLite;
 
+using FluentNHibernate;
+using NHibernate;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
+using FluentNHibernate.Automapping;
+using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
+using NHibernate.Criterion;
+using TestSQL.Model;
 
 //pour se connecter à mysql : http://dev.mysql.com/downloads/connector/net/6.4.4.html (le 1.0.10 ne s'enregistre pas et est vieux...)
 //ajout de la référence : C:\Program Files\MySQL\MySQL Connector Net 6.4.4\Assemblies\v2.0\MySql.Data.dll
 
 //pour sqlite http://system.data.sqlite.org/downloads/1.0.105.0/sqlite-netFx40-setup-bundle-x86-2010-1.0.105.0.exe
 // ajout de la référence : C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll
+
+//get nuget here https://github.com/NuGet/NuGet2/blob/2.13/lib/NuGet.exe
+//then nuget install FluentNHibernate 
 
 namespace TestSQL
 {
@@ -205,8 +217,8 @@ namespace TestSQL
                 command.CommandText = "SELECT * FROM books.csv";
                 OdbcDataReader datareader = command.ExecuteReader();
 
-                List<Books> books = new List<Books>();
-                Books b = new Books();
+                List<MyBooks> books = new List<MyBooks>();
+                MyBooks b = new MyBooks();
                 b.Id = 0;
                 b.Name = "";
                 b.Author = "";
@@ -256,8 +268,12 @@ namespace TestSQL
                 System.Console.WriteLine("SQLite Test");
 
                 //open connexion 
-                SQLiteConnection connection = new SQLiteConnection("Data Source=..\\..\\books.sqlite;Version=3;");
+                SQLiteConnection connection = new SQLiteConnection("Data Source=..\\..\\books.sqlite;Version=3;Page Size=512");
                 connection.Open();
+
+                //remove unused space to apply page size of 512 (32768 in firefox sqlite manager) 
+                SQLiteCommand commandVacuum = new SQLiteCommand("vacuum", connection);
+                commandVacuum.ExecuteNonQuery();
 
                 //execute command
                 SQLiteCommand command = new SQLiteCommand("SELECT * FROM books", connection);
@@ -299,6 +315,65 @@ namespace TestSQL
             }
         }
 
+        //for Fluent NHibernate
+
+        private static ISessionFactory sessionFactory;
+
+        //This method build our session factory -
+        //the most important part of our ORM application
+        private static ISessionFactory BuildSessionFactory()
+        {
+            AutoPersistenceModel model = CreateMappings();
+
+            return Fluently.Configure()
+                .Database(SQLiteConfiguration.Standard
+                .UsingFile(".. \\..\\books.sqlite")
+            )
+                //.Mappings(m => m.AutoMappings.Add(model)) //method with string namespace
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<TestSQL.Maps.BooksMap>()) //method with mapping
+                //.Mappings(m => m.FluentMappings.AddFromAssemblyOf<TestSQL.Model.Books>()) //method with model, only work if BooksMap.cs included
+                //.ExposeConfiguration(BuildSchema) //don't create the database, it's already here
+                .BuildSessionFactory();
+
+        }
+
+        //This method will create our auto-mappings model
+        private static AutoPersistenceModel CreateMappings()
+        {
+            return AutoMap
+	        .Assembly(System.Reflection.Assembly.GetCallingAssembly())
+            .Where(t => t.Namespace == "TestSQL.Model");
+            //.Where(t => t. Namespace == (string)(TestSQL.Model));
+        }
+
+        //This method will create/recreate our database
+        //This method should be called only once when
+        //we want to create our database
+        private static void BuildSchema(Configuration config)
+        {
+            new SchemaExport(config).Create(false, true);
+        }
+
+        static void TestFluentNHibernateSQLite()
+        {
+            System.Console.WriteLine("Fluent NHibernate SQLite Test");
+
+            sessionFactory = BuildSessionFactory();
+
+            using (ISession session = sessionFactory.OpenSession())
+    	    {
+                //Get a list of all Books
+	            IList<Books> books = session
+                    .CreateCriteria(typeof(Books))
+                    .List<Books>();
+
+                foreach (Books b in books)
+                {
+                    System.Console.WriteLine(b.Id + "; " + b.Name + "; " + b.Author + "; " + b.Note);
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
             //TestMysql();
@@ -308,6 +383,8 @@ namespace TestSQL
             TestOdbc();
 
             TestSQLite();
+
+            TestFluentNHibernateSQLite();
 
             System.Console.WriteLine("Press any key to quit");
             System.Console.ReadKey();
