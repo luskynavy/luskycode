@@ -29,8 +29,8 @@ namespace SortImagesByRatio
             label5.Text = "H\ne\ni\ng\nh\nt";
 
             //set default values
-            desiredWidth.Value = 176;
-            desiredHeight.Value = 220;            
+            desiredWidth.Value = 240;
+            desiredHeight.Value = 320;            
             imagesPath.Text = @"E:\Users\yvan.kalafatov\Downloads\t\ss.php5_fichiers";
         }      
 

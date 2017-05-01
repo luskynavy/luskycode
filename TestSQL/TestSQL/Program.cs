@@ -26,7 +26,9 @@ using TestSQL.Model;
 // ajout de la référence : C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll
 
 //get nuget here https://github.com/NuGet/NuGet2/blob/2.13/lib/NuGet.exe
-//then nuget install FluentNHibernate 
+//then nuget install FluentNHibernate
+
+//fluent nhibernate mapping generated with NHibernate Mapping Generator https://github.com/rvrn22/nmg/releases
 
 namespace TestSQL
 {
