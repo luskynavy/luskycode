@@ -19,6 +19,10 @@ using NHibernate.Tool.hbm2ddl;
 using NHibernate.Criterion;
 using TestSQL.Model;
 
+using IBatisNet.Common;
+using IBatisNet.DataMapper;
+
+
 //pour se connecter à mysql : http://dev.mysql.com/downloads/connector/net/6.4.4.html (le 1.0.10 ne s'enregistre pas et est vieux...)
 //ajout de la référence : C:\Program Files\MySQL\MySQL Connector Net 6.4.4\Assemblies\v2.0\MySql.Data.dll
 
@@ -29,6 +33,8 @@ using TestSQL.Model;
 //then nuget install FluentNHibernate
 
 //fluent nhibernate mapping generated with NHibernate Mapping Generator https://github.com/rvrn22/nmg/releases
+
+//ibatis lib https://code.google.com/archive/p/mybatisnet/downloads
 
 namespace TestSQL
 {
@@ -373,7 +379,37 @@ namespace TestSQL
                 {
                     System.Console.WriteLine(b.Id + "; " + b.Name + "; " + b.Author + "; " + b.Note);
                 }
+
+                System.Console.WriteLine();
             }
+        }
+
+        //ibatis mapper
+        public static ISqlMapper EntityMapper
+        {
+            get
+            {
+                try
+                {
+                    ISqlMapper mapper = Mapper.Instance();
+                    return mapper;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        static void TestIbatis()
+        {
+            System.Console.WriteLine("Ibatis SQLite Test");
+
+            ISqlMapper mapper = EntityMapper;
+
+            int id = 1;
+            string str = mapper.QueryForObject<string>("FindBook", id);
+            System.Console.WriteLine(id + "; " + str);
         }
 
         static void Main(string[] args)
@@ -387,6 +423,8 @@ namespace TestSQL
             TestSQLite();
 
             TestFluentNHibernateSQLite();
+
+            TestIbatis();
 
             System.Console.WriteLine("Press any key to quit");
             System.Console.ReadKey();
