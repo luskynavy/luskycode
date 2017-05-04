@@ -217,7 +217,7 @@ namespace TestSQL
                 System.Console.WriteLine("Odbc Test");
 
                 //open connexion 
-                OdbcConnection connection = new OdbcConnection("Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=..\\..\\;Extensions=asc,csv,tab,txt;");
+                OdbcConnection connection = new OdbcConnection("Driver={Microsoft Text Driver (*.txt; *.csv)};Dbq=.;Extensions=asc,csv,tab,txt;");
                 connection.Open();                
 
                 //execute command
@@ -276,12 +276,12 @@ namespace TestSQL
                 System.Console.WriteLine("SQLite Test");
 
                 //open connexion 
-                SQLiteConnection connection = new SQLiteConnection("Data Source=..\\..\\books.sqlite;Version=3;Page Size=512");
+                SQLiteConnection connection = new SQLiteConnection("Data Source=books.sqlite;Version=3;Page Size=512");
                 connection.Open();
 
                 //remove unused space to apply page size of 512 (32768 in firefox sqlite manager) 
-                SQLiteCommand commandVacuum = new SQLiteCommand("vacuum", connection);
-                commandVacuum.ExecuteNonQuery();
+                //SQLiteCommand commandVacuum = new SQLiteCommand("vacuum", connection);
+                //commandVacuum.ExecuteNonQuery();
 
                 //execute command
                 SQLiteCommand command = new SQLiteCommand("SELECT * FROM books", connection);
@@ -335,7 +335,7 @@ namespace TestSQL
 
             return Fluently.Configure()
                 .Database(SQLiteConfiguration.Standard
-                .UsingFile(".. \\..\\books.sqlite")
+                .UsingFile("books.sqlite")
             )
                 //.Mappings(m => m.AutoMappings.Add(model)) //method with string namespace
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<TestSQL.Maps.BooksMap>()) //method with mapping
@@ -401,6 +401,15 @@ namespace TestSQL
             }
         }
 
+
+        public static List<TestSQL.Model.Books> getAllBooks()
+        {
+            ISqlMapper mapper = EntityMapper;
+
+            List<TestSQL.Model.Books> books = mapper.QueryForList<TestSQL.Model.Books>("GetAllBooks", null).ToList();
+            return books;
+        }
+
         static void TestIbatis()
         {
             System.Console.WriteLine("Ibatis SQLite Test");
@@ -408,8 +417,18 @@ namespace TestSQL
             ISqlMapper mapper = EntityMapper;
 
             int id = 1;
-            string str = mapper.QueryForObject<string>("FindBook", id);
-            System.Console.WriteLine(id + "; " + str);
+
+            string str = mapper.QueryForObject<string>("FindBookName", id);
+            System.Console.WriteLine("FindBookName of id " + id + ": " + str);            
+
+            System.Console.WriteLine();
+
+            List<TestSQL.Model.Books> books = getAllBooks();
+
+            foreach (Books b in books)
+            {
+                System.Console.WriteLine(b.Id + "; " + b.Name + "; " + b.Author + "; " + b.Note);
+            }
         }
 
         static void Main(string[] args)
