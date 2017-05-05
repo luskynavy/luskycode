@@ -1,19 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sqlMap namespace="MyBatisApp" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
-  <statements>
-    <statement id="FindBookName" parameterClass="System.Int32" resultClass="System.String" >
+  <statements>    
+    <select id="FindBookName" parameterClass="System.Int32" resultClass="System.String" >
       SELECT Name
       FROM books
-      WHERE Id =  #value#
-    </statement>
-    <statement id="GetAllBooks" resultMap="get-books-result" >
+      WHERE Id =  ${id}
+    </select>
+    <statement id="GetAllBooks" resultClass="TestSQL.Model.Books" > <!--resultMap="get-books-result"-->
       SELECT *
       FROM books      
     </statement>
-    <procedure id="GetBooks" parameterMap="get-books-params"  resultMap="get-books-result">
+    <procedure id="GetBooks" parameterMap="get-books-params" resultClass="TestSQL.Model.Books" >
+      
       GetEmployees
     </procedure>
+    <update id="update" parameterClass="TestSQL.Model.Books">
+      UPDATE books
+      SET NAME = #Name#
+      WHERE Id =  #Id#
+    </update>
   </statements>
   <parameterMaps>
   <parameterMap id="get-books-params">
@@ -21,11 +27,11 @@
   </parameterMap>
   </parameterMaps>
   <resultMaps>
-    <resultMap id="get-books-result" class="TestSQL.Model.Books">
+    <!--resultMap id="get-books-result" class="TestSQL.Model.Books">
       <result property="Id" column="Id" dbType="Int"/>
       <result property="Name" column="Name" dbType="Varchar"/>
       <result property="Author" column="Author" dbType="Varchar"/>
       <result property="Note" column="Note" dbType="Int"/>
-    </resultMap>
+    </resultMap>-->
   </resultMaps>
 </sqlMap>

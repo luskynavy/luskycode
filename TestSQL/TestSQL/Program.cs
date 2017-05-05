@@ -429,6 +429,19 @@ namespace TestSQL
             {
                 System.Console.WriteLine(b.Id + "; " + b.Name + "; " + b.Author + "; " + b.Note);
             }
+
+            books[id].Name += "x";
+
+            System.Console.WriteLine("Updating name of id " + id + " to " + books[id].Name);
+
+            mapper.Update("update", books[1]);
+
+            books = getAllBooks();
+
+            foreach (Books b in books)
+            {
+                System.Console.WriteLine(b.Id + "; " + b.Name + "; " + b.Author + "; " + b.Note);
+            }
         }
 
         static void Main(string[] args)
