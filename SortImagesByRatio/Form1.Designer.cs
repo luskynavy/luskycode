@@ -43,6 +43,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.desiredWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.desiredHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -53,7 +54,7 @@
             this.button1.Location = new System.Drawing.Point(30, 91);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(65, 23);
-            this.button1.TabIndex = 0;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Sort jpeg";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -87,12 +88,12 @@
             // 
             // imagesPath
             // 
-            this.imagesPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.imagesPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.imagesPath.Location = new System.Drawing.Point(101, 68);
             this.imagesPath.Name = "imagesPath";
             this.imagesPath.Size = new System.Drawing.Size(476, 20);
-            this.imagesPath.TabIndex = 2;
+            this.imagesPath.TabIndex = 3;
             // 
             // buttonSelectPath
             // 
@@ -107,9 +108,9 @@
             // 
             // richTextBoxResultsH
             // 
-            this.richTextBoxResultsH.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxResultsH.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxResultsH.Location = new System.Drawing.Point(27, 3);
             this.richTextBoxResultsH.Name = "richTextBoxResultsH";
             this.richTextBoxResultsH.ReadOnly = true;
@@ -119,14 +120,14 @@
             // 
             // richTextBoxResultsW
             // 
-            this.richTextBoxResultsW.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxResultsW.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxResultsW.Location = new System.Drawing.Point(27, 3);
             this.richTextBoxResultsW.Name = "richTextBoxResultsW";
             this.richTextBoxResultsW.ReadOnly = true;
             this.richTextBoxResultsW.Size = new System.Drawing.Size(577, 144);
-            this.richTextBoxResultsW.TabIndex = 6;
+            this.richTextBoxResultsW.TabIndex = 5;
             this.richTextBoxResultsW.Text = "";
             // 
             // label4
@@ -161,7 +162,7 @@
             0});
             this.desiredWidth.Name = "desiredWidth";
             this.desiredWidth.Size = new System.Drawing.Size(72, 20);
-            this.desiredWidth.TabIndex = 8;
+            this.desiredWidth.TabIndex = 1;
             // 
             // desiredHeight
             // 
@@ -173,13 +174,13 @@
             0});
             this.desiredHeight.Name = "desiredHeight";
             this.desiredHeight.Size = new System.Drawing.Size(72, 20);
-            this.desiredHeight.TabIndex = 8;
+            this.desiredHeight.TabIndex = 2;
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(3, 120);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -212,13 +213,14 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "SortImagesByRatio";
             ((System.ComponentModel.ISupportInitialize)(this.desiredWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.desiredHeight)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
