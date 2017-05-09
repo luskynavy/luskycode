@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
+//using System.Windows.Media.Imaging.BitmapDecoder;
 
 /***************************************************************************************
  * Determine if jpeg are best scaled in portrait or landscape (with 90 degree rotation)
@@ -65,8 +66,8 @@ namespace SortImagesByRatio
         {
             //get files list
             DirectoryInfo dir = new DirectoryInfo(imagesPath.Text);
-            FileInfo[] files = dir.GetFiles("*.jpg");
-            Bitmap im;
+            //FileInfo[] files = dir.GetFiles("*.jpg");
+            IEnumerable<FileInfo> files = dir.GetFiles("*.jpeg").Union(dir.GetFiles("*.jpg")).Union(dir.GetFiles("*.png")).Union(dir.GetFiles("*.gif")).Union(dir.GetFiles("*.bmp"));
             
             //clear results
             richTextBoxResultsH.Clear();
@@ -75,11 +76,32 @@ namespace SortImagesByRatio
 
             //for each file
             foreach (FileInfo f in files)
+            //foreach (string f in files)
             {
                 try
                 {
-                    //read image
-                    im = new Bitmap(f.FullName);
+                    //read the whole image to get the size, bad
+                    //Bitmap im = new Bitmap(f.FullName);
+                    Size im = new Size();
+                    //read only the header, no additionnal reference, faster
+                    using (FileStream file = new FileStream(f.FullName, FileMode.Open, FileAccess.Read))                    
+                    {
+                        using (Image tif = Image.FromStream(stream: file,
+                                                            useEmbeddedColorManagement: false,
+                                                            validateImageData: false))
+                        {
+                            im.Width = (int)tif.PhysicalDimension.Width;
+                            im.Height = (int)tif.PhysicalDimension.Height;
+                        }
+                    }
+                    //read only the header, require additionnal wpf reference
+                    /*using (var imageStream = File.OpenRead(f.FullName))
+                    {
+                        var decoder = BitmapDecoder.Create(imageStream, BitmapCreateOptions.IgnoreColorProfile,
+                            BitmapCacheOption.Default);
+                        im.height = decoder.Frames[0].PixelHeight;
+                        im.width = decoder.Frames[0].PixelWidth;
+                    }*/
 
                     //compute scaled size
                     Size noRotate = ResizeTo(im.Width, im.Height, (int)desiredWidth.Value, (int)desiredHeight.Value);
@@ -92,19 +114,21 @@ namespace SortImagesByRatio
                     //if (scaledWidth > desiredWidth.Value)
 
                     //if scaled image has more surface with no rotation
-                    if (noRotate.Width * noRotate.Height >+ rotate.Width * rotate.Height)
+                    if (noRotate.Width * noRotate.Height >= rotate.Width * rotate.Height)
                     {
-                        richTextBoxResultsW.Text += f.Name /*+ " " + im.Width + " x " + im.Height + " " + desiredWidth.Text + " x " + scaledHeight + " " + scaledWidth + " x " + desiredHeight.Text*/ + "\r\n";
+                        richTextBoxResultsW.Text += f.Name //+ " " + im.Width + " x " + im.Height + " " + desiredWidth.Text + " x " + scaledHeight + " " + scaledWidth + " x " + desiredHeight.Text
+                            + "\r\n";
                     }
                     //else in height result rich text box
                     else
                     {
-                        richTextBoxResultsH.Text += f.Name /*+ " " + im.Width + " x " + im.Height + " " + desiredWidth.Text + " x " + scaledHeight + " " + scaledWidth + " x " + desiredHeight.Text*/ + "\r\n";
+                        richTextBoxResultsH.Text += f.Name //+ " " + im.Width + " x " + im.Height + " " + desiredWidth.Text + " x " + scaledHeight + " " + scaledWidth + " x " + desiredHeight.Text
+                            + "\r\n";
                     }
                 }
                 //hum, continue ?
                 catch
-                {
+                {                 
                 }
             }
             
