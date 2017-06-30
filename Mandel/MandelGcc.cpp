@@ -20,7 +20,7 @@ double CurrentSecond()
 
 }
 
-#define STEPS_MAX 3000
+#define STEPS_MAX 9000
 #define TYPE_CALC double
 //#define TYPE_CALC float
 
