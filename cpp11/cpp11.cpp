@@ -34,6 +34,11 @@ int sum(int imax)
 
 int main()
 {
+	std::string s5 = "5";
+	int t{ stoi(s5) };
+
+	std::cout << t << '\n';
+
 	auto i = 1;
 	auto d = 2.3;
 
@@ -110,7 +115,7 @@ int main()
 	std::cout << '\n';
 
 	auto diff = end - start;
-	std::cout << std::chrono::duration <double, std::milli>(diff).count() << " ms" << std::endl;
+	std::cout << std::chrono::duration <double, std::milli>(diff).count() << " ms" << '\n';
 	
 	//wait for a key
 	system("pause");
