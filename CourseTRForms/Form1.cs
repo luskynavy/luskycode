@@ -8,7 +8,13 @@ using System.Text;
 using System.Windows.Forms;
 
 using System.Diagnostics;
+
+//not available for express version
 //using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+//for express version
+//tools->extensions manager, online, search for "nunit test application"
+//http://blog.megahard.info/2011/05/integrate-nunit-with-visual-studio.html
 //using NUnit.Framework;
 
 namespace CourseTRForms
@@ -23,7 +29,7 @@ namespace CourseTRForms
             wantedSum.Text = (2.41 + 2.09 + 3.3).ToString();
         }
 
-        string subsetSet(double[] products, double wantedSum)
+        public static string subsetSet(double[] products, double wantedSum)
         {
             string res = "";
 
@@ -91,15 +97,7 @@ namespace CourseTRForms
             results.Text += "Done for " + products.Length + " values  in " + elapsedTime + " s";
         }
 
-       /*[Test]
-        public void testSubsetSet()
-        {
-            double[] products = { 2.41, 3.24, 2.09, 2.56, 3.28, 3.88, 1.70, 4.93, 3.30 };
-            string actualResult = subsetSet(products, 10);
-            string expectedResult = "";
-
-            Assert.AreEqual(expectedResult, actualResult);
-        }*/
+       
     }
    
 }
