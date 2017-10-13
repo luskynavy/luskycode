@@ -14,6 +14,8 @@ using System.Diagnostics;
 
 //for express version
 //tools->extensions manager, online, search for "nunit test application"
+// or here if install fails https://marketplace.visualstudio.com/items?itemName=ErnestPoletaev.NUnitTestApplication
+
 //http://blog.megahard.info/2011/05/integrate-nunit-with-visual-studio.html
 //using NUnit.Framework;
 
