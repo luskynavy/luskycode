@@ -35,7 +35,9 @@ namespace CourseTRForms
         {
             string res = "";
 
-            for (int testVal = 0; testVal < Math.Pow(2, products.Length); testVal++)
+            double max = Math.Pow(2, products.Length);
+            for (int testVal = 0; testVal < max; testVal++)
+            //for (int testVal = 0; testVal < Math.Pow(2, products.Length); testVal++)
             {
                 double sum = 0;
                 for (int choice = 0; choice < products.Length; choice++)
