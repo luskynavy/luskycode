@@ -3,9 +3,13 @@
 #include <stdio.h>
 #include <iostream>
 
+//vs 2015
+//6 sec for 27 values in Release with testVal < pow(2, n)
+
 //gcc tests
 //23 sec for 27 values in O3 with testVal < pow(2, n)
 //8 sec for 27 values in Ofast with testVal < pow(2, n)
+
 
 //8 sec for 27 vlaues in O3/Ofast with testVal < max
 
@@ -34,7 +38,7 @@ void printAllSubsets(TYPE_CALC products[], int n, TYPE_CALC wantedSum)
 			int test = (1 << choice);
 			if ((test & testVal) == test)
 			//if (((1 << choice) & testVal) == (1 << choice))
-			{                        
+			{
 				sum += products[choice];
 			}
 		}
@@ -52,11 +56,11 @@ void printAllSubsets(TYPE_CALC products[], int n, TYPE_CALC wantedSum)
 			std::cout << "\n";
 		}
 	}
-}			
-			// Driver code
+}
+// Driver code
 int main()
 {
-    //int arr[] = {1, 2, 3, 4, 5};
+	//int arr[] = {1, 2, 3, 4, 5};
 	//int sum = 10;
 	
 	//TYPE_CALC arr[] = {241, 324, 209, 256, 328, 388, 170, 493, 330}; //9 values
@@ -65,7 +69,7 @@ int main()
 	//TYPE_CALC arr[] = {241, 324, 209, 256, 328, 388, 170, 493, 330, 170, 493, 330, 170, 493, 330, 170, 493, 330, 170, 493, 330, 170, 493, 330, 170, 493, 330, 170, 493, 330}; //30 values values
 	TYPE_CALC sum = 241 + 209 + 330;
 	
-    int n = sizeof(arr)/sizeof(arr[0]);
+	int n = sizeof(arr)/sizeof(arr[0]);
 	
 	double starttime = CurrentSecond();
 	
