@@ -27,7 +27,8 @@ namespace CourseTRForms
         {
             InitializeComponent();
 
-            values.Text = "2,41; 3,24; 2,09; 2,56; 3,28; 3,88; 1,70; 4,93; 3,30";            
+            //default values
+            values.Text = "2,41; 3,24; 2,09; 2,56; 3,28; 3,88; 1,70; 4,93; 3,30";
             wantedSum.Text = (2.41 + 2.09 + 3.3).ToString();
         }
 
@@ -56,7 +57,7 @@ namespace CourseTRForms
                     {
                         if (((1 << j) & testVal) == (1 << j))
                         {
-                            res += " " + products[j];
+                            res += products[j] + " ";
                         }
                     }
                     res += "\r\n";
@@ -79,14 +80,20 @@ namespace CourseTRForms
                 i++;
             }*/
 
+            //start timer
             Stopwatch stopWatch = Stopwatch.StartNew();
 
-            double[] products = values.Text.Split(';').Select(Double.Parse).ToArray();
+            //convert data, string of number to array of double
+            //replace . by ,
+            //number are separated by ;
+            double[] products = values.Text.Replace('.', ',').Split(';').Select(Double.Parse).ToArray();
 
-            double wantedSumDouble = double.Parse(wantedSum.Text);
+            double wantedSumDouble = double.Parse(wantedSum.Text.Replace('.', ','));
 
+            //search solutions and set them to results 
             results.Text = subsetSet(products, wantedSumDouble);
 
+            //timer end
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
             //TimeSpan ts = stopWatch.Elapsed;
@@ -98,10 +105,8 @@ namespace CourseTRForms
                 ts.Milliseconds / 10);*/
             string elapsedTime = ((double)ts / 1000).ToString();
 
+            //add data size and elapsed time
             results.Text += "Done for " + products.Length + " values  in " + elapsedTime + " s";
         }
-
-       
     }
-   
 }
