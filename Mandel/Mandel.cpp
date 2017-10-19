@@ -1,7 +1,9 @@
 // Mandel.cpp : définit le point d'entrée pour l'application console.
 //
 
-#include "stdafx.h"
+#include <stdio.h>
+
+//#include "stdafx.h"
 #include "windows.h"
 #include "math.h"
 
@@ -16,11 +18,11 @@ double CurrentSecond()
 
 }
 
-#define STEPS_MAX 3000
+#define STEPS_MAX 9000
 #define TYPE_CALC double
 //#define TYPE_CALC float
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char* argv[])
 {
 	int steps = STEPS_MAX;
 	TYPE_CALC xmin = -2;
