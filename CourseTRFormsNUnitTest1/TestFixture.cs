@@ -39,7 +39,7 @@ namespace NUnitTest1
         {
             double[] products = { 2.41, 3.24, 2.09, 2.56, 3.28, 3.88, 1.70, 4.93, 3.30 };
             string actualResult = CourseTRForms.Form1.subsetSet(products, 7.8);
-            string expectedResult = " 2,41 2,09 3,3\r\n";
+            string expectedResult = "2,41 2,09 3,3 \r\n";
 
             Assert.AreEqual(expectedResult, actualResult);
         }
