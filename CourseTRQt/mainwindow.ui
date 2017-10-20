@@ -108,6 +108,9 @@
              <property name="locale">
               <locale language="English" country="UnitedStates"/>
              </property>
+			 <property name="maximum" >
+              <double>100000</double>
+             </property>
             </widget>
            </item>
           </layout>

@@ -43,7 +43,7 @@ QString MainWindow::subsetSet(std::vector<double> products, double wantedSum)
     //for (int testVal = 0; testVal < Math.Pow(2, products.Length); testVal++)
     {
         double sum = 0;
-        for (int choice = 0; choice < products.size(); choice++)
+        for (size_t choice = 0; choice < products.size(); choice++)
         {
             //if number is selected
             if (((1 << choice) & testVal) == (1 << choice))
@@ -53,10 +53,10 @@ QString MainWindow::subsetSet(std::vector<double> products, double wantedSum)
         }
 
         //if sum is found minus epsilon
-        if (abs(sum - wantedSum) < 1e-5)
+        if (fabs(sum - wantedSum) < 1e-5)
         {
             //add solution
-            for (int j = 0; j < products.size(); j++)
+            for (size_t j = 0; j < products.size(); j++)
             {
                 //if number is selected
                 if (((1 << j) & testVal) == (1 << j))
@@ -76,20 +76,24 @@ void MainWindow::on_pushButton_clicked()
     //clear the results
     ui->results->setText("");
 
-    //convert the string values to and vector of double
+    //convert the string values to a vector of double
     std::string v = ui->values->toPlainText().toStdString();
 
     std::stringstream s (v);
     std::vector<double> array;
 
     double temp;
+	//get each double, stop at first unwanted character
     while(s >> temp)
     {
         //debug for values
         //ui->results->setText(ui->results->toPlainText() + QString::number(temp) + " ");
         array.push_back(temp);
     }
-
+	
+	//for debug
+	//ui->results->setText(ui->results->toPlainText() + "\n\n");
+	
     //timer start
     double startTime = CurrentSecond();
 
