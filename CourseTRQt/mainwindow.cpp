@@ -4,6 +4,7 @@
 #include<sstream>
 #include<vector>
 #include <cmath>
+#include "subsetSum.h"
 
 #include "windows.h"
 
@@ -33,44 +34,6 @@ double CurrentSecond()
     return (double)current.QuadPart / (double)frequency;
 }
 
-QString MainWindow::subsetSet(std::vector<double> products, double wantedSum)
-{
-    QString res = "";
-
-    //for each 2^n possibilities
-    double max = pow(2, products.size());
-    for (int testVal = 0; testVal < max; testVal++)
-    //for (int testVal = 0; testVal < Math.Pow(2, products.Length); testVal++)
-    {
-        double sum = 0;
-        for (size_t choice = 0; choice < products.size(); choice++)
-        {
-            //if number is selected
-            if (((1 << choice) & testVal) == (1 << choice))
-            {
-                sum += products[choice];
-            }
-        }
-
-        //if sum is found minus epsilon
-        if (fabs(sum - wantedSum) < 1e-5)
-        {
-            //add solution
-            for (size_t j = 0; j < products.size(); j++)
-            {
-                //if number is selected
-                if (((1 << j) & testVal) == (1 << j))
-                {
-                    res += QString::number(products[j]) + " ";
-                }
-            }
-            res += "\n";
-        }
-    }
-
-    return res;
-}
-
 void MainWindow::on_pushButton_clicked()
 {
     //clear the results
@@ -98,7 +61,7 @@ void MainWindow::on_pushButton_clicked()
     double startTime = CurrentSecond();
 
     //search solutions and display them
-    ui->results->setText(ui->results->toPlainText() + subsetSet(array, ui->wantedSum->value()));
+    ui->results->setText(ui->results->toPlainText() + SubsetSum::search(array, ui->wantedSum->value()));
 
     //get elapsed time
     double elapsedTime = CurrentSecond() - startTime;

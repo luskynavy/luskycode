@@ -20,8 +20,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
-    QString subsetSet(std::vector<double> products, double wantedSum);
 };
 
 #endif // MAINWINDOW_H

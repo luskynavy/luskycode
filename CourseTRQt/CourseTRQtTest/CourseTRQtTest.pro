@@ -1,14 +1,17 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-10-20T13:20:08
+# Project created by QtCreator 2017-10-23T13:57:18
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += testlib
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core
 
-TARGET = CourseTRQt
+TARGET = tst_coursetrqttest
+CONFIG   += c++11 console
+CONFIG   -= app_bundle
+
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -24,13 +27,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    subsetSum.cpp
+        tst_coursetrqttest.cpp \  
+    ../subsetSum.cpp
+
+DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-        mainwindow.h \
-    subsetSum.h
-
-FORMS += \
-        mainwindow.ui
+    ../subsetSum.h
