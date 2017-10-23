@@ -28,7 +28,7 @@ namespace CourseTRForms
             InitializeComponent();
 
             //default values
-            values.Text = "2,41; 3,24; 2,09; 2,56; 3,28; 3,88; 1,70; 4,93; 3,30";
+            values.Text = "2,41 3,24 2,09 2,56 3,28 3,88 1,70 4,93 3,30";
             wantedSum.Text = (2.41 + 2.09 + 3.3).ToString();
         }
 
@@ -85,8 +85,8 @@ namespace CourseTRForms
 
             //convert data, string of number to array of double
             //replace . by ,
-            //number are separated by ;
-            double[] products = values.Text.Replace('.', ',').Split(';').Select(Double.Parse).ToArray();
+            //number are separated by spaces
+            double[] products = values.Text.Replace('.', ',').Split(' ').Select(Double.Parse).ToArray();
 
             double wantedSumDouble = double.Parse(wantedSum.Text.Replace('.', ','));
 
