@@ -25,7 +25,7 @@ namespace NUnitTest1
         }*/
 
         [Test]
-        public void testSubsetSet()
+        public void testSubsetSetNoResults()
         {
             double[] products = { 2.41, 3.24, 2.09, 2.56, 3.28, 3.88, 1.70, 4.93, 3.30 };
             string actualResult = CourseTRForms.Form1.subsetSet(products, 10);
@@ -35,7 +35,7 @@ namespace NUnitTest1
         }
 
         [Test]
-        public void testSubsetSet1()
+        public void testSubsetSetResult()
         {
             double[] products = { 2.41, 3.24, 2.09, 2.56, 3.28, 3.88, 1.70, 4.93, 3.30 };
             string actualResult = CourseTRForms.Form1.subsetSet(products, 7.8);
