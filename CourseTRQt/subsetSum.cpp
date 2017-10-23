@@ -24,7 +24,7 @@ QString SubsetSum::search(std::vector<double> products, double wantedSum)
         }
 
         //if sum is found minus epsilon
-        if (abs(sum - wantedSum) < 1e-5)
+        if (fabs(sum - wantedSum) < 1e-5)
         {
             //add solution
             for (size_t j = 0; j < products.size(); j++)
