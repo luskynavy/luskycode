@@ -4,9 +4,10 @@
 #include<sstream>
 #include<vector>
 #include <cmath>
+#include <chrono>
 #include "subsetSum.h"
 
-#include "windows.h"
+//#include "windows.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,14 +26,14 @@ MainWindow::~MainWindow()
 }
 
 //fast and precise windows timer
-double CurrentSecond()
+/*double CurrentSecond()
 {
     LARGE_INTEGER current;
     QueryPerformanceCounter(&current);
     LONGLONG frequency;
     QueryPerformanceFrequency( (LARGE_INTEGER *)&frequency);
     return (double)current.QuadPart / (double)frequency;
-}
+}*/
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -58,14 +59,18 @@ void MainWindow::on_pushButton_clicked()
 	//ui->results->setText(ui->results->toPlainText() + "\n\n");
 	
     //timer start
-    double startTime = CurrentSecond();
+    //double startTime = CurrentSecond();
+    auto start = std::chrono::steady_clock::now();
 
     //search solutions and display them
     ui->results->setText(ui->results->toPlainText() + SubsetSum::search(array, ui->wantedSum->value()));
 
     //get elapsed time
-    double elapsedTime = CurrentSecond() - startTime;
+    //double elapsedTime = CurrentSecond() - startTime;
+    auto end = std::chrono::steady_clock::now();
+    auto diff = end - start;
 
     //display number of values and time elapsed
-    ui->results->setText(ui->results->toPlainText() + "Done for " + QString::number(array.size()) + " values  in " + QString::number(elapsedTime, 'f', 3) + " s");
+    //ui->results->setText(ui->results->toPlainText() + "Done for " + QString::number(array.size()) + " values  in " + QString::number(elapsedTime, 'f', 3) + " s");
+    ui->results->setText(ui->results->toPlainText() + "Done for " + QString::number(array.size()) + " values  in " + QString::number(std::chrono::duration <double>(diff).count(), 'f', 3) + " s");
 }
