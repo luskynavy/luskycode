@@ -35,6 +35,8 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
+QMAKE_CXXFLAGS += -std=c++11 -static-libgcc -static
+
 DISTFILES += \
     android/AndroidManifest.xml \
     android/gradle/wrapper/gradle-wrapper.jar \
