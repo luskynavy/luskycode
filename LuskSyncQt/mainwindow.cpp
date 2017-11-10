@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -40,7 +41,7 @@ QList<QStandardItem *> MainWindow::prepareRow(const QString &p1, const QString &
 
 void MainWindow::on_PushButton_Add_clicked()
 {
-    QList<QStandardItem *> row = prepareRow("truc", "222", "333", "2017-11-10 15:50:10");
+    QList<QStandardItem *> row = prepareRow("truc" + QString::number(rand() % 100), "E:\\Users\\yvan.kalafatov\\Documents\\My Games\\SteamWorld Dig\\", "/syncback/SteamWorld Dig", "2017-11-10 15:50:10");
     model->appendRow(row);
 }
 
@@ -49,6 +50,30 @@ void MainWindow::on_pushButton_Delete_clicked()
     QItemSelectionModel *selected = ui->tableView->selectionModel();
     if (selected->hasSelection())
     {
-        model->removeRow(selected->selectedRows().at(0).row());
+        int rowId = selected->selectedRows().at(0).row();
+
+        model->removeRow(rowId);
+    }
+}
+
+void MainWindow::on_pushButton_Edit_clicked()
+{
+    QItemSelectionModel *selected = ui->tableView->selectionModel();
+    if (selected->hasSelection())
+    {
+        int rowId = selected->selectedRows().at(0).row();
+
+        qDebug() << "edit " << rowId;
+    }
+}
+
+void MainWindow::on_pushButton_Launch_clicked()
+{
+    QItemSelectionModel *selected = ui->tableView->selectionModel();
+    if (selected->hasSelection())
+    {
+        int rowId = selected->selectedRows().at(0).row();
+
+        qDebug() << "launch " << rowId;
     }
 }

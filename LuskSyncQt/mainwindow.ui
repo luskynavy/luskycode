@@ -42,7 +42,7 @@
      <enum>QAbstractItemView::SelectRows</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="pushButton_Edit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -52,10 +52,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Edit Mode</string>
+     <string>Edit</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="pushButton_Launch">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -65,7 +65,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Launch Mode</string>
+     <string>Launch</string>
     </property>
    </widget>
    <widget class="QPushButton" name="PushButton_Add">
