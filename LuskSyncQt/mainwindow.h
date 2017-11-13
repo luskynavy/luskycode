@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
+#include "qtftp/qurlinfo.h"
+#include "qtftp/qftp.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +34,9 @@ private:
     QList<QStandardItem *> prepareRow(const QString &p1, const QString &p2, const QString &p3, const QString &p4);
 
     QStandardItemModel *model;
+
+ private slots:
+    void addToList(const QUrlInfo &urlInfo);
 };
 
 #endif // MAINWINDOW_H

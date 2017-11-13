@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -74,6 +75,31 @@ void MainWindow::on_pushButton_Launch_clicked()
     {
         int rowId = selected->selectedRows().at(0).row();
 
-        qDebug() << "launch " << rowId;
+        qDebug() << "launch " << rowId;        
+    }
+
+    QFtp* ftp = new QFtp(this);
+    connect(ftp, SIGNAL(listInfo(QUrlInfo)), this, SLOT(addToList(QUrlInfo)));
+
+    QUrl url("ftp://test:truc2@localhost:21/");
+    if (!url.isValid() || url.scheme().toLower() != QLatin1String("ftp")) {
+        ftp->connectToHost(url.host(), 21);
+        ftp->login();
+    } else {
+        ftp->connectToHost(url.host(), url.port(21));
+
+        if (!url.userName().isEmpty())
+            ftp->login(QUrl::fromPercentEncoding(url.userName().toLatin1()), url.password());
+        else
+            ftp->login();
+        if (!url.path().isEmpty())
+            ftp->cd(url.path());
+        ftp->list();
     }
 }
+
+void MainWindow::addToList(const QUrlInfo &urlInfo)
+{
+    qDebug() << urlInfo.name() << " " << urlInfo.size();
+}
+
