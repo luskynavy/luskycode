@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
+#include <QDir>
 #include "qtftp/qurlinfo.h"
 #include "qtftp/qftp.h"
 
@@ -34,9 +35,16 @@ private:
     QList<QStandardItem *> prepareRow(const QString &p1, const QString &p2, const QString &p3, const QString &p4);
 
     QStandardItemModel *model;
+    QFtp* ftp;
+
+    QFileInfoList localFiles;
+    QList<QUrlInfo> remoteFiles;
 
  private slots:
+    //void commandStarted(int id);
     void addToList(const QUrlInfo &urlInfo);
+    //void commandFinished(int id, bool error);
+    void done(bool error);
 };
 
 #endif // MAINWINDOW_H
