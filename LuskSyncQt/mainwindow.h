@@ -4,8 +4,16 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QDir>
-#include "qtftp/qurlinfo.h"
-#include "qtftp/qftp.h"
+
+#include <QtGlobal>
+#if QT_VERSION >= 0x050000
+    #include <QtFtp/qurlinfo.h>
+    #include <QtFtp/qftp.h>
+#else
+    #include <qftp>
+#endif
+
+
 
 namespace Ui {
 class MainWindow;
