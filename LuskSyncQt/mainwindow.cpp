@@ -22,6 +22,12 @@ void MainWindow::initTableView()
     modelMain->setHorizontalHeaderItem(3, new QStandardItem(QString("Last")));
 
     ui->tableView->setModel(modelMain);
+
+    modelDetail = new QStandardItemModel(0, 4, this); //2 Rows and 4 Columns
+    modelDetail->setHorizontalHeaderItem(0, new QStandardItem(QString("Name")));
+    modelDetail->setHorizontalHeaderItem(1, new QStandardItem(QString("Size")));
+    modelDetail->setHorizontalHeaderItem(2, new QStandardItem(QString("Date")));
+    modelDetail->setHorizontalHeaderItem(3, new QStandardItem(QString("Time")));
 }
 
 MainWindow::~MainWindow()
@@ -75,14 +81,7 @@ void MainWindow::on_pushButton_Edit_clicked()
     QDir dir("E:\\Users\\yvan.kalafatov\\Documents\\My Games\\SteamWorld Dig\\");
     localFiles = dir.entryInfoList(QDir::Files);
 
-    //delete model;
-
-    modelDetail = new QStandardItemModel(0, 4, this); //2 Rows and 4 Columns
-    modelDetail->setHorizontalHeaderItem(0, new QStandardItem(QString("Name")));
-    modelDetail->setHorizontalHeaderItem(1, new QStandardItem(QString("Size")));
-    modelDetail->setHorizontalHeaderItem(2, new QStandardItem(QString("Date")));
-    modelDetail->setHorizontalHeaderItem(3, new QStandardItem(QString("Time")));
-
+    modelDetail->removeRows(0, modelDetail->rowCount());
     ui->tableView->setModel(modelDetail);
 
     for(auto f : localFiles)
@@ -112,6 +111,8 @@ void MainWindow::on_pushButton_Launch_clicked()
     connect(ftp, SIGNAL(listInfo(QUrlInfo)), this, SLOT(addToList(QUrlInfo)));
     //connect(ftp, SIGNAL(commandFinished(int, bool)), this, SLOT(commandFinished(int, bool)));
     connect(ftp, SIGNAL(done(bool)), this, SLOT(done(bool)));
+
+    remoteFiles.clear();
 
     QUrl url("ftp://test:truc2@localhost:21/");
     if (!url.isValid() || url.scheme().toLower() != QLatin1String("ftp")) {
@@ -156,4 +157,14 @@ void MainWindow::commandFinished(int id, bool error)
 void MainWindow::done(bool error)
 {
     qDebug() << " " << error;
+    ui->tableView->setModel(modelDetail);
+    modelDetail->removeRows(0, modelDetail->rowCount());
+
+    for(auto f : remoteFiles)
+    {
+        QList<QStandardItem *> row = prepareRow(f.name(), QString::number(f.size()),
+                                                f.lastModified().date().toString("yyyy-MM-dd"),
+                                                f.lastModified().time().toString());
+        modelDetail->appendRow(row);
+    }
 }

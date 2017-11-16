@@ -5,10 +5,10 @@
 #include <QStandardItemModel>
 #include <QDir>
 
+//use local qftp for newer and qt one for older
 #include <QtGlobal>
 #if QT_VERSION >= 0x050000
-    #include <QtFtp/qurlinfo.h>
-    #include <QtFtp/qftp.h>
+    #include "QtFtp/qftp.h"
 #else
     #include <qftp>
 #endif
