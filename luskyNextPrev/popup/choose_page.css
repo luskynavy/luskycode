@@ -1,0 +1,11 @@
+html, body {
+}
+
+.page-choice {
+  text-align: center;
+  cursor: pointer;
+}
+
+.page-choice:hover {
+  background-color: #CFF2F2;
+}

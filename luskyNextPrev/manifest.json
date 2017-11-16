@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+
+  "name": "NextPrev Page",
+  "description": "This extension displays the next or previous page by incrementing or decrementing the last number in URL",
+  "version": "1.0.2",
+
+  "browser_action": {
+    "default_icon": "icon48.png",
+	"default_popup": "popup/choose_page.html",
+	"default_title": "NextPrev"
+  },  
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+
+  "permissions": [
+	"activeTab",
+	"tabs"
+  ]
+}
