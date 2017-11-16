@@ -15,13 +15,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::initTableView()
 {
-    model = new QStandardItemModel(0, 4, this); //2 Rows and 3 Columns
-    model->setHorizontalHeaderItem(0, new QStandardItem(QString("Name")));
-    model->setHorizontalHeaderItem(1, new QStandardItem(QString("Source")));
-    model->setHorizontalHeaderItem(2, new QStandardItem(QString("Dest")));
-    model->setHorizontalHeaderItem(3, new QStandardItem(QString("Last")));
+    modelMain = new QStandardItemModel(0, 4, this); //2 Rows and 3 Columns
+    modelMain->setHorizontalHeaderItem(0, new QStandardItem(QString("Name")));
+    modelMain->setHorizontalHeaderItem(1, new QStandardItem(QString("Source")));
+    modelMain->setHorizontalHeaderItem(2, new QStandardItem(QString("Dest")));
+    modelMain->setHorizontalHeaderItem(3, new QStandardItem(QString("Last")));
 
-    ui->tableView->setModel(model);
+    ui->tableView->setModel(modelMain);
 }
 
 MainWindow::~MainWindow()
@@ -43,7 +43,9 @@ QList<QStandardItem *> MainWindow::prepareRow(const QString &p1, const QString &
 void MainWindow::on_PushButton_Add_clicked()
 {
     QList<QStandardItem *> row = prepareRow("truc" + QString::number(rand() % 100), "E:\\Users\\yvan.kalafatov\\Documents\\My Games\\SteamWorld Dig\\", "/syncback/SteamWorld Dig", "2017-11-10 15:50:10");
-    model->appendRow(row);
+    modelMain->appendRow(row);
+
+    ui->tableView->setModel(modelMain);
 }
 
 void MainWindow::on_pushButton_Delete_clicked()
@@ -53,7 +55,9 @@ void MainWindow::on_pushButton_Delete_clicked()
     {
         int rowId = selected->selectedRows().at(0).row();
 
-        model->removeRow(rowId);
+        modelMain->removeRow(rowId);
+
+        ui->tableView->setModel(modelMain);
     }
 }
 
@@ -73,13 +77,13 @@ void MainWindow::on_pushButton_Edit_clicked()
 
     //delete model;
 
-    model = new QStandardItemModel(0, 4, this); //2 Rows and 4 Columns
-    model->setHorizontalHeaderItem(0, new QStandardItem(QString("Name")));
-    model->setHorizontalHeaderItem(1, new QStandardItem(QString("Size")));
-    model->setHorizontalHeaderItem(2, new QStandardItem(QString("Date")));
-    model->setHorizontalHeaderItem(3, new QStandardItem(QString("Time")));
+    modelDetail = new QStandardItemModel(0, 4, this); //2 Rows and 4 Columns
+    modelDetail->setHorizontalHeaderItem(0, new QStandardItem(QString("Name")));
+    modelDetail->setHorizontalHeaderItem(1, new QStandardItem(QString("Size")));
+    modelDetail->setHorizontalHeaderItem(2, new QStandardItem(QString("Date")));
+    modelDetail->setHorizontalHeaderItem(3, new QStandardItem(QString("Time")));
 
-    ui->tableView->setModel(model);
+    ui->tableView->setModel(modelDetail);
 
     for(auto f : localFiles)
     {
@@ -88,7 +92,7 @@ void MainWindow::on_pushButton_Edit_clicked()
                  << " " << f.lastModified().time().toString();
 
         QList<QStandardItem *> row = prepareRow(f.fileName(), QString::number(f.size()), f.lastModified().date().toString("yyyy-MM-dd"), f.lastModified().time().toString());
-        model->appendRow(row);
+        modelDetail->appendRow(row);
     }
     qDebug() << "";
 }

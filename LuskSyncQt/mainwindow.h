@@ -34,7 +34,8 @@ private:
     void initTableView();
     QList<QStandardItem *> prepareRow(const QString &p1, const QString &p2, const QString &p3, const QString &p4);
 
-    QStandardItemModel *model;
+    QStandardItemModel *modelMain;
+    QStandardItemModel *modelDetail;
     QFtp* ftp;
 
     QFileInfoList localFiles;
