@@ -17,6 +17,10 @@ document.addEventListener("click", function(e) {
 function getAndIncrementLastNumber(str, increment) {
   return str.replace(/(\D*)(\d+)(\D*)$/, function(s, p1, p2, p3) {
     var l = p2.length, s = '' + (+p2+increment), n = l - s.length;
+	if (n < 0)
+	{
+		n = 0;
+	}
     return p1 + '0'.repeat(n) + s + p3;
   });
 }
