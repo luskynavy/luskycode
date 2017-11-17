@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "NextPrev Page",
-  "description": "This extension displays the next or previous page by incrementing or decrementing the last number in URL",
+  "description": "This extension displays the next or previous page by incrementing or decrementing the last number in URL. This is a very simple replacement for simple URL flipper. Page number can be incermented or decremented by 1 or 10.",
   "version": "1.0.2",
 
   "browser_action": {
