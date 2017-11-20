@@ -7,10 +7,19 @@
   </head>
 
 <body>
-  <div class="page-choice">+1</div>  
-  <div class="page-choice">-1</div>
-  <div class="page-choice">+10</div>  
-  <div class="page-choice">-10</div>
+  <div class="menu">
+    <button role="button" class="menu-item" title="-10" data-step="-10"><svg height="16" width="16">
+      <polygon points="0,8 8,16 8,0" style="fill:#999;stroke-width:0" />
+     <polygon points="8,8 16,16 16,0" style="fill:#999;stroke-width:0" />
+    </svg></button><button role="button" class="menu-item" title="-1" data-step="-1"><svg height="16" width="16">
+      <polygon points="0,8 16,16 16,0" style="fill:#999;stroke-width:0" />
+    </svg></button><button role="button" class="menu-item" title="+1" data-step="1"><svg height="16" width="16">
+      <polygon points="0,0 0,16 16,8" style="fill:#999;stroke-width:0" />
+    </svg></button><button role="button" class="menu-item" title="+10" data-step="+10"><svg height="16" width="16">
+      <polygon points="0,0 0,16 8,8" style="fill:#999;stroke-width:0" />
+      <polygon points="8,0 8,16 16,8" style="fill:#999;stroke-width:0" />
+    </svg></button>
+  </div>
   <script src="choose_page.js"></script>
 </body>
 

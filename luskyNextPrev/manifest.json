@@ -3,7 +3,7 @@
 
   "name": "NextPrev Page",
   "description": "This extension displays the next or previous page by incrementing or decrementing the last number in URL.",
-  "version": "1.0.4",
+  "version": "1.1.0",
 
   "browser_action": {
     "default_icon": "icon48.png",

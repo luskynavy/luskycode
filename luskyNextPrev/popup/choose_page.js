@@ -1,13 +1,15 @@
-document.addEventListener("click", function(e) {
-  if (!e.target.classList.contains("page-choice")) {
-    return;
-  }
-  
+function onclick(e) {    
   //convert the increment to integer and use it to increment the last number in url of current tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.update(tabs[0].id, {url: getAndIncrementLastNumber(tabs[0].url, +e.target.textContent)});	
+    chrome.tabs.update(tabs[0].id, {url: getAndIncrementLastNumber(tabs[0].url, +e.target.getAttribute('data-step'))});	
   });
-});
+}
+
+var elts = document.getElementsByClassName('menu-item');
+
+for(var i=0; i<elts.length; i++) {
+  elts[i].addEventListener('click', onclick);
+}
 
 /**
 * Get and increment by increment the last number of the url string
