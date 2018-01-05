@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "edit.h"
 
 #include <QDebug>
 #include <QUrl>
@@ -94,6 +95,13 @@ void MainWindow::on_pushButton_Edit_clicked()
         modelDetail->appendRow(row);
     }
     qDebug() << "";
+
+    //modal edit dialog test
+    Edit e;
+    e.setWindowModality(Qt::ApplicationModal);
+    e.show();
+
+    e.exec();
 }
 
 void MainWindow::on_pushButton_Launch_clicked()

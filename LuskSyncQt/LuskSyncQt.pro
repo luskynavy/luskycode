@@ -27,15 +27,18 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     QtFtp/qftp.cpp \
-    QtFtp/qurlinfo.cpp
+    QtFtp/qurlinfo.cpp \
+    edit.cpp
 
 HEADERS += \
         mainwindow.h \
     QtFtp/qftp.h \
-    QtFtp/qurlinfo.h
+    QtFtp/qurlinfo.h \
+    edit.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    edit.ui
 
 CONFIG += mobility
 MOBILITY = 
