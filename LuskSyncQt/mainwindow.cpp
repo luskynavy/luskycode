@@ -98,10 +98,13 @@ void MainWindow::on_pushButton_Edit_clicked()
 
     //modal edit dialog test
     Edit e;
-    e.setWindowModality(Qt::ApplicationModal);
-    e.show();
 
-    e.exec();
+    e.setFtpPath("FtpPath");
+
+    int result = e.exec();
+    qDebug() << "result " << result;
+
+    qDebug() << "getFtpPath " << e.getFtpPath();
 }
 
 void MainWindow::on_pushButton_Launch_clicked()
