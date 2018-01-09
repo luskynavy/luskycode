@@ -25,13 +25,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp 
+        mainwindow.cpp \ 
+    edit.cpp
 
 HEADERS += \
-        mainwindow.h 
+        mainwindow.h \ 
+    edit.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    edit.ui
+	
+QMAKE_CXXFLAGS += -std=c++11 -static-libgcc -static
 
 CONFIG += mobility
 MOBILITY = 
