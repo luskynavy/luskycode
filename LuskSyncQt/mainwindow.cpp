@@ -5,6 +5,10 @@
 #include <QDebug>
 #include <QUrl>
 
+#include <fstream>
+#include <iostream>
+#include <string>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -12,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     initTableView();
+    searchSyncFiles();
 }
 
 void MainWindow::initTableView()
@@ -47,6 +52,37 @@ QList<QStandardItem *> MainWindow::prepareRow(const QString &p1, const QString &
     return rowItems;
 }
 
+void MainWindow::searchSyncFiles()
+{
+    //search all *.sncin current dir
+    QDir dir("");
+    QStringList filters;
+    filters << "*.snc";
+    QFileInfoList syncFiles = dir.entryInfoList(filters, QDir::Files);
+
+    for(auto f : syncFiles)
+    {
+        qDebug() << f.fileName() << " " << f.size() << (f.isDir() ? "DIR" : "FIL")
+                 << " " << f.lastModified().date().toString("yyyy-MM-dd")
+                 << " " << f.lastModified().time().toString();
+
+        //add content to list
+        std::string name, ftpPath, localPath;
+        std::ifstream fileSync( f.fileName().toStdString());
+        if (fileSync)
+        {
+            getline(fileSync, name);
+            getline(fileSync, ftpPath);
+            getline(fileSync, localPath);
+
+            QList<QStandardItem *> row = prepareRow(QString::fromStdString(name), QString::fromStdString(ftpPath), QString::fromStdString(localPath), "");
+            modelMain->appendRow(row);
+
+            fileSync.close();
+        }
+    }
+}
+
 void MainWindow::on_PushButton_Add_clicked()
 {
     QList<QStandardItem *> row = prepareRow("truc" + QString::number(rand() % 100), "E:\\Users\\yvan.kalafatov\\Documents\\My Games\\SteamWorld Dig\\", "/syncback/SteamWorld Dig", "2017-11-10 15:50:10");
@@ -76,9 +112,28 @@ void MainWindow::on_pushButton_Edit_clicked()
         int rowId = selected->selectedRows().at(0).row();
 
         qDebug() << "edit " << rowId;
+
+        //show edit dialog box with values
+        Edit e;
+
+        e.setName(modelMain->index(rowId, 0).data().toString());
+        e.setFtpPath(modelMain->index(rowId, 1).data().toString());
+        e.setLocalPath(modelMain->index(rowId, 2).data().toString());
+
+        int result = e.exec();
+        qDebug() << "result " << result;
+
+        //if ok selected update tableview
+        if (result == QDialog::Accepted)
+        {
+            qDebug() << "getFtpPath " << e.getName();
+            modelMain->item(rowId, 0)->setData(e.getName(), Qt::DisplayRole);
+            modelMain->item(rowId, 1)->setData(e.getFtpPath(), Qt::DisplayRole);
+            modelMain->item(rowId, 2)->setData(e.getLocalPath(), Qt::DisplayRole);
+        }
     }
 
-    //only files
+    /*//only files
     QDir dir("E:\\Users\\yvan.kalafatov\\Documents\\My Games\\SteamWorld Dig\\");
     localFiles = dir.entryInfoList(QDir::Files);
 
@@ -94,17 +149,7 @@ void MainWindow::on_pushButton_Edit_clicked()
         QList<QStandardItem *> row = prepareRow(f.fileName(), QString::number(f.size()), f.lastModified().date().toString("yyyy-MM-dd"), f.lastModified().time().toString());
         modelDetail->appendRow(row);
     }
-    qDebug() << "";
-
-    //modal edit dialog test
-    Edit e;
-
-    e.setFtpPath("FtpPath");
-
-    int result = e.exec();
-    qDebug() << "result " << result;
-
-    qDebug() << "getFtpPath " << e.getFtpPath();
+    qDebug() << "";*/
 }
 
 void MainWindow::on_pushButton_Launch_clicked()
