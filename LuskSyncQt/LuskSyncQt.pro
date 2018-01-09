@@ -26,9 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    QtFtp/qftp.cpp \
-    QtFtp/qurlinfo.cpp \
     edit.cpp
+	
+greaterThan(QT_MAJOR_VERSION, 5): SOURCES += QtFtp/qftp.cpp \
+    QtFtp/qurlinfo.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,6 +40,8 @@ HEADERS += \
 FORMS += \
         mainwindow.ui \
     edit.ui
+	
+QMAKE_CXXFLAGS += -std=c++11 -static-libgcc -static
 
 CONFIG += mobility
 MOBILITY = 
