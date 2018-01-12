@@ -34,6 +34,9 @@ int sum(int imax)
 
 int main()
 {
+	int x = 1'000'000;
+	std::cout << x << ' ' << 1'000'000 << '\n';
+	
 	std::string s5 = "5";
 	int t{ stoi(s5) };
 
