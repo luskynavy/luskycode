@@ -43,6 +43,7 @@ private:
     QList<QStandardItem *> prepareRow(const QString &p1, const QString &p2, const QString &p3, const QString &p4);
 
     void searchSyncFiles();
+    void saveSyncFile(const QString &name, const QString &ftpPath, const QString &localPath);
 
     QStandardItemModel *modelMain;
     QStandardItemModel *modelDetail;
