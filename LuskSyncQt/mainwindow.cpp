@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <cstdio>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -67,15 +68,18 @@ void MainWindow::searchSyncFiles()
                  << " " << f.lastModified().time().toString();
 
         //add content to list
-        std::string name, ftpPath, localPath;
-        std::ifstream fileSync( f.fileName().toStdString());
+        std::string /*name, */ftpPath, localPath;
+        std::ifstream fileSync(f.fileName().toStdString());
         if (fileSync)
         {
-            getline(fileSync, name);
+            //getline(fileSync, name);
             getline(fileSync, ftpPath);
             getline(fileSync, localPath);
 
-            QList<QStandardItem *> row = prepareRow(QString::fromStdString(name), QString::fromStdString(ftpPath), QString::fromStdString(localPath), "");
+            //name is filename minus ".snc"
+            QList<QStandardItem *> row = prepareRow(f.fileName().left(f.fileName().length() - 4)/*QString::fromStdString(name)*/,
+                                                    QString::fromStdString(ftpPath), QString::fromStdString(localPath), "");
+            //add line to view
             modelMain->appendRow(row);
 
             fileSync.close();
@@ -83,12 +87,44 @@ void MainWindow::searchSyncFiles()
     }
 }
 
+void MainWindow::saveSyncFile(const QString &name, const QString &ftpPath, const QString &localPath)
+{
+    std::ofstream fileSync(name.toStdString() + ".snc");
+    if (fileSync)
+    {
+        fileSync << ftpPath.toStdString() << '\n';
+        fileSync << localPath.toStdString() << '\n';
+
+        fileSync.close();
+    }
+}
+
 void MainWindow::on_PushButton_Add_clicked()
 {
-    QList<QStandardItem *> row = prepareRow("truc" + QString::number(rand() % 100), "E:\\Users\\yvan.kalafatov\\Documents\\My Games\\SteamWorld Dig\\", "/syncback/SteamWorld Dig", "2017-11-10 15:50:10");
-    modelMain->appendRow(row);
 
-    ui->tableView->setModel(modelMain);
+    /*QList<QStandardItem *> row = prepareRow("truc" + QString::number(rand() % 100), "E:\\Users\\yvan.kalafatov\\Documents\\My Games\\SteamWorld Dig\\", "/syncback/SteamWorld Dig", "2017-11-10 15:50:10");
+    modelMain->appendRow(row);*/
+
+    Edit e;
+    e.setName("test");
+
+    int result = e.exec();
+    qDebug() << "result " << result;
+
+    //if ok selected update tableview and save
+    if (result == QDialog::Accepted)
+    {
+        //if name for file is not empty
+        if (e.getName().length())
+        {
+            QList<QStandardItem *> row = prepareRow(e.getName(), e.getFtpPath(), e.getLocalPath(), "");
+            modelMain->appendRow(row);
+
+            saveSyncFile(e.getName(), e.getFtpPath(), e.getLocalPath());
+        }
+
+        ui->tableView->setModel(modelMain);
+    }
 }
 
 void MainWindow::on_pushButton_Delete_clicked()
@@ -98,6 +134,17 @@ void MainWindow::on_pushButton_Delete_clicked()
     {
         int rowId = selected->selectedRows().at(0).row();
 
+        //convert qstring to char*
+        QString fileName = modelMain->index(rowId, 0).data().toString() + ".snc";
+        QByteArray nameBA = fileName.toLatin1();
+        const char *nameCStr = nameBA.data();
+
+        qDebug() << fileName << nameCStr;
+
+        //delete file
+        std::remove(nameCStr);
+
+        //update tableview
         modelMain->removeRow(rowId);
 
         ui->tableView->setModel(modelMain);
@@ -115,21 +162,38 @@ void MainWindow::on_pushButton_Edit_clicked()
 
         //show edit dialog box with values
         Edit e;
+        QString nameBeforeEdit;
 
-        e.setName(modelMain->index(rowId, 0).data().toString());
+        nameBeforeEdit = modelMain->index(rowId, 0).data().toString();
+        e.setName(nameBeforeEdit);
         e.setFtpPath(modelMain->index(rowId, 1).data().toString());
         e.setLocalPath(modelMain->index(rowId, 2).data().toString());
 
         int result = e.exec();
         qDebug() << "result " << result;
 
-        //if ok selected update tableview
+        //if ok selected update tableview and save
         if (result == QDialog::Accepted)
         {
             qDebug() << "getFtpPath " << e.getName();
+            //update tableview
             modelMain->item(rowId, 0)->setData(e.getName(), Qt::DisplayRole);
             modelMain->item(rowId, 1)->setData(e.getFtpPath(), Qt::DisplayRole);
             modelMain->item(rowId, 2)->setData(e.getLocalPath(), Qt::DisplayRole);
+
+            //write the file with old name
+            saveSyncFile(nameBeforeEdit, e.getFtpPath(), e.getLocalPath());
+
+            //rename old file to new name if changed
+            if (nameBeforeEdit != e.getName())
+            {
+                QByteArray nameBeforeEditBA = nameBeforeEdit.toLatin1() + ".snc";
+                const char *nameBeforeEditCStr = nameBeforeEditBA.data();
+                QByteArray newBA = e.getName().toLatin1() + ".snc";
+                const char *newCStr = newBA.data();
+
+                std::rename(nameBeforeEditCStr, newCStr);
+            }
         }
     }
 
@@ -187,6 +251,7 @@ void MainWindow::on_pushButton_Launch_clicked()
     }    
 }
 
+//ftp signal for new entry for listInfo
 void MainWindow::addToList(const QUrlInfo &urlInfo)
 {
     //only files
@@ -210,6 +275,7 @@ void MainWindow::commandFinished(int id, bool error)
     qDebug() << id << error << ftp->currentId();
 }*/
 
+//ftp signal when listInfo is done
 void MainWindow::done(bool error)
 {
     qDebug() << " " << error;
