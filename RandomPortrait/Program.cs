@@ -11,61 +11,93 @@ namespace RandomPortrait
     {
         static void Main(string[] args)
         {
-            //string[] names = { "Xzar", "Montar" , "Khalid", "Jaheira", "Imoen", "Maghia" };
-            StreamReader fileNames = new StreamReader("RandomPortrait.txt");
+            const string EXTENSION_BIG = "M.bmp";
+            const string EXTENSION_SMALL = "S.bmp";
 
-            //read file of names
-            List<String> names = new List<String>();
-            string line;
-            while ((line = fileNames.ReadLine()) != null)
+            StreamReader fileNames = null;
+            try
             {
-                if (line != "")
-                {
-                    Console.WriteLine(line);
-                    names.Add(line);
-                }
+                fileNames = new StreamReader("RandomPortrait.txt");
+            }
+            catch (FileNotFoundException)
+            {
             }
 
-            fileNames.Close();
-            
-            //current dir for searching *M.bmp
-            string bmpDir = @".\";
-
-            string[] files = Directory.GetFiles(bmpDir, "*M.bmp");
-
-            //remove names from files to prevent giving more probability to be choosen
-            int found;
-            foreach (string n in names)
+            if (fileNames != null)
             {
-                found = Array.IndexOf(files, bmpDir + n + "M.bmp");
-                if (found != -1)
+                //read file of names
+                List<String> names = new List<String>();
+                string line;
+                while ((line = fileNames.ReadLine()) != null)
                 {
-                    files[found] = "";
+                    if (line != "")
+                    {
+                        Console.WriteLine(line);
+                        names.Add(line);
+                    }
                 }
-            }
 
-            Random rnd = new Random();
+                fileNames.Close();
 
-            foreach(string n in names)
-            {
-                //choose a random file
-                int choice = rnd.Next(0, files.Length);
+                //current dir for searching *EXTENSION_BIG
+                string bmpDir = @".\";
 
-                //prevent reuse by skipping empty names
-                while (files[choice] == "")
+                string[] files = Directory.GetFiles(bmpDir, "*" + EXTENSION_BIG);
+
+                //if found some files
+                if (files.Length > 0)
                 {
-                    choice = rnd.Next(0, files.Length);
-                }
-                
-                Console.WriteLine(files[choice] + " => " + bmpDir + n + "M.bmp");
-                //Console.WriteLine(files[choice].Substring(0, files[choice].IndexOf(".bmp")) + "S.bmp" + "\n =>" + bmpDir + n + "S.bmp");
-                Console.WriteLine(files[choice].Replace("M.bmp","S.bmp") + " => " + bmpDir + n + "S.bmp");
+                    //if more names than files not possible to not reuse allready choosen names
+                    bool moreNamesThanFiles = names.Count > files.Length;
 
-                File.Copy(files[choice], bmpDir + n + "M.bmp", true);
-                File.Copy(files[choice].Replace("M.bmp", "S.bmp"), bmpDir + n + "S.bmp", true);
-                
-                //prevent reuse by emptying used file
-                files[choice] = "";
+                    //only if possible (no more names than files)
+                    if (moreNamesThanFiles)
+                    {
+                        //remove names from files to prevent giving more probability to be choosen
+                        int found;
+                        foreach (string n in names)
+                        {
+                            found = Array.IndexOf(files, bmpDir + n + EXTENSION_BIG);
+                            if (found != -1)
+                            {
+                                files[found] = "";
+                            }
+                        }
+                    }
+
+                    Random rnd = new Random();
+
+                    foreach (string n in names)
+                    {
+                        //choose a random file
+                        int choice = rnd.Next(0, files.Length);
+
+                        //prevent reuse by skipping empty names
+                        while (files[choice] == "")
+                        {
+                            choice = rnd.Next(0, files.Length);
+                        }
+
+                        Console.WriteLine(files[choice] + " => " + bmpDir + n + EXTENSION_BIG);
+                        //Console.WriteLine(files[choice].Substring(0, files[choice].IndexOf(".bmp")) + EXTENSION_SMALL + "\n =>" + bmpDir + n + EXTENSION_SMALL);
+                        Console.WriteLine(files[choice].Replace(EXTENSION_BIG, EXTENSION_SMALL) + " => " + bmpDir + n + EXTENSION_SMALL);
+
+                        try
+                        {
+                            File.Copy(files[choice], bmpDir + n + EXTENSION_BIG, true);
+                            File.Copy(files[choice].Replace(EXTENSION_BIG, EXTENSION_SMALL), bmpDir + n + EXTENSION_SMALL, true);
+                        }
+                        catch (FileNotFoundException)
+                        {
+                        }
+
+                        //prevent reuse by emptying used file only if possible
+                        if (!moreNamesThanFiles)
+                        {
+                            files[choice] = "";
+                        }
+                    }
+                }
             }
         }
     }
