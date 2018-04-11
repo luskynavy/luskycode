@@ -48,8 +48,8 @@ namespace MandelCSharp
             //start timer
             double starttime = CurrentSecond;
 
-            int steps = 4000;
-            int maxLevel = 700;
+            int steps = 3000;
+            int maxLevel = 100;
             TYPE_CALC xmin = -2;
             TYPE_CALC ymin = -1;
             TYPE_CALC xmax = 1;
