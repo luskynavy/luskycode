@@ -1,8 +1,55 @@
-function onclick(e) {    
+var testUrlReturn;
+
+function onclick(e) {
+  var holeLimit, fastJump;
+  chrome.storage.local.get(null,
+    function(object)
+    {
+      holeLimit = object["holeLimit"];      
+      fastJump = object["fastJump"];
+  }); //todo add callback for code after
+  
+  console.log("hole limit " + holeLimit);
+  console.log("fast jump " + +fastJump);
+  
+  var dataStepSign;
+  if (+e.target.getAttribute('data-step') >= 0)
+	dataStepSign = 1;
+  else
+	dataStepSign = -1;
   //convert the increment to integer and use it to increment the last number in url of current tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.update(tabs[0].id, {url: getAndIncrementLastNumber(tabs[0].url, +e.target.getAttribute('data-step'))});	
+	console.log("hole limit " + holeLimit);
+	for (i = 0; i < holeLimit; i++) {	  
+	  var nextUrl = getAndIncrementLastNumber(tabs[0].url, +e.target.getAttribute('data-step') + dataStepSign * i);
+	  TestUrl(nextUrl);
+	  //console.log(nextUrl + ' ' + testUrlReturn);
+	  if (testUrlReturn == 1)
+		break;
+	}
+    chrome.tabs.update(tabs[0].id, {url: nextUrl});	
   });
+}
+
+function TestUrl(strURL) {
+    var req = new XMLHttpRequest();
+    req.open("GET", strURL, false); //false for synchronous
+    req.onreadystatechange=function() {
+        if (req.readyState == 4) {
+            if (req.status == 200)
+            {
+                //console.log("Url found!");
+				testUrlReturn = 1;
+            } else if (req.status == 404) {
+				//console.log("URL doesn't exist!")				
+				testUrlReturn = 0;
+			} else {
+				//console.log("Error: Status is " + req.status)				
+				testUrlReturn = 0;
+			}
+        }
+    }
+    req.send();
 }
 
 var elts = document.getElementsByClassName('menu-item');
