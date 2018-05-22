@@ -1,29 +1,45 @@
 var testUrlReturn;
 
 function onclick(e) {
-  var holeLimit, fastJump;
+  var holeLimit, fastJump, dataStep;
+  
+  dataStep = +e.currentTarget.getAttribute('data-step');
+  console.log("onclick dataStep " + dataStep);
+  
   chrome.storage.local.get(null,
     function(object)
     {
-      holeLimit = object["holeLimit"];      
-      fastJump = object["fastJump"];
-  }); //todo add callback for code after
-  
-  console.log("hole limit " + holeLimit);
-  console.log("fast jump " + +fastJump);
+      holeLimit = object["holeLimit"] || 10;      
+      fastJump = object["fastJump"] || 10;
+	  //console.log("onclick hole limit " + holeLimit);
+      //console.log("onclick fast jump " + +fastJump);	  
+	  onStorageLoaded(holeLimit, fastJump, dataStep);
+  });
+}
+
+function onStorageLoaded(holeLimit, fastJump, dataStep) {
+  console.log("onStorageLoaded hole limit " + holeLimit);
+  console.log("onStorageLoaded fast jump " + fastJump);
+  console.log("onStorageLoaded dataStep " + dataStep);
   
   var dataStepSign;
-  if (+e.target.getAttribute('data-step') >= 0)
+  if (dataStep >= 0) {
+	if (dataStep > 1)
+		dataStep = +fastJump;
 	dataStepSign = 1;
-  else
+  } else {
+	if (dataStep < -1)
+	  dataStep = -fastJump;	
 	dataStepSign = -1;
+  }  
+
   //convert the increment to integer and use it to increment the last number in url of current tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-	console.log("hole limit " + holeLimit);
+	//console.log("hole limit " + holeLimit);
 	for (i = 0; i < holeLimit; i++) {	  
-	  var nextUrl = getAndIncrementLastNumber(tabs[0].url, +e.target.getAttribute('data-step') + dataStepSign * i);
+	  var nextUrl = getAndIncrementLastNumber(tabs[0].url, dataStep + dataStepSign * i);
 	  TestUrl(nextUrl);
-	  //console.log(nextUrl + ' ' + testUrlReturn);
+	  console.log(nextUrl + ' ' + testUrlReturn);
 	  if (testUrlReturn == 1)
 		break;
 	}
@@ -32,8 +48,9 @@ function onclick(e) {
 }
 
 function TestUrl(strURL) {
+
     var req = new XMLHttpRequest();
-    req.open("GET", strURL, false); //false for synchronous
+    req.open("GET", strURL, false); //false for synchronous, deprecated, should be synchronous
     req.onreadystatechange=function() {
         if (req.readyState == 4) {
             if (req.status == 200)

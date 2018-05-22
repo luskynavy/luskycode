@@ -9,10 +9,9 @@ function saveOptions(e) {
 function restoreOptions() {
 
   chrome.storage.local.get(null,
-    function(object)
-    {
-        document.getElementById("holeLimit").value = object["holeLimit"];        
-        document.getElementById("fastJump").value = object["fastJump"];
+    function(object) {
+      document.getElementById("holeLimit").value = object["holeLimit"] || 10;        
+      document.getElementById("fastJump").value = object["fastJump"] || 10;
   });
   /*function setCurrentChoice(result) {
     document.querySelector("#holeLimit").value = result.holeLimit || 10;
