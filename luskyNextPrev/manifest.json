@@ -4,6 +4,12 @@
   "name": "NextPrev Page",
   "description": "This extension displays the next or previous page by incrementing or decrementing the last number in URL.",
   "version": "1.2.0",
+  
+  "applications": {
+    "gecko": {
+      "id": "{52272975-e70d-4951-9a5f-07ae7bc5af1d}"
+    }
+  },
 
   "browser_action": {
     "default_icon": "icon48.png",
