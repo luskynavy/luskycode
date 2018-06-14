@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "NextPrev Page",
-  "description": "This extension displays the next or previous page by incrementing or decrementing the last number in URL.",
+  "description": "Displays the next or previous page by incrementing or decrementing the last number in URL.",
   "version": "1.2.0",
   
   "applications": {
