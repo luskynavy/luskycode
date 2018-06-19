@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Next Page",
-  "description": "Displays the next page by incrementing or decrementing the last number in URL.",
+  "description": "Displays the next page by incrementing the last number in URL.",
   "version": "1.0",
   
   "applications": {

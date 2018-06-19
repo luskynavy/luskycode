@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Prev Page",
-  "description": "Displays the previous page by incrementing or decrementing the last number in URL.",
+  "description": "Displays the previous page by decrementing the last number in URL.",
   "version": "1.0",
   
   "applications": {
