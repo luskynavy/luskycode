@@ -14,6 +14,7 @@ using PdfSharp.Pdf.IO;
 using PdfToText;
 
 using PdfTextract;
+using ReadPdf;
 
 namespace Pdf2text
 {
@@ -60,6 +61,8 @@ namespace Pdf2text
 
         static void Main(string[] args)
         {
+            ITextParse.ExtractText("employe-1.pdf", "iparse.txt");
+
             //using (PdfReader reader = new PdfReader("letter.pdf")) //Index was outside the bounds of the array.
             //using (PdfReader reader = new PdfReader("employe-1.pdf")) //ok
             //using (PdfReader reader = new PdfReader("feuille_de_paie.pdf"))  //Rebuild failed: trailer not found.; Original message: PDF startxref not found.          
