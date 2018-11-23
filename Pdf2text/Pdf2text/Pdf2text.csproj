@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITextParse.cs" />
+    <Compile Include="LocationTextExtractionStrategyEx.cs" />
     <Compile Include="PDFParser.cs" />
     <Compile Include="PdfTextExtractor.cs" />
     <Compile Include="Program.cs" />

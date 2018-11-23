@@ -77,6 +77,13 @@ namespace ReadPdf
                 textExtractionStrategy = new FilteredTextRenderListener(new LocationTextExtractionStrategy(), renderFilter);
                 netLocation = PdfTextExtractor.GetTextFromPage(pdfReader, page, textExtractionStrategy);
 
+
+                rect = new iTextSharp.text.Rectangle(400, 842 - 128, 480, 848 - 110);
+                renderFilter = new RenderFilter[1];
+                renderFilter[0] = new RegionTextRenderFilter(rect);
+                textExtractionStrategy = new FilteredTextRenderListener(new LocationTextExtractionStrategyEx(), renderFilter);
+                string matriculeLocation = PdfTextExtractor.GetTextFromPage(pdfReader, page, textExtractionStrategy);
+
                 outFile2.Write(";");
                 outFile2.Write(netLocation);
 
