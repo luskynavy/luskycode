@@ -30,6 +30,8 @@ namespace FaceDetection
         private void Form1_Load(object sender, EventArgs e)
         {
             _cascadeClassifier = new CascadeClassifier("haarcascade_frontalface_default.xml");
+            //_cascadeClassifier = new CascadeClassifier("haarcascade_fullbody.xml");
+            //_cascadeClassifier = new CascadeClassifier("haarcascade_upperbody.xml");
 
             pictureBox1.Load("test.jpg");
 
@@ -40,6 +42,7 @@ namespace FaceDetection
         {
             var image = new Image<Gray, byte>(new Bitmap(pictureBox1.Image));
             Rectangle[] face = _cascadeClassifier.DetectMultiScale(image, 1.1, 10, new Size(20,20), Size.Empty); //the actual face detection happens here
+            //Rectangle[] face = _cascadeClassifier.DetectMultiScale(image, 1.1, 1, new Size(50, 100), Size.Empty); //the actual face detection happens here
 
             return face;
         }
