@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace removeNonAlpha
+namespace RemoveNonAlpha
 {
     class Program
     {
