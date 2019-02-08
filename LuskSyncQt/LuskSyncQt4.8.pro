@@ -25,11 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \ 
+        mainwindow.cpp \
     edit.cpp
 
 HEADERS += \
-        mainwindow.h \ 
+        mainwindow.h \
     edit.h
 
 FORMS += \

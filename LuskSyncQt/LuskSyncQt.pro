@@ -28,7 +28,7 @@ SOURCES += \
         mainwindow.cpp \
     edit.cpp
 	
-greaterThan(QT_MAJOR_VERSION, 5): SOURCES += QtFtp/qftp.cpp \
+greaterThan(QT_MAJOR_VERSION, 4): SOURCES += QtFtp/qftp.cpp \
     QtFtp/qurlinfo.cpp
 
 HEADERS += \

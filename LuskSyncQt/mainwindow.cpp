@@ -55,7 +55,7 @@ QList<QStandardItem *> MainWindow::prepareRow(const QString &p1, const QString &
 
 void MainWindow::searchSyncFiles()
 {
-    //search all *.sncin current dir
+    //search all *.snc in current dir
     QDir dir("");
     QStringList filters;
     filters << "*.snc";
