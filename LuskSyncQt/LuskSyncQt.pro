@@ -33,9 +33,10 @@ greaterThan(QT_MAJOR_VERSION, 4): SOURCES += QtFtp/qftp.cpp \
 
 HEADERS += \
         mainwindow.h \
-    QtFtp/qftp.h \
-    QtFtp/qurlinfo.h \
     edit.h
+
+greaterThan(QT_MAJOR_VERSION, 4): HEADERS += QtFtp/qftp.h \
+    QtFtp/qurlinfo.h
 
 FORMS += \
         mainwindow.ui \
