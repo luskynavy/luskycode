@@ -68,28 +68,28 @@ namespace MvcApplication3_mvc4
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Books> Books
+        public ObjectSet<Book> Book
         {
             get
             {
-                if ((_Books == null))
+                if ((_Book == null))
                 {
-                    _Books = base.CreateObjectSet<Books>("Books");
+                    _Book = base.CreateObjectSet<Book>("Book");
                 }
-                return _Books;
+                return _Book;
             }
         }
-        private ObjectSet<Books> _Books;
+        private ObjectSet<Book> _Book;
 
         #endregion
         #region AddTo Methods
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Books EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Book EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToBooks(Books books)
+        public void AddToBook(Book book)
         {
-            base.AddObject("Books", books);
+            base.AddObject("Book", book);
         }
 
         #endregion
@@ -103,22 +103,22 @@ namespace MvcApplication3_mvc4
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Database1Model", Name="Books")]
+    [EdmEntityTypeAttribute(NamespaceName="Database1Model", Name="Book")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class Books : EntityObject
+    public partial class Book : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new Books object.
+        /// Create a new Book object.
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
-        public static Books CreateBooks(global::System.Int32 id)
+        public static Book CreateBook(global::System.Int32 id)
         {
-            Books books = new Books();
-            books.id = id;
-            return books;
+            Book book = new Book();
+            book.id = id;
+            return book;
         }
 
         #endregion

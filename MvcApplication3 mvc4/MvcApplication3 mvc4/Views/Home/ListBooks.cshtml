@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MvcApplication3_mvc4.Books>
+﻿@model IEnumerable<MvcApplication3_mvc4.Book>
 
 @{
     ViewBag.Title = "ListBooks";
@@ -7,7 +7,7 @@
 <h2>ListBooks</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreateBook")
 </p>
 <table>
     <tr>
@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.note)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Edit", "EditBook", new { id=item.id }) |
+            @Html.ActionLink("Details", "DetailsBook", new { id=item.id }) |
+            @Html.ActionLink("Delete", "DeleteBook", new { id=item.id })
         </td>
     </tr>
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IEnumerable<MvcApplication3_mvc4.Books>>" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IEnumerable<MvcApplication3_mvc4.Book>>" %>
 
 <!DOCTYPE html>
 
@@ -31,9 +31,9 @@
                 <%: Html.DisplayFor(modelItem => item.note) %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "Edit", new { id=item.id }) %> |
-                <%: Html.ActionLink("Details", "Details", new { id=item.id }) %> |
-                <%: Html.ActionLink("Delete", "Delete", new { id=item.id }) %>
+                <%: Html.ActionLink("Edit", "EditBook", new { id = item.id })%> |
+                <%: Html.ActionLink("Details", "DetailsBook", new { id = item.id })%> |
+                <%: Html.ActionLink("Delete", "DeleteBook", new { id = item.id })%>
             </td>
         </tr>
     <% } %>

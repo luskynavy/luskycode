@@ -1,0 +1,29 @@
+﻿@model MvcApplication3_mvc4.Book
+
+@{
+    ViewBag.Title = "DetailsBook";
+}
+
+<h2>DetailsBook</h2>
+
+<fieldset>
+    <legend>Book</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.note)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.note)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "EditBook", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
