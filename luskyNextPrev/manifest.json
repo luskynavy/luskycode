@@ -3,7 +3,7 @@
 
   "name": "NextPrev Page",
   "description": "Displays the next or previous page by incrementing or decrementing the last number in URL.",
-  "version": "1.2.0",
+  "version": "19.4.8",
   
   "applications": {
     "gecko": {
@@ -13,8 +13,8 @@
 
   "browser_action": {
     "default_icon": "icon48.png",
-	"default_popup": "popup/choose_page.html",
-	"default_title": "NextPrev"
+    "default_popup": "popup/choose_page.html",
+    "default_title": "NextPrev"
   },  
   "icons": {
     "48": "icon48.png",
@@ -22,15 +22,15 @@
   },
   
   "options_ui": {
-	"page": "settings/options.html",
-	"open_in_tab": false,
-	"browser_style": true
+    "page": "settings/options.html",
+    "open_in_tab": false,
+    "browser_style": true
   },
 
   "permissions": [
-	"activeTab",
-	"tabs",
-	"storage",
-	"<all_urls>"
+    "activeTab",
+    "tabs",
+    "storage",
+    "<all_urls>"
   ]
 }

@@ -1,27 +1,29 @@
 var testUrlReturn;
+var holeLimit = 10, fastJump = 10, darkMode = false;
 
-function onclick(e) {
-  var holeLimit, fastJump, dataStep;
-  
-  dataStep = +e.currentTarget.getAttribute('data-step');
-  console.log("onclick dataStep " + dataStep);
-  
-  chrome.storage.local.get(null,
-    function(object)
-    {
-      holeLimit = object["holeLimit"] || 10;
-      fastJump = object["fastJump"] || 10;
-      //console.log("onclick hole limit " + holeLimit);
-      //console.log("onclick fast jump " + +fastJump);
-      onStorageLoaded(holeLimit, fastJump, dataStep);
-  });
+var elts = document.getElementsByClassName('menu-item');
+
+for(var i = 0; i < elts.length; i++) {
+  elts[i].addEventListener('click', onclick);
 }
 
-function onStorageLoaded(holeLimit, fastJump, dataStep) {
-  console.log("onStorageLoaded hole limit " + holeLimit);
-  console.log("onStorageLoaded fast jump " + fastJump);
-  console.log("onStorageLoaded dataStep " + dataStep);
+chrome.storage.local.get(null,
+  function(object)
+  {
+    holeLimit = object["holeLimit"] || 10;
+    fastJump = object["fastJump"] || 10;
+	darkMode = object["darkMode"] || 0;
+    onStorageLoaded(holeLimit, fastJump, darkMode);
+});
+
+
+function onclick(e) {
+  var dataStep;
   
+  dataStep = +e.currentTarget.getAttribute('data-step');
+  //console.log("onclick dataStep " + dataStep);
+  
+  var dataStepSign;
   var dataStepSign;
   if (dataStep >= 0) {
     if (dataStep > 1)
@@ -32,19 +34,30 @@ function onStorageLoaded(holeLimit, fastJump, dataStep) {
       dataStep = -fastJump;	
     dataStepSign = -1;
   }
-
+  
   //convert the increment to integer and use it to increment the last number in url of current tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     //console.log("hole limit " + holeLimit);
     for (i = 0; i < holeLimit; i++) {
       var nextUrl = getAndIncrementLastNumber(tabs[0].url, dataStep + dataStepSign * i);
       TestUrl(nextUrl);
-      console.log(nextUrl + ' ' + testUrlReturn);
+      //console.log(nextUrl + ' ' + testUrlReturn);
       if (testUrlReturn == 1)
         break;
     }
     chrome.tabs.update(tabs[0].id, {url: nextUrl});	
   });
+}
+
+function onStorageLoaded(holeLimit, fastJump, darkMode) {
+  //console.log("onStorageLoaded hole limit " + holeLimit);
+  //console.log("onStorageLoaded fast jump " + fastJump);
+  //console.log("onStorageLoaded darkMode " + darkMode);
+  
+  if (darkMode == true)
+  {
+    document.getElementById('pagestyle').setAttribute('href', 'choose_page_dark.css');
+  }
 }
 
 function TestUrl(strURL) {
@@ -65,12 +78,6 @@ function TestUrl(strURL) {
     }
   }
   req.send();
-}
-
-var elts = document.getElementsByClassName('menu-item');
-
-for(var i=0; i<elts.length; i++) {
-  elts[i].addEventListener('click', onclick);
 }
 
 /**

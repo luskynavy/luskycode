@@ -1,0 +1,27 @@
+body {
+  background-color: #333333;
+}
+
+.menu {
+}
+.menu-item {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  padding: 7px;
+  color: #d1d1d1;
+  border: solid 1px #111111;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin: 0 2px;
+  line-height: 0;
+  background-color: #333333;
+}
+.menu-item:hover {
+  background-color: #222222;
+  border-color: #111111;
+}
+.menu-item:focus {
+  outline: thin dotted;
+  outline-offset: -2px;
+}
