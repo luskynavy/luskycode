@@ -16,33 +16,46 @@ namespace SeleniumTest
         static void Main(string[] args)
         {
 			//create the web driver
-            driver = new OpenQA.Selenium.Firefox.FirefoxDriver();
-            //driver = new OpenQA.Selenium.Chrome.ChromeDriver();
+            using (driver = new OpenQA.Selenium.Firefox.FirefoxDriver())
+            //using (driver = new OpenQA.Selenium.Chrome.ChromeDriver())
+            {
+                WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, 15));
 
-            WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, 15));
+                //open google and do a search
+                driver.Navigate().GoToUrl("https://www.google.ch/");
 
-			//open google and do a search
-            driver.Navigate().GoToUrl("https://www.google.ch/");
+                By locator = By.XPath("//input[@type='text']");
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(locator));
+                driver.FindElement(locator).Click();
+                driver.FindElement(locator).Clear();
+                driver.FindElement(locator).SendKeys("test");
+                driver.FindElement(locator).SendKeys(Keys.Enter);
 
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id("lst-ib")));
-            driver.FindElement(By.Id("lst-ib")).Click();
-            driver.FindElement(By.Id("lst-ib")).Clear();
-            driver.FindElement(By.Id("lst-ib")).SendKeys("test");
-            driver.FindElement(By.Id("lst-ib")).SendKeys(Keys.Enter);
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("Vidéos")));
 
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("Vidéos")));
+                driver.FindElement(By.LinkText("Vidéos")).Click();
 
-            driver.FindElement(By.LinkText("Vidéos")).Click();
+                //wait and click can be done in one line
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("Tous"))).Click();                
 
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("Tous")));
-            driver.FindElement(By.LinkText("Tous")).Click();
+                /*
+                driver.Navigate().GoToUrl("https://demos.telerik.com/aspnet-mvc/tabstrip");
 
-            Thread.Sleep(5000);
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Moscow'])[1]")));
+                //driver.FindElement(By.XPath("//div[@id='tabstrip']/ul/li[3]/span[2]")).Click();
+                driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Moscow'])")).Click();
 
-			//close the web driver
-            driver.Close();
-            driver.Dispose();
+                Thread.Sleep(1000);
 
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Paris'])[1]"))).Click();
+
+                Thread.Sleep(5000);
+                */
+
+                //close the web driver
+                //driver.Close();
+                //driver.Dispose();
+            }
         }
     }
 }
