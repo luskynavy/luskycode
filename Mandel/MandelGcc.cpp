@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 	TYPE_CALC ystep = (ymax - ymin) / steps;	
 
 	double starttime = CurrentSecond();
-	int total = 0;
+	unsigned int total = 0;
 
 	int* mandel = new int[STEPS_MAX * STEPS_MAX];
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 		{
 			TYPE_CALC x1 = 0;
 			TYPE_CALC y1 = 0;
-			int looper = 0;
+			unsigned int looper = 0;
 			while (looper < 100 && sqrt((x1 * x1) + (y1 * y1)) < 2)
 			{
 				looper++;
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 	double time = CurrentSecond() - starttime;
 
 	printf("mandel 500 200 %d\n", mandel[500 + 200 * steps]);
-	printf("total %d\n", total);
+	printf("total %u\n", total);
 	printf("time %.3f\n", time);
 
 	return 0;
