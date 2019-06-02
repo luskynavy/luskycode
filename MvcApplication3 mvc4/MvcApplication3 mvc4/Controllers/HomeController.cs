@@ -6,11 +6,21 @@ using System.Web.Mvc;
 
 using MvcApplication3_mvc4.Models;
 
+//Book id int identity not null primary key
+//Book name nchar(20)
+//Book note nchar(10)
+
+//Boorrowed id int identity not null primary key
+//Boorrowed bookId int not null foreign key de Book id
+//Boorrowed date datetime2(7)
+
 namespace MvcApplication3_mvc4.Controllers
 {
     public class HomeController : Controller
     {
         Database1Entities db = new Database1Entities();
+
+        static DayHoursModel _dh = new DayHoursModel();        
 
         public ActionResult Index()
         {
@@ -28,7 +38,8 @@ namespace MvcApplication3_mvc4.Controllers
         }
 
         public ActionResult ListBooks()
-        {            
+        {
+
             return View(db.Book.ToList());
         }
 
@@ -101,6 +112,27 @@ namespace MvcApplication3_mvc4.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult DayHoursModelView()
+        {
+            return View(_dh);
+        }
+
+        //Edit
+        public ActionResult EditDayHoursModel()
+        {
+            
+
+            return View(_dh);
+        }
+
+        [HttpPost]
+        public ActionResult EditDayHoursModel(DayHoursModel dh)
+        {
+            _dh = dh;
+
+            return RedirectToAction("ListBooks");
         }
     }
 }

@@ -16,6 +16,11 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
+#region EDM Relationship Metadata
+
+[assembly: EdmRelationshipAttribute("Database1Model", "FK_Borrowed_Book", "Book", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MvcApplication3_mvc4.Book), "Borrowed", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MvcApplication3_mvc4.Borrowed), true)]
+
+#endregion
 
 namespace MvcApplication3_mvc4
 {
@@ -80,6 +85,22 @@ namespace MvcApplication3_mvc4
             }
         }
         private ObjectSet<Book> _Book;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Borrowed> Borrowed
+        {
+            get
+            {
+                if ((_Borrowed == null))
+                {
+                    _Borrowed = base.CreateObjectSet<Borrowed>("Borrowed");
+                }
+                return _Borrowed;
+            }
+        }
+        private ObjectSet<Borrowed> _Borrowed;
 
         #endregion
         #region AddTo Methods
@@ -90,6 +111,14 @@ namespace MvcApplication3_mvc4
         public void AddToBook(Book book)
         {
             base.AddObject("Book", book);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Borrowed EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToBorrowed(Borrowed borrowed)
+        {
+            base.AddObject("Borrowed", borrowed);
         }
 
         #endregion
@@ -201,6 +230,177 @@ namespace MvcApplication3_mvc4
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Database1Model", "FK_Borrowed_Book", "Borrowed")]
+        public EntityCollection<Borrowed> Borrowed
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Borrowed>("Database1Model.FK_Borrowed_Book", "Borrowed");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Borrowed>("Database1Model.FK_Borrowed_Book", "Borrowed", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Database1Model", Name="Borrowed")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Borrowed : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Borrowed object.
+        /// </summary>
+        /// <param name="id">Initial value of the id property.</param>
+        /// <param name="bookId">Initial value of the bookId property.</param>
+        public static Borrowed CreateBorrowed(global::System.Int32 id, global::System.Int32 bookId)
+        {
+            Borrowed borrowed = new Borrowed();
+            borrowed.id = id;
+            borrowed.bookId = bookId;
+            return borrowed;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (_id != value)
+                {
+                    OnidChanging(value);
+                    ReportPropertyChanging("id");
+                    _id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id");
+                    OnidChanged();
+                }
+            }
+        }
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
+        partial void OnidChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 bookId
+        {
+            get
+            {
+                return _bookId;
+            }
+            set
+            {
+                OnbookIdChanging(value);
+                ReportPropertyChanging("bookId");
+                _bookId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("bookId");
+                OnbookIdChanged();
+            }
+        }
+        private global::System.Int32 _bookId;
+        partial void OnbookIdChanging(global::System.Int32 value);
+        partial void OnbookIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> date
+        {
+            get
+            {
+                return _date;
+            }
+            set
+            {
+                OndateChanging(value);
+                ReportPropertyChanging("date");
+                _date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("date");
+                OndateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _date;
+        partial void OndateChanging(Nullable<global::System.DateTime> value);
+        partial void OndateChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Database1Model", "FK_Borrowed_Book", "Book")]
+        public Book Book
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Book>("Database1Model.FK_Borrowed_Book", "Book").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Book>("Database1Model.FK_Borrowed_Book", "Book").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Book> BookReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Book>("Database1Model.FK_Borrowed_Book", "Book");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Book>("Database1Model.FK_Borrowed_Book", "Book", value);
+                }
+            }
+        }
+
+        #endregion
     }
 
     #endregion
