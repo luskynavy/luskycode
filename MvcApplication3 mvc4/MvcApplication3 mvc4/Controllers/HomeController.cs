@@ -5,6 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 
 using MvcApplication3_mvc4.Models;
+using PagedList;
+
+//i18n : https://afana.me/archive/2011/01/14/aspnet-mvc-internationalization.aspx/
+
+//paging, sorting and filtering
+//https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application
+
 
 //Book id int identity not null primary key
 //Book name nchar(20)
@@ -39,8 +46,16 @@ namespace MvcApplication3_mvc4.Controllers
 
         public ActionResult ListBooks()
         {
-
             return View(db.Book.ToList());
+        }
+
+        //Fix for adding paging and using Html.DisplayNameFor
+        //https://stackoverflow.com/questions/14929311/using-html-displaynamefor-with-pagedlist
+        public ActionResult ListBooksPaged(int? page)
+        {
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(db.Book.OrderBy(b => b.id).ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult ListBooks2()
