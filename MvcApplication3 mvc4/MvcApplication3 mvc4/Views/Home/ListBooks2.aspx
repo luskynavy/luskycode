@@ -1,15 +1,15 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IEnumerable<MvcApplication3_mvc4.Book>>" %>
-
+<%@ Import namespace="MvcApplication3_mvc4.Resources" %>
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
     <meta name="viewport" content="width=device-width" />
-    <title>ListBooks2</title>
+    <title><%=Resources.BooksListOld%></title>
 </head>
 <body>
     <p>
-        <%: Html.ActionLink("Create New", "Create") %>
+        <%: Html.ActionLink(Resources.CreateNew, "Create") %>
     </p>
     <table>
         <tr>
@@ -31,9 +31,9 @@
                 <%: Html.DisplayFor(modelItem => item.note) %>
             </td>
             <td>
-                <%: Html.ActionLink("Edit", "EditBook", new { id = item.id })%> |
-                <%: Html.ActionLink("Details", "DetailsBook", new { id = item.id })%> |
-                <%: Html.ActionLink("Delete", "DeleteBook", new { id = item.id })%>
+                <%: Html.ActionLink(Resources.Edit, "EditBook", new { id = item.id })%> |
+                <%: Html.ActionLink(Resources.Details, "DetailsBook", new { id = item.id })%> |
+                <%: Html.ActionLink(Resources.Delete, "DeleteBook", new { id = item.id })%>
             </td>
         </tr>
     <% } %>
