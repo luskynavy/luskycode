@@ -34,7 +34,7 @@ namespace MvcApplication3_mvc4.Controllers
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
             //return View();
-            return RedirectToAction("ListBooks");
+            return RedirectToAction("ListBooksSearch");
         }
 
         public ActionResult About()
@@ -51,11 +51,31 @@ namespace MvcApplication3_mvc4.Controllers
 
         //Fix for adding paging and using Html.DisplayNameFor
         //https://stackoverflow.com/questions/14929311/using-html-displaynamefor-with-pagedlist
-        public ActionResult ListBooksPaged(int? page)
+        public ActionResult ListBooksPaged(string name, int? page)
         {
+            ViewBag.name = name;
+
+            IQueryable<Book> books = db.Book;
+            books = books.Where(b => b.name.Contains(name));
+
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            return View(db.Book.OrderBy(b => b.id).ToPagedList(pageNumber, pageSize));
+            return View(books.OrderBy(b => b.id).ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult ListBooksSearch(SearchBook form)
+        {
+            IQueryable<Book> books = db.Book;
+            if (!String.IsNullOrEmpty(form.NameSearch))
+            { 
+                books = books.Where(b => b.name.Contains(form.NameSearch));
+            }
+            //form.BooksList = books.ToList();            
+
+            int pageSize = 5;
+            int pageNumber = form.Page <= 0 ? 1 : form.Page;
+            form.BooksList = books.OrderBy(b => b.id).ToPagedList(pageNumber, pageSize);
+            return View(form);
         }
 
         public ActionResult ListBooks2()

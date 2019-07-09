@@ -1,0 +1,36 @@
+﻿@model MvcApplication3_mvc4.Models.DayHoursModel
+
+@{
+    ViewBag.Title = "DayHoursModelView";
+}
+
+<h2>DayHoursModelView</h2>
+
+<fieldset>
+    <legend>DayHoursModel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ArrivalTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ArrivalTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LunchTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LunchTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DepartTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DepartTime)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "EditDayHoursModel", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

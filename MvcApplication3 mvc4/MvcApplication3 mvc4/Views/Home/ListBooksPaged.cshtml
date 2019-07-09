@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MvcApplication3_mvc4.Book>
+@using PagedList;
+@using PagedList.Mvc;
+@using MvcApplication3_mvc4.Resources;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = @Resources.BooksListPaged;
+    var pagedList = (IPagedList)Model;
+}
+
+<h2>@Resources.BooksListPaged</h2>
+
+<p>
+    @Html.ActionLink(@Resources.CreateNew, "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Nom: @Html.TextBox("name", ViewBag.name as string)
+        <input type="submit" value="Rechercher" />
+    </p>
+}
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.note)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.note)
+        </td>
+        <td>
+            @Html.ActionLink(@Resources.Edit, "Edit", new { id=item.id}) |
+            @Html.ActionLink(@Resources.Details, "Details", new { id=item.id }) |
+            @Html.ActionLink(@Resources.Delete, "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>
+
+
+@(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) @Resources.of @pagedList.PageCount
+
+@Html.PagedListPager(pagedList, page => Url.Action("ListBooksPaged", new { page = page, name = ViewBag.name }))

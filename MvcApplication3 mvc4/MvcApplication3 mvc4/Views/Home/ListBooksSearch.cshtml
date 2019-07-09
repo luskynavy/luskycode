@@ -1,0 +1,51 @@
+﻿@model MvcApplication3_mvc4.Models.SearchBook
+@using MvcApplication3_mvc4
+@using PagedList;
+@using PagedList.Mvc;
+@using MvcApplication3_mvc4.Models;
+@using MvcApplication3_mvc4.Resources;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "ListBooksSearch";
+}
+
+<h2>ListBooksSearch</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Nom: @Html.TextBoxFor(model => model.NameSearch)
+        <input type="submit" value="Rechercher" />
+    </p>
+}
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+           Note
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (Book item in Model.BooksList)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(i => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(i => item.note)
+        </td>
+        <td>
+        </td>
+    </tr>
+}
+</table>
+
+@(Model.BooksList.PageCount < Model.BooksList.PageNumber ? 0 : Model.BooksList.PageNumber) @Resources.of @Model.BooksList.PageCount
+
+@Html.PagedListPager(Model.BooksList, page => Url.Action("ListBooksSearch", new { NameSearch = Model.NameSearch, Page = page }))
