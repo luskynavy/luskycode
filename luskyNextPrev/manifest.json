@@ -3,7 +3,7 @@
 
   "name": "NextPrev Page",
   "description": "Displays the next or previous page by incrementing or decrementing the last number in URL.",
-  "version": "19.9.28",
+  "version": "19.10.22",
   
   "applications": {
     "gecko": {
@@ -19,11 +19,11 @@
   
   "commands": {
     "next": {
-      "suggested_key": { "default": "Ctrl+Right" },
+      "suggested_key": { "default": "Ctrl+Shift+F" },
       "description": "Go to next page"
     },
     "prev": {
-      "suggested_key": { "default": "Ctrl+Left" },
+      "suggested_key": { "default": "Ctrl+Shift+V" },
       "description": "Go to previous page"
     }
   },
