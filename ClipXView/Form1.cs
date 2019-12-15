@@ -20,7 +20,7 @@ namespace ClipXView
     {
         OpenFileDialog openFileDialog1;
 
-        public Form1()
+        public Form1(string[] args)
         {
             InitializeComponent();
             openFileDialog1 = new OpenFileDialog();
@@ -29,8 +29,14 @@ namespace ClipXView
             //LoadClipX(@"E:\Users\yvan.kalafatov\Downloads\t\clxE708.rgb");
 
             //save to jpeg all files from directory
-            string temp = System.IO.Path.GetTempPath();
-            DirectoryInfo dir = new DirectoryInfo(temp/*@"E:\Users\yvan.kalafatov\AppData\Local\Temp"*/);
+            //string path = System.IO.Path.GetTempPath();
+            //path = @"E:\Users\yvan.kalafatov\AppData\Local\Temp";
+            string path = @"C:\Users\Lusky\AppData\Local\ClipX\Storage";
+            if (args.Length >= 1)
+            {
+                path = args[0];
+            }
+            DirectoryInfo dir = new DirectoryInfo(path);
             FileInfo[] files = dir.GetFiles("clx*.tmp");
             foreach (FileInfo f in files)
             {
