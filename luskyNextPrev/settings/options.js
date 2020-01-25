@@ -12,7 +12,7 @@ function restoreOptions() {
     function(object) {
       document.getElementById("holeLimit").value = object["holeLimit"] || 10;
       document.getElementById("fastJump").value = object["fastJump"] || 10;
-      document.getElementById("darkMode").checked = object["darkMode"]=="true" ? true : false || false;
+      document.getElementById("darkMode").checked = object["darkMode"]==true ? true : false || false;
     }
   );
 }
