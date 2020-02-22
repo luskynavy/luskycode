@@ -1,0 +1,15 @@
+# Git ignore these files
+.buildpath
+.cache/
+.settings/
+.project
+.projectOptions
+App_Code/
+App_Data/
+Thumbs.db
+ctags.tmp
+.vs/
+obj/
+bin/
+.vshistory/
+
