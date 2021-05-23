@@ -1,0 +1,1 @@
+grep -oP '"title":"[^"]*"' bin/Debug/GOG.com.html | sort | sed 's/"title":"//' | sed 's/"//'

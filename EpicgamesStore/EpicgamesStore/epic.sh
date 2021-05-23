@@ -1,0 +1,1 @@
+grep -oP 'data-tip="[^"]*"' "bin/debug/EpicGames Purchase History.html" | sort | sed 's/data-tip="//' | sed 's/"//'
