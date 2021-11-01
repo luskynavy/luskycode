@@ -6,17 +6,23 @@
 #include <stdio.h>
 //#include <tchar.h>
 
-#include "windows.h"
+#include <sys\timeb.h> 
+
+//#include "windows.h"
 #include "math.h"
 
-double CurrentSecond()
+double CurrentMilliSecond()
 {
-	LARGE_INTEGER current;
+	/*LARGE_INTEGER current;
 	QueryPerformanceCounter(&current);
 	LONGLONG frequency;
 	QueryPerformanceFrequency( (LARGE_INTEGER *)&frequency);
 	
-	return (double)current.QuadPart / (double)frequency;
+	return (double)current.QuadPart / (double)frequency;*/
+	struct timeb start;
+	ftime(&start);
+	
+	return 1000.0 * start.time + start.millitm;
 }
 
 //naive recursion
@@ -83,21 +89,21 @@ int main(int argc, char* argv[])
 		n = atoi(argv[1]);
 	}
 	
-	double startTime = CurrentSecond();
+	double startTime = CurrentMilliSecond();
 	printf("FiboIter %u", FiboIter(n));
-	double time = CurrentSecond() - startTime;
+	double time = CurrentMilliSecond() - startTime;
 	printf(" %.3fms\n", time);
 	
-	startTime = CurrentSecond();
+	startTime = CurrentMilliSecond();
 	printf("fibTerminal %u", fibTerminal(n));
-	time = CurrentSecond() - startTime;
+	time = CurrentMilliSecond() - startTime;
 	printf(" %.3fms\n", time);
 	
 	if (n < 45)
 	{
-		startTime = CurrentSecond();
+		startTime = CurrentMilliSecond();
 		printf("FiboRecur %u", FiboRecur(n));
-		time = CurrentSecond() - startTime;
+		time = CurrentMilliSecond() - startTime;
 		printf(" %.3fms\n", time);
 	}
 
