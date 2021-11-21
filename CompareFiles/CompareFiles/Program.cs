@@ -153,7 +153,7 @@ namespace CompareFiles
 
 				// Buffer for reading data
 				Byte[] bytes = new Byte[256];
-				String data = null;
+				//String data = null;
 
 				// Enter the listening loop.
 				while (true)
@@ -165,7 +165,7 @@ namespace CompareFiles
 					TcpClient client = server.AcceptTcpClient();
 					Console.WriteLine("Connected!");
 
-					data = null;
+					//data = null;
 
 					// Get a stream object for reading and writing
 					NetworkStream stream = client.GetStream();
@@ -178,8 +178,8 @@ namespace CompareFiles
 					while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
 					{
 						// Translate data bytes to a ASCII string.
-						data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-						Console.WriteLine("Server Received:\n{0}", data);
+						//data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+						//Console.WriteLine("Server Received:\n{0}", data);
 
 						if (i != 0)
 						{
@@ -204,8 +204,32 @@ namespace CompareFiles
 					ms.Position = 0;
 					arrayString = (string[])deserializer.Deserialize(ms);
 
+
+					string[] filesDst = GetFiles(path);
+
 					//show src
+					Console.WriteLine("src:");
 					foreach (var f in arrayString)
+					{
+						Console.WriteLine(f);
+					}
+
+					Console.WriteLine();
+
+					//show dst
+					Console.WriteLine("dst:");
+					foreach (var f in filesDst)
+					{
+						Console.WriteLine(f);
+					}
+
+					Console.WriteLine();
+
+					List<string> result = FindDstNotPresentInSrc(arrayString, filesDst);
+
+					//show result
+					Console.WriteLine("diff:");
+					foreach (var f in result)
 					{
 						Console.WriteLine(f);
 					}
@@ -285,6 +309,42 @@ namespace CompareFiles
 			}
 		}
 
+		public static void LocalMode(string src, string dst)
+		{
+			string[] filesSrc = GetFiles(src);
+			string[] filesDst = GetFiles(dst);
+
+			//serialize test
+			//SerializeToXML(filesSrc);
+			//string[] filesSrcSerialized = DeserializeFromXML();
+
+			//show src
+			Console.WriteLine("src:");
+			foreach (var f in filesSrc)
+			{
+				Console.WriteLine(f);
+			}
+
+			Console.WriteLine();
+
+			//show dst
+			Console.WriteLine("dst:");
+			foreach (var f in filesDst)
+			{
+				Console.WriteLine(f);
+			}
+
+			Console.WriteLine();
+
+			List<string> result = FindDstNotPresentInSrc(filesSrc, filesDst);
+
+			//show result
+			Console.WriteLine("diff:");
+			foreach (var f in result)
+			{
+				Console.WriteLine(f);
+			}
+		}
 
 		private static void Main(string[] args)
 		{
@@ -305,42 +365,7 @@ namespace CompareFiles
 			//local mode
 			else
 			{
-				//string path = @"D:\d\d";
-				//string path = @"D:\d\rk";
-
-				string[] filesSrc = GetFiles(options.src);
-				string[] filesDst = GetFiles(options.dst);
-
-				//sereialize test
-				SerializeToXML(filesSrc);
-				string[] filesSrcSerialized = DeserializeFromXML();
-
-				//show src
-				Console.WriteLine("src:");
-				foreach (var f in filesSrc)
-				{
-					Console.WriteLine(f);
-				}
-
-				Console.WriteLine();
-
-				//show dst
-				Console.WriteLine("dst:");
-				foreach (var f in filesDst)
-				{
-					Console.WriteLine(f);
-				}
-
-				Console.WriteLine();
-
-				List<string> result = FindDstNotPresentInSrc(filesSrc, filesDst);
-
-				//shor result
-				Console.WriteLine("diff:");
-				foreach (var f in result)
-				{
-					Console.WriteLine(f);
-				}
+				LocalMode(options.src, options.dst);
 			}
 		}
 	}
