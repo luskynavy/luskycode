@@ -117,7 +117,7 @@ namespace CompareFiles
 			return result;
 		}
 
-		public static void SerializeToXML(string[] arrayString)
+		private static void SerializeToXML(string[] arrayString)
 		{
 			XmlSerializer serializer = new XmlSerializer(typeof(string[]));
 			TextWriter textWriter = new StreamWriter("arrayString.xml");
@@ -125,19 +125,22 @@ namespace CompareFiles
 			textWriter.Close();
 		}
 
-		public static string[] DeserializeFromXML(/*Stream stream*/)
+		private static string[] DeserializeFromXML()
 		{
 			XmlSerializer deserializer = new XmlSerializer(typeof(string[]));
+
 			TextReader textReader = new StreamReader("arrayString.xml");
 			string[] arrayString;
-			//arrayString = (string[])deserializer.Deserialize(stream);
+
+			//arrayString = (string[])deserializer.Deserialize();
 			arrayString = (string[])deserializer.Deserialize(textReader);
+
 			textReader.Close();
 
 			return arrayString;
 		}
 
-		public static void ServerMode(Int32 port, string path)
+		private static void ServerMode(Int32 port, string path)
 		{
 			TcpListener server = null;
 			try
@@ -187,7 +190,7 @@ namespace CompareFiles
 						}
 					}
 
-					Console.WriteLine("Server while finished");
+					//Console.WriteLine("Server while finished");
 
 					// Process the data sent by the client.
 					//data = data.ToUpper();
@@ -199,15 +202,17 @@ namespace CompareFiles
 					stream.Write(msg, 0, msg.Length);
 					Console.WriteLine("Server Sent: {0}", data);*/
 
+					//deserialize src
 					XmlSerializer deserializer = new XmlSerializer(typeof(string[]));
 					string[] arrayString;
+					//rewind memory stream since Deserialize use current position
 					ms.Position = 0;
 					arrayString = (string[])deserializer.Deserialize(ms);
 
-
+					//get local files
 					string[] filesDst = GetFiles(path);
 
-					//show src
+					//show src (client)
 					Console.WriteLine("src:");
 					foreach (var f in arrayString)
 					{
@@ -216,7 +221,7 @@ namespace CompareFiles
 
 					Console.WriteLine();
 
-					//show dst
+					//show dst (server)
 					Console.WriteLine("dst:");
 					foreach (var f in filesDst)
 					{
@@ -251,7 +256,7 @@ namespace CompareFiles
 			}
 		}
 
-		public static void ClientMode(string server, Int32 port, string path)
+		private static void ClientMode(string server, Int32 port, string path)
 		{
 			try
 			{
@@ -309,7 +314,7 @@ namespace CompareFiles
 			}
 		}
 
-		public static void LocalMode(string src, string dst)
+		private static void LocalMode(string src, string dst)
 		{
 			string[] filesSrc = GetFiles(src);
 			string[] filesDst = GetFiles(dst);
