@@ -140,13 +140,30 @@ namespace CompareFiles
 			return arrayString;
 		}
 
+		private static IPAddress GetLocalIPAddress()
+		{
+			var host = Dns.GetHostEntry(Dns.GetHostName());
+			foreach (var ip in host.AddressList)
+			{
+				if (ip.AddressFamily == AddressFamily.InterNetwork)
+				{
+					return ip;
+				}
+			}
+			throw new Exception("No network adapters with an IPv4 address in the system!");
+		}
+
 		private static void ServerMode(Int32 port, string path)
 		{
 			TcpListener server = null;
 			try
 			{
 				// Set the TcpListener on port socket.
-				IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+				//IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+				//var z = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]; //find the one with 	AddressFamily	InterNetwork and not AddressFamily	InterNetworkV6 ?
+
+				//IPAddress localAddr = Dns.Resolve(Dns.GetHostName()).AddressList[0];
+				IPAddress localAddr = GetLocalIPAddress();
 
 				// TcpListener server = new TcpListener(port);
 				server = new TcpListener(localAddr, port);
@@ -193,7 +210,6 @@ namespace CompareFiles
 					//Console.WriteLine("Server while finished");
 
 					// Process the data sent by the client.
-					//data = data.ToUpper();
 					/*data = "OK";
 
 					byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
@@ -212,32 +228,8 @@ namespace CompareFiles
 					//get local files
 					string[] filesDst = GetFiles(path);
 
-					//show src (client)
-					Console.WriteLine("src:");
-					foreach (var f in arrayString)
-					{
-						Console.WriteLine(f);
-					}
-
-					Console.WriteLine();
-
-					//show dst (server)
-					Console.WriteLine("dst:");
-					foreach (var f in filesDst)
-					{
-						Console.WriteLine(f);
-					}
-
-					Console.WriteLine();
-
-					List<string> result = FindDstNotPresentInSrc(arrayString, filesDst);
-
-					//show result
-					Console.WriteLine("diff:");
-					foreach (var f in result)
-					{
-						Console.WriteLine(f);
-					}
+					//show results
+					ShowResults(arrayString, filesDst);
 
 					ms.Close();
 
@@ -323,6 +315,11 @@ namespace CompareFiles
 			//SerializeToXML(filesSrc);
 			//string[] filesSrcSerialized = DeserializeFromXML();
 
+			ShowResults(filesSrc, filesDst);
+		}
+
+		private static void ShowResults(string[] filesSrc, string[] filesDst)
+		{
 			//show src
 			Console.WriteLine("src:");
 			foreach (var f in filesSrc)
