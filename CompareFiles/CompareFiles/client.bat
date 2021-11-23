@@ -1,1 +1,2 @@
-bin\Debug\CompareFiles.exe "Tests\src" -host 127.0.0.1:12300
+bin\Debug\CompareFiles.exe "Tests\src" -host %computername%:12300
+pause
