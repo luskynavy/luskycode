@@ -137,5 +137,17 @@ namespace ClipXView
 			}
 			return null;
 		}
+
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			//Quit with esc key
+			if (keyData == Keys.Escape)
+			{
+				this.Close();
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
 	}
 }
