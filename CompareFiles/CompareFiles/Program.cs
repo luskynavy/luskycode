@@ -12,10 +12,11 @@ namespace CompareFiles
 {
 	internal class Options
 	{
-		public string src = "";
-		public string dst = "";
+		public string srcPath = "";
+		public string dstPath = "";
 		public string socket = "";
 		public string host = "";
+		public bool verbose = false;
 	}
 
 	internal class Program
@@ -43,17 +44,21 @@ namespace CompareFiles
 						i++;
 					}
 				}
+				else if (s == "-verbose")
+				{
+					options.verbose = true;
+				}
 				else
 				{
-					//first path is src
-					if (string.IsNullOrEmpty(options.src))
+					//first path is srcPath
+					if (string.IsNullOrEmpty(options.srcPath))
 					{
-						options.src = args[i];
+						options.srcPath = args[i];
 					}
-					//second is dst
-					else if (string.IsNullOrEmpty(options.dst))
+					//second is dstPath
+					else if (string.IsNullOrEmpty(options.dstPath))
 					{
-						options.dst = args[i];
+						options.dstPath = args[i];
 					}
 				}
 
@@ -68,9 +73,10 @@ namespace CompareFiles
 		{
 			string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
 
+			//remove base path
 			for (int i = 0; i < files.Length; i++)
 			{
-				files[i] = files[i].Substring(path.Length);
+				files[i] = files[i].Substring(path.Length + 1);
 			}
 
 			Array.Sort(files, StringComparer.InvariantCulture);
@@ -88,27 +94,27 @@ namespace CompareFiles
 			{
 				int compareOrdinal = String.Compare(filesDst[indexDst], filesSrc[indexSrc], StringComparison.Ordinal);
 
-				//dst == src
+				//dstPath == srcPath
 				if (compareOrdinal == 0)
 				{
 					//move two indexes
 					indexSrc++;
 					indexDst++;
 				}
-				//dst < src
+				//dstPath < srcPath
 				else if (compareOrdinal < 0)
 				{
 					result.Add(filesDst[indexDst]);
 					indexDst++;
 				}
-				//dst > src
+				//dstPath > srcPath
 				else
 				{
 					indexSrc++;
 				}
 			}
 
-			//remaining in dst
+			//remaining in dstPath
 			for (; indexDst < filesDst.Length; indexDst++)
 			{
 				result.Add(filesDst[indexDst]);
@@ -153,7 +159,7 @@ namespace CompareFiles
 			throw new Exception("No network adapters with an IPv4 address in the system!");
 		}
 
-		private static void ServerMode(Int32 port, string path)
+		private static void ServerMode(Int32 port, string path, bool verbose)
 		{
 			TcpListener server = null;
 			try
@@ -163,7 +169,8 @@ namespace CompareFiles
 				//var z = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]; //find the one with 	AddressFamily	InterNetwork and not AddressFamily	InterNetworkV6 ?
 
 				//IPAddress localAddr = Dns.Resolve(Dns.GetHostName()).AddressList[0];
-				IPAddress localAddr = GetLocalIPAddress();
+				//IPAddress localAddr = GetLocalIPAddress();
+				IPAddress localAddr = IPAddress.Any;
 
 				// TcpListener server = new TcpListener(port);
 				server = new TcpListener(localAddr, port);
@@ -218,7 +225,7 @@ namespace CompareFiles
 					stream.Write(msg, 0, msg.Length);
 					Console.WriteLine("Server Sent: {0}", data);*/
 
-					//deserialize src
+					//deserialize srcPath
 					XmlSerializer deserializer = new XmlSerializer(typeof(string[]));
 					string[] arrayString;
 					//rewind memory stream since Deserialize use current position
@@ -229,7 +236,7 @@ namespace CompareFiles
 					string[] filesDst = GetFiles(path);
 
 					//show results
-					ShowResults(arrayString, filesDst);
+					ShowResults(arrayString, filesDst, verbose);
 
 					ms.Close();
 
@@ -306,7 +313,7 @@ namespace CompareFiles
 			}
 		}
 
-		private static void LocalMode(string src, string dst)
+		private static void LocalMode(string src, string dst, bool verbose)
 		{
 			string[] filesSrc = GetFiles(src);
 			string[] filesDst = GetFiles(dst);
@@ -315,33 +322,39 @@ namespace CompareFiles
 			//SerializeToXML(filesSrc);
 			//string[] filesSrcSerialized = DeserializeFromXML();
 
-			ShowResults(filesSrc, filesDst);
+			ShowResults(filesSrc, filesDst, verbose);
 		}
 
-		private static void ShowResults(string[] filesSrc, string[] filesDst)
+		private static void ShowResults(string[] filesSrc, string[] filesDst, bool verbose)
 		{
-			//show src
-			Console.WriteLine("src:");
-			foreach (var f in filesSrc)
+			if (verbose)
 			{
-				Console.WriteLine(f);
+				//show srcPath
+				Console.WriteLine("src:");
+				foreach (var f in filesSrc)
+				{
+					Console.WriteLine(f);
+				}
+
+				Console.WriteLine();
+
+				//show dstPath
+				Console.WriteLine("dst:");
+				foreach (var f in filesDst)
+				{
+					Console.WriteLine(f);
+				}
+
+				Console.WriteLine();
 			}
-
-			Console.WriteLine();
-
-			//show dst
-			Console.WriteLine("dst:");
-			foreach (var f in filesDst)
-			{
-				Console.WriteLine(f);
-			}
-
-			Console.WriteLine();
 
 			List<string> result = FindDstNotPresentInSrc(filesSrc, filesDst);
+			if (verbose)
+			{
+				//show result
+				Console.WriteLine("diff:");
+			}
 
-			//show result
-			Console.WriteLine("diff:");
 			foreach (var f in result)
 			{
 				Console.WriteLine(f);
@@ -353,21 +366,21 @@ namespace CompareFiles
 			Options options = ManageOptions(args);
 
 			//client mode
-			if (!string.IsNullOrEmpty(options.host) && !string.IsNullOrEmpty(options.src))
+			if (!string.IsNullOrEmpty(options.host) && !string.IsNullOrEmpty(options.srcPath))
 			{
 				string[] serverPort = options.host.Split(':');
-				ClientMode(serverPort[0], Int32.Parse(serverPort[1]), options.src);
+				ClientMode(serverPort[0], Int32.Parse(serverPort[1]), options.srcPath);
 			}
 			//server mode
 			else
-			if (!string.IsNullOrEmpty(options.socket) && !string.IsNullOrEmpty(options.src))
+			if (!string.IsNullOrEmpty(options.socket) && !string.IsNullOrEmpty(options.srcPath))
 			{
-				ServerMode(Int32.Parse(options.socket), options.src);
+				ServerMode(Int32.Parse(options.socket), options.srcPath, options.verbose);
 			}
 			//local mode
 			else
 			{
-				LocalMode(options.src, options.dst);
+				LocalMode(options.srcPath, options.dstPath, options.verbose);
 			}
 		}
 	}

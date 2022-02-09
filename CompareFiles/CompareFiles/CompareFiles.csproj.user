@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"..\..\Tests\dst" "..\..\Tests\src" "d:\d\rk" "D:\Jeux\Steam\steamapps\common\Rampage Knights" -socket 12300   -ZZZhost 127.0.0.1:12300 a</StartArguments>
+    <StartArguments>"..\..\Tests\src" "..\..\Tests\dst" "d:\d\rk" "D:\Jeux\Steam\steamapps\common\Rampage Knights" -zzsocket 12300   -ZZZhost 127.0.0.1:12300 -ZZZverbose</StartArguments>
   </PropertyGroup>
 </Project>
