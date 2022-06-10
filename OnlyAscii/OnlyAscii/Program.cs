@@ -28,7 +28,7 @@ namespace OnlyAscii
 				//only if newname is different
 				if (file.Name != newName)
 				{
-					Console.WriteLine(file.Name + " => " + file.Name);
+					Console.WriteLine(file.Name + " => " + newName);
 					//remove non ascii chars
 					System.IO.File.Move(file.Name, newName);
 				}
