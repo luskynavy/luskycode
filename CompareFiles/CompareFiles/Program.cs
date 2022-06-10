@@ -21,6 +21,11 @@ namespace CompareFiles
 
 	internal class Program
 	{
+		//InvariantCulture ?  Ordinal ? InvariantCultureIgnore ? OrdinalIgnoreCase ?
+		private static StringComparer stringComparer = StringComparer.InvariantCulture;
+
+		private static StringComparison stringComparison = StringComparison.InvariantCulture;
+
 		private static Options ManageOptions(string[] args)
 		{
 			Options options = new Options();
@@ -79,7 +84,7 @@ namespace CompareFiles
 				files[i] = files[i].Substring(path.Length + 1);
 			}
 
-			Array.Sort(files, StringComparer.InvariantCulture);
+			Array.Sort(files, stringComparer);
 
 			return files;
 		}
@@ -92,7 +97,7 @@ namespace CompareFiles
 
 			while (indexSrc < filesSrc.Length && indexDst < filesDst.Length)
 			{
-				int compareOrdinal = String.Compare(filesDst[indexDst], filesSrc[indexSrc], StringComparison.Ordinal);
+				int compareOrdinal = String.Compare(filesDst[indexDst], filesSrc[indexSrc], stringComparison);
 
 				//dstPath == srcPath
 				if (compareOrdinal == 0)
@@ -183,7 +188,8 @@ namespace CompareFiles
 				//String data = null;
 
 				// Enter the listening loop.
-				while (true)
+				//no loop, just exit after finding differences
+				//while (true)
 				{
 					Console.Write("Waiting for a connection... ");
 
@@ -361,17 +367,33 @@ namespace CompareFiles
 			}
 		}
 
+		private static void TestDiff(string srcFileName, string dstFileName)
+		{
+			string[] src = System.IO.File.ReadLines(srcFileName).ToArray();
+			string[] dst = System.IO.File.ReadLines(dstFileName).ToArray();
+
+			Array.Sort(src, stringComparer);
+			Array.Sort(dst, stringComparer);
+
+			ShowResults(src, dst, false);
+		}
+
+
 		private static void Main(string[] args)
 		{
+			//used to test FindDstNotPresentInSrc
+			//TestDiff(@"..\..\src.txt", @"..\..\dst.txt");
+			//return;
+
 			Options options = ManageOptions(args);
 
-			//client mode
+			//client mode if -host and path are set
 			if (!string.IsNullOrEmpty(options.host) && !string.IsNullOrEmpty(options.srcPath))
 			{
 				string[] serverPort = options.host.Split(':');
 				ClientMode(serverPort[0], Int32.Parse(serverPort[1]), options.srcPath);
 			}
-			//server mode
+			//server mode if -client and path are set
 			else
 			if (!string.IsNullOrEmpty(options.socket) && !string.IsNullOrEmpty(options.srcPath))
 			{
