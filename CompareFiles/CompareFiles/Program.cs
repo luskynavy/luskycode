@@ -22,9 +22,9 @@ namespace CompareFiles
 	internal class Program
 	{
 		//InvariantCulture ?  Ordinal ? InvariantCultureIgnore ? OrdinalIgnoreCase ?
-		private static StringComparer stringComparer = StringComparer.InvariantCulture;
+		private static readonly StringComparer stringComparer = StringComparer.InvariantCulture;
 
-		private static StringComparison stringComparison = StringComparison.InvariantCulture;
+		private const StringComparison stringComparison = StringComparison.InvariantCulture;
 
 		private static Options ManageOptions(string[] args)
 		{
@@ -97,7 +97,7 @@ namespace CompareFiles
 
 			while (indexSrc < filesSrc.Length && indexDst < filesDst.Length)
 			{
-				int compareOrdinal = String.Compare(filesDst[indexDst], filesSrc[indexSrc], stringComparison);
+				int compareOrdinal = String.Compare(filesDst[indexDst].ToLower(), filesSrc[indexSrc].ToLower(), stringComparison);
 
 				//dstPath == srcPath
 				if (compareOrdinal == 0)
