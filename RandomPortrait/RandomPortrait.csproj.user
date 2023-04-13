@@ -16,7 +16,7 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>E:\Users\yvan.kalafatov\Documents\Baldur's Gate - Enhanced Edition\Portraits</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\Users\Lusky\Documents\Baldur%27s Gate - Enhanced Edition\Portraits</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <StartWorkingDirectory>C:\Data\Music\Baldur's Gate 2\portraits\</StartWorkingDirectory>
