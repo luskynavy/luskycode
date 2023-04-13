@@ -1,0 +1,17 @@
+﻿USE [D:\D\PROG\LUSKYCODE\MVCAPPLICATION3 MVC4\MVCAPPLICATION3 MVC4\APP_DATA\DATABASE1.MDF]
+GO
+
+/****** Object: Table [dbo].[Book] Script Date: 13/04/2023 13:17:39 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Book] (
+    [id]   INT        IDENTITY (1, 1) NOT NULL,
+    [name] NCHAR (20) NULL,
+    [note] NCHAR (10) NULL
+);
+
+

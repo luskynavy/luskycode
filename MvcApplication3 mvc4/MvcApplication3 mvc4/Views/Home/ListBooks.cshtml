@@ -1,41 +1,41 @@
 ﻿@model IEnumerable<MvcApplication3_mvc4.Book>
 @using MvcApplication3_mvc4.Resources;
 @{
-    ViewBag.Title = @Resources.BooksList;
+	ViewBag.Title = @Resources.BooksList;
 }
 
 <h2>@Resources.BooksList</h2>
 
 <p>
-    @Html.ActionLink("DayHoursModel", "DayHoursModelView")
+	@Html.ActionLink("DayHoursModel", "DayHoursModelView")
 
-    @Html.ActionLink(@Resources.CreateNew, "CreateBook")
+	@Html.ActionLink(@Resources.CreateNew, "CreateBook")
 </p>
 <table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.note)
-        </th>
-        <th></th>
-    </tr>
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.note)
+		</th>
+		<th></th>
+	</tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.note)
-        </td>
-        <td>
-            @Html.ActionLink(@Resources.Edit, "EditBook", new { id=item.id }) |
-            @Html.ActionLink(@Resources.Details, "DetailsBook", new { id=item.id }) |
-            @Html.ActionLink(@Resources.Delete, "DeleteBook", new { id=item.id })
-        </td>
-    </tr>
-}
-
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.note)
+			</td>
+			<td>
+				@Html.ActionLink(@Resources.Edit, "EditBook", new { id = item.id }) |
+				@Html.ActionLink(@Resources.Details, "DetailsBook", new { id = item.id }) |
+				@Html.ActionLink(@Resources.Delete, "DeleteBook", new { id = item.id })
+			</td>
+		</tr>
+	}
 </table>
