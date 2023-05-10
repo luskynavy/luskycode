@@ -56,7 +56,10 @@ namespace MvcApplication3_mvc4.Controllers
 			ViewBag.name = name;
 
 			IQueryable<Book> books = db.Book;
-			books = books.Where(b => b.name.Contains(name));
+			if (!String.IsNullOrEmpty(name))
+			{
+				books = books.Where(b => b.name.Contains(name));
+			}
 
 			int pageSize = 5;
 			int pageNumber = (page ?? 1);
