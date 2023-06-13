@@ -1,0 +1,21 @@
+﻿- Création projet ASP.Net core Web App MVC sans https pour ne pas avoir de pb avec firefox qui n'utilise pas les certificats du pc.
+
+- Ajout contexte bdd avec EF Core Power Tools sur projet : Reverse Engineer avec Include connection string in generated code.
+
+- Ajout ";TrustServerCertificate=True" à la chaîne de connection, pour ne pas avoir erreur trusted source machin.
+
+- Ajout controller : MVC Controller with views using entity framework avec classe données et LybraryContext.
+Remplacement injection de dépendance
+    public AuthorsController(LibraryContext context)
+par
+    public AuthorsController()
+    {
+        //Création à la main du contexte de bdd en attendant la configuration de l'injection dépendance.
+        LibraryContext context = new();
+
+- Installation nuget Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.
+Remplacement
+builder.Services.AddControllersWithViews();
+par
+var mvcBuilder = builder.Services.AddControllersWithViews();
+mvcBuilder.AddRazorRuntimeCompilation();
