@@ -30,7 +30,16 @@ namespace OnlyAscii
 				{
 					Console.WriteLine(file.Name + " => " + newName);
 					//remove non ascii chars
-					System.IO.File.Move(file.Name, newName);
+					try
+					{
+                        System.IO.File.Move(file.Name, newName);
+                    }
+					catch (Exception ex)
+					{
+						Console.WriteLine(ex.ToString());
+						continue;
+					}
+
 				}
 			}
 		}
