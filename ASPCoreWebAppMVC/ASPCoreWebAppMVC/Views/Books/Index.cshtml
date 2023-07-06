@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.Note)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AuthorNavigation)
+                @Html.DisplayNameFor(model => model.Author)
             </th>
             <th></th>
         </tr>
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthorNavigation.Id)
+                <a asp-action="Details" asp-controller="Authors" asp-route-id="@item.AuthorNavigation.Id">@item.AuthorNavigation.Name</a>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
