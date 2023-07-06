@@ -22,6 +22,7 @@ using System.Runtime.Serialization;
 
 #endregion
 
+
 namespace MvcApplication3_mvc4
 {
     #region Contexts
@@ -103,6 +104,7 @@ namespace MvcApplication3_mvc4
         private ObjectSet<Borrowed> _Borrowed;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -122,10 +124,12 @@ namespace MvcApplication3_mvc4
         }
 
         #endregion
+
     }
     
 
     #endregion
+
     
     #region Entities
     
@@ -151,6 +155,7 @@ namespace MvcApplication3_mvc4
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -229,6 +234,7 @@ namespace MvcApplication3_mvc4
         partial void OnnoteChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -255,6 +261,7 @@ namespace MvcApplication3_mvc4
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -281,6 +288,7 @@ namespace MvcApplication3_mvc4
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -359,6 +367,7 @@ namespace MvcApplication3_mvc4
         partial void OndateChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -401,8 +410,10 @@ namespace MvcApplication3_mvc4
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }

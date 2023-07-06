@@ -42,9 +42,9 @@
             @Html.DisplayFor(modelItem => item.note)
         </td>
         <td>
-            @Html.ActionLink(@Resources.Edit, "Edit", new { id=item.id}) |
-            @Html.ActionLink(@Resources.Details, "Details", new { id=item.id }) |
-            @Html.ActionLink(@Resources.Delete, "Delete", new { id=item.id })
+            @Html.ActionLink(@Resources.Edit, "EditBook", new { id=item.id}) |
+            @Html.ActionLink(@Resources.Details, "DetailsBook", new { id=item.id }) |
+            @Html.ActionLink(@Resources.Delete, "DeleteBook", new { id=item.id })
         </td>
     </tr>
 }
