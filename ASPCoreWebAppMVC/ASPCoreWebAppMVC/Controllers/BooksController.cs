@@ -51,7 +51,7 @@ namespace ASPCoreWebAppMVC.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["Author"] = new SelectList(_context.Author, "Id", "Id");
+            ViewData["Author"] = new SelectList(_context.Author.OrderBy(a => a.Name), "Id", "Name");
             return View();
         }
 
@@ -68,7 +68,8 @@ namespace ASPCoreWebAppMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Author"] = new SelectList(_context.Author, "Id", "Id", book.Author);
+            ViewData["Author"] = new SelectList(_context.Author.OrderBy(a => a.Name), "Id", "Name", book.Author);
+
             return View(book);
         }
 
@@ -85,7 +86,8 @@ namespace ASPCoreWebAppMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["Author"] = new SelectList(_context.Author, "Id", "Id", book.Author);
+            ViewData["Author"] = new SelectList(_context.Author.OrderBy(a => a.Name), "Id", "Name", book.Author);
+
             return View(book);
         }
 
@@ -121,7 +123,8 @@ namespace ASPCoreWebAppMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Author"] = new SelectList(_context.Author, "Id", "Id", book.Author);
+            ViewData["Author"] = new SelectList(_context.Author.OrderBy(a => a.Name), "Id", "Name", book.Author);
+
             return View(book);
         }
 
