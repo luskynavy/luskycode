@@ -7,12 +7,14 @@
 @{
     ViewBag.Title = @Resources.BooksListPaged;
     var pagedList = (IPagedList)Model;
+
+    var actionName = "ListBooksPaged";
 }
 
 <h2>@Resources.BooksListPaged</h2>
 
 <p>
-    @Html.ActionLink(@Resources.CreateNew, "Create")
+    @Html.ActionLink(@Resources.CreateNew, "CreateBook")
 </p>
 
 @using (Html.BeginForm())
@@ -33,25 +35,67 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.note)
-        </td>
-        <td>
-            @Html.ActionLink(@Resources.Edit, "EditBook", new { id=item.id}) |
-            @Html.ActionLink(@Resources.Details, "DetailsBook", new { id=item.id }) |
-            @Html.ActionLink(@Resources.Delete, "DeleteBook", new { id=item.id })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.note)
+            </td>
+            <td>
+                @Html.ActionLink(@Resources.Edit, "EditBook", new { id = item.id }) |
+                @Html.ActionLink(@Resources.Details, "DetailsBook", new { id = item.id }) |
+                @Html.ActionLink(@Resources.Delete, "DeleteBook", new { id = item.id })
+            </td>
+        </tr>
+    }
 </table>
 
 
 @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) @Resources.of @pagedList.PageCount
 
-@Html.PagedListPager(pagedList, page => Url.Action("ListBooksPaged", new { page = page, name = ViewBag.name }))
+@Html.PagedListPager(pagedList, page => Url.Action(actionName, new { page = page, name = ViewBag.name }))
+
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).on('keyup', function (evt)
+    {
+        if (evt.key == "Escape")
+        {
+            window.location.href = "@Url.Action("Index", "Home")";
+        }
+
+        @if (pagedList.HasPreviousPage)
+        {
+            <text>
+            if (evt.key == "ArrowLeft")
+            {
+                window.location.href = "@Url.Action(actionName, new { Page = pagedList.PageNumber - 1})";
+            }
+            </text>
+        }
+
+       @if (pagedList.HasNextPage)
+        {
+            <text>
+            if (evt.key == "ArrowRight")
+            {
+                window.location.href = "@Url.Action(actionName, new { Page = (pagedList.PageNumber == 0 ? 2 : pagedList.PageNumber + 1)})";
+        }
+            </text>
+        }
+
+        if (evt.key == "Home")
+        {
+            window.location.href = "@Url.Action(actionName)";
+        }
+
+        if (evt.key == "End")
+        {
+            window.location.href = "@Url.Action(actionName, new { Page = pagedList.PageCount})";
+        }
+    });
+</script>

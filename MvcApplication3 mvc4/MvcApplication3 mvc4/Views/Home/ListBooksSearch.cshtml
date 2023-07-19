@@ -8,9 +8,14 @@
 
 @{
     ViewBag.Title = "ListBooksSearch";
+    var actionName = "ListBooksSearch";
 }
 
 <h2>ListBooksSearch</h2>
+
+<p>
+    @Html.ActionLink(@Resources.CreateNew, "CreateBook")
+</p>
 
 @using (Html.BeginForm())
 {
@@ -26,26 +31,68 @@
             Name
         </th>
         <th>
-           Note
+            Note
         </th>
         <th></th>
     </tr>
 
-@foreach (Book item in Model.BooksList)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(i => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(i => item.note)
-        </td>
-        <td>
-        </td>
-    </tr>
-}
+    @foreach (Book item in Model.BooksList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(i => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(i => item.note)
+            </td>
+            <td>
+            </td>
+        </tr>
+    }
 </table>
 
 @(Model.BooksList.PageCount < Model.BooksList.PageNumber ? 0 : Model.BooksList.PageNumber) @Resources.of @Model.BooksList.PageCount
 
-@Html.PagedListPager(Model.BooksList, page => Url.Action("ListBooksSearch", new { NameSearch = Model.NameSearch, Page = page }))
+@Html.PagedListPager(Model.BooksList, page => Url.Action(actionName, new { NameSearch = Model.NameSearch, Page = page }))
+
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).on('keyup', function (evt)
+    {
+        if (evt.key == "Escape")
+        {
+            window.location.href = "@Url.Action("Index", "Home")";
+        }
+
+        @if (Model.BooksList.HasPreviousPage)
+        {
+            <text>
+            if (evt.key == "ArrowLeft")
+            {
+                window.location.href = "@Url.Action(actionName, new { Page = Model.Page - 1})";
+            }
+            </text>
+        }
+
+       @if (Model.BooksList.HasNextPage)
+        {
+            <text>
+            if (evt.key == "ArrowRight")
+            {
+                window.location.href = "@Url.Action(actionName, new { Page = (Model.Page == 0 ? 2 : Model.Page + 1)})";
+        }
+            </text>
+        }
+
+        if (evt.key == "Home")
+        {
+            window.location.href = "@Url.Action(actionName)";
+        }
+
+        if (evt.key == "End")
+        {
+            window.location.href = "@Url.Action(actionName, new { Page = Model.BooksList.PageCount})";
+        }
+    });
+</script>
