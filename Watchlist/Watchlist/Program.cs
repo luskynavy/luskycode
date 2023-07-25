@@ -24,13 +24,17 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
  .AddEntityFrameworkStores<ApplicationDbContext>()
    .AddDefaultTokenProviders();*/
 
-//code ok ?
-builder.Services.AddIdentity<Utilisateur, IdentityRole>(options =>
+//code ok ? compile mais login ne marche pas
+/*builder.Services.AddIdentity<Utilisateur, IdentityRole>(options =>
 {
     options.User.RequireUniqueEmail = false;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders();*/
+
+//compile et login ok
+builder.Services.AddDefaultIdentity<Utilisateur>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
 
