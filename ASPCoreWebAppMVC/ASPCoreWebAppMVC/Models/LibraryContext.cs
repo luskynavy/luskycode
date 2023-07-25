@@ -43,7 +43,7 @@ public partial class LibraryContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Author).HasColumnName("author");
             entity.Property(e => e.Name)
-                .HasMaxLength(20)
+                .HasMaxLength(100)
                 .IsFixedLength()
                 .HasColumnName("name");
             entity.Property(e => e.Note)

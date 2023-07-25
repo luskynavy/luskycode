@@ -1,49 +1,49 @@
 ﻿{
-   "CodeGenerationMode": 3,
-   "ContextClassName": "LibraryContext",
-   "ContextNamespace": null,
-   "DefaultDacpacSchema": null,
-   "FilterSchemas": false,
-   "IncludeConnectionString": true,
-   "ModelNamespace": null,
-   "OutputContextPath": null,
-   "OutputPath": "Models",
-   "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "ASPCoreWebAppMVC",
-   "Schemas": null,
-   "SelectedHandlebarsLanguage": 0,
-   "SelectedToBeGenerated": 0,
-   "Tables": [
-      {
-         "Name": "[dbo].[Author]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Book]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Borrowed]",
-         "ObjectType": 0
-      }
-   ],
-   "UiHint": "laptop-70ibcrin\\sqlexpress.Library.dbo",
-   "UncountableWords": null,
-   "UseBoolPropertiesWithoutDefaultSql": false,
-   "UseDatabaseNames": false,
-   "UseDateOnlyTimeOnly": false,
-   "UseDbContextSplitting": false,
-   "UseFluentApiOnly": true,
-   "UseHandleBars": false,
-   "UseHierarchyId": false,
-   "UseInflector": false,
-   "UseLegacyPluralizer": false,
-   "UseManyToManyEntity": false,
-   "UseNoDefaultConstructor": false,
-   "UseNoObjectFilter": false,
-   "UseNodaTime": false,
-   "UseNullableReferences": false,
-   "UseSchemaFolders": false,
-   "UseSpatial": false,
-   "UseT4": false
+    "CodeGenerationMode": 3,
+    "ContextClassName": "LibraryContext",
+    "ContextNamespace": null,
+    "DefaultDacpacSchema": null,
+    "FilterSchemas": false,
+    "IncludeConnectionString": true,
+    "ModelNamespace": null,
+    "OutputContextPath": null,
+    "OutputPath": "Models",
+    "PreserveCasingWithRegex": true,
+    "ProjectRootNamespace": "ASPCoreWebAppMVC",
+    "Schemas": null,
+    "SelectedHandlebarsLanguage": 0,
+    "SelectedToBeGenerated": 0,
+    "Tables": [
+        {
+            "Name": "[dbo].[Author]",
+            "ObjectType": 0
+        },
+        {
+            "Name": "[dbo].[Book]",
+            "ObjectType": 0
+        },
+        {
+            "Name": "[dbo].[Borrowed]",
+            "ObjectType": 0
+        }
+    ],
+    "UiHint": "localhost\\sqlexpress.Library.dbo",
+    "UncountableWords": null,
+    "UseBoolPropertiesWithoutDefaultSql": false,
+    "UseDatabaseNames": false,
+    "UseDateOnlyTimeOnly": false,
+    "UseDbContextSplitting": false,
+    "UseFluentApiOnly": true,
+    "UseHandleBars": false,
+    "UseHierarchyId": false,
+    "UseInflector": false,
+    "UseLegacyPluralizer": false,
+    "UseManyToManyEntity": false,
+    "UseNoDefaultConstructor": false,
+    "UseNoObjectFilter": false,
+    "UseNodaTime": false,
+    "UseNullableReferences": false,
+    "UseSchemaFolders": false,
+    "UseSpatial": false,
+    "UseT4": false
 }

@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
-                <a asp-action="Details" asp-controller="Authors" asp-route-id="@item.AuthorNavigation.Id">@item.AuthorNavigation.Name</a>
+                <a asp-action="Details" asp-controller="Authors" asp-route-id="@item.AuthorNavigation?.Id">@item.AuthorNavigation?.Name</a>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
