@@ -20,8 +20,8 @@
 @using (Html.BeginForm())
 {
     <p>
-        Nom: @Html.TextBox("name", ViewBag.name as string)
-        <input type="submit" value="Rechercher" />
+        @Resources.Name: @Html.TextBox("name", ViewBag.name as string)
+        <input type="submit" value="@Resources.Search" />
     </p>
 }
 <table>
@@ -52,7 +52,6 @@
         </tr>
     }
 </table>
-
 
 @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) @Resources.of @pagedList.PageCount
 

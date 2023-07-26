@@ -14,7 +14,7 @@ namespace MvcApplication3_mvc4.Models
         //Current Page number
         public int Page { get; set; }
 
-		//List of books
+        //List of books
         //public List<Book> BooksList { get; set; }
         public IPagedList<Book> BooksList { get; set; }
     }

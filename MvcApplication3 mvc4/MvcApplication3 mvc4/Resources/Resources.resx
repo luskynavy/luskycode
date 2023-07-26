@@ -120,6 +120,12 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AreYousureYouWantToDeleteThis" xml:space="preserve">
+    <value>Are you sure you want to delete this?</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
   <data name="BooksList" xml:space="preserve">
     <value>Books List</value>
   </data>
@@ -131,6 +137,9 @@
   </data>
   <data name="Contact" xml:space="preserve">
     <value>Contact</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
   </data>
   <data name="CreateNew" xml:space="preserve">
     <value>Create New</value>
@@ -147,7 +156,34 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="ListBooksSearch" xml:space="preserve">
+    <value>List Books Search</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="of" xml:space="preserve">
     <value>of</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="DeleteABook" xml:space="preserve">
+    <value>Delete a book</value>
+  </data>
+  <data name="DetailsBook" xml:space="preserve">
+    <value>Book details</value>
+  </data>
+  <data name="EditBook" xml:space="preserve">
+    <value>Edit a book</value>
+  </data>
+  <data name="CreateBook" xml:space="preserve">
+    <value>Create a book</value>
   </data>
 </root>

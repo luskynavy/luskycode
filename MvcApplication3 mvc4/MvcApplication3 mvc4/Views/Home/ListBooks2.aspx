@@ -9,7 +9,7 @@
 </head>
 <body>
     <p>
-        <%: Html.ActionLink(Resources.CreateNew, "Create") %>
+        <%: Html.ActionLink(Resources.CreateNew, "CreateBook") %>
     </p>
     <table>
         <tr>
@@ -21,7 +21,7 @@
             </th>
             <th></th>
         </tr>
-    
+
     <% foreach (var item in Model) { %>
         <tr>
             <td>
@@ -37,7 +37,7 @@
             </td>
         </tr>
     <% } %>
-    
+
     </table>
 </body>
 </html>

@@ -1,12 +1,14 @@
 ﻿@model MvcApplication3_mvc4.Book
+@using MvcApplication3_mvc4.Resources;
 
 @{
     ViewBag.Title = "CreateBook";
 }
 
-<h2>CreateBook</h2>
+<h2>@Resources.CreateBook</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -29,13 +31,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="@Resources.Create" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(@Resources.BackToList, "Index")
 </div>
 
 @section Scripts {

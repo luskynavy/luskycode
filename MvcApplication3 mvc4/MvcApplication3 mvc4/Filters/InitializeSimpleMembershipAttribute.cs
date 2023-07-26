@@ -38,7 +38,9 @@ namespace MvcApplication3_mvc4.Filters
                         }
                     }
 
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    //WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    //SimpleMembershipInitializer marche seulement avec une connexion providerName="System.Data.SqlClient" https://stackoverflow.com/questions/12575311/using-simplemembership-with-ef-model-first
+                    WebSecurity.InitializeDatabaseConnection("ConnStringForWebSecurity", "UserProfile", "UserId", "UserName", autoCreateTables: true);
                 }
                 catch (Exception ex)
                 {

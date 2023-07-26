@@ -7,11 +7,11 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "ListBooksSearch";
+    ViewBag.Title = @Resources.ListBooksSearch;
     var actionName = "ListBooksSearch";
 }
 
-<h2>ListBooksSearch</h2>
+<h2>@Resources.ListBooksSearch</h2>
 
 <p>
     @Html.ActionLink(@Resources.CreateNew, "CreateBook")
@@ -28,10 +28,10 @@
 <table>
     <tr>
         <th>
-            Name
+            @Resources.Name
         </th>
         <th>
-            Note
+            @Resources.Note
         </th>
         <th></th>
     </tr>

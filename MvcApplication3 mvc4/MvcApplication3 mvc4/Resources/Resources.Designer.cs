@@ -70,6 +70,24 @@ namespace MvcApplication3_mvc4.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this?.
+        /// </summary>
+        public static string AreYousureYouWantToDeleteThis {
+            get {
+                return ResourceManager.GetString("AreYousureYouWantToDeleteThis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to List.
+        /// </summary>
+        public static string BackToList {
+            get {
+                return ResourceManager.GetString("BackToList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Books List.
         /// </summary>
         public static string BooksList {
@@ -106,6 +124,24 @@ namespace MvcApplication3_mvc4.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a book.
+        /// </summary>
+        public static string CreateBook {
+            get {
+                return ResourceManager.GetString("CreateBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create New.
         /// </summary>
         public static string CreateNew {
@@ -124,11 +160,29 @@ namespace MvcApplication3_mvc4.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete a book.
+        /// </summary>
+        public static string DeleteABook {
+            get {
+                return ResourceManager.GetString("DeleteABook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Details.
         /// </summary>
         public static string Details {
             get {
                 return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book details.
+        /// </summary>
+        public static string DetailsBook {
+            get {
+                return ResourceManager.GetString("DetailsBook", resourceCulture);
             }
         }
         
@@ -142,6 +196,15 @@ namespace MvcApplication3_mvc4.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit a book.
+        /// </summary>
+        public static string EditBook {
+            get {
+                return ResourceManager.GetString("EditBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
@@ -151,11 +214,56 @@ namespace MvcApplication3_mvc4.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List Books Search.
+        /// </summary>
+        public static string ListBooksSearch {
+            get {
+                return ResourceManager.GetString("ListBooksSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note.
+        /// </summary>
+        public static string Note {
+            get {
+                return ResourceManager.GetString("Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to of.
         /// </summary>
         public static string of {
             get {
                 return ResourceManager.GetString("of", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
             }
         }
     }

@@ -1,12 +1,14 @@
 ﻿@model MvcApplication3_mvc4.Book
+@using MvcApplication3_mvc4.Resources;
 
 @{
     ViewBag.Title = "EditBook";
 }
 
-<h2>EditBook</h2>
+<h2>@Resources.EditBook</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -31,13 +33,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Resources.Save" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(@Resources.BackToList, "Index")
 </div>
 
 @section Scripts {
