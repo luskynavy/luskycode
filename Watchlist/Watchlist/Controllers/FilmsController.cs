@@ -72,46 +72,54 @@ namespace Watchlist.Controllers
         {
             int valret = -1;
 
-            var utilisateur = await GetCurrentUserAsync();
-            var idUtilisateur = utilisateur.Id;
-
-            if (val == 1)
+            try
             {
-                // s'il existe un enregistrement dans FilmsUtilisateur qui contient à la fois l'identifiant de l'utilisateur
-                // et celui du film, alors le film existe dans la liste de films et peut
-                // être supprimé
-                var film = _context.FilmsUtilisateur.FirstOrDefault(x =>
-                        x.IdFilm == id && x.IdUtilisateur == idUtilisateur);
-                if (film != null)
-                {
-                    _context.FilmsUtilisateur.Remove(film);
-                    valret = 0;
-                }
+                var utilisateur = await GetCurrentUserAsync();
+                var idUtilisateur = utilisateur.Id;
 
-            }
-            else
-            {
-                var film = _context.Films.FirstOrDefault(x => x.Id == id );
-                if (film != null)
+                if (val == 1)
                 {
-                    // le film n'est pas dans la liste de films, nous devons donc
-                    // créer un nouvel objet FilmUtilisateur et l'ajouter à la base de données.
-                    _context.FilmsUtilisateur.Add(
-                       new FilmUtilisateur
-                       {
-                           IdUtilisateur = idUtilisateur,
-                           IdFilm = id,
-                           Vu = false,
-                           Note = 0,
-                           User = utilisateur,
-                           Film = film
-                       }
-                    );
-                    valret = 1;
+                    // s'il existe un enregistrement dans FilmsUtilisateur qui contient à la fois l'identifiant de l'utilisateur
+                    // et celui du film, alors le film existe dans la liste de films et peut
+                    // être supprimé
+                    var film = _context.FilmsUtilisateur.FirstOrDefault(x =>
+                            x.IdFilm == id && x.IdUtilisateur == idUtilisateur);
+                    if (film != null)
+                    {
+                        _context.FilmsUtilisateur.Remove(film);
+                        valret = 0;
+                    }
+
                 }
+                else
+                {
+                    var film = _context.Films.FirstOrDefault(x => x.Id == id );
+                    if (film != null)
+                    {
+                        // le film n'est pas dans la liste de films, nous devons donc
+                        // créer un nouvel objet FilmUtilisateur et l'ajouter à la base de données.
+                        _context.FilmsUtilisateur.Add(
+                           new FilmUtilisateur
+                           {
+                               IdUtilisateur = idUtilisateur,
+                               IdFilm = id,
+                               Vu = false,
+                               Note = 0,
+                               User = utilisateur,
+                               Film = film
+                           }
+                        );
+                        valret = 1;
+                    }
+                }
+                // nous pouvons maintenant enregistrer les changements dans la base de données
+                await _context.SaveChangesAsync();
             }
-            // nous pouvons maintenant enregistrer les changements dans la base de données
-            await _context.SaveChangesAsync();
+            catch (Exception)
+            {
+
+                throw;
+            }
             // et renvoyer notre valeur de retour (-1, 0 ou 1) au script qui a appelé
             // cette méthode depuis la page Index
             return Json(valret);

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Watchlist.Data;
 
+//From https://openclassrooms.com/fr/courses/8028391-developpez-une-application-asp-net-core-avec-le-modele-mvc/8107036-tirez-un-maximum-de-ce-cours
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
