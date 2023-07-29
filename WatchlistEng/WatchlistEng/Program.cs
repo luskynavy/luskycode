@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WatchlistEng.Data;
 
+//From https://openclassrooms.com/fr/courses/5671596-kick-start-your-mvc-application-with-asp-net-core/6430607-get-the-most-out-of-this-course
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

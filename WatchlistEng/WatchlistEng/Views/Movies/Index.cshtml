@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WatchlistEng.Data.Movie>
+﻿@*@model IEnumerable<WatchlistEng.Data.Movie>*@
+@model IEnumerable<WatchlistEng.Models.MovieViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -31,11 +32,46 @@
                 @Html.DisplayFor(modelItem => item.Year)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <button id="@item.MovieId" data-val="@item.InWatchlist" class="btn">
+                    @(item.InWatchlist ? " - " : " + ")
+                </button>
+                <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+@section Scripts {
+    <script>
+        jQuery(document).ready(function ()
+        {
+            $('.btn').click(function (e)
+            {
+                var btn = $(this);
+                var movieId = btn.attr('id');
+                var movieVal = btn.attr('data-val') == "False" ? 0 : 1;
+                $.get('/Movies/AddRemove?id=' + movieId + '&val=' + movieVal,
+                    function (data)
+                    {
+                        if (data == 0)
+                        {
+                            btn.attr('data-val', 'False');
+                            btn.html(' + ');
+                        }
+                        else if (data == 1)
+                        {
+                            btn.attr('data-val', 'True');
+                            btn.html(' - ');
+                        }
+                    });
+            });
+
+        });
+
+    </script>
+
+}

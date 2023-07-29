@@ -6,24 +6,109 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WatchlistEng.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using WatchlistEng.Models;
 
 namespace WatchlistEng.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public MoviesController(ApplicationDbContext context)
+        public MoviesController(ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        [HttpGet]
+        public async Task<string> GetCurrentUserId()
+        {
+            ApplicationUser user = await GetCurrentUserAsync();
+            return user?.Id;
+        }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() =>
+            _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-              return _context.Movies != null ?
-                          View(await _context.Movies.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Movies'  is null.");
+            if (_context.Movies != null)
+            {
+                var userId = await GetCurrentUserId();
+                var model = await _context.Movies.Select(x =>
+                    new MovieViewModel
+                    {
+                        MovieId = x.Id,
+                        Title = x.Title,
+                        Year = x.Year
+                    }).ToListAsync();
+                foreach (var item in model)
+                {
+                    var m = await _context.UserMovies.FirstOrDefaultAsync(x =>
+                        x.UserId == userId && x.MovieId == item.MovieId);
+                    if (m != null)
+                    {
+                        item.InWatchlist = true;
+                        item.Rating = m.Rating;
+                        item.Watched = m.Watched;
+                    }
+                }
+                return View(model);
+            }
+            else
+            {
+                return Problem("Entity set 'ApplicationDbContext.Movies'  is null.");
+            }
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> AddRemove(int id, int val)
+        {
+            int retval = -1;
+            var userId = await GetCurrentUserId();
+            if (val == 1)
+            {
+                // if a record exists in UserMovies that contains both the user’s
+                // and movie’s Ids, then the movie is in the watchlist and can
+                // be removed
+                var movie = _context.UserMovies.FirstOrDefault(x =>
+                    x.MovieId == id && x.UserId == userId);
+                if (movie != null)
+                {
+                    _context.UserMovies.Remove(movie);
+                    retval = 0;
+                }
+            }
+            else
+            {
+                var movie = _context.Movies.FirstOrDefault(x => x.Id == id);
+                if (movie != null)
+                {
+                    // the movie is not currently in the watchlist, so we need to
+                    // build a new UserMovie object and add it to the database
+                    _context.UserMovies.Add(
+                        new UserMovie
+                        {
+                            UserId = userId,
+                            MovieId = id,
+                            Watched = false,
+                            Rating = 0
+                        }
+                    );
+                    retval = 1;
+                }
+            }
+            // now we can save the changes to the database
+            await _context.SaveChangesAsync();
+            // and our return value (-1, 0, or 1) back to the script that called
+            // this method from the Index page
+            return Json(retval);
         }
 
         // GET: Movies/Details/5
