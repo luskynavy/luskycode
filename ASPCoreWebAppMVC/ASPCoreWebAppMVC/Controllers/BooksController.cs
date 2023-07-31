@@ -13,20 +13,65 @@ namespace ASPCoreWebAppMVC.Controllers
     {
         private readonly LibraryContext _context;
 
-        //public BooksController(LibraryContext context)
-        public BooksController()
+        public BooksController(LibraryContext context)
+        //public BooksController()
         {
             //Création à la main du contexte de bdd en attendant la configuration de l'injection dépendance.
-            LibraryContext context = new();
+            //LibraryContext context = new();
 
             _context = context;
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            var libraryContext = _context.Book.Include(b => b.AuthorNavigation);
-            return View(await libraryContext.ToListAsync());
+            try
+            {
+                //C'est l'action qui décide des noms des tris
+                ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                ViewData["NoteSortParm"] = sortOrder == "note" ? "note_desc" : "note";
+                ViewData["AuthorSortParm"] = sortOrder == "author" ? "author_desc" : "author";
+
+                //Convertit le dbset en IQueryable
+                IQueryable<Book> books = _context.Book;
+
+                //Rajoute le lien vers l'auteur
+                books = books.Include(b => b.AuthorNavigation);
+
+                //Tri
+                switch (sortOrder)
+                {
+                    case "note_desc":
+                        books = books.OrderByDescending(b => b.Note);
+                        break;
+
+                    case "note":
+                        books = books.OrderBy(b => b.Note);
+                        break;
+
+                    case "author_desc":
+                        books = books.OrderByDescending(b => b.AuthorNavigation.Name);
+                        break;
+
+                    case "author":
+                        books = books.OrderBy(b => b.AuthorNavigation.Name);
+                        break;
+
+                    case "name_desc":
+                        books = books.OrderByDescending(b => b.Name);
+                        break;
+
+                    default:
+                        books = books.OrderBy(b => b.Name);
+                        break;
+                }
+
+                return View(await books.ToListAsync());
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         // GET: Books/Details/5
@@ -42,7 +87,7 @@ namespace ASPCoreWebAppMVC.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
-                return NotFound();
+                return NotFound("Livre inconnu");
             }
 
             return View(book);

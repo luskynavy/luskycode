@@ -1,14 +1,17 @@
+using ASPCoreWebAppMVC.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Ajoute la bdd à l'injection de dépendance
+builder.Services.AddDbContext<LibraryContext>();
 
 // Add services to the container.
 var mvcBuilder = builder.Services.AddControllersWithViews();
 
-//if (app.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
     mvcBuilder.AddRazorRuntimeCompilation();
 }
-
-//builder.
 
 var app = builder.Build();
 

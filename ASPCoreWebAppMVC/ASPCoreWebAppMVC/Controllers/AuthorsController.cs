@@ -13,11 +13,11 @@ namespace ASPCoreWebAppMVC.Controllers
     {
         private readonly LibraryContext _context;
 
-        //public AuthorsController(LibraryContext context)
-        public AuthorsController()
+        public AuthorsController(LibraryContext context)
+        //public AuthorsController()
         {
             //Création à la main du contexte de bdd en attendant la configuration de l'injection dépendance.
-            LibraryContext context = new();
+            //LibraryContext context = new();
 
             _context = context;
         }
@@ -26,7 +26,7 @@ namespace ASPCoreWebAppMVC.Controllers
         public async Task<IActionResult> Index()
         {
             return _context.Author != null ?
-                        View(await _context.Author.ToListAsync()) :
+                        View(await _context.Author.OrderBy(a => a.Name).ToListAsync()) :
                         Problem("Entity set 'LibraryContext.Author'  is null.");
         }
 
