@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//Ajoute la bdd à l'injection de dépendance
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -16,7 +17,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
     .AddEntityFrameworkStores<ApplicationDbContext>();*/
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    //Pour pouvoir modifier les pages en cours de debug
+    .AddRazorRuntimeCompilation();
 
 //NOTE : à rajouter sinon ça fait une erreur au lancement sur MapRazorPages...
 builder.Services.AddRazorPages();
