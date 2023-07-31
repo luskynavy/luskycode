@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.ComponentModel.DataAnnotations;
 
+//Classe qui étend la classe Book pour rajouter les traductions.
 namespace MvcApplication3_mvc4
 {
     [MetadataType(typeof(BookExtend))]
@@ -13,7 +8,7 @@ namespace MvcApplication3_mvc4
     {
     }
 
-    class BookExtend
+    public class BookExtend
     {
         [Display(Name = "Name", ResourceType = typeof(Resources.Resources))]
         public global::System.String name;
