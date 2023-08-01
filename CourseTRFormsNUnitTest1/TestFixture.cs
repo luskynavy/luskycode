@@ -6,23 +6,26 @@ using NUnit.Framework;
 
 using CourseTRForms;
 
+//Fine Code Coverage : n'affiche pas les lignes de CourseTRForms couvertes, pas compatible avec NUnit ?
+//CodeRush, Run with coverage : montre bien le code couvert.
+
 namespace NUnitTest1
 {
     [TestFixture]
     public class TestFixture1
     {
-       /* [Test]
-        public void TestTrue()
-        {
-            Assert.IsTrue(true);
-        }
+        /* [Test]
+         public void TestTrue()
+         {
+             Assert.IsTrue(true);
+         }
 
-        // This test fail for example, replace result or delete this test to see all tests pass
-        [Test]
-        public void TestFault()
-        {
-            Assert.IsTrue(false);
-        }*/
+         // This test fail for example, replace result or delete this test to see all tests pass
+         [Test]
+         public void TestFault()
+         {
+             Assert.IsTrue(false);
+         }*/
 
         [Test]
         public void testSubsetSetNoResults()
