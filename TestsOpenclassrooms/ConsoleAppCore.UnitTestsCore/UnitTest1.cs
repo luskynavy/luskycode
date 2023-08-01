@@ -148,6 +148,20 @@ namespace ConsoleAppCore.UnitTestsCore
         }
 
         [TestMethod]
+        public void Moq_ExemplesMultipleReturns()
+        {
+            var fauxObjet = Mock.Of<Demo>();
+            Mock.Get(fauxObjet).SetupSequence(x => x.DemoMethode(It.IsAny<int>()))
+                .Returns(4)
+                .Returns(5)
+                .Returns(6);
+
+            fauxObjet.DemoMethode(0).Should().Be(4);
+            fauxObjet.DemoMethode(1).Should().Be(5);
+            fauxObjet.DemoMethode(-16).Should().Be(6);
+        }
+
+        [TestMethod]
         public void Moq_ExemplesReturnsWithValue()
         {
             var fauxObjet = Mock.Of<Demo>();
