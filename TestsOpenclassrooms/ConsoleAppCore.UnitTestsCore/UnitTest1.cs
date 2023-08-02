@@ -124,7 +124,10 @@ namespace ConsoleAppCore.UnitTestsCore
         {
             new Test().Invoking(t => t.VaLeverUneException()).Should().Throw<InvalidOperationException>().WithMessage("Impossible de faire ça !");
         }
+    }
 
+    public class MoqExemples
+    {
         [TestMethod]
         [ExpectedException(typeof(NotImplementedException))]
         public void Moq_ExemplesException()
@@ -172,7 +175,10 @@ namespace ConsoleAppCore.UnitTestsCore
             fauxObjet.DemoMethode(1).Should().Be(4);
             fauxObjet.DemoMethode(6).Should().Be(0);
         }
+    }
 
+    public class TestBdd
+    {
         [TestMethod]
         public void QuelTempsFaitIl_AvecDuSoleil_RetourneDuSoleil()
         {
