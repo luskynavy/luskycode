@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.ComponentModel.Design;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Meteo.IntegrationTest
 {
@@ -13,36 +12,18 @@ namespace Meteo.IntegrationTest
         [TestMethod]
         public async Task ObtientLeTempsQuilFait()
         {
-            //Startup ??? Venant de .net 5 ou plus ancien
-            /*var webHostBuilder = new WebHostBuilder().UseStartup<Startup>();
-
-            using (var server = new TestServer(webHostBuilder))
-            using (var client = server.CreateClient())
-            {
-                string result = await client.GetStringAsync("/api/meteo");
-                Assert.AreEqual("Soleil", result);
-            }*/
-            /*
-            //https://stackoverflow.com/questions/74476594/asp-net-core-6-0-web-api-integration-testing-after-migration-to-minimal-hosting
-            //Ne s'exècute pas
-            var application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    // set up servises
-                });
-            });*/
-
-            var builder = WebApplication.CreateBuilder();
-            var app = builder.Build();
-
+            //https://stackoverflow.com/questions/70093628/integration-test-and-hosting-asp-net-core-6-0-without-startup-class
+            // ou https://github.com/dotnet-labs/ApiControllerIntegrationTests/
             try
             {
-                //var client = app.GetTestServer().CreateClient();
-                var client = app.GetTestClient();
+                //A utiliser avec une web api sans class Program et Main donc en top level statements
+                //var webAppFactory = new WebApplicationFactory<Program>();
 
-                //var client = application.CreateClient();
+                //A utiliser avec une web api avec un namespace Meteo.WebApi et la class Program qui contient la fonction Main
+                var webAppFactory = new WebApplicationFactory<Meteo.WebApi.Program>();
+
+                HttpClient client = webAppFactory.CreateDefaultClient();
+
                 string result = await client.GetStringAsync("/api/meteo");
                 Assert.AreEqual("Soleil", result);
             }
@@ -50,8 +31,6 @@ namespace Meteo.IntegrationTest
             {
                 throw;
             }
-
-            //a voir : https://gist.github.com/davidfowl/0e0372c3c1d895c3ce195ba983b1e03d
         }
     }
 }
