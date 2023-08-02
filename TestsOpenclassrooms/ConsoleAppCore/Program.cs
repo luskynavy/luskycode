@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 /*
- * Création de la bdd
-CREATE TABLE[dbo].InfosMeteo
+ * Création de la bdd TestsOpenclassrooms dans (localdb)\MSSQLLocalDB
+ CREATE TABLE[dbo].InfosMeteo
 (
 
     [Valeur] VARCHAR(10) NOT NULL,
 
     [Date] Datetime NOT NULL
 )
-* Valeur de test
+* Valeur de test pour TestsOpenclassrooms
 INSERT INTO dbo.InfosMeteo values ('Soleil', '20230802')
+
+*Autre bdd vide TestAutoOpenclassrooms dans (localdb)\MSSQLLocalDB
 */
 
 namespace ConsoleAppCore
