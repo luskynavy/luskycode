@@ -12,7 +12,7 @@ namespace ConsoleAppCore.UnitTestsCore
             // arrange
             var fausseConsole = new FausseConsole();
             var fournisseurMeteo = Mock.Of<IFournisseurMeteo>();
-            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl()).Returns(Meteo.Soleil);
+            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl(It.IsAny<DateTime>())).Returns(Meteo.Pluie);
             var ihm = new Ihm(fausseConsole, new FauxDe(), fournisseurMeteo);
 
             // act
@@ -37,7 +37,7 @@ namespace ConsoleAppCore.UnitTestsCore
                 sequence.Returns(lancer);
             }
             var fournisseurMeteo = Mock.Of<IFournisseurMeteo>();
-            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl()).Returns(Meteo.Soleil);
+            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl(It.IsAny<DateTime>())).Returns(Meteo.Pluie);
             var ihm = new Ihm(fausseConsole, fauxDe, fournisseurMeteo);
 
             // act

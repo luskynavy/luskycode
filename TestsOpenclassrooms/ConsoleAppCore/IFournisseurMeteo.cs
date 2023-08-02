@@ -2,6 +2,6 @@
 {
     public interface IFournisseurMeteo
     {
-        Meteo QuelTempsFaitIl();
+        Meteo QuelTempsFaitIl(DateTime dateSouhaitee);
     }
 }

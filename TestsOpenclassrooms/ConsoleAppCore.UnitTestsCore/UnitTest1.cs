@@ -14,7 +14,7 @@ namespace ConsoleAppCore.UnitTestsCore
         {
             // Arrange
             var fournisseurMeteo = Mock.Of<IFournisseurMeteo>();
-            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl()).Returns(Meteo.Soleil);
+            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl(It.IsAny<DateTime>())).Returns(Meteo.Pluie);
             Jeu jeu = new Jeu(fournisseurMeteo);
 
             // Act
@@ -38,7 +38,7 @@ namespace ConsoleAppCore.UnitTestsCore
         {
             // Arrange
             var fournisseurMeteo = Mock.Of<IFournisseurMeteo>();
-            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl()).Returns(Meteo.Soleil);
+            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl(It.IsAny<DateTime>())).Returns(Meteo.Pluie);
             Jeu jeu = new Jeu(fournisseurMeteo);
 
             // Act
@@ -55,7 +55,7 @@ namespace ConsoleAppCore.UnitTestsCore
         {
             // Arrange
             var fournisseurMeteo = Mock.Of<IFournisseurMeteo>();
-            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl()).Returns(Meteo.Soleil);
+            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl(It.IsAny<DateTime>())).Returns(Meteo.Pluie);
             Jeu jeu = new Jeu(fournisseurMeteo);
 
             // Act
@@ -72,7 +72,7 @@ namespace ConsoleAppCore.UnitTestsCore
         {
             // Arrange
             var fournisseurMeteo = Mock.Of<IFournisseurMeteo>();
-            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl()).Returns(Meteo.Pluie);
+            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl(DateTime.Now)).Returns(Meteo.Pluie);
             Jeu jeu = new Jeu(fournisseurMeteo);
 
             // Act
@@ -89,7 +89,7 @@ namespace ConsoleAppCore.UnitTestsCore
         {
             // Arrange
             var fournisseurMeteo = Mock.Of<IFournisseurMeteo>();
-            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl()).Returns(Meteo.Tempete);
+            Mock.Get(fournisseurMeteo).Setup(m => m.QuelTempsFaitIl(DateTime.Now)).Returns(Meteo.Tempete);
             Jeu jeu = new Jeu(fournisseurMeteo);
 
             // Act
@@ -98,7 +98,7 @@ namespace ConsoleAppCore.UnitTestsCore
             // Assert
             resultat.Should().Be(Resultat.Perdu);
             jeu.Heros.Points.Should().Be(0);
-            jeu.Heros.PointDeVies.Should().Be(11);
+            jeu.Heros.PointDeVies.Should().Be(13);
         }
 
         [TestMethod]
@@ -171,6 +171,19 @@ namespace ConsoleAppCore.UnitTestsCore
             fauxObjet.DemoMethode(6).Should().Be(0);
             fauxObjet.DemoMethode(1).Should().Be(4);
             fauxObjet.DemoMethode(6).Should().Be(0);
+        }
+
+        [TestMethod]
+        public void QuelTempsFaitIl_AvecDuSoleil_RetourneDuSoleil()
+        {
+            // arrange
+            IFournisseurMeteo fournisseurMeteo = new MeteoRepository(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TestsOpenclassrooms;Integrated Security=True;");
+
+            // act
+            var temps = fournisseurMeteo.QuelTempsFaitIl(new DateTime(2023, 8, 2));
+
+            // assert
+            temps.Should().Be(Meteo.Soleil);
         }
     }
 

@@ -9,7 +9,7 @@
             _random = new Random();
         }
 
-        public Meteo QuelTempsFaitIl()
+        public Meteo QuelTempsFaitIl(DateTime dateSouhaitee)
         {
             var tirage = _random.Next(0, 21);
             if (tirage < 10)

@@ -21,7 +21,7 @@
             }
             else
             {
-                var temps = _fournisseurMeteo.QuelTempsFaitIl();
+                var temps = _fournisseurMeteo.QuelTempsFaitIl(new DateTime(2023, 8, 2));
                 if (temps == Meteo.Tempete)
                     Heros.PerdsUnCombat(2 * (deMonstre - deHeros));
                 else
