@@ -16,16 +16,30 @@ namespace CompareFiles
 		public string dstPath = "";
 		public string socket = "";
 		public string host = "";
+
+		//output file if set
+		public string output = "";
+
+        //prefix and suffix for each line in output
+        // " must be backslashed in command line : -prefix "\"d:\mon rep\recycle.exe\" \"f:\d\\" -suffix "\""
+        public string prefix = "";
+		public string suffix = "";
+
 		public bool verbose = false;
 	}
 
 	internal class Program
 	{
 		//InvariantCulture ?  Ordinal ? InvariantCultureIgnore ? OrdinalIgnoreCase ?
-		private static readonly StringComparer stringComparer = StringComparer.InvariantCulture;
+		private static readonly StringComparer _stringComparer = StringComparer.InvariantCulture;
 
-		private const StringComparison stringComparison = StringComparison.InvariantCulture;
+		private const StringComparison _stringComparison = StringComparison.InvariantCulture;
 
+		/// <summary>
+		/// Get options from command line
+		/// </summary>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private static Options ManageOptions(string[] args)
 		{
 			Options options = new Options();
@@ -49,7 +63,31 @@ namespace CompareFiles
 						i++;
 					}
 				}
-				else if (s == "-verbose")
+                else if (s == "-output")
+                {
+                    if (i + 1 < args.Length)
+                    {
+                        options.output = args[i + 1];
+                        i++;
+                    }
+                }
+                else if (s == "-prefix")
+                {
+                    if (i + 1 < args.Length)
+                    {
+                        options.prefix = args[i + 1];
+                        i++;
+                    }
+                }
+                else if (s == "-suffix")
+                {
+                    if (i + 1 < args.Length)
+                    {
+                        options.suffix = args[i + 1];
+                        i++;
+                    }
+                }
+                else if (s == "-verbose")
 				{
 					options.verbose = true;
 				}
@@ -74,6 +112,11 @@ namespace CompareFiles
 			return options;
 		}
 
+		/// <summary>
+		/// Get files in path
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns>array of file names</returns>
 		private static string[] GetFiles(string path)
 		{
 			string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
@@ -84,11 +127,17 @@ namespace CompareFiles
 				files[i] = files[i].Substring(path.Length + 1);
 			}
 
-			Array.Sort(files, stringComparer);
+			Array.Sort(files, _stringComparer);
 
 			return files;
 		}
 
+		/// <summary>
+		/// Find names presents in dst but not in src
+		/// </summary>
+		/// <param name="filesSrc">source names</param>
+		/// <param name="filesDst">destination names</param>
+		/// <returns></returns>
 		private static List<string> FindDstNotPresentInSrc(string[] filesSrc, string[] filesDst)
 		{
 			List<string> result = new List<string>();
@@ -97,7 +146,8 @@ namespace CompareFiles
 
 			while (indexSrc < filesSrc.Length && indexDst < filesDst.Length)
 			{
-				int compareOrdinal = String.Compare(filesDst[indexDst].ToLower(), filesSrc[indexSrc].ToLower(), stringComparison);
+				//compare names in lowercase to avoid case change
+				int compareOrdinal = String.Compare(filesDst[indexDst].ToLower(), filesSrc[indexSrc].ToLower(), _stringComparison);
 
 				//dstPath == srcPath
 				if (compareOrdinal == 0)
@@ -164,18 +214,24 @@ namespace CompareFiles
 			throw new Exception("No network adapters with an IPv4 address in the system!");
 		}
 
-		private static void ServerMode(Int32 port, string path, bool verbose)
+		/// <summary>
+		/// Compare method used in server with options.dstPath
+		/// </summary>
+		/// <param name="options"></param>
+		private static void ServerMode(Options options)
 		{
 			TcpListener server = null;
 			try
 			{
-				// Set the TcpListener on port socket.
-				//IPAddress localAddr = IPAddress.Parse("127.0.0.1");
-				//var z = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]; //find the one with 	AddressFamily	InterNetwork and not AddressFamily	InterNetworkV6 ?
+				Int32 port = Int32.Parse(options.socket);
 
-				//IPAddress localAddr = Dns.Resolve(Dns.GetHostName()).AddressList[0];
-				//IPAddress localAddr = GetLocalIPAddress();
-				IPAddress localAddr = IPAddress.Any;
+                // Set the TcpListener on port socket.
+                //IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+                //var z = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0]; //find the one with 	AddressFamily	InterNetwork and not AddressFamily	InterNetworkV6 ?
+
+                //IPAddress localAddr = Dns.Resolve(Dns.GetHostName()).AddressList[0];
+                //IPAddress localAddr = GetLocalIPAddress();
+                IPAddress localAddr = IPAddress.Any;
 
 				// TcpListener server = new TcpListener(port);
 				server = new TcpListener(localAddr, port);
@@ -239,10 +295,10 @@ namespace CompareFiles
 					arrayString = (string[])deserializer.Deserialize(ms);
 
 					//get local files
-					string[] filesDst = GetFiles(path);
+					string[] filesDst = GetFiles(options.srcPath);
 
 					//show results
-					ShowResults(arrayString, filesDst, verbose);
+					ShowResults(arrayString, filesDst, options);
 
 					ms.Close();
 
@@ -261,21 +317,29 @@ namespace CompareFiles
 			}
 		}
 
-		private static void ClientMode(string server, Int32 port, string path)
+		/// <summary>
+		/// Compare method used in client using options.srcpath
+		/// </summary>
+		/// <param name="options"></param>
+		private static void ClientMode(Options options)
 		{
 			try
 			{
-				// Create a TcpClient.
-				// Note, for this client to work you need to have a TcpServer
-				// connected to the same address as specified by the server, port
-				// combination.
-				TcpClient client = new TcpClient(server, port);
+				string[] serverPort = options.host.Split(':');
+				string server = serverPort[0];
+				Int32 port = Int32.Parse(serverPort[1]);
+
+                // Create a TcpClient.
+                // Note, for this client to work you need to have a TcpServer
+                // connected to the same address as specified by the server, port
+                // combination.
+                TcpClient client = new TcpClient(server, port);
 
 				// Translate the passed message into ASCII and store it as a Byte array.
 				//string message = "test";
 				//Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
 
-				string[] filesSrc = GetFiles(path);
+				string[] filesSrc = GetFiles(options.srcPath);
 				XmlSerializer serializer = new XmlSerializer(typeof(string[]));
 				MemoryStream ms = new MemoryStream();
 				serializer.Serialize(ms, filesSrc);
@@ -319,70 +383,108 @@ namespace CompareFiles
 			}
 		}
 
-		private static void LocalMode(string src, string dst, bool verbose)
+        /// <summary>
+        /// Compare directories locally
+        /// </summary>
+        /// <param name="options">options with srcPath and dstPath</param>
+        private static void LocalMode(Options options)
 		{
-			string[] filesSrc = GetFiles(src);
-			string[] filesDst = GetFiles(dst);
+			string[] filesSrc = GetFiles(options.srcPath);
+			string[] filesDst = GetFiles(options.dstPath);
 
 			//serialize test
 			//SerializeToXML(filesSrc);
 			//string[] filesSrcSerialized = DeserializeFromXML();
 
-			ShowResults(filesSrc, filesDst, verbose);
+			ShowResults(filesSrc, filesDst, options);
 		}
 
-		private static void ShowResults(string[] filesSrc, string[] filesDst, bool verbose)
+        /// <summary>
+        /// Show the result to console or file if options.output is set
+        /// </summary>
+        /// <param name="filesSrc">source names</param>
+        /// <param name="filesDst">destination names</param>
+        /// <param name="options">options</param>
+        private static void ShowResults(string[] filesSrc, string[] filesDst, Options options)
 		{
-			if (verbose)
+            TextWriter writer;
+			bool writeToFile = !string.IsNullOrEmpty(options.output);
+
+            if (writeToFile)
 			{
-				//show srcPath
-				Console.WriteLine("src:");
+                writer = new StreamWriter(options.output);
+            }
+			else
+			{
+                writer = Console.Out;
+            }
+
+            if (options.verbose)
+			{
+                //show srcPath
+                writer.WriteLine("src:");
 				foreach (var f in filesSrc)
 				{
-					Console.WriteLine(f);
+                    writer.WriteLine(f);
 				}
 
-				Console.WriteLine();
+                writer.WriteLine();
 
 				//show dstPath
-				Console.WriteLine("dst:");
+				writer.WriteLine("dst:");
 				foreach (var f in filesDst)
 				{
-					Console.WriteLine(f);
+                    writer.WriteLine(f);
 				}
 
-				Console.WriteLine();
+                writer.WriteLine();
 			}
 
 			List<string> result = FindDstNotPresentInSrc(filesSrc, filesDst);
-			if (verbose)
+			if (options.verbose)
 			{
 				//show result
-				Console.WriteLine("diff:");
+				writer.WriteLine("diff:");
 			}
 
 			foreach (var f in result)
 			{
-				Console.WriteLine(f);
+                writer.WriteLine(options.prefix + f + options.suffix);
 			}
-		}
 
-		private static void TestDiff(string srcFileName, string dstFileName)
+            if (writeToFile)
+            {
+				writer.Flush();
+                writer.Close();
+            }
+        }
+
+		/// <summary>
+		/// For debug
+		/// </summary>
+		/// <param name="srcFileName"></param>
+		/// <param name="dstFileName"></param>
+		/// <param name="output"></param>
+		private static void TestDiff(string srcFileName, string dstFileName, string output)
 		{
 			string[] src = System.IO.File.ReadLines(srcFileName).ToArray();
 			string[] dst = System.IO.File.ReadLines(dstFileName).ToArray();
 
-			Array.Sort(src, stringComparer);
-			Array.Sort(dst, stringComparer);
+			Array.Sort(src, _stringComparer);
+			Array.Sort(dst, _stringComparer);
 
-			ShowResults(src, dst, false);
+			Options options = new Options()
+			{
+				output = output
+			};
+
+			ShowResults(src, dst, options);
 		}
-
 
 		private static void Main(string[] args)
 		{
 			//used to test FindDstNotPresentInSrc
-			//TestDiff(@"..\..\src.txt", @"..\..\dst.txt");
+			//TestDiff(@"..\..\src.txt", @"..\..\dst.txt", "");
 			//return;
 
 			Options options = ManageOptions(args);
@@ -390,19 +492,18 @@ namespace CompareFiles
 			//client mode if -host and path are set
 			if (!string.IsNullOrEmpty(options.host) && !string.IsNullOrEmpty(options.srcPath))
 			{
-				string[] serverPort = options.host.Split(':');
-				ClientMode(serverPort[0], Int32.Parse(serverPort[1]), options.srcPath);
+				ClientMode(options);
 			}
 			//server mode if -client and path are set
 			else
 			if (!string.IsNullOrEmpty(options.socket) && !string.IsNullOrEmpty(options.srcPath))
 			{
-				ServerMode(Int32.Parse(options.socket), options.srcPath, options.verbose);
+				ServerMode(options);
 			}
 			//local mode
 			else
 			{
-				LocalMode(options.srcPath, options.dstPath, options.verbose);
+				LocalMode(options);
 			}
 		}
 	}
