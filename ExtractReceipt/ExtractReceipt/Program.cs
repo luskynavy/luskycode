@@ -59,7 +59,7 @@ namespace ExtractReceipt
             try
             {
                 string pdfPath = @"..\..\..\Tickets\";
-
+                /*
                 var text = PdfPigExtractText(pdfPath + "Ticket de caisse_05082023-140547.pdf");
                 var file = new StreamWriter("pdfpig.txt");
                 file.Write(text);
@@ -69,8 +69,10 @@ namespace ExtractReceipt
                 file = new StreamWriter("itextsharp.txt");
                 file.Write(text);
                 file.Close();
+                */
 
-                Console.WriteLine("Date;Group;Name;Price;Filename;Line");
+                var file = new StreamWriter("receipts.csv");
+                file.WriteLine("Date;Group;Name;Price;Filename;Line;FullData");
 
                 var allProducts = new List<Product>();
 
@@ -79,7 +81,7 @@ namespace ExtractReceipt
                 {
                     //text = ITextExtractText(pdf);
 
-                    text = PdfPigExtractText(pdf);
+                    var text = PdfPigExtractText(pdf);
 
                     var extractReceiptData = new ExtractReceiptData();
                     extractReceiptData.ExtractData(pdf, text);
@@ -88,7 +90,10 @@ namespace ExtractReceipt
                     {
                         Console.WriteLine(product.DateReceipt.ToString("yyyy-MM-dd") + ";" + product.SourceName + ";" + product.SourceLine + ";" + product.Group + ";" + product.Name + ";" + product.Price);
                     }*/
-                    allProducts.AddRange(extractReceiptData.Products);
+                    if (extractReceiptData.Products != null)
+                    {
+                        allProducts.AddRange(extractReceiptData.Products);
+                    }
 
                     /*file = new StreamWriter(pdf + ".txt");
                     file.Write(text);
@@ -97,8 +102,10 @@ namespace ExtractReceipt
 
                 foreach (var product in allProducts.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt))
                 {
-                    Console.WriteLine(product.DateReceipt.ToString("yyyy-MM-dd") + ";" + product.Group + ";" + product.Name + ";" + product.Price + ";" + product.SourceName + ";" + product.SourceLine);
+                    file.WriteLine(product.DateReceipt.ToString("yyyy-MM-dd") + ";" + product.Group + ";" + product.Name + ";" + product.Price + ";" + product.SourceName + ";" + product.SourceLine + ";" + product.FullData);
                 }
+
+                file.Close();
             }
             catch (Exception)
             {

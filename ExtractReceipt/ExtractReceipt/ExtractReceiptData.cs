@@ -9,7 +9,7 @@ namespace ExtractReceipt
 {
     internal class ExtractReceiptData
     {
-        public List<Product> Products { get; set; }
+        public List<Product>? Products { get; set; }
 
         public void ExtractData(string pdfName, string text)
         {
@@ -100,8 +100,8 @@ namespace ExtractReceipt
                         //Price on 1st line: : case A or B
                         if (lines[i].Contains('€'))
                         {
-                            //Case B: second line with no price
-                            if (lines[i + 1].Contains(" x "))
+                            //Case A : one product with its price on one line
+                            if (!lines[i + 1].Contains(" x "))
                             {
                                 var product = new Product()
                                 {
@@ -110,13 +110,12 @@ namespace ExtractReceipt
                                     Group = productsGroup,
                                     DateReceipt = dateReceipt,
                                     SourceName = pdfName,
-                                    SourceLine = i
+                                    SourceLine = i,
+                                    FullData = lines[i].Trim()
                                 };
                                 Products.Add(product);
-
-                                i++;
                             }
-                            //Case A : one product with its price on one line
+                            //Case B: second line with no price
                             else
                             {
                                 var product = new Product()
@@ -126,9 +125,12 @@ namespace ExtractReceipt
                                     Group = productsGroup,
                                     DateReceipt = dateReceipt,
                                     SourceName = pdfName,
-                                    SourceLine = i
+                                    SourceLine = i,
+                                    FullData = lines[i].Trim() + " " + lines[i + 1].Trim()
                                 };
                                 Products.Add(product);
+
+                                i++;
                             }
                         }
                         //Case C: no price on first line
@@ -144,7 +146,8 @@ namespace ExtractReceipt
                                     Group = productsGroup,
                                     DateReceipt = dateReceipt,
                                     SourceName = pdfName,
-                                    SourceLine = i
+                                    SourceLine = i,
+                                    FullData = lines[i].Trim() + " " + lines[i + 1].Trim()
                                 };
                                 Products.Add(product);
 
@@ -159,10 +162,6 @@ namespace ExtractReceipt
                         }
                     }
                 }
-            }
-            else
-            {
-                int i;
             }
         }
 
@@ -186,7 +185,7 @@ namespace ExtractReceipt
              * LAIT 1/2 EC.PPX BRIQUE 1L
              *
              */
-            return line.Substring(0, int.Min(line.Length, 33)).Trim();
+            return line[..int.Min(line.Length, 33)].Trim();
         }
 
         /// <summary>
@@ -204,12 +203,25 @@ namespace ExtractReceipt
              *
              * 2 x     0,74 €                          1,48 €  11
              */
-
-            //a string finishing by : a decimal, one or more spaces, the symbol € and maybe (one or more spaces and a number)
-            var match = Regex.Match(line, @"(\d)+,(\d\d) +€( +\d+)?$");
-            if (match.Success)
+            //No " x ", price at the end
+            if (!line.Contains(" x "))
             {
-                return decimal.Parse(match.Groups[1].Value) + decimal.Parse(match.Groups[2].Value) / 100m;
+                //A string finishing by : a decimal, one or more spaces, the symbol € and maybe (one or more spaces and a number)
+                var match = Regex.Match(line, @"(\d)+,(\d\d) +€( +\d+)?$");
+                if (match.Success)
+                {
+                    return decimal.Parse(match.Groups[1].Value) + decimal.Parse(match.Groups[2].Value) / 100m;
+                }
+            }
+            //Take the Price by kg/L
+            else
+            {
+                // A string starting by : anything, " x" followed by decimal, the symbol €
+                var match = Regex.Match(line, @"^.* +x +(\d)+,(\d\d) +€");
+                if (match.Success)
+                {
+                    return decimal.Parse(match.Groups[1].Value) + decimal.Parse(match.Groups[2].Value) / 100m;
+                }
             }
 
             return 0;

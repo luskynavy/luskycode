@@ -14,5 +14,6 @@ namespace ExtractReceipt
         public DateOnly DateReceipt { get; set; }
         public string? SourceName { get; set; }
         public int SourceLine { get; set; }
+        public string? FullData { get; set; }
     }
 }
