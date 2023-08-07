@@ -205,6 +205,7 @@ namespace ExtractReceipt
              * 2 x     0,74 €                          1,48 €  11
              */
 
+            //a string finishing by : a decimal, one or more spaces, the symbol € and maybe (one or more spaces and a number)
             var match = Regex.Match(line, @"(\d)+,(\d\d) +€( +\d+)?$");
             if (match.Success)
             {

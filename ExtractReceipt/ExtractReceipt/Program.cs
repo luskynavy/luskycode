@@ -70,7 +70,9 @@ namespace ExtractReceipt
                 file.Write(text);
                 file.Close();
 
-                Console.WriteLine("Date;Filename;Line;Group;Name;Price");
+                Console.WriteLine("Date;Group;Name;Price;Filename;Line");
+
+                var allProducts = new List<Product>();
 
                 var files = Directory.GetFiles(pdfPath, "*.pdf");
                 foreach (var pdf in files)
@@ -82,14 +84,20 @@ namespace ExtractReceipt
                     var extractReceiptData = new ExtractReceiptData();
                     extractReceiptData.ExtractData(pdf, text);
 
-                    foreach (var product in extractReceiptData.Products)
+                    /*foreach (var product in extractReceiptData.Products.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt))
                     {
-                        Console.WriteLine(product.DateReceipt + ";" + product.SourceName + ";" + product.SourceLine + ";" + product.Group + ";" + product.Name + ";" + product.Price);
-                    }
+                        Console.WriteLine(product.DateReceipt.ToString("yyyy-MM-dd") + ";" + product.SourceName + ";" + product.SourceLine + ";" + product.Group + ";" + product.Name + ";" + product.Price);
+                    }*/
+                    allProducts.AddRange(extractReceiptData.Products);
 
                     /*file = new StreamWriter(pdf + ".txt");
                     file.Write(text);
                     file.Close();*/
+                }
+
+                foreach (var product in allProducts.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt))
+                {
+                    Console.WriteLine(product.DateReceipt.ToString("yyyy-MM-dd") + ";" + product.Group + ";" + product.Name + ";" + product.Price + ";" + product.SourceName + ";" + product.SourceLine);
                 }
             }
             catch (Exception)
