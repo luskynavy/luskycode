@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace ExtractReceipt
 {
-    internal class ExtractReceiptData
+    internal partial class ExtractReceiptData
     {
+        //List of products.
         public List<Product>? Products { get; set; }
 
+        /// <summary>
+        /// Extract products list from the text.
+        /// </summary>
+        /// <param name="pdfName">source file name</param>
+        /// <param name="text">text with all data</param>
         public void ExtractData(string pdfName, string text)
         {
             Products = new List<Product>();
@@ -25,20 +26,21 @@ namespace ExtractReceipt
                 var productsGroup = "";
                 for (var i = 0; i < lines.Length; i++)
                 {
-                    //Search the receipt date
+                    //Search the receipt date.
                     if (lines[i].Contains("Date"))
                     {
-                        //Next line contain the date
-                        var match = Regex.Match(lines[i + 1], "([0-9][0-9])/([0-9][0-9])/([0-9][0-9])");
+                        //Next line contain the date.
+                        var match = RegexDate().Match(lines[i + 1]);
                         if (match.Success)
                         {
                             dateReceipt = DateOnly.ParseExact(match.ToString(), "dd/MM/yy", System.Globalization.CultureInfo.InvariantCulture);
                         }
 
+                        //Skip the line with date.
                         i++;
                     }
 
-                    //Search the products start
+                    //Search the products start.
                     if (lines[i].StartsWith(">>>>"))
                     {
                         productsFound = true;
@@ -58,7 +60,7 @@ namespace ExtractReceipt
                          * EMM.PAST.28%MG U PORTION 400G               3,09 €  11
                          * >>>> TRAITEUR LS UVCI
                          *
-                         *B) A product on two lines, price on first line, " x " on second line, no price on seconde line:
+                         *B) A product on two lines, price on first line, " x " on second line, price by kg/L on second line:
                          * >>>> FRUITS
                          * POMME GOLDEN DELICIOUS                      1,51 €  11
                          * 0,892 kg  x     1,69 €/kg
@@ -83,30 +85,17 @@ namespace ExtractReceipt
                          * >>>> FROMAGE LS
                          *
                          */
-                        /*if (lines[i].StartsWith("LAIT"))
-                        {
-                            Console.WriteLine(lines[i]);
-                            Console.WriteLine(lines[i + 1]);
-                            Console.WriteLine();
-                        }
-                        else */
-                        /*if (lines[i].StartsWith("POMME"))
-                        {
-                            Console.WriteLine(lines[i]);
-                            Console.WriteLine(lines[i + 1]);
-                            Console.WriteLine();
-                        }*/
 
-                        //Price on 1st line: : case A or B
+                        //Price on 1st line: : case A or B.
                         if (lines[i].Contains('€'))
                         {
-                            //Case A : one product with its price on one line
+                            //Case A : one product with its price on one line.
                             if (!lines[i + 1].Contains(" x "))
                             {
                                 var product = new Product()
                                 {
                                     Name = ExtractProductName(lines[i].Trim()),
-                                    Price = ExtractProductPrice(lines[i].Trim()),
+                                    Price = ExtractProductPrice(lines[i].Trim(), true),
                                     Group = productsGroup,
                                     DateReceipt = dateReceipt,
                                     SourceName = pdfName,
@@ -115,13 +104,13 @@ namespace ExtractReceipt
                                 };
                                 Products.Add(product);
                             }
-                            //Case B: second line with no price
+                            //Case B: second line with price by kg/L/product.
                             else
                             {
                                 var product = new Product()
                                 {
                                     Name = ExtractProductName(lines[i].Trim()),
-                                    Price = ExtractProductPrice(lines[i].Trim()),
+                                    Price = ExtractProductPrice(lines[i + 1].Trim(), false),
                                     Group = productsGroup,
                                     DateReceipt = dateReceipt,
                                     SourceName = pdfName,
@@ -130,6 +119,7 @@ namespace ExtractReceipt
                                 };
                                 Products.Add(product);
 
+                                //Skip the second line of the product.
                                 i++;
                             }
                         }
@@ -142,7 +132,7 @@ namespace ExtractReceipt
                                 var product = new Product()
                                 {
                                     Name = ExtractProductName(lines[i].Trim()),
-                                    Price = ExtractProductPrice(lines[i + 1].Trim()),
+                                    Price = ExtractProductPrice(lines[i + 1].Trim(), false),
                                     Group = productsGroup,
                                     DateReceipt = dateReceipt,
                                     SourceName = pdfName,
@@ -151,6 +141,7 @@ namespace ExtractReceipt
                                 };
                                 Products.Add(product);
 
+                                //Skip the second line of the product.
                                 i++;
                             }
                         }
@@ -166,9 +157,9 @@ namespace ExtractReceipt
         }
 
         /// <summary>
-        /// Extract product name from line
+        /// Extract product name from line.
         /// </summary>
-        /// <param name="line"></param>
+        /// <param name="line">line with product name</param>
         /// <returns></returns>
         private static string ExtractProductName(string line)
         {
@@ -185,15 +176,17 @@ namespace ExtractReceipt
              * LAIT 1/2 EC.PPX BRIQUE 1L
              *
              */
+            //Product end at position 33 (where the (T) appears).
             return line[..int.Min(line.Length, 33)].Trim();
         }
 
         /// <summary>
-        /// Extract product price from line
+        /// Extract product price from line.
         /// </summary>
-        /// <param name="line"></param>
+        /// <param name="line">line with price</param>
+        /// <param name="priceAtEnd"></param>
         /// <returns></returns>
-        private static decimal ExtractProductPrice(string line)
+        private static decimal ExtractProductPrice(string line, bool priceAtEnd)
         {
             /* Differents cases:
              *
@@ -203,21 +196,19 @@ namespace ExtractReceipt
              *
              * 2 x     0,74 €                          1,48 €  11
              */
-            //No " x ", price at the end
-            if (!line.Contains(" x "))
+            //No " x ", price at the end.
+            if (priceAtEnd)
             {
-                //A string finishing by : a decimal, one or more spaces, the symbol € and maybe (one or more spaces and a number)
-                var match = Regex.Match(line, @"(\d)+,(\d\d) +€( +\d+)?$");
+                var match = RegExPriceAtEnd().Match(line);
                 if (match.Success)
                 {
                     return decimal.Parse(match.Groups[1].Value) + decimal.Parse(match.Groups[2].Value) / 100m;
                 }
             }
-            //Take the Price by kg/L
+            //Take the Price by kg/L.
             else
             {
-                // A string starting by : anything, " x" followed by decimal, the symbol €
-                var match = Regex.Match(line, @"^.* +x +(\d)+,(\d\d) +€");
+                var match = RegexPriceAtStart().Match(line);
                 if (match.Success)
                 {
                     return decimal.Parse(match.Groups[1].Value) + decimal.Parse(match.Groups[2].Value) / 100m;
@@ -226,5 +217,17 @@ namespace ExtractReceipt
 
             return 0;
         }
+
+        //A string finishing by : a decimal, one or more spaces, the symbol € and maybe (one or more spaces and a number).
+        [GeneratedRegex("(\\d)+,(\\d\\d) +€( +\\d+)?$")]
+        private static partial Regex RegExPriceAtEnd();
+
+        // A string starting by : anything, " x" followed by decimal, the symbol €.
+        [GeneratedRegex("^.* +x +(\\d)+,(\\d\\d) +€")]
+        private static partial Regex RegexPriceAtStart();
+
+        //Short date.
+        [GeneratedRegex("([0-9][0-9])/([0-9][0-9])/([0-9][0-9])")]
+        private static partial Regex RegexDate();
     }
 }

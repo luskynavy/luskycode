@@ -1,8 +1,6 @@
 ﻿using UglyToad.PdfPig.DocumentLayoutAnalysis.TextExtractor;
 using UglyToad.PdfPig;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
-using System.Text.RegularExpressions;
 
 namespace ExtractReceipt
 {
@@ -59,20 +57,9 @@ namespace ExtractReceipt
             try
             {
                 string pdfPath = @"..\..\..\Tickets\";
-                /*
-                var text = PdfPigExtractText(pdfPath + "Ticket de caisse_05082023-140547.pdf");
-                var file = new StreamWriter("pdfpig.txt");
-                file.Write(text);
-                file.Close();
-
-                text = ITextExtractText(pdfPath + "Ticket de caisse_05082023-140547.pdf");
-                file = new StreamWriter("itextsharp.txt");
-                file.Write(text);
-                file.Close();
-                */
 
                 var file = new StreamWriter("receipts.csv");
-                file.WriteLine("Date;Group;Name;Price;Filename;Line;FullData");
+                file.WriteLine("Date;Group;Name;Price;Filename;Line;FullData;PriceDiff");
 
                 var allProducts = new List<Product>();
 
@@ -86,23 +73,28 @@ namespace ExtractReceipt
                     var extractReceiptData = new ExtractReceiptData();
                     extractReceiptData.ExtractData(pdf, text);
 
-                    /*foreach (var product in extractReceiptData.Products.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt))
-                    {
-                        Console.WriteLine(product.DateReceipt.ToString("yyyy-MM-dd") + ";" + product.SourceName + ";" + product.SourceLine + ";" + product.Group + ";" + product.Name + ";" + product.Price);
-                    }*/
+                    //Add the products to the list of all products.
                     if (extractReceiptData.Products != null)
                     {
                         allProducts.AddRange(extractReceiptData.Products);
                     }
-
-                    /*file = new StreamWriter(pdf + ".txt");
-                    file.Write(text);
-                    file.Close();*/
                 }
 
+                string previousProductName = "";
+                decimal previousPrice = 0m;
+                //Write products sorted by name then date.
                 foreach (var product in allProducts.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt))
                 {
-                    file.WriteLine(product.DateReceipt.ToString("yyyy-MM-dd") + ";" + product.Group + ";" + product.Name + ";" + product.Price + ";" + product.SourceName + ";" + product.SourceLine + ";" + product.FullData);
+                    file.Write(product + ";");
+                    //Write price difference with previous line if product is the same.
+                    if (previousProductName != "" && previousProductName == product.Name)
+                    {
+                        file.Write(decimal.Round(product.Price / (previousPrice != 0 ? previousPrice : 1m), 2));
+                    }
+                    file.WriteLine();
+
+                    previousProductName = product.Name ?? "";
+                    previousPrice = product.Price;
                 }
 
                 file.Close();
