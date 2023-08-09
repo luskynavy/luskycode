@@ -1,9 +1,12 @@
 using ASPCoreWebAppMVC.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //Ajoute la bdd à l'injection de dépendance
-builder.Services.AddDbContext<LibraryContext>();
+builder.Services.AddDbContext<LibraryContext>(options =>
+    options.UseSqlServer(connectionString));
 
 // Add services to the container.
 var mvcBuilder = builder.Services.AddControllersWithViews();
