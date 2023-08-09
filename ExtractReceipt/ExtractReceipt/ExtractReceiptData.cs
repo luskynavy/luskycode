@@ -41,10 +41,10 @@ namespace ExtractReceipt
                     }
 
                     //Search the products start.
-                    if (lines[i].StartsWith(">>>>"))
+                    if (lines[i].Trim().StartsWith(">>>>"))
                     {
                         productsFound = true;
-                        productsGroup = lines[i][4..].Trim();
+                        productsGroup = lines[i].Trim()[4..].Trim();
                     }
                     else if (productsFound)
                     {

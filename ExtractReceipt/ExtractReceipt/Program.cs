@@ -66,8 +66,8 @@ namespace ExtractReceipt
                 var files = Directory.GetFiles(pdfPath, "*.pdf");
                 foreach (var pdf in files)
                 {
-                    //text = ITextExtractText(pdf);
-
+                    /*var text = ITextExtractText(pdf);
+                    text = text.Replace("\n", "\r\n");*/
                     var text = PdfPigExtractText(pdf);
 
                     var extractReceiptData = new ExtractReceiptData();
