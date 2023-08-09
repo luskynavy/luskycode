@@ -16,7 +16,7 @@ namespace ExtractReceipt
         {
             Products = new List<Product>();
 
-            var dateReceipt = new DateOnly();
+            var dateReceipt = new DateTime();
 
             var lines = text.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
 
@@ -33,7 +33,7 @@ namespace ExtractReceipt
                         var match = RegexDate().Match(lines[i + 1]);
                         if (match.Success)
                         {
-                            dateReceipt = DateOnly.ParseExact(match.ToString(), "dd/MM/yy", System.Globalization.CultureInfo.InvariantCulture);
+                            dateReceipt = DateTime.ParseExact(match.ToString(), "dd/MM/yy", System.Globalization.CultureInfo.InvariantCulture);
                         }
 
                         //Skip the line with date.

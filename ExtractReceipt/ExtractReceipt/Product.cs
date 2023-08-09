@@ -2,6 +2,9 @@
 {
     public class Product
     {
+        //Key for db.
+        public int Id { get; set; }
+
         //Name of the product.
         public string? Name { get; set; }
 
@@ -12,7 +15,7 @@
         public decimal Price { get; set; }
 
         //Date of the receipt
-        public DateOnly DateReceipt { get; set; }
+        public DateTime DateReceipt { get; set; }
 
         //File name of the receipt.
         public string? SourceName { get; set; }

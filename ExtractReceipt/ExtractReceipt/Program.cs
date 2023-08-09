@@ -1,6 +1,10 @@
 ﻿using UglyToad.PdfPig.DocumentLayoutAnalysis.TextExtractor;
 using UglyToad.PdfPig;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using ExtractReceipt.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics;
 
 namespace ExtractReceipt
 {
@@ -58,50 +62,112 @@ namespace ExtractReceipt
             {
                 string pdfPath = @"..\..\..\Tickets\";
 
-                var file = new StreamWriter("receipts.csv");
-                file.WriteLine("Date;Group;Name;Price;Filename;Line;FullData;PriceDiff");
+                Console.Write("ExtractProducts");
+                Stopwatch sw = Stopwatch.StartNew();
+                var allProducts = ExtractProducts(pdfPath);
+                sw.Stop();
+                Console.WriteLine($" in {sw.ElapsedMilliseconds} ms");
 
-                var allProducts = new List<Product>();
+                Console.Write("ExportCsv");
+                sw.Start();
+                ExportCsv("receipts.csv", allProducts);
+                sw.Stop();
+                Console.WriteLine($"in {sw.ElapsedMilliseconds} ms");
 
-                var files = Directory.GetFiles(pdfPath, "*.pdf");
-                foreach (var pdf in files)
-                {
-                    /*var text = ITextExtractText(pdf);
-                    text = text.Replace("\n", "\r\n");*/
-                    var text = PdfPigExtractText(pdf);
+                Console.Write("AddProductsToDb");
+                sw.Start();
+                AddProductsToDb(allProducts);
+                sw.Stop();
+                Console.WriteLine($" in {sw.ElapsedMilliseconds} ms");
 
-                    var extractReceiptData = new ExtractReceiptData();
-                    extractReceiptData.ExtractData(pdf, text);
-
-                    //Add the products to the list of all products.
-                    if (extractReceiptData.Products != null)
-                    {
-                        allProducts.AddRange(extractReceiptData.Products);
-                    }
-                }
-
-                string previousProductName = "";
-                decimal previousPrice = 0m;
-                //Write products sorted by name then date.
-                foreach (var product in allProducts.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt))
-                {
-                    file.Write(product + ";");
-                    //Write price difference with previous line if product is the same.
-                    if (previousProductName != "" && previousProductName == product.Name)
-                    {
-                        file.Write(decimal.Round(product.Price / (previousPrice != 0 ? previousPrice : 1m), 2));
-                    }
-                    file.WriteLine();
-
-                    previousProductName = product.Name ?? "";
-                    previousPrice = product.Price;
-                }
-
-                file.Close();
+                Console.WriteLine("Done");
             }
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Extract products from pdf.
+        /// </summary>
+        /// <param name="pdfPath">path with pdf</param>
+        /// <returns>list of all products</returns>
+        private static List<Product> ExtractProducts(string pdfPath)
+        {
+            var allProducts = new List<Product>();
+
+            var files = Directory.GetFiles(pdfPath, "*.pdf");
+            foreach (var pdf in files)
+            {
+                /*var text = ITextExtractText(pdf);
+                text = text.Replace("\n", "\r\n");*/
+                var text = PdfPigExtractText(pdf);
+
+                var extractReceiptData = new ExtractReceiptData();
+                extractReceiptData.ExtractData(pdf, text);
+
+                //Add the products to the list of all products.
+                if (extractReceiptData.Products != null)
+                {
+                    allProducts.AddRange(extractReceiptData.Products);
+                }
+            }
+
+            return allProducts;
+        }
+
+        /// <summary>
+        /// Export products in csv file.
+        /// </summary>
+        /// <param name="csvName">csv file name</param>
+        /// <param name="allProducts">list of products</param>
+        private static void ExportCsv(string csvName, List<Product> allProducts)
+        {
+            var file = new StreamWriter(csvName);
+            file.WriteLine("Date;Group;Name;Price;Filename;Line;FullData;PriceDiff");
+
+            string previousProductName = "";
+            decimal previousPrice = 0m;
+            //Write products sorted by name then date.
+            foreach (var product in allProducts.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt))
+            {
+                file.Write(product + ";");
+                //Write price difference with previous line if product is the same.
+                if (previousProductName != "" && previousProductName == product.Name)
+                {
+                    file.Write(decimal.Round(product.Price / (previousPrice != 0 ? previousPrice : 1m), 2));
+                }
+                file.WriteLine();
+
+                previousProductName = product.Name ?? "";
+                previousPrice = product.Price;
+            }
+
+            file.Close();
+        }
+
+        /// <summary>
+        /// Add all the products to the db
+        /// </summary>
+        /// <param name="allProducts">products list</param>
+        private static void AddProductsToDb(List<Product> allProducts)
+        {
+            //To create DB on Package Manager Console:
+            //Add - Migration InitialMigration
+            //Update-Database
+
+            //Init db.
+            using (var dbContext = new ApplicationDbContext())
+            {
+                //TODO : add product only if sourcename is not found ?
+
+                //Empty products in db.
+                dbContext.Products.ExecuteDelete();
+
+                //Add all products to db.
+                dbContext.Products.AddRange(allProducts);
+                dbContext.SaveChanges();
             }
         }
     }
