@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ReceiptsWeb.Models;
 
 namespace ReceiptsWeb
@@ -7,12 +9,14 @@ namespace ReceiptsWeb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             //Ajoute la bdd à l'injection de dépendance
-            builder.Services.AddDbContext<ReceiptsContext>();
+            builder.Services.AddDbContext<ReceiptsContext>(options =>
+                options.UseSqlServer(connectionString));
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            var mvcBuilder = builder.Services.AddControllersWithViews();
+            mvcBuilder.AddRazorRuntimeCompilation();
 
             var app = builder.Build();
 
