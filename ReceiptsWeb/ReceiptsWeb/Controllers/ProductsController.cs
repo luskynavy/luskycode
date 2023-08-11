@@ -22,7 +22,7 @@ namespace ReceiptsWeb.Controllers
         public async Task<IActionResult> Index()
         {
             return _context.Products != null ?
-                        View(await _context.Products.ToListAsync()) :
+                        View(await _context.Products.OrderBy(p=>p.Name).ThenBy(p=>p.DateReceipt).ToListAsync()) :
                         Problem("Entity set 'ReceiptsContext.Products'  is null.");
         }
 

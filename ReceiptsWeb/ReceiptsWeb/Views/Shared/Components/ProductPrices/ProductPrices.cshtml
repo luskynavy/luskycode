@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ReceiptsWeb.Models.Products>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+<script>
+const xValues = [
+    @foreach (var item in Model)
+    {
+        <text>"</text>
+        @item.DateReceipt.ToShortDateString()
+        <text>",</text>
+    }
+];
+const yValues = [
+    @foreach (var item in Model)
+    {
+        @item.Price.ToString().Replace(',','.')
+        <text>,</text>
+    }
+];
+
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(0,0,255,0.1)",
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+
+    }
+  }
+});
+</script>
