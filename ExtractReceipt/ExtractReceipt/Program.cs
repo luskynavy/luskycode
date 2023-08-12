@@ -72,13 +72,13 @@ namespace ExtractReceipt
                 sw.Start();
                 ExportCsv("receipts.csv", allProducts);
                 sw.Stop();
-                Console.WriteLine($"in {sw.ElapsedMilliseconds} ms");
+                Console.WriteLine($" in {sw.ElapsedMilliseconds} ms");
 
                 Console.Write("AddProductsToDb");
                 sw.Start();
-                AddProductsToDb(allProducts);
+                int nbProductsAdded = AddProductsToDb(allProducts);
                 sw.Stop();
-                Console.WriteLine($" in {sw.ElapsedMilliseconds} ms");
+                Console.WriteLine($" added {nbProductsAdded} product(s) in {sw.ElapsedMilliseconds} ms");
 
                 Console.WriteLine("Done");
             }
@@ -151,24 +151,42 @@ namespace ExtractReceipt
         /// Add all the products to the db
         /// </summary>
         /// <param name="allProducts">products list</param>
-        private static void AddProductsToDb(List<Product> allProducts)
+        private static int AddProductsToDb(List<Product> allProducts)
         {
             //To create DB on Package Manager Console:
             //Add - Migration InitialMigration
             //Update-Database
 
+            int nbProductsAdded = 0;
+
             //Init db.
             using (var dbContext = new ApplicationDbContext())
             {
-                //TODO : add product only if sourcename is not found ?
-
                 //Empty products in db.
-                dbContext.Products.ExecuteDelete();
+                //dbContext.Products.ExecuteDelete();
 
                 //Add all products to db.
-                dbContext.Products.AddRange(allProducts);
-                dbContext.SaveChanges();
+                //dbContext.Products.AddRange(allProducts);
+
+
+                foreach(var product in allProducts)
+                {
+                    //Add product only if sourcename is not found
+                    if (!dbContext.Products.Any(p => p.SourceName == product.SourceName
+                    && p.SourceLine == product.SourceLine))
+                    {
+                        dbContext.Products.Add(product);
+                        nbProductsAdded++;
+                    }
+                }
+
+                if (nbProductsAdded != 0)
+                {
+                    dbContext.SaveChanges();
+                }
             }
+
+            return nbProductsAdded;
         }
     }
 }
