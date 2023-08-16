@@ -22,7 +22,7 @@ namespace ReceiptsWeb.Controllers
         public async Task<IActionResult> Index()
         {
             return _context.Products != null ?
-                        View(await _context.Products.OrderBy(p=>p.Name).ThenBy(p=>p.DateReceipt).ToListAsync()) :
+                        View(await _context.Products/*.Take(20)*/.OrderBy(p=>p.Name).ThenBy(p=>p.DateReceipt).ToListAsync()) :
                         Problem("Entity set 'ReceiptsContext.Products'  is null.");
         }
 
@@ -42,6 +42,13 @@ namespace ReceiptsWeb.Controllers
             }
 
             return View(products);
+        }
+
+        // GET: Products/GetProductPrices/5
+        public ActionResult GetProductPrices(int id)
+        {
+            //return ViewComponent("ProductPrices", new { id });
+            return ViewComponent(typeof(ProductPricesViewComponent), new { id });
         }
 
         // GET: Products/Create

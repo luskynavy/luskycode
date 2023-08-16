@@ -4,7 +4,7 @@
 <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 
 <script>
-const xValues = [
+xValues = [
     @foreach (var item in Model)
     {
         <text>"</text>
@@ -12,7 +12,7 @@ const xValues = [
         <text>",</text>
     }
 ];
-const yValues = [
+yValues = [
     @foreach (var item in Model)
     {
         @item.Price.ToString().Replace(',','.')

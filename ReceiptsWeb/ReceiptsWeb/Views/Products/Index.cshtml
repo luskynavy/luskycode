@@ -9,6 +9,8 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div id="partialPrices"></div>
 <table class="table">
     <thead>
         <tr>
@@ -63,9 +65,32 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <button class="button displayProductsPrices" value="@item.Id">Prices</button>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        $(".displayProductsPrices").click(function ()
+        {
+            $.ajax({
+                url: "/Products/GetProductPrices",
+                method: "GET",
+                data: { id: this.value },
+                success: function (data)
+                {
+                    $("#partialPrices").html("");
+                    $("#partialPrices").html(data);
+                }
+            });
+        });
+    });
+</script>
+
