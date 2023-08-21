@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using ReceiptsWeb.Models;
 
 namespace ReceiptsWeb.Models;
 
@@ -24,10 +25,12 @@ public partial class ReceiptsContext : DbContext
         modelBuilder.Entity<Products>(entity =>
         {
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-        });
+        });        
 
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public DbSet<ReceiptsWeb.Models.GroupProducts> GroupProducts { get; set; } = default!;
 }

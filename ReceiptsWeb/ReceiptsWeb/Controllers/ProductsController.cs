@@ -22,8 +22,49 @@ namespace ReceiptsWeb.Controllers
         public async Task<IActionResult> Index()
         {
             return _context.Products != null ?
-                        View(await _context.Products/*.Take(20)*/.OrderBy(p=>p.Name).ThenBy(p=>p.DateReceipt).ToListAsync()) :
+                        View(await _context.Products/*.Take(20)*/.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt).ToListAsync()) :
                         Problem("Entity set 'ReceiptsContext.Products'  is null.");
+        }
+
+        // GET: GroupProducts
+        public async Task<IActionResult> GroupProducts()
+        {
+            if (_context.Products != null)
+            {
+                //Method syntax
+                var groupsProducts = _context.Products.GroupBy(
+                                         p => new
+                                         {
+                                             p.Group,
+                                             p.Name
+                                         }).
+                                        Select(gp => new GroupProducts
+                                        {
+                                            Group = gp.Key.Group,
+                                            Name = gp.Key.Name,
+                                            Min = gp.Min(p => p.Price),
+                                            Max = gp.Max(p => p.Price)
+                                        });
+                //Query syntax
+                /*var groupsProducts = from p in _context.Products
+                                     group p by new
+                                     {
+                                         p.Group,
+                                         p.Name
+                                     } into gp
+                                     select new GroupProducts
+                                     {
+                                         Group = gp.Key.Group,
+                                         Name = gp.Key.Name,
+                                         Min = gp.Min(x => x.Price),
+                                         Max = gp.Max(x => x.Price)
+                                     };*/
+                return View(await groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name).ToListAsync());
+            }
+            else
+            {
+                return Problem("Entity set 'ReceiptsContext.Products'  is null.");
+            }
         }
 
         // GET: Products/Details/5
