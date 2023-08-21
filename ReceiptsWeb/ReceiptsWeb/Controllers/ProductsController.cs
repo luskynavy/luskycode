@@ -19,20 +19,56 @@ namespace ReceiptsWeb.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string currentFilter, string searchString, string filterGroup)
         {
-            return _context.Products != null ?
-                        View(await _context.Products/*.Take(20)*/.OrderBy(p => p.Name).ThenBy(p => p.DateReceipt).ToListAsync()) :
+            ViewData["CurrentFilter"] = searchString;
+
+            ViewBag.GroupList = GroupSelectList(filterGroup);
+
+            searchString ??= currentFilter;
+
+            IQueryable<Products> products = _context.Products;
+
+            if (!String.IsNullOrEmpty(filterGroup))
+            {
+                products = products.Where(s => s.Group.Equals(filterGroup));
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.Name.Contains(searchString));
+            }
+
+            return products != null ?
+                        View(await products/*.Take(20)*/.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt).ToListAsync()) :
                         Problem("Entity set 'ReceiptsContext.Products'  is null.");
         }
 
         // GET: GroupProducts
-        public async Task<IActionResult> GroupProducts()
+        public async Task<IActionResult> GroupProducts(string currentFilter, string searchString, string filterGroup)
         {
-            if (_context.Products != null)
+            ViewData["CurrentFilter"] = searchString;
+
+            ViewBag.GroupList = GroupSelectList(filterGroup);
+
+            searchString ??= currentFilter;
+
+            IQueryable<Products> products = _context.Products;
+
+            if (!String.IsNullOrEmpty(filterGroup))
+            {
+                products = products.Where(s => s.Group.Equals(filterGroup));
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.Name.Contains(searchString));
+            }
+
+            if (products != null)
             {
                 //Method syntax
-                var groupsProducts = _context.Products.GroupBy(
+                var groupsProducts = products.GroupBy(
                                          p => new
                                          {
                                              p.Group,
@@ -44,10 +80,12 @@ namespace ReceiptsWeb.Controllers
                                             Group = gp.Key.Group,
                                             Name = gp.Key.Name,
                                             Min = gp.Min(p => p.Price),
-                                            Max = gp.Max(p => p.Price)
+                                            Max = gp.Max(p => p.Price),
+                                            MinDate = gp.Min(p => p.DateReceipt),
+                                            MaxDate = gp.Max(p => p.DateReceipt)
                                         });
                 //Query syntax
-                /*var groupsProducts = from p in _context.Products
+                /*var groupsProducts = from p in products
                                      group p by new
                                      {
                                          p.Group,
@@ -59,7 +97,9 @@ namespace ReceiptsWeb.Controllers
                                          Group = gp.Key.Group,
                                          Name = gp.Key.Name,
                                          Min = gp.Min(x => x.Price),
-                                         Max = gp.Max(x => x.Price)
+                                         Max = gp.Max(x => x.Price),
+                                         MinDate = gp.Min(p => p.DateReceipt),
+                                         MaxDate = gp.Max(p => p.DateReceipt)
                                      };*/
                 return View(await groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name).ToListAsync());
             }
@@ -67,6 +107,27 @@ namespace ReceiptsWeb.Controllers
             {
                 return Problem("Entity set 'ReceiptsContext.Products'  is null.");
             }
+        }
+
+        private List<SelectListItem> GroupSelectList(string filterGroup)
+        {
+            var groupList = _context.Products.Select(p => p.Group).Distinct().ToList();
+            var groupSelectList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "", Value = "" }
+            };
+            foreach (var group in groupList)
+            {
+                if (filterGroup == group)
+                {
+                    groupSelectList.Add(new SelectListItem { Text = group, Value = group, Selected = true });
+                }
+                else
+                {
+                    groupSelectList.Add(new SelectListItem { Text = group, Value = group });
+                }
+            };
+            return groupSelectList;
         }
 
         // GET: Products/Details/5

@@ -17,5 +17,8 @@ namespace ReceiptsWeb.Models
 
         [Precision(18, 2)]
         public decimal Max { get; set; }
+
+        public DateTime MinDate { get; set; }
+        public DateTime MaxDate { get; set; }
     }
 }
