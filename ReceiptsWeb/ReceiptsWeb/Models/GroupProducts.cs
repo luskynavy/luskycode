@@ -20,5 +20,10 @@ namespace ReceiptsWeb.Models
 
         public DateTime MinDate { get; set; }
         public DateTime MaxDate { get; set; }
+
+        [Precision(18, 2)]
+        public decimal PriceRatio { get; set; }
+
+        public int PricesCount { get; set; }
     }
 }

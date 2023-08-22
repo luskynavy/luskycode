@@ -82,7 +82,9 @@ namespace ReceiptsWeb.Controllers
                                             Min = gp.Min(p => p.Price),
                                             Max = gp.Max(p => p.Price),
                                             MinDate = gp.Min(p => p.DateReceipt),
-                                            MaxDate = gp.Max(p => p.DateReceipt)
+                                            MaxDate = gp.Max(p => p.DateReceipt),
+                                            PriceRatio = gp.Max(p => p.Price)/gp.Min(p => p.Price),
+                                            PricesCount = gp.Count()
                                         });
                 //Query syntax
                 /*var groupsProducts = from p in products
