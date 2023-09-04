@@ -84,7 +84,8 @@
                 @item.DateReceipt.ToShortDateString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SourceName)
+                @*@Html.DisplayFor(modelItem => item.SourceName)*@
+                @System.IO.Path.GetFileName(item.SourceName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SourceLine)
