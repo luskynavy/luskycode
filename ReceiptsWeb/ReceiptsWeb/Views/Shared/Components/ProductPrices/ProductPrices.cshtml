@@ -2,9 +2,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+<label>Prices start at 0 <input type='checkbox' onclick='changeChartYAxis(this);'></label>
 
 <script>
-xValues = [
+xValues =
+[
     @foreach (var item in Model)
     {
         <text>"</text>
@@ -12,7 +14,8 @@ xValues = [
         <text>",</text>
     }
 ];
-yValues = [
+yValues =
+[
     @foreach (var item in Model)
     {
         @item.Price.ToString().Replace(',','.')
@@ -20,11 +23,14 @@ yValues = [
     }
 ];
 
-new Chart("myChart", {
+ var myChart = new Chart("myChart",
+ {
   type: "line",
-  data: {
+  data:
+  {
     labels: xValues,
-    datasets: [{
+    datasets:
+    [{
       fill: false,
       lineTension: 0,
       label: '@Model.FirstOrDefault()?.Name',
@@ -33,15 +39,26 @@ new Chart("myChart", {
       data: yValues
     }]
   },
-  options: {
-    plugins: {
+  options:
+  {
+    plugins:
+    {
         legend: {display: true},
-    }/*,
-    scales: {
-      y: {
-        min: 0
-      }
-    }*/
+    }
   }
 });
+
+function changeChartYAxis(cb)
+{
+    if (cb.checked)
+    {
+        myChart.options.scales.y = { min: 0 }
+    }
+    else
+    {
+        myChart.options.scales.y = {  }
+    }
+    myChart.update()
+}
+
 </script>

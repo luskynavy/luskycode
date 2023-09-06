@@ -9,7 +9,7 @@
 <div class="modal fade" id="pricesModal" tabindex="-1" role="dialog" aria-labelledby="pricesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header draggable_touch">
                 <h5 class="modal-title" id="pricesModalLabel">Prices history</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -29,6 +29,9 @@
         </p>
         <p>
             Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+        </p>
+        <p>
+            Sort by : <select name="sort" asp-items="@ViewBag.GroupProductsSortList"></select>
         </p>
 
         <input type="submit" value="Search" />
@@ -104,6 +107,7 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $(".displayProductsPrices").click(function () {
@@ -115,7 +119,11 @@
                     $("#partialPrices").html("");
                     $("#partialPrices").html(data);
 
-                    $('#pricesModal').modal('toggle')
+                    $('#pricesModal').modal('show')
+                    $(".modal-dialog").draggable({
+                        cursor: "move",
+                        handle: ".modal-header",
+                    });
                 }
             });
         });

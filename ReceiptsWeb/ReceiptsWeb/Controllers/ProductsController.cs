@@ -19,16 +19,19 @@ namespace ReceiptsWeb.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string currentFilter, string searchString, string filterGroup)
+        public async Task<IActionResult> Index(string currentFilter, string searchString, string filterGroup, string sort)
         {
             ViewData["CurrentFilter"] = searchString;
 
+            //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
+            ViewBag.ProductsSortList = ProductsSortList(sort);
 
             searchString ??= currentFilter;
 
             IQueryable<Products> products = _context.Products;
 
+            //Filter
             if (!String.IsNullOrEmpty(filterGroup))
             {
                 products = products.Where(s => s.Group.Equals(filterGroup));
@@ -39,22 +42,39 @@ namespace ReceiptsWeb.Controllers
                 products = products.Where(s => s.Name.Contains(searchString));
             }
 
+            //Sort
+            if (sort == "Group")
+            {
+                products = products/*.Take(20)*/.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt);
+            }
+            else if (sort == "DateReceipt")
+            {
+                products = products.OrderByDescending(p => p.DateReceipt);
+            }
+            else if (sort == "Name")
+            {
+                products = products.OrderBy(p => p.Name);
+            }
+
             return products != null ?
-                        View(await products/*.Take(20)*/.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt).ToListAsync()) :
+                        View(await products.ToListAsync()) :
                         Problem("Entity set 'ReceiptsContext.Products'  is null.");
         }
 
         // GET: GroupProducts
-        public async Task<IActionResult> GroupProducts(string currentFilter, string searchString, string filterGroup)
+        public async Task<IActionResult> GroupProducts(string currentFilter, string searchString, string filterGroup, string sort)
         {
             ViewData["CurrentFilter"] = searchString;
 
+            //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
+            ViewBag.GroupProductsSortList = GroupProductsSortList(sort);
 
             searchString ??= currentFilter;
 
             IQueryable<Products> products = _context.Products;
 
+            //Filter
             if (!String.IsNullOrEmpty(filterGroup))
             {
                 products = products.Where(s => s.Group.Equals(filterGroup));
@@ -83,7 +103,7 @@ namespace ReceiptsWeb.Controllers
                                             Max = gp.Max(p => p.Price),
                                             MinDate = gp.Min(p => p.DateReceipt),
                                             MaxDate = gp.Max(p => p.DateReceipt),
-                                            PriceRatio = gp.Max(p => p.Price)/gp.Min(p => p.Price),
+                                            PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
                                             PricesCount = gp.Count()
                                         });
                 //Query syntax
@@ -103,7 +123,22 @@ namespace ReceiptsWeb.Controllers
                                          MinDate = gp.Min(p => p.DateReceipt),
                                          MaxDate = gp.Max(p => p.DateReceipt)
                                      };*/
-                return View(await groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name).ToListAsync());
+
+                //Sort
+                if (sort == "Group")
+                {
+                    groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
+                }
+                else if (sort == "PriceRatio")
+                {
+                    groupsProducts = groupsProducts.OrderByDescending(p => p.PriceRatio);
+                }
+                else if (sort == "PricesCount")
+                {
+                    groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
+                }
+
+                return View(await groupsProducts.ToListAsync());
             }
             else
             {
@@ -111,6 +146,11 @@ namespace ReceiptsWeb.Controllers
             }
         }
 
+        /// <summary>
+        /// Create group select list
+        /// </summary>
+        /// <param name="filterGroup">selected value</param>
+        /// <returns></returns>
         private List<SelectListItem> GroupSelectList(string filterGroup)
         {
             var groupList = _context.Products.Select(p => p.Group).Distinct().ToList();
@@ -130,6 +170,52 @@ namespace ReceiptsWeb.Controllers
                 }
             };
             return groupSelectList;
+        }
+
+        /// <summary>
+        /// Create products select list for sort
+        /// </summary>
+        /// <param name="sort">selected value</param>
+        /// <returns></returns>
+        private List<SelectListItem> ProductsSortList(string sort)
+        {
+            var productsSortList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Group", Value = "Group"},
+                new SelectListItem { Text = "DateReceipt", Value = "DateReceipt"},
+                new SelectListItem { Text = "Name", Value = "Name"}
+            };
+
+            var selected = productsSortList.Find(p => p.Value == sort);
+            if (selected != null)
+            {
+                selected.Selected = true;
+            }
+
+            return productsSortList;
+        }
+
+        /// <summary>
+        /// Create group products select list for sort
+        /// </summary>
+        /// <param name="sort">selected value</param>
+        /// <returns></returns>
+        private List<SelectListItem> GroupProductsSortList(string sort)
+        {
+            var groupProductsSortList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Group", Value = "Group"},
+                new SelectListItem { Text = "PriceRatio", Value = "PriceRatio" },
+                new SelectListItem { Text = "PricesCount", Value = "PricesCount" }
+            };
+
+            var selected = groupProductsSortList.Find(p => p.Value == sort);
+            if (selected != null)
+            {
+                selected.Selected = true;
+            }
+
+            return groupProductsSortList;
         }
 
         // GET: Products/Details/5
