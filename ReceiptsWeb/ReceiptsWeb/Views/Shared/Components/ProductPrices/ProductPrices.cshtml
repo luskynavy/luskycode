@@ -5,8 +5,7 @@
 <label>Prices start at 0 <input type='checkbox' onclick='changeChartYAxis(this);'></label>
 
 <script>
-xValues =
-[
+xValues = [
     @foreach (var item in Model)
     {
         <text>"</text>
@@ -14,8 +13,7 @@ xValues =
         <text>",</text>
     }
 ];
-yValues =
-[
+yValues = [
     @foreach (var item in Model)
     {
         @item.Price.ToString().Replace(',','.')
@@ -23,14 +21,11 @@ yValues =
     }
 ];
 
- var myChart = new Chart("myChart",
- {
+ var myChart = new Chart("myChart", {
   type: "line",
-  data:
-  {
+  data: {
     labels: xValues,
-    datasets:
-    [{
+    datasets: [{
       fill: false,
       lineTension: 0,
       label: '@Model.FirstOrDefault()?.Name',
@@ -39,23 +34,18 @@ yValues =
       data: yValues
     }]
   },
-  options:
-  {
-    plugins:
-    {
+  options: {
+    plugins: {
         legend: {display: true},
     }
   }
 });
 
-function changeChartYAxis(cb)
-{
-    if (cb.checked)
-    {
+function changeChartYAxis(cb) {
+    if (cb.checked) {
         myChart.options.scales.y = { min: 0 }
     }
-    else
-    {
+    else {
         myChart.options.scales.y = {  }
     }
     myChart.update()

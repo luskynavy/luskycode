@@ -111,16 +111,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
 <script>
-    $(document).ready(function ()
-    {
-        $(".displayProductsPrices").click(function ()
-        {
+    $(document).ready(function () {
+        $(".displayProductsPrices").click(function () {
             $.ajax({
                 url: "/Products/GetProductPrices",
                 method: "GET",
                 data: { id: this.value },
-                success: function (data)
-                {
+                success: function (data) {
                     $("#partialPrices").html("");
                     $("#partialPrices").html(data);
 
