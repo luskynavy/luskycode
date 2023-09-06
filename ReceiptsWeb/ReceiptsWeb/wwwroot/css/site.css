@@ -36,3 +36,21 @@ body {
 .draggable_touch {
     cursor: move;
 }
+
+.isResizable {
+    margin: 0px auto;
+    padding: 5px;
+    border: 1px solid #d8d8d8;
+    overflow: hidden;
+    /* Not usable in IE */
+    resize: both;
+    /*width: 800px;
+    height: 400px;
+    min-width: 280px;
+    min-height: 280px;
+    max-width: 1200px;
+    max-height: 600px;*/
+    /*position: relative;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+}
