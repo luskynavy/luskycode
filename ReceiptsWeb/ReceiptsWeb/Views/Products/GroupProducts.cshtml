@@ -28,7 +28,7 @@
             Filter by group : <select name="filterGroup" asp-items="@ViewBag.GroupList"></select>
         </p>
         <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            Find by name: <input type="text" id="SearchStringAutocomplete" name="SearchString" value="@ViewData["CurrentFilter"]" autocomplete="off" />
         </p>
         <p>
             Sort by : <select name="sort" asp-items="@ViewBag.GroupProductsSortList"></select>
@@ -105,7 +105,9 @@
     </tbody>
 </table>
 
+<link rel="stylesheet" href="~/lib/jquery-ui/dist/css/themes/smoothness/jquery-ui.css">
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-ui/dist/js/jquery-ui.min.js"></script>
 <script src="~/lib/chart/dist/js/chart.min.js"></script>
 
 <script>
@@ -128,4 +130,26 @@
             });
         });
     });
+</script>
+
+<script>
+    //Live search with jquery ui autocomplete
+    $(document).ready(function () {
+        $("#SearchStringAutocomplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Products/LiveTagSearchJson",
+                    type: "POST",
+                    dataType: "json",
+                    data: { search: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            //return { label: item.name, value: item.id };
+                            return item.name;
+                        }))
+                    }
+                })
+            }
+        });
+    })
 </script>
