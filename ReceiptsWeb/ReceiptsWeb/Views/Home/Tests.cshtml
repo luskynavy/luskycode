@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Tests";
+}
+<h1>@ViewData["Title"]</h1>
+<p>
+    Live search with divs : <input id="livesearchtags" name="livesearchtags" autocomplete="off" />
+    <div id="result" class="tag-results">
+    </div>
+</p>
+<p>
+    Live search with jquery ui autocomplete : <input id="jqueryuiautocomplete" name="jqueryuiautocomplete" autocomplete="off" />
+</p>
+
+<p>
+    Live search with jquery ui autocomplete with partial : <partial name="_Autocomplete" model='new Autocomplete {InputId = "idTest", InputName="idTest", SearchUrl="/Products/LiveTagSearchJson"}'>
+</p>
+
+<link rel="stylesheet" href="~/lib/jquery-ui/dist/css/themes/smoothness/jquery-ui.css">
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-ui/dist/js/jquery-ui.min.js"></script>
+
+<script>
+    //Live search with divs version
+    // New timeout variable
+    let timeout = null;
+
+    document.getElementById('livesearchtags').addEventListener('keyup', function (e) {
+        // Clear existing timeout
+        clearTimeout(timeout);
+
+        // Reset the timeout to start again
+        timeout = setTimeout(function () {
+            LiveSearch()
+        }, 800);
+    });
+
+    function LiveSearch() {
+        //Get the input value
+        let value = document.getElementById('livesearchtags').value
+
+        $.ajax({
+            type: "GET",
+            url: "/Products/LiveTagSearch",
+            // Attach the value to a parameter called search
+            data: { search: value },
+            datatype: "html",
+            success: function (data) {
+                // Insert the returned search results html into the result element
+                $('#result').html(data);
+            }
+        });
+    }
+</script>
+
+<script>
+    //Live search with jquery ui autocomplete version
+    $(document).ready(function () {
+        $("#jqueryuiautocomplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Products/LiveTagSearchJson",
+                    type: "GET",
+                    dataType: "json",
+                    data: { search: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.name, value: item.id };
+                            //return item.name;
+                        }))
+                    }
+                })
+            }
+        });
+    })
+</script>

@@ -1,0 +1,24 @@
+﻿@model ReceiptsWeb.Models.Autocomplete
+
+<input id="@Model.InputId" name="@Model.InputName" autocomplete="off" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#@Model.InputId").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "@Model.SearchUrl",
+                    type: "GET",
+                    dataType: "json",
+                    data: { search: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.name, value: item.id };
+                            //return item.name;
+                        }))
+                    }
+                })
+            }
+        });
+    })
+</script>

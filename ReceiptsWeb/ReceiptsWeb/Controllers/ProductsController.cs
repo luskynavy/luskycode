@@ -372,7 +372,6 @@ namespace ReceiptsWeb.Controllers
             return PartialView(res);
         }
 
-        [HttpPost]
         public JsonResult LiveTagSearchJson(string search)
         {
             var res = (
