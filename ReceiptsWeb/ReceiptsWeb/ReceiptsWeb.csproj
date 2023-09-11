@@ -20,4 +20,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\chart\dist\js\" />
+    <Folder Include="wwwroot\lib\jquery-ui\dist\css\" />
+    <Folder Include="wwwroot\lib\jquery-ui\dist\js\" />
+  </ItemGroup>
+
 </Project>

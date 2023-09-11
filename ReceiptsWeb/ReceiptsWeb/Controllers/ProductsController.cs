@@ -357,5 +357,31 @@ namespace ReceiptsWeb.Controllers
         {
             return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public IActionResult LiveTagSearch(string search)
+        {
+            // Call your method to search your data source here.
+            // I'll use entity framework to query my DB
+            var res = (
+                from t in _context.Products
+                where t.Name.Contains(search)
+                select new Tag { Id = t.Id, Name = t.Name }
+                ).Take(10).ToList();
+
+            // Pass the List of results to a Partial View
+            return PartialView(res);
+        }
+
+        [HttpPost]
+        public JsonResult LiveTagSearchJson(string search)
+        {
+            var res = (
+                from t in _context.Products
+                where t.Name.Contains(search)
+                select new { t.Name }
+                ).Distinct().Take(10).ToList();
+
+            return Json(res);
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace ReceiptsWeb.Controllers
             return RedirectToAction("GroupProducts", "Products");
         }
 
-        public IActionResult Privacy()
+        public IActionResult Tests()
         {
             return View();
         }
