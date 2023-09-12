@@ -62,6 +62,12 @@ namespace MvcApplication3_mvc4.Controllers
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
+            int pageCount = books.Count() / pageSize + (books.Count() % pageSize == 0 ? 0 : 1);
+            if (pageNumber > pageCount)
+            {
+                pageNumber = pageCount;
+            }
+            pageNumber = (pageNumber <= 0 ? 1 : pageNumber);
             return View(books.OrderBy(b => b.id).ToPagedList(pageNumber, pageSize));
         }
 
@@ -76,6 +82,12 @@ namespace MvcApplication3_mvc4.Controllers
 
             int pageSize = 5;
             int pageNumber = form.Page <= 0 ? 1 : form.Page;
+            int pageCount = books.Count() / pageSize + (books.Count() % pageSize == 0 ? 0 : 1);
+            if (pageNumber > pageCount)
+            {
+                pageNumber = pageCount;
+            }
+            pageNumber = (pageNumber <= 0 ? 1 : pageNumber);
             form.BooksList = books.OrderBy(b => b.id).ToPagedList(pageNumber, pageSize);
             return View(form);
         }

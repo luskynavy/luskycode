@@ -70,7 +70,7 @@
             <text>
             if (evt.key == "ArrowLeft")
             {
-                window.location.href = "@Url.Action(actionName, new { Page = Model.Page - 1})";
+                window.location.href = "@Html.Raw(@Url.Action(actionName, new { NameSearch = Model.NameSearch, Page = Model.BooksList.PageNumber - 1}))";
             }
             </text>
         }
@@ -80,19 +80,19 @@
             <text>
             if (evt.key == "ArrowRight")
             {
-                window.location.href = "@Url.Action(actionName, new { Page = (Model.Page == 0 ? 2 : Model.Page + 1)})";
-        }
+                window.location.href = "@Html.Raw(@Url.Action(actionName, new { NameSearch = Model.NameSearch, Page = (Model.BooksList.PageNumber == 0 ? 2 : Model.BooksList.PageNumber + 1)}))";
+            }
             </text>
         }
 
         if (evt.key == "Home")
         {
-            window.location.href = "@Url.Action(actionName)";
+            window.location.href = "@Url.Action(actionName, new { NameSearch = Model.NameSearch })";
         }
 
         if (evt.key == "End")
         {
-            window.location.href = "@Url.Action(actionName, new { Page = Model.BooksList.PageCount})";
+            window.location.href = "@Html.Raw(@Url.Action(actionName, new { NameSearch = Model.NameSearch, Page = Model.BooksList.PageCount}))";
         }
     });
 </script>

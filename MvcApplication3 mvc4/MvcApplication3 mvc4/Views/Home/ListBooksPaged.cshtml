@@ -72,7 +72,7 @@
             <text>
             if (evt.key == "ArrowLeft")
             {
-                window.location.href = "@Url.Action(actionName, new { Page = pagedList.PageNumber - 1})";
+                window.location.href = "@Html.Raw(@Url.Action(actionName, new { name = ViewBag.name, page = pagedList.PageNumber - 1 }))";
             }
             </text>
         }
@@ -82,19 +82,19 @@
             <text>
             if (evt.key == "ArrowRight")
             {
-                window.location.href = "@Url.Action(actionName, new { Page = (pagedList.PageNumber == 0 ? 2 : pagedList.PageNumber + 1)})";
+                window.location.href = "@Html.Raw(@Url.Action(actionName, new { name = ViewBag.name, page = (pagedList.PageNumber == 0 ? 2 : pagedList.PageNumber + 1) }))";
         }
             </text>
         }
 
         if (evt.key == "Home")
         {
-            window.location.href = "@Url.Action(actionName)";
+            window.location.href = "@Url.Action(actionName, new { name = ViewBag.name })";
         }
 
         if (evt.key == "End")
         {
-            window.location.href = "@Url.Action(actionName, new { Page = pagedList.PageCount})";
+            window.location.href = "@Url.Action(actionName, new { name = ViewBag.name, page = pagedList.PageCount})";
         }
     });
 </script>
