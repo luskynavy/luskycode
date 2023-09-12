@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ReceiptsWebGroupFilter.7z" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
@@ -19,11 +15,4 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.9" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\lib\chart\dist\js\" />
-    <Folder Include="wwwroot\lib\jquery-ui\dist\css\" />
-    <Folder Include="wwwroot\lib\jquery-ui\dist\js\" />
-  </ItemGroup>
-
 </Project>
