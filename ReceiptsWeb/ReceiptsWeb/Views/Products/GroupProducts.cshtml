@@ -128,6 +128,15 @@
     Next
 </a>
 
+
+<form asp-action="GroupProducts">
+    <input type="hidden" name="searchString" value="@ViewData["searchString"]" />
+    <input type="hidden" name="filterGroup" value="@ViewData["filterGroup"]" />
+    <input type="hidden" name="sort" value="@ViewData["sort"]" />
+Page Size :
+<select name="pageSize" asp-items="@ViewBag.PageSizeList" onchange="this.form.submit()"></select>
+</form>
+
 <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/themes/smoothness/jquery-ui.css">
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery-ui/dist/js/jquery-ui.min.js"></script>

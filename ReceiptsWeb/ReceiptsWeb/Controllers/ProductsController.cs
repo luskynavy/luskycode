@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using ReceiptsWeb.Models;
 
 namespace ReceiptsWeb.Controllers
@@ -12,7 +14,7 @@ namespace ReceiptsWeb.Controllers
     public class ProductsController : Controller
     {
         private readonly ReceiptsContext _context;
-        private int pageSize = 20;
+        private int pageSizeDefault = 20;
 
         public ProductsController(ReceiptsContext context)
         {
@@ -62,12 +64,12 @@ namespace ReceiptsWeb.Controllers
                         Problem("Entity set 'ReceiptsContext.Products'  is null.");*/
 
             return products != null ?
-                View(await PaginatedList<Products>.CreateAsync(products, pageNumber ?? 1, pageSize)) :
+                View(await PaginatedList<Products>.CreateAsync(products, pageNumber ?? 1, pageSizeDefault)) :
                 Problem("Entity set 'ReceiptsContext.Products'  is null.");
         }
 
         // GET: GroupProducts
-        public async Task<IActionResult> GroupProducts(string searchString, string filterGroup, string sort, int? pageNumber)
+        public async Task<IActionResult> GroupProducts(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
         {
             ViewData["searchString"] = searchString;
             ViewData["filterGroup"] = filterGroup;
@@ -76,6 +78,7 @@ namespace ReceiptsWeb.Controllers
             //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
             ViewBag.GroupProductsSortList = GroupProductsSortList(sort);
+            ViewBag.PageSizeList = PageSizeList(pageSize);
 
             IQueryable<Products> products = _context.Products;
 
@@ -143,8 +146,15 @@ namespace ReceiptsWeb.Controllers
                     groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
                 }
 
+                int pageSizeInt = pageSizeDefault;
+
+                if (!pageSize.IsNullOrEmpty())
+                {
+                    pageSizeInt = int.Parse(pageSize);
+                }
+
                 //return View(await groupsProducts.ToListAsync());
-                return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSize));
+                return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt));
             }
             else
             {
@@ -181,47 +191,70 @@ namespace ReceiptsWeb.Controllers
         /// <summary>
         /// Create products select list for sort
         /// </summary>
-        /// <param name="sort">selected value</param>
+        /// <param name="value">selected value</param>
         /// <returns></returns>
-        private List<SelectListItem> ProductsSortList(string sort)
+        private List<SelectListItem> ProductsSortList(string value)
         {
-            var productsSortList = new List<SelectListItem>
+            var selectList = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Group", Value = "Group"},
                 new SelectListItem { Text = "DateReceipt", Value = "DateReceipt"},
                 new SelectListItem { Text = "Name", Value = "Name"}
             };
 
-            var selected = productsSortList.Find(p => p.Value == sort);
+            var selected = selectList.Find(p => p.Value == value);
             if (selected != null)
             {
                 selected.Selected = true;
             }
 
-            return productsSortList;
+            return selectList;
         }
 
         /// <summary>
         /// Create group products select list for sort
         /// </summary>
-        /// <param name="sort">selected value</param>
+        /// <param name="value">selected value</param>
         /// <returns></returns>
-        private List<SelectListItem> GroupProductsSortList(string sort)
+        private List<SelectListItem> GroupProductsSortList(string value)
         {
-            var groupProductsSortList = new List<SelectListItem>
+            var selectList = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Group", Value = "Group"},
                 new SelectListItem { Text = "PriceRatio", Value = "PriceRatio" },
                 new SelectListItem { Text = "PricesCount", Value = "PricesCount" }
             };
 
-            var selected = groupProductsSortList.Find(p => p.Value == sort);
+            var selected = selectList.Find(p => p.Value == value);
             if (selected != null)
             {
                 selected.Selected = true;
             }
 
-            return groupProductsSortList;
+            return selectList;
+        }
+
+        /// <summary>
+        /// Create select list for page size
+        /// </summary>
+        /// <param name="value">selected value</param>
+        /// <returns></returns>
+        private List<SelectListItem> PageSizeList(string value)
+        {
+            var selectList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "20", Value = "20"},
+                new SelectListItem { Text = "100", Value = "100" },
+                new SelectListItem { Text = "All", Value = "100000" }
+            };
+
+            var selected = selectList.Find(p => p.Value == value);
+            if (selected != null)
+            {
+                selected.Selected = true;
+            }
+
+            return selectList;
         }
 
         // GET: Products/Details/5
