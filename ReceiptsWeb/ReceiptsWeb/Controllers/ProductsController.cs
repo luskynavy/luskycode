@@ -12,6 +12,7 @@ namespace ReceiptsWeb.Controllers
     public class ProductsController : Controller
     {
         private readonly ReceiptsContext _context;
+        private int pageSize = 20;
 
         public ProductsController(ReceiptsContext context)
         {
@@ -19,15 +20,15 @@ namespace ReceiptsWeb.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string currentFilter, string searchString, string filterGroup, string sort)
+        public async Task<IActionResult> Index(string searchString, string filterGroup, string sort, int? pageNumber)
         {
-            ViewData["CurrentFilter"] = searchString;
+            ViewData["searchString"] = searchString;
+            ViewData["filterGroup"] = filterGroup;
+            ViewData["sort"] = sort;
 
             //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
             ViewBag.ProductsSortList = ProductsSortList(sort);
-
-            searchString ??= currentFilter;
 
             IQueryable<Products> products = _context.Products;
 
@@ -56,21 +57,25 @@ namespace ReceiptsWeb.Controllers
                 products = products.OrderBy(p => p.Name);
             }
 
-            return products != null ?
+            /*return products != null ?
                         View(await products.ToListAsync()) :
-                        Problem("Entity set 'ReceiptsContext.Products'  is null.");
+                        Problem("Entity set 'ReceiptsContext.Products'  is null.");*/
+
+            return products != null ?
+                View(await PaginatedList<Products>.CreateAsync(products, pageNumber ?? 1, pageSize)) :
+                Problem("Entity set 'ReceiptsContext.Products'  is null.");
         }
 
         // GET: GroupProducts
-        public async Task<IActionResult> GroupProducts(string currentFilter, string searchString, string filterGroup, string sort)
+        public async Task<IActionResult> GroupProducts(string searchString, string filterGroup, string sort, int? pageNumber)
         {
-            ViewData["CurrentFilter"] = searchString;
+            ViewData["searchString"] = searchString;
+            ViewData["filterGroup"] = filterGroup;
+            ViewData["sort"] = sort;
 
             //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
             ViewBag.GroupProductsSortList = GroupProductsSortList(sort);
-
-            searchString ??= currentFilter;
 
             IQueryable<Products> products = _context.Products;
 
@@ -138,7 +143,8 @@ namespace ReceiptsWeb.Controllers
                     groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
                 }
 
-                return View(await groupsProducts.ToListAsync());
+                //return View(await groupsProducts.ToListAsync());
+                return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSize));
             }
             else
             {

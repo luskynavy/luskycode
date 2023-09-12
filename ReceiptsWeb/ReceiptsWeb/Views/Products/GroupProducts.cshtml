@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ReceiptsWeb.Models.GroupProducts>
+﻿@* @model IEnumerable<ReceiptsWeb.Models.GroupProducts> *@
+@model PaginatedList<ReceiptsWeb.Models.GroupProducts>
 
 @{
     ViewData["Title"] = "Group products";
@@ -28,7 +29,7 @@
             Filter by group : <select name="filterGroup" asp-items="@ViewBag.GroupList"></select>
         </p>
         <p>
-            Find by name: <input type="text" id="SearchStringAutocomplete" name="SearchString" value="@ViewData["CurrentFilter"]" autocomplete="off" />
+            Find by name: <input type="text" id="SearchStringAutocomplete" name="SearchString" value="@ViewData["searchString"]" autocomplete="off" />
         </p>
         <p>
             Sort by : <select name="sort" asp-items="@ViewBag.GroupProductsSortList"></select>
@@ -43,28 +44,28 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Group)
+                @Html.DisplayNameFor(model => model.First().Group)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.First().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Min)
+                @Html.DisplayNameFor(model => model.First().Min)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Max)
+                @Html.DisplayNameFor(model => model.First().Max)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MinDate)
+                @Html.DisplayNameFor(model => model.First().MinDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxDate)
+                @Html.DisplayNameFor(model => model.First().MaxDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PriceRatio)
+                @Html.DisplayNameFor(model => model.First().PriceRatio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PricesCount)
+                @Html.DisplayNameFor(model => model.First().PricesCount)
             </th>
             <th></th>
         </tr>
@@ -104,6 +105,28 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="GroupProducts"
+   asp-route-searchString="@ViewData["searchString"]"
+   asp-route-filterGroup="@ViewData["filterGroup"]"
+   asp-route-sort="@ViewData["sort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="GroupProducts"
+   asp-route-searchString="@ViewData["searchString"]"
+   asp-route-filterGroup="@ViewData["filterGroup"]"
+   asp-route-sort="@ViewData["sort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
 
 <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/themes/smoothness/jquery-ui.css">
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
