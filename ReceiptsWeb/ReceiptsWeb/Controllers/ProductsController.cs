@@ -22,7 +22,7 @@ namespace ReceiptsWeb.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string searchString, string filterGroup, string sort, int? pageNumber)
+        public async Task<IActionResult> Index(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
         {
             ViewData["searchString"] = searchString;
             ViewData["filterGroup"] = filterGroup;
@@ -31,6 +31,7 @@ namespace ReceiptsWeb.Controllers
             //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
             ViewBag.ProductsSortList = ProductsSortList(sort);
+            ViewBag.PageSizeList = PageSizeList(pageSize);
 
             IQueryable<Products> products = _context.Products;
 

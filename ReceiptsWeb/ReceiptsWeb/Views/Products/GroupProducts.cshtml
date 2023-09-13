@@ -12,8 +12,7 @@
         <div class="modal-content isResizable">
             <div class="modal-header draggable_touch">
                 <h5 class="modal-title" id="pricesModalLabel">Prices history</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
@@ -95,11 +94,11 @@
                 @Html.DisplayFor(modelItem => item.PriceRatio)
             </td>
             <td>
-                 @Html.DisplayFor(modelItem => item.PricesCount)
+                @Html.DisplayFor(modelItem => item.PricesCount)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <button class="buttonAsLink displayProductsPrices" value="@item.Id">Prices</button>
+                <a asp-action="Details" asp-route-id="@item.Id" class="bi bi-info-circle" title="Details"></a>
+                <button class="buttonAsLink displayProductsPrices bi bi-graph-up" value="@item.Id" title="Prices"></button>
             </td>
         </tr>
 }
@@ -109,8 +108,18 @@
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var firstDisabled = Model.PageIndex == 1 ? "disabled" : "";
+    var lastDisabled = Model.PageIndex == Model.TotalPages ? "disabled" : "";
 }
-
+@Model.PageIndex of @Model.TotalPages
+<a asp-action="GroupProducts"
+   asp-route-searchString="@ViewData["searchString"]"
+   asp-route-filterGroup="@ViewData["filterGroup"]"
+   asp-route-sort="@ViewData["sort"]"
+   asp-route-pageNumber="1"
+   class="btn btn-default @firstDisabled">
+    First
+</a>
 <a asp-action="GroupProducts"
    asp-route-searchString="@ViewData["searchString"]"
    asp-route-filterGroup="@ViewData["filterGroup"]"
@@ -127,9 +136,15 @@
    class="btn btn-default @nextDisabled">
     Next
 </a>
-
-
-<form asp-action="GroupProducts">
+<a href="@Url.Action("GroupProducts",
+new {searchString = @ViewData["searchString"],
+filterGroup=@ViewData["filterGroup"],
+sort=@ViewData["sort"],
+pageNumber=@Model.TotalPages})"
+   class="btn btn-default @lastDisabled">
+    Last
+</a>
+<form asp-action="GroupProducts" class="inline">
     <input type="hidden" name="searchString" value="@ViewData["searchString"]" />
     <input type="hidden" name="filterGroup" value="@ViewData["filterGroup"]" />
     <input type="hidden" name="sort" value="@ViewData["sort"]" />
