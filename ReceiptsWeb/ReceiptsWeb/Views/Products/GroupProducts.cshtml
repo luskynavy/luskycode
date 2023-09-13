@@ -33,6 +33,7 @@
         <p>
             Sort by : <select name="sort" asp-items="@ViewBag.GroupProductsSortList"></select>
         </p>
+        <input type="hidden" name="pageSize" value="@ViewData["pageSize"]" />
         <button type="submit" class="btn btn-default btn-lg" title="Search">
             <i class="bi bi-search"></i>
         </button>
@@ -119,6 +120,7 @@
    asp-route-searchString="@ViewData["searchString"]"
    asp-route-filterGroup="@ViewData["filterGroup"]"
    asp-route-sort="@ViewData["sort"]"
+   asp-route-pageSize="@ViewData["pageSize"]"
    asp-route-pageNumber="1"
    class="btn btn-default @firstDisabled">
     First
@@ -127,6 +129,7 @@
    asp-route-searchString="@ViewData["searchString"]"
    asp-route-filterGroup="@ViewData["filterGroup"]"
    asp-route-sort="@ViewData["sort"]"
+   asp-route-pageSize="@ViewData["pageSize"]"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    class="btn btn-default @prevDisabled">
     Previous
@@ -135,15 +138,17 @@
    asp-route-searchString="@ViewData["searchString"]"
    asp-route-filterGroup="@ViewData["filterGroup"]"
    asp-route-sort="@ViewData["sort"]"
+   asp-route-pageSize="@ViewData["pageSize"]"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
    class="btn btn-default @nextDisabled">
     Next
 </a>
 <a href="@Url.Action("GroupProducts",
-new {searchString = @ViewData["searchString"],
-filterGroup=@ViewData["filterGroup"],
-sort=@ViewData["sort"],
-pageNumber=@Model.TotalPages})"
+    new {searchString = @ViewData["searchString"],
+    filterGroup=@ViewData["filterGroup"],
+    sort=@ViewData["sort"],
+    pageSize=@ViewData["pageSize"],
+    pageNumber=@Model.TotalPages})"
    class="btn btn-default @lastDisabled">
     Last
 </a>

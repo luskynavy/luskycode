@@ -24,12 +24,22 @@ namespace ReceiptsWeb.Controllers
         // GET: Products
         public async Task<IActionResult> Index(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
         {
+            int pageSizeInt = pageSizeDefault;
+
+            if (!pageSize.IsNullOrEmpty())
+            {
+                pageSizeInt = int.Parse(pageSize);
+            }
+            else
+            {
+                pageSize = pageSizeDefault.ToString();
+            }
+
             //Values for view
             ViewData["searchString"] = searchString;
             ViewData["filterGroup"] = filterGroup;
             ViewData["sort"] = sort;
-
-            int pageSizeInt = pageSizeDefault;
+            ViewData["pageSize"] = pageSize;
 
             if (!pageSize.IsNullOrEmpty())
             {
@@ -80,11 +90,6 @@ namespace ReceiptsWeb.Controllers
         // GET: GroupProducts
         public async Task<IActionResult> GroupProducts(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
         {
-            //Values for view
-            ViewData["searchString"] = searchString;
-            ViewData["filterGroup"] = filterGroup;
-            ViewData["sort"] = sort;
-
             int pageSizeInt = pageSizeDefault;
 
             if (!pageSize.IsNullOrEmpty())
@@ -95,6 +100,12 @@ namespace ReceiptsWeb.Controllers
             {
                 pageSize = pageSizeDefault.ToString();
             }
+
+            //Values for view
+            ViewData["searchString"] = searchString;
+            ViewData["filterGroup"] = filterGroup;
+            ViewData["sort"] = sort;
+            ViewData["pageSize"] = pageSize;
 
             //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
@@ -166,8 +177,6 @@ namespace ReceiptsWeb.Controllers
                 {
                     groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
                 }
-
-
 
                 return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt));
             }

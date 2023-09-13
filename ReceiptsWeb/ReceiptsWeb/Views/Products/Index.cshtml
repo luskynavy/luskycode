@@ -38,7 +38,7 @@
         <p>
             Sort by : <select name="sort" asp-items="@ViewBag.ProductsSortList"></select>
         </p>
-
+        <input type="hidden" name="pageSize" value="@ViewData["pageSize"]" />
         <input type="submit" value="Search" />
         <a class="btn" asp-action="Index">Clear</a>
     </div>
@@ -120,6 +120,7 @@
    asp-route-searchString="@ViewData["searchString"]"
    asp-route-filterGroup="@ViewData["filterGroup"]"
    asp-route-sort="@ViewData["sort"]"
+   asp-route-pageSize="@ViewData["pageSize"]"
    asp-route-pageNumber="1"
    class="btn btn-default @firstDisabled">
     First
@@ -128,6 +129,7 @@
    asp-route-searchString="@ViewData["searchString"]"
    asp-route-filterGroup="@ViewData["filterGroup"]"
    asp-route-sort="@ViewData["sort"]"
+   asp-route-pageSize="@ViewData["pageSize"]"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    class="btn btn-default @prevDisabled">
     Previous
@@ -136,6 +138,7 @@
    asp-route-searchString="@ViewData["searchString"]"
    asp-route-filterGroup="@ViewData["filterGroup"]"
    asp-route-sort="@ViewData["sort"]"
+   asp-route-pageSize="@ViewData["pageSize"]"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
    class="btn btn-default @nextDisabled">
     Next
@@ -144,6 +147,7 @@
    asp-route-searchString="@ViewData["searchString"]"
    asp-route-filterGroup="@ViewData["filterGroup"]"
    asp-route-sort="@ViewData["sort"]"
+   asp-route-pageSize="@ViewData["pageSize"]"
    asp-route-pageNumber="@(Model.TotalPages)"
    class="btn btn-default @lastDisabled">
     Last
