@@ -24,9 +24,21 @@ namespace ReceiptsWeb.Controllers
         // GET: Products
         public async Task<IActionResult> Index(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
         {
+            //Values for view
             ViewData["searchString"] = searchString;
             ViewData["filterGroup"] = filterGroup;
             ViewData["sort"] = sort;
+
+            int pageSizeInt = pageSizeDefault;
+
+            if (!pageSize.IsNullOrEmpty())
+            {
+                pageSizeInt = int.Parse(pageSize);
+            }
+            else
+            {
+                pageSize = pageSizeDefault.ToString();
+            }
 
             //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
@@ -47,9 +59,9 @@ namespace ReceiptsWeb.Controllers
             }
 
             //Sort
-            if (sort == "Group")
+            if (sort == "Group" || sort.IsNullOrEmpty())
             {
-                products = products/*.Take(20)*/.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt);
+                products = products.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt);
             }
             else if (sort == "DateReceipt")
             {
@@ -60,21 +72,29 @@ namespace ReceiptsWeb.Controllers
                 products = products.OrderBy(p => p.Name);
             }
 
-            /*return products != null ?
-                        View(await products.ToListAsync()) :
-                        Problem("Entity set 'ReceiptsContext.Products'  is null.");*/
-
             return products != null ?
-                View(await PaginatedList<Products>.CreateAsync(products, pageNumber ?? 1, pageSizeDefault)) :
+                View(await PaginatedList<Products>.CreateAsync(products, pageNumber ?? 1, pageSizeInt)) :
                 Problem("Entity set 'ReceiptsContext.Products'  is null.");
         }
 
         // GET: GroupProducts
         public async Task<IActionResult> GroupProducts(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
         {
+            //Values for view
             ViewData["searchString"] = searchString;
             ViewData["filterGroup"] = filterGroup;
             ViewData["sort"] = sort;
+
+            int pageSizeInt = pageSizeDefault;
+
+            if (!pageSize.IsNullOrEmpty())
+            {
+                pageSizeInt = int.Parse(pageSize);
+            }
+            else
+            {
+                pageSize = pageSizeDefault.ToString();
+            }
 
             //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
@@ -134,7 +154,7 @@ namespace ReceiptsWeb.Controllers
                                      };*/
 
                 //Sort
-                if (sort == "Group")
+                if (sort == "Group" || sort.IsNullOrEmpty())
                 {
                     groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
                 }
@@ -147,14 +167,8 @@ namespace ReceiptsWeb.Controllers
                     groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
                 }
 
-                int pageSizeInt = pageSizeDefault;
 
-                if (!pageSize.IsNullOrEmpty())
-                {
-                    pageSizeInt = int.Parse(pageSize);
-                }
 
-                //return View(await groupsProducts.ToListAsync());
                 return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt));
             }
             else
@@ -171,7 +185,7 @@ namespace ReceiptsWeb.Controllers
         private List<SelectListItem> GroupSelectList(string filterGroup)
         {
             var groupList = _context.Products.Select(p => p.Group).Distinct().ToList();
-            var groupSelectList = new List<SelectListItem>
+            var selectList = new List<SelectListItem>
             {
                 new SelectListItem { Text = "", Value = "" }
             };
@@ -179,14 +193,14 @@ namespace ReceiptsWeb.Controllers
             {
                 if (filterGroup == group)
                 {
-                    groupSelectList.Add(new SelectListItem { Text = group, Value = group, Selected = true });
+                    selectList.Add(new SelectListItem { Text = group, Value = group, Selected = true });
                 }
                 else
                 {
-                    groupSelectList.Add(new SelectListItem { Text = group, Value = group });
+                    selectList.Add(new SelectListItem { Text = group, Value = group });
                 }
             };
-            return groupSelectList;
+            return selectList;
         }
 
         /// <summary>
@@ -244,6 +258,7 @@ namespace ReceiptsWeb.Controllers
         {
             var selectList = new List<SelectListItem>
             {
+                new SelectListItem { Text = "10", Value = "10"},
                 new SelectListItem { Text = "20", Value = "20"},
                 new SelectListItem { Text = "100", Value = "100" },
                 new SelectListItem { Text = "All", Value = "100000" }

@@ -33,9 +33,12 @@
         <p>
             Sort by : <select name="sort" asp-items="@ViewBag.GroupProductsSortList"></select>
         </p>
-
-        <input type="submit" value="Search" />
-        <a class= "btn" asp-action="GroupProducts">Clear</a>
+        <button type="submit" class="btn btn-default btn-lg" title="Search">
+            <i class="bi bi-search"></i>
+        </button>
+        <a class="btn btn-default btn-lg" asp-action="GroupProducts" title="Clear">
+            <i class="bi bi-eraser"></i>
+        </a>
     </div>
 </form>
 
