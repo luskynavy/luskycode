@@ -36,10 +36,10 @@ namespace ReceiptsWeb.Controllers
             }
 
             //Values for view
-            ViewData["searchString"] = searchString;
-            ViewData["filterGroup"] = filterGroup;
-            ViewData["sort"] = sort;
-            ViewData["pageSize"] = pageSize;
+            ViewBag.searchString = searchString;
+            ViewBag.filterGroup = filterGroup;
+            ViewBag.sort = sort;
+            ViewBag.pageSize = pageSize;
 
             if (!pageSize.IsNullOrEmpty())
             {
@@ -102,10 +102,10 @@ namespace ReceiptsWeb.Controllers
             }
 
             //Values for view
-            ViewData["searchString"] = searchString;
-            ViewData["filterGroup"] = filterGroup;
-            ViewData["sort"] = sort;
-            ViewData["pageSize"] = pageSize;
+            ViewBag.searchString = searchString;
+            ViewBag.filterGroup = filterGroup;
+            ViewBag.sort = sort;
+            ViewBag.pageSize = pageSize;
 
             //Select lists
             ViewBag.GroupList = GroupSelectList(filterGroup);
