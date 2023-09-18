@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ReceiptsWeb.Models;
 
 namespace ReceiptsWeb
@@ -42,6 +43,13 @@ namespace ReceiptsWeb
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+            if (localizationOptions != null)
+            {
+                app.UseRequestLocalization(localizationOptions.Value);
+            }
+
             app.UseStaticFiles();
 
             app.UseRouting();
