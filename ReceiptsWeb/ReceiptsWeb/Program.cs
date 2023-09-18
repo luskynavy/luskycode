@@ -1,3 +1,6 @@
+using Azure.Core;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ReceiptsWeb.Models;
@@ -13,6 +16,20 @@ namespace ReceiptsWeb
             //Ajoute la bdd à l'injection de dépendance
             builder.Services.AddDbContext<ReceiptsContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            builder.Services.AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[] { "en", "fr" };
+                options.SetDefaultCulture(supportedCultures[0])
+                    .AddSupportedCultures(supportedCultures)
+                    .AddSupportedUICultures(supportedCultures);
+            });
 
             // Add services to the container.
             var mvcBuilder = builder.Services.AddControllersWithViews();

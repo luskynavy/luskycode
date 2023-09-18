@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +20,12 @@ namespace ReceiptsWeb.Controllers
 		public ProductsController(ReceiptsContext context)
 		{
 			_context = context;
-		}
+        }
 
 		// GET: Products
 		public async Task<IActionResult> Index(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
 		{
-			int pageSizeInt = pageSizeDefault;
+            int pageSizeInt = pageSizeDefault;
 
 			if (!pageSize.IsNullOrEmpty())
 			{

@@ -1,9 +1,14 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@* @using Localization.Services *@
+
+@inject IViewLocalizer Localizer
+
+@{
     ViewData["Title"] = "Tests";
 }
 <h1>@ViewData["Title"]</h1>
 <p>
-    Live search with divs : <input id="livesearchtags" name="livesearchtags" autocomplete="off" />
+    @Localizer["Live search with divs"] : <input id="livesearchtags" name="livesearchtags" autocomplete="off" />
     <div id="result" class="tag-results">
     </div>
 </p>
