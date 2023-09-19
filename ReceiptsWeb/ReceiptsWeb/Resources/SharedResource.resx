@@ -117,7 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Live search with divs" xml:space="preserve">
-    <value>Live search with divs (Tests.resx)</value>
+  <data name="DateReceipt" xml:space="preserve">
+    <value>Date receipt</value>
+  </data>
+  <data name="FullData" xml:space="preserve">
+    <value>Full data</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="MaxDate" xml:space="preserve">
+    <value>Max date</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="MinDate" xml:space="preserve">
+    <value>Min date</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="PriceRatio" xml:space="preserve">
+    <value>Price ratio</value>
+  </data>
+  <data name="PricesCount" xml:space="preserve">
+    <value>Prices count</value>
+  </data>
+  <data name="SourceLine" xml:space="preserve">
+    <value>Source line</value>
+  </data>
+  <data name="SourceName" xml:space="preserve">
+    <value>Source name</value>
   </data>
 </root>

@@ -8,59 +8,61 @@ using ReceiptsWeb.Models;
 
 namespace ReceiptsWeb
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            //Ajoute la bdd à l'injection de dépendance
-            builder.Services.AddDbContext<ReceiptsContext>(options =>
-                options.UseSqlServer(connectionString));
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			var builder = WebApplication.CreateBuilder(args);
+			var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+			//Ajoute la bdd à l'injection de dépendance
+			builder.Services.AddDbContext<ReceiptsContext>(options =>
+				options.UseSqlServer(connectionString));
 
-            builder.Services.AddMvc()
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();
+			//Localization
+			builder.Services.AddMvc()
+				.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+				.AddDataAnnotationsLocalization();
 
-            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+			builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            builder.Services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var supportedCultures = new[] { "en", "fr" };
-                options.SetDefaultCulture(supportedCultures[0])
-                    .AddSupportedCultures(supportedCultures)
-                    .AddSupportedUICultures(supportedCultures);
-            });
+			builder.Services.Configure<RequestLocalizationOptions>(options =>
+			{
+				var supportedCultures = new[] { "en", "fr" };
+				options.SetDefaultCulture(supportedCultures[0])
+					.AddSupportedCultures(supportedCultures)
+					.AddSupportedUICultures(supportedCultures);
+			});
 
-            // Add services to the container.
-            var mvcBuilder = builder.Services.AddControllersWithViews();
-            mvcBuilder.AddRazorRuntimeCompilation();
+			// Add services to the container.
+			var mvcBuilder = builder.Services.AddControllersWithViews();
+			mvcBuilder.AddRazorRuntimeCompilation();
 
-            var app = builder.Build();
+			var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+			// Configure the HTTP request pipeline.
+			if (!app.Environment.IsDevelopment())
+			{
+				app.UseExceptionHandler("/Home/Error");
+			}
 
-            var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
-            if (localizationOptions != null)
-            {
-                app.UseRequestLocalization(localizationOptions.Value);
-            }
+			//Localization methods
+			var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+			if (localizationOptions != null)
+			{
+				app.UseRequestLocalization(localizationOptions.Value);
+			}
 
-            app.UseStaticFiles();
+			app.UseStaticFiles();
 
-            app.UseRouting();
+			app.UseRouting();
 
-            app.UseAuthorization();
+			app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+			app.MapControllerRoute(
+				name: "default",
+				pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            app.Run();
-        }
-    }
+			app.Run();
+		}
+	}
 }

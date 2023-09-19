@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using ReceiptsWeb.Models;
@@ -15,17 +16,21 @@ namespace ReceiptsWeb.Controllers
 	public class ProductsController : Controller
 	{
 		private readonly ReceiptsContext _context;
+		private readonly IStringLocalizer<ProductsController> _localizer;
+		private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 		private readonly int pageSizeDefault = 20;
 
-		public ProductsController(ReceiptsContext context)
+		public ProductsController(ReceiptsContext context, IStringLocalizer<ProductsController> localizer, IStringLocalizer<SharedResource> sharedLocalizer)
 		{
 			_context = context;
-        }
+			_localizer = localizer;
+			_sharedLocalizer = sharedLocalizer;
+		}
 
 		// GET: Products
 		public async Task<IActionResult> Index(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
 		{
-            int pageSizeInt = pageSizeDefault;
+			int pageSizeInt = pageSizeDefault;
 
 			if (!pageSize.IsNullOrEmpty())
 			{
@@ -218,13 +223,13 @@ namespace ReceiptsWeb.Controllers
 		/// </summary>
 		/// <param name="value">selected value</param>
 		/// <returns></returns>
-		private static List<SelectListItem> ProductsSortList(string value)
+		private List<SelectListItem> ProductsSortList(string value)
 		{
 			var selectList = new List<SelectListItem>
 			{
-				new SelectListItem { Text = "Group", Value = "Group"},
-				new SelectListItem { Text = "DateReceipt", Value = "DateReceipt"},
-				new SelectListItem { Text = "Name", Value = "Name"}
+				new SelectListItem { Text = _sharedLocalizer["Group"], Value = "Group"},
+				new SelectListItem { Text = _sharedLocalizer["DateReceipt"], Value = "DateReceipt"},
+				new SelectListItem { Text = _sharedLocalizer["Name"], Value = "Name"}
 			};
 
 			var selected = selectList.Find(p => p.Value == value);
@@ -241,13 +246,13 @@ namespace ReceiptsWeb.Controllers
 		/// </summary>
 		/// <param name="value">selected value</param>
 		/// <returns></returns>
-		private static List<SelectListItem> GroupProductsSortList(string value)
+		private List<SelectListItem> GroupProductsSortList(string value)
 		{
 			var selectList = new List<SelectListItem>
 			{
-				new SelectListItem { Text = "Group", Value = "Group"},
-				new SelectListItem { Text = "PriceRatio", Value = "PriceRatio" },
-				new SelectListItem { Text = "PricesCount", Value = "PricesCount" }
+				new SelectListItem { Text = _sharedLocalizer["Group"], Value = "Group"},
+				new SelectListItem { Text = _sharedLocalizer["PriceRatio"], Value = "PriceRatio" },
+				new SelectListItem { Text = _sharedLocalizer["PricesCount"], Value = "PricesCount" }
 			};
 
 			var selected = selectList.Find(p => p.Value == value);

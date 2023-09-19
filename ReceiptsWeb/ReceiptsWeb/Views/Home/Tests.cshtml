@@ -2,9 +2,10 @@
 @* @using Localization.Services *@
 
 @inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
 
 @{
-    ViewData["Title"] = "Tests";
+    ViewData["Title"] = SharedLocalizer["Tests"];
 }
 <h1>@ViewData["Title"]</h1>
 <p>
@@ -13,11 +14,11 @@
     </div>
 </p>
 <p>
-    Live search with jquery ui autocomplete : <input id="jqueryuiautocomplete" name="jqueryuiautocomplete" autocomplete="off" />
+    @Localizer["Live search with jquery ui autocomplete"] : <input id="jqueryuiautocomplete" name="jqueryuiautocomplete" autocomplete="off" />
 </p>
 
 <p>
-    Live search with jquery ui autocomplete with partial : <partial name="_Autocomplete" model='new Autocomplete {InputId = "idTest", InputName="idTest", SearchUrl="/Products/LiveTagSearchJson"}'>
+    @Localizer["Live search with jquery ui autocomplete with partial"] : <partial name="_Autocomplete" model='new Autocomplete {InputId = "idTest", InputName="idTest", SearchUrl="/Products/LiveTagSearchJson"}'>
 </p>
 
 <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/themes/smoothness/jquery-ui.css">

@@ -117,13 +117,112 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Live search with divs" xml:space="preserve">
-    <value>Live search avec des divs</value>
+  <data name="Are you sure you want to delete this?" xml:space="preserve">
+    <value>Etes-vous sûr de vouloir supprimer ?</value>
   </data>
-  <data name="Live search with jquery ui autocomplete" xml:space="preserve">
-    <value>Live search avec l'auto completion de jquery</value>
+  <data name="Back to List" xml:space="preserve">
+    <value>Retour à la liste</value>
   </data>
-  <data name="Live search with jquery ui autocomplete with partial" xml:space="preserve">
-    <value>Live search avec l'auto completion de jquery et partial</value>
+  <data name="Clear" xml:space="preserve">
+    <value>Effacer</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Créer</value>
+  </data>
+  <data name="Create New" xml:space="preserve">
+    <value>Créer un nouveau</value>
+  </data>
+  <data name="DateReceipt" xml:space="preserve">
+    <value>Date de réception</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="Filter by group" xml:space="preserve">
+    <value>Filtrer par groupe</value>
+  </data>
+  <data name="Find by name" xml:space="preserve">
+    <value>Trouver par nom</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>Première</value>
+  </data>
+  <data name="FullData" xml:space="preserve">
+    <value>Données complétes</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Groupe</value>
+  </data>
+  <data name="Group products" xml:space="preserve">
+    <value>Groupe de produits</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Dernière</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="MaxDate" xml:space="preserve">
+    <value>Date max</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="MinDate" xml:space="preserve">
+    <value>Date min</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Suivante</value>
+  </data>
+  <data name="of" xml:space="preserve">
+    <value>sur</value>
+  </data>
+  <data name="Page Size" xml:space="preserve">
+    <value>Taille de page</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Précédente</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="PriceRatio" xml:space="preserve">
+    <value>Rapport des prix</value>
+  </data>
+  <data name="Prices" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="Prices history" xml:space="preserve">
+    <value>Historique des prix</value>
+  </data>
+  <data name="PricesCount" xml:space="preserve">
+    <value>Nombre de prix</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Produits</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Rechercher</value>
+  </data>
+  <data name="Sort by" xml:space="preserve">
+    <value>Trier par</value>
+  </data>
+  <data name="SourceLine" xml:space="preserve">
+    <value>Ligne de la source</value>
+  </data>
+  <data name="SourceName" xml:space="preserve">
+    <value>Nom de la source</value>
   </data>
 </root>

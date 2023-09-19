@@ -1,8 +1,14 @@
 ﻿@model IEnumerable<ReceiptsWeb.Models.Products>
 
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+
 <script src="~/lib/chart/dist/js/chart.min.js"></script>
 <canvas id="myChart" ></canvas>
-<label>Prices start at 0 <input type='checkbox' onclick='changeChartYAxis(this);'></label>
+<label>@Localizer["Prices start at 0"] <input type='checkbox' onclick='changeChartYAxis(this);'></label>
 
 <script>
 xValues = [

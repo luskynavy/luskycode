@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Live search with divs" xml:space="preserve">
-    <value>Live search avec des divs</value>
-  </data>
-  <data name="Live search with jquery ui autocomplete" xml:space="preserve">
-    <value>Live search avec l'auto completion de jquery</value>
-  </data>
-  <data name="Live search with jquery ui autocomplete with partial" xml:space="preserve">
-    <value>Live search avec l'auto completion de jquery et partial</value>
+  <data name="Prices start at 0" xml:space="preserve">
+    <value>Les prix commencent à 0</value>
   </data>
 </root>
