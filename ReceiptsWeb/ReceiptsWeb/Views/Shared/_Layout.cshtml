@@ -46,8 +46,13 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - ReceiptsWeb
+        <div class="row">
+            <div class="col-md-6">
+                <p>&copy; @System.DateTime.Now.Year - ReceiptsWeb</p>
+            </div>
+            <div class="col-md-6 text-right">
+                @await Html.PartialAsync("_SelectLanguagePartial")
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
