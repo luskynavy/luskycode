@@ -27,7 +27,11 @@ namespace ReceiptsWeb.Models
 			{
 				pageIndex = totalPages;
 			}
-			var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+			if (pageIndex <= 0)
+			{
+				pageIndex = 1;
+			}
+            var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
 			return new PaginatedList<T>(items, count, pageIndex, pageSize);
 		}
 	}

@@ -269,14 +269,14 @@ namespace ReceiptsWeb.Controllers
 		/// </summary>
 		/// <param name="value">selected value</param>
 		/// <returns></returns>
-		private static List<SelectListItem> PageSizeList(string value)
+		private List<SelectListItem> PageSizeList(string value)
 		{
 			var selectList = new List<SelectListItem>
 			{
 				new SelectListItem { Text = "10", Value = "10"},
 				new SelectListItem { Text = "20", Value = "20"},
 				new SelectListItem { Text = "100", Value = "100" },
-				new SelectListItem { Text = "All", Value = "100000" }
+				new SelectListItem { Text = _sharedLocalizer["All"], Value = "100000" }
 			};
 
 			var selected = selectList.Find(p => p.Value == value);
