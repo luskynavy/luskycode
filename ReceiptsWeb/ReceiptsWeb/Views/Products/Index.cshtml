@@ -5,7 +5,6 @@
 @inject IViewLocalizer Localizer
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
 
-
 @{
 	ViewData["Title"] = SharedLocalizer["Products"];
 }
@@ -37,7 +36,7 @@
 			@SharedLocalizer["Filter by group"] : <select name="filterGroup" asp-items="@ViewBag.GroupList"></select>
 		</p>
 		<p>
-			@SharedLocalizer["Find by name"] : <input type="text" name="SearchString" value="@ViewBag.searchString" />
+			@SharedLocalizer["Find by name"] : <input type="text" id="SearchStringAutocomplete" name="SearchString" value="@ViewBag.searchString" autocomplete="off" />
 		</p>
 		<p>
 			@SharedLocalizer["Sort by"] : <select name="sort" asp-items="@ViewBag.ProductsSortList"></select>
@@ -141,6 +140,7 @@
 	@SharedLocalizer["Page Size"] : <select name="pageSize" asp-items="@ViewBag.PageSizeList" onchange="$('#pageNumber').val(1); this.form.submit()"></select>
 </form>
 
+<link rel="stylesheet" href="~/lib/jquery-ui/dist/css/themes/smoothness/jquery-ui.css">
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/chart/dist/js/chart.min.js"></script>
 
@@ -164,4 +164,26 @@
 			});
 		});
 	});
+</script>
+
+<script>
+	//Live search with jquery ui autocomplete
+	$(document).ready(function () {
+		$("#SearchStringAutocomplete").autocomplete({
+			source: function (request, response) {
+				$.ajax({
+					url: "/Products/LiveTagSearchJson",
+					type: "POST",
+					dataType: "json",
+					data: { search: request.term },
+					success: function (data) {
+						response($.map(data, function (item) {
+							//return { label: item.name, value: item.id };
+							return item.name;
+						}))
+					}
+				})
+			}
+		});
+	})
 </script>
