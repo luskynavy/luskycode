@@ -52,6 +52,7 @@ namespace ReceiptsWeb
 				app.UseRequestLocalization(localizationOptions.Value);
 			}
 
+			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();
