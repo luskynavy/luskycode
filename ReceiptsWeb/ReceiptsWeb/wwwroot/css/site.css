@@ -58,3 +58,7 @@ body {
 .inline {
     display:inline;
 }
+
+table.alternateLines > tbody > tr:nth-child(even) {
+    background-color: #eeeeee;
+}
