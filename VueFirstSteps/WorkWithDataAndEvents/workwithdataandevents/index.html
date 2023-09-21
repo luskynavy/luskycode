@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Relecloud Galaxy Tours</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div class="nav-bar"></div>
+    <h1>Relecloud Galaxy Tours</h1>
+
+    <div id="app">
+        <h2>{{ product.name }}</h2>
+        <div>{{ product.description }}</div>
+        <hr />
+
+        <!-- TODO: Add booking form -->
+        <!-- TODO: Add success display -->
+
+        <img :src="product.image.src" :alt="product.image.description" :style="product.image.style" />
+    </div>
+
+    <script src="./index.js"></script>
+    <script>
+        app.mount('#app');
+    </script>
+</body>
+</html>
