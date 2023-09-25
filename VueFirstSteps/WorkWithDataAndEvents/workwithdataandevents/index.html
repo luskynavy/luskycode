@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
     <title>Relecloud Galaxy Tours</title>
     <link rel="stylesheet" href="./assets/styles.css" />
-    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+    <!--script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></!--script-->
+    <script src="https://unpkg.com/vue@3"></script>
 </head>
 
 <body>
@@ -18,7 +19,38 @@
         <hr />
 
         <!-- TODO: Add booking form -->
+        <form v-show="!booking.completed">
+            <h2>Book now!</h2>
+            <div class="row">
+                <label for="product-cabin">Select class:</label>
+                <select id="product-cabin" v-model="booking.cabinIndex">
+                    <option v-for="(cabin, index) in product.cabins" :value="index">
+                        {{ cabin.name }} $ {{ cabin.price.toLocaleString('fr') }}
+                    </option>
+                </select>
+            </div>
+            <div class="row">
+                <label for="notes">Notes:</label>
+                <textarea v-model="booking.notes" rows="3"></textarea>
+            </div>
+            <div class="row">
+                <!--TODO: Add button later -->
+                <button class="button" type="button" @click="bookCabin">Book now!</button>
+                <button class="button" type="button" @click="clearData">Clear</button>
+            </div>
+        </form>
+
         <!-- TODO: Add success display -->
+        <div v-show="booking.completed">
+            <h2 class="row">
+                You are on your way!
+            </h2>
+            <div class="row">
+                <div>Booking details:</div>
+                <div>{{ bookingCabinDisplay }} </div>
+                <div>Notes: {{ booking.notes }}</div>
+            </div>
+        </div>
 
         <img :src="product.image.src" :alt="product.image.description" :style="product.image.style" />
     </div>

@@ -24,8 +24,21 @@ const app = Vue.createApp({
             }
         }
     },
-
     // TODO: Add completed values
-
+    computed: {
+        bookingCabinDisplay() {
+            const cabin = this.product.cabins[this.booking.cabinIndex];
+            return `${cabin.name}: $ ${cabin.price.toLocaleString('fr')}`
+        }
+    },
     // TODO: Add methods
+    methods: {
+        clearData() {
+            this.booking.cabinIndex = 0;
+            this.booking.notes = '';
+        },
+        bookCabin() {
+            this.booking.completed = true;
+        }
+    }
 });
