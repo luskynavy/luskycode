@@ -1,0 +1,38 @@
+<template>
+    <section>
+    <h2>
+        Here's your current bookings:
+    </h2>
+
+    <div class="row" v-for="(booking, index) in bookings" :key="index">
+        <div>{{ (booking.cabin != '' ? booking.cabin + ': $ '  + booking.price.toLocaleString('fr'):'') }} </div>
+    </div>
+
+    <h3 class="row">
+        Total: {{ totalDisplay }}
+    </h3>
+</section>
+
+</template>
+
+<script>
+    export default {
+        props: {
+            bookings: Array
+        },
+        computed: {
+            totalDisplay() {
+                let totalCost = 0;
+                if (this.bookings && this.bookings.length > 0) {
+                    totalCost = this.bookings.map(b => b.price)
+                                    .reduce((a, b) => a + b);
+                }
+                return '$ ' + totalCost.toLocaleString('fr');
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
