@@ -47,15 +47,6 @@ namespace ReceiptsWeb.Controllers
 			ViewBag.sort = sort;
 			ViewBag.pageSize = pageSize;
 
-			if (!pageSize.IsNullOrEmpty())
-			{
-				pageSizeInt = int.Parse(pageSize);
-			}
-			else
-			{
-				pageSize = pageSizeDefault.ToString();
-			}
-
 			//Select lists
 			ViewBag.GroupList = GroupSelectList(filterGroup);
 			ViewBag.ProductsSortList = ProductsSortList(sort);
