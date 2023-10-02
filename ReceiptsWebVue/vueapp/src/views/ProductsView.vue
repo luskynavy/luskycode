@@ -6,35 +6,62 @@
             </div>
 
             <div v-if="post" class="content">
-                <table class="table alternateLines">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Group</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>DateReceipt</th>
-                            <th>SourceName</th>
-                            <th>SourceLine</th>
-                            <th>FullData</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="product in post" :key="product.id">
-                            <td>{{ product.id }} </td>
-                            <td>{{ product.group }}</td>
-                            <td>{{ product.name }}</td>
-                            <td>{{ product.price }}</td>
-                            <td>{{ formatDate(product.dateReceipt) }}</td>
-                            <td>{{ product.sourceName }}</td>
-                            <td>{{ product.sourceLine }}</td>
-                            <td>{{ product.fullData }}</td>
-                            <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
-                            <td> <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" title="Details"></router-link></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <Form @submit="fetchData">
+                    <div class="form-actions no-color">
+                        <p>
+                            Filter by group : <Field name="filterGroup" as="select" class="form-control">
+                                <option value=""></option>
+                            </Field>
+                        </p>
+                        <p>
+                            Find by name : <Field id="SearchStringAutocomplete" name="SearchString" type="text" class="form-control" autocomplete="off" />
+                        </p>
+                        <p>
+                            Sort by : <Field name="sort" as="select" class="form-control" value="Group" >
+                                <option value="Group">Group</option>
+                                <option value="PriceRatio">PriceRatio</option>
+                                <option value="PricesCount">PricesCount</option>
+                            </Field>
+                        </p>
+
+                        <button type="submit" class="btn btn-default btn-lg" title="Search">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <a class="btn btn-default btn-lg" asp-action="GroupProducts" title="Clear">
+                            <i class="bi bi-eraser"></i>
+                        </a>
+                    </div>
+
+                    <table class="table alternateLines">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Group</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>DateReceipt</th>
+                                <th>SourceName</th>
+                                <th>SourceLine</th>
+                                <th>FullData</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="product in post" :key="product.id">
+                                <td>{{ product.id }} </td>
+                                <td>{{ product.group }}</td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.price }}</td>
+                                <td>{{ formatDate(product.dateReceipt) }}</td>
+                                <td>{{ product.sourceName }}</td>
+                                <td>{{ product.sourceLine }}</td>
+                                <td>{{ product.fullData }}</td>
+                                <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
+                                <td> <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" title="Details"></router-link></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </Form>
             </div>
         </div>
     </div>
@@ -42,6 +69,7 @@
 
 <script lang="js">
     import { defineComponent } from 'vue';
+    import { Form, Field } from 'vee-validate';
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
@@ -53,6 +81,10 @@
                 post: null
             };
         },
+        components: {
+            Form,
+            Field
+        },
         created() {
             // fetch the data when the view is created and the data is
             // already being observed
@@ -63,11 +95,29 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData() {
+            fetchData(values) {
                 this.post = null;
                 this.loading = true;
 
-                fetch(baseUrl + 'Products')
+                if (values != undefined) {
+                    console.log("filterGroup: " + values.filterGroup);
+                    console.log("SearchString: " + values.SearchString);
+                    console.log("sort: " + values.sort);
+                }
+
+                let params = ''
+
+                if (values != undefined) {
+                    params += '?'
+                    params += 'filterGroup=' + (values.filterGroup != undefined ? values.filterGroup : '')
+                    params += '&SearchString=' + (values.SearchString != undefined ? values.SearchString : '')
+                    params += '&sort=' + (values.sort != undefined ? values.sort : '')
+                    params += '&pageSize=' + (values.pageSize != undefined ? values.pageSize : '10')
+                    params += '&pageNumber=' + (values.pageNumber != undefined ? values.pageNumber : '')
+                }
+                console.log("params: " + params);
+
+                fetch(baseUrl + 'Products' + params)
                     .then(r => r.json())
                     .then(json => {
                         this.post = json;

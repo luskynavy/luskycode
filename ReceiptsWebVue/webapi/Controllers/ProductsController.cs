@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ReceiptsWeb.Models;
+using System.Linq;
 using webapi.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,6 +14,7 @@ namespace webapi.Controllers
 	public class ProductsController : ControllerBase
 	{
 		private readonly ReceiptsContext _context;
+		private readonly int pageSizeDefault = 10;
 
 		public ProductsController(ReceiptsContext context)
 		{
@@ -20,9 +23,48 @@ namespace webapi.Controllers
 
 		// GET: /<ProductsController>
 		[HttpGet]
-		public IEnumerable<Products> Get()
+		public IEnumerable<Products> Get(string? filterGroup, string? searchString, string? sort, string? pageSize, int? pageNumber)
 		{
-			var products = _context.Products.Take(10);
+			int pageSizeInt = pageSizeDefault;
+
+			if (!pageSize.IsNullOrEmpty())
+			{
+				 int.TryParse(pageSize, out pageSizeInt);
+			}
+			else
+			{
+				pageSize = pageSizeDefault.ToString();
+			}
+
+			IQueryable<Products> products = _context.Products;
+
+			//Filter
+			if (!String.IsNullOrEmpty(filterGroup))
+			{
+				products = products.Where(s => s.Group.Equals(filterGroup));
+			}
+
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				products = products.Where(s => s.Name.Contains(searchString));
+			}
+
+			//Sort
+			if (sort == "Group" || sort.IsNullOrEmpty())
+			{
+				products = products.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt);
+			}
+			else if (sort == "DateReceipt")
+			{
+				products = products.OrderByDescending(p => p.DateReceipt);
+			}
+			else if (sort == "Name")
+			{
+				products = products.OrderBy(p => p.Name);
+			}
+
+			products = products.Take(pageSizeInt);
+
 			var res = products.ToList();
 			return res;
 		}
