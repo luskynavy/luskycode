@@ -9,25 +9,30 @@
                 <Form @submit="fetchData">
                     <div class="form-actions no-color">
                         <p>
-                            Filter by group : <Field name="filterGroup" as="select" class="form-control">
+                            Filter by group : <Field name="filterGroup" as="select" v-model="filterGroup" class="form-control">
                                 <option value=""></option>
+                                <option :value="filterGroupValue"
+                                        v-for="filterGroupValue in filterGroupValues"
+                                        :key="filterGroupValue.id">
+                                    {{ filterGroupValue }}
+                                </option>
                             </Field>
                         </p>
                         <p>
-                            Find by name : <Field id="SearchStringAutocomplete" name="SearchString" type="text" class="form-control" autocomplete="off" />
+                            Find by name : <Field id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
                         </p>
                         <p>
-                            Sort by : <Field name="sort" as="select" class="form-control" value="Group" >
+                            Sort by : <Field name="sort" as="select" class="form-control" v-model="sort">
                                 <option value="Group">Group</option>
-                                <option value="PriceRatio">PriceRatio</option>
-                                <option value="PricesCount">PricesCount</option>
+                                <option value="DateReceipt">DateReceipt</option>
+                                <option value="Name">Name</option>
                             </Field>
                         </p>
 
                         <button type="submit" class="btn btn-default btn-lg" title="Search">
                             <i class="bi bi-search"></i>
                         </button>
-                        <a class="btn btn-default btn-lg" asp-action="GroupProducts" title="Clear">
+                        <a class="btn btn-default btn-lg" @click="clear" title="Clear">
                             <i class="bi bi-eraser"></i>
                         </a>
                     </div>
@@ -61,6 +66,13 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    Page Size : <Field name="pageSize" as="select" class="form-control" v-model="pageSize" @change="selectChange">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="100">100</option>
+                        <option value="100000">All</option>
+                    </Field>
                 </Form>
             </div>
         </div>
@@ -78,7 +90,12 @@
         data() {
             return {
                 loading: false,
-                post: null
+                post: null,
+                filterGroup: "",
+                filterGroupValues: [],
+                searchString: "",
+                sort: "Group",
+                pageSize: 10
             };
         },
         components: {
@@ -88,6 +105,13 @@
         created() {
             // fetch the data when the view is created and the data is
             // already being observed
+            fetch(baseUrl + 'GroupSelectList')
+                .then(r => r.json())
+                .then(json => {
+                    this.filterGroupValues = json;
+                    return;
+                });
+
             this.fetchData();
         },
         watch: {
@@ -95,27 +119,45 @@
             '$route': 'fetchData'
         },
         methods: {
+            clear() {
+                this.filterGroup = "";
+                this.searchString = "";
+                this.sort = "Group";
+                this.pageSize = 10;
+
+                this.fetchData();
+            },
+            selectChange() {
+                let values = {
+                    filterGroup: this.filterGroup,
+                    searchString: this.searchString,
+                    sort: this.sort,
+                    pageSize: this.pageSize
+                }
+                this.fetchData(values)
+            },
             fetchData(values) {
                 this.post = null;
                 this.loading = true;
 
-                if (values != undefined) {
-                    console.log("filterGroup: " + values.filterGroup);
-                    console.log("SearchString: " + values.SearchString);
-                    console.log("sort: " + values.sort);
-                }
-
                 let params = ''
 
-                if (values != undefined) {
+                /*if (values != undefined) {
+                    console.log("filterGroup: " + values.filterGroup);
+                    console.log("searchString: " + values.searchString);
+                    console.log("sort: " + values.sort);
+                    console.log("pageSize: " + values.pageSize);
+                }*/
+
+                if (values !== undefined) {
                     params += '?'
-                    params += 'filterGroup=' + (values.filterGroup != undefined ? values.filterGroup : '')
-                    params += '&SearchString=' + (values.SearchString != undefined ? values.SearchString : '')
-                    params += '&sort=' + (values.sort != undefined ? values.sort : '')
-                    params += '&pageSize=' + (values.pageSize != undefined ? values.pageSize : '10')
-                    params += '&pageNumber=' + (values.pageNumber != undefined ? values.pageNumber : '')
+                    params += 'filterGroup=' + (values.filterGroup !== undefined ? values.filterGroup : '')
+                    params += '&searchString=' + (values.searchString !== undefined ? values.searchString : '')
+                    params += '&sort=' + (values.sort !== undefined ? values.sort : '')
+                    params += '&pageSize=' + (values.pageSize !== undefined ? values.pageSize : '10')
+                    params += '&pageNumber=' + (values.pageNumber !== undefined ? values.pageNumber : '')
                 }
-                console.log("params: " + params);
+                //console.log("params: " + params);
 
                 fetch(baseUrl + 'Products' + params)
                     .then(r => r.json())

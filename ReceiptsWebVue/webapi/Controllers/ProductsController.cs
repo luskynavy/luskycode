@@ -29,7 +29,7 @@ namespace webapi.Controllers
 
 			if (!pageSize.IsNullOrEmpty())
 			{
-				 int.TryParse(pageSize, out pageSizeInt);
+				int.TryParse(pageSize, out pageSizeInt);
 			}
 			else
 			{
@@ -81,9 +81,36 @@ namespace webapi.Controllers
 		// GET: /<ProductsController>
 		[HttpGet]
 		[Route("~/GroupProducts")]
-		public IEnumerable<GroupProducts> GroupProducts()
+		public IEnumerable<GroupProducts> GroupProducts(string? filterGroup, string? searchString, string? sort, string? pageSize, int? pageNumber)
 		{
-			var groupsProducts = _context.Products.GroupBy(
+			int pageSizeInt = pageSizeDefault;
+
+			if (!pageSize.IsNullOrEmpty())
+			{
+				int.TryParse(pageSize, out pageSizeInt);
+			}
+			else
+			{
+				pageSize = pageSizeDefault.ToString();
+			}
+
+			IQueryable<Products> products = _context.Products;
+
+			//Filter
+			if (!String.IsNullOrEmpty(filterGroup))
+			{
+				products = products.Where(s => s.Group.Equals(filterGroup));
+			}
+
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				products = products.Where(s => s.Name.Contains(searchString));
+			}
+
+			if (products != null)
+			{
+				//Method syntax
+				var groupsProducts = products.GroupBy(
 										 p => new
 										 {
 											 p.Group,
@@ -101,10 +128,46 @@ namespace webapi.Controllers
 											PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
 											PricesCount = gp.Count()
 										});
+				//Sort
+				if (sort == "Group" || sort.IsNullOrEmpty())
+				{
+					groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
+				}
+				else if (sort == "PriceRatio")
+				{
+					groupsProducts = groupsProducts.OrderByDescending(p => p.PriceRatio);
+				}
+				else if (sort == "PricesCount")
+				{
+					groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
+				}
 
-			groupsProducts = groupsProducts.Take(10);
-			var res = groupsProducts.ToList();
-			return res;
+				groupsProducts = groupsProducts.Take(pageSizeInt);
+
+				var res = groupsProducts.ToList();
+				return res;
+			}
+			else
+			{
+				return new List<GroupProducts>();
+			}
+		}
+
+		/// <summary>
+		/// Create group select list
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		[Route("~/GroupSelectList")]
+		public List<string> GroupSelectList()
+		{
+			var groupList = _context.Products.Select(p => p.Group).Distinct().ToList();
+			var selectList = new List<string>();
+			foreach (var group in groupList)
+			{
+				selectList.Add(group);
+			};
+			return selectList;
 		}
 
 		// POST /<ProductsController>
