@@ -91,6 +91,7 @@
     export default defineComponent({
         data() {
             return {
+                vueUrl: 'https://aka.ms/jspsintegrationvue',
                 loading: false,
                 post: null,
                 filterGroup: "",

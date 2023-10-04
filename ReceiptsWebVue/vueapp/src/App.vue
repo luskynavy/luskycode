@@ -1,22 +1,27 @@
 <script setup>
     import { RouterLink, RouterView } from 'vue-router'
     //import HelloWorld from './components/HelloWorld.vue'
+    import LocaleSwitcher from './components/l10n/LocaleSwitcher.vue'
 </script>
 
 <template>
     <header>
         <!--<img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />-->
 
-        <div class="wrapper">
+        <div class="wrapperXXX">
             <!--<HelloWorld msg="ReceiptsWebVue" />-->
-            <h1>ReceiptsWebVue</h1>
 
-            <nav>
-                <!--<RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/about">About</RouterLink>-->
-                <RouterLink to="/groupproducts">{{ $t('GroupProducts') }}</RouterLink>
-                <RouterLink to="/products">{{ $t('Products') }}</RouterLink>
-                <RouterLink to="/weather">{{ $t('Tests') }}</RouterLink>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <span class="navbar-brand"><b>ReceiptsWebVue</b></span>
+                    <!--<RouterLink to="/">Home</RouterLink>
+                    <RouterLink to="/about">About</RouterLink>-->
+                    <RouterLink to="/groupproducts">{{ $t('GroupProducts') }}</RouterLink>
+                    <RouterLink to="/products">{{ $t('Products') }}</RouterLink>
+                    <RouterLink to="/weather">{{ $t('Tests') }}</RouterLink>
+
+                    <LocaleSwitcher class="floatRight" />
+                </div>
             </nav>
         </div>
     </header>
@@ -28,6 +33,16 @@
     header {
         line-height: 1.5;
         max-height: 100vh;
+    }
+
+    .floatRight {
+        float: right
+    }
+
+    .navbar-brand {
+        white-space: normal;
+        text-align: center;
+        word-break: break-all;
     }
 
     .logo {
@@ -62,7 +77,7 @@
 
     @media (min-width: 1024px) {
         header {
-            display: flex;
+            /*display: flex;*/
             place-items: center;
             padding-right: calc(var(--section-gap) / 2);
         }
@@ -72,7 +87,7 @@
         }
 
         header .wrapper {
-            display: flex;
+            /*display: flex;*/
             place-items: flex-start;
             flex-wrap: wrap;
         }

@@ -1,67 +1,50 @@
 import { createI18n } from 'vue-i18n'
-const i18n = createI18n({
-    // default locale
-    locale: 'fr',
-    // translations
-    messages: {
-        en: {
-            GroupProducts: 'GroupProducts',
-            Products: 'Products',
-            Details: 'Details',
-            Tests: 'Tests',
-            Id: 'Id',
-            Name: 'Name',
-            Group: 'Group',
-            Price: 'Price',
-            DateReceipt: 'Date receipt',
-            SourceName: 'Source name',
-            SourceLine: 'Source line',
-            FullData: 'Full data',
-            All: 'All',
-            PageSize: 'Page size',
-            FilterByGroup: 'Filter by group',
-            FindByName: 'Find by name',
-            SortBy: 'Sort by',
-            Search: 'Search',
-            Clear: 'Clear',
-            Min: 'Min',
-            Max: 'Max',
-            MinDate: 'Min date',
-            MaxDate: 'Max date',
-            PriceRatio: 'Price ratio',
-            PricesCount: 'Prices count',
-            Loading: 'Loading... Please refresh once the ASP.NET backend has started. See {0] for more details.',
-            vueUrl: 'https://aka.ms/jspsintegrationvue',
-        },
-        fr: {
-            GroupProducts: 'Groupe de produits',
-            Products: 'Produits',
-            Details: 'Détails',
-            Tests: 'Tests',
-            Id: 'Id',
-            Name: 'Nom',
-            Group: 'Groupe',
-            Price: 'Prix',
-            DateReceipt: 'Date de réception',
-            SourceName: 'Nom de la source',
-            SourceLine: 'Ligne de la source',
-            FullData: 'Données complétes',
-            All: 'Tout',
-            PageSize: 'Taille de page',
-            FilterByGroup: 'Filtrer par groupe',
-            FindByName: 'Trouver par nom',
-            SortBy: 'Trier par',
-            Search: 'Rechercher',
-            Clear: 'Effacer',
-            Min: 'Min',
-            Max: 'Max',
-            MinDate: 'Date min',
-            MaxDate: 'Date max',
-            PriceRatio: 'Rapport des prix',
-            PricesCount: 'Nombre de prix',
-            Loading: 'Chargement en cours... Veuillez rafraîchir quand le backend ASP.NET aura démarré. Voir {0} pour plus de détails.',
-            vueUrl: 'https://aka.ms/jspsintegrationvue',
-        },
+
+import messages from './messages'
+
+// Set and expose the default locale
+export const defaultLocale = 'fr'
+
+// Private instance of VueI18n object
+let _i18n
+
+// Initializer
+function setup(options = { locale: defaultLocale }) {
+    _i18n = createI18n({
+        locale: options.locale,
+        fallbackLocale: defaultLocale,
+        messages,
+        /*numberFormats,
+        datetimeFormats,
+        pluralizationRules: {
+            'ar-EG': arabicPluralRules,
+        },*/
+    })
+
+    setLocale(options.locale)
+
+    return _i18n
+}
+
+// Sets the active locale.
+function setLocale(newLocale) {
+    _i18n.global.locale = newLocale
+}
+
+// Public interface
+export default {
+    // Expose the VueI18n instance via a getter
+    get vueI18n() {
+        return _i18n
     },
-})
-export default i18n
+    setup,
+    setLocale,
+}
+
+// Using a { localeCode: localeData } structure
+// allows us to add metadata, like a name, to each
+// locale as our needs grow.
+export const supportedLocales = {
+    'en': { name: 'English' },
+    'fr': { name: 'Français' },
+}

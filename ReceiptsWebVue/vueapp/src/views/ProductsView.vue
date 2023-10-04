@@ -1,83 +1,85 @@
 <template>
     <div class="container">
-        <div class="post">
-            <div v-if="loading" class="loading">
-                <i18n-t keypath="Loading" tag="p" scope="global">
-                    <a :href="vueUrl">{{ $t('vueUrl') }}</a>
-                </i18n-t>
+        <main role="main" class="pb-3">
+            <div class="post">
+                <div v-if="loading" class="loading">
+                    <i18n-t keypath="Loading" tag="p" scope="global">
+                        <a :href="vueUrl">{{ $t('vueUrl') }}</a>
+                    </i18n-t>
+                </div>
+
+                <div v-if="post" class="content">
+                    <Form @submit="fetchData">
+                        <div class="form-actions no-color">
+                            <p>
+                                {{ $t('FilterByGroup') }} : <Field name="filterGroup" as="select" v-model="filterGroup" class="form-control">
+                                    <option value=""></option>
+                                    <option :value="filterGroupValue"
+                                            v-for="filterGroupValue in filterGroupValues"
+                                            :key="filterGroupValue.id">
+                                        {{ filterGroupValue }}
+                                    </option>
+                                </Field>
+                            </p>
+                            <p>
+                                {{ $t('FindByName') }} : <Field id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
+                            </p>
+                            <p>
+                                {{ $t('SortBy') }} : <Field name="sort" as="select" class="form-control" v-model="sort">
+                                    <option value="Group">{{ $t('Group') }}</option>
+                                    <option value="DateReceipt">{{ $t('DateReceipt') }}</option>
+                                    <option value="Name">{{ $t('Name') }}</option>
+                                </Field>
+                            </p>
+
+                            <button type="submit" class="btn btn-default btn-lg" :title="$t('Search')">
+                                <i class="bi bi-search"></i>
+                            </button>
+                            <a class="btn btn-default btn-lg" @click="clear" :title="$t('Clear')">
+                                <i class="bi bi-eraser"></i>
+                            </a>
+                        </div>
+
+                        <table class="table alternateLines">
+                            <thead>
+                                <tr>
+                                    <th>{{ $t('Id') }}</th>
+                                    <th>{{ $t('Group') }}</th>
+                                    <th>{{ $t('Name') }}</th>
+                                    <th>{{ $t('Price') }}</th>
+                                    <th>{{ $t('DateReceipt') }}</th>
+                                    <th>{{ $t('SourceName') }}</th>
+                                    <th>{{ $t('SourceLine') }}</th>
+                                    <th>{{ $t('FullData') }}</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="product in post" :key="product.id">
+                                    <td>{{ product.id }} </td>
+                                    <td>{{ product.group }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>{{ formatDate(product.dateReceipt) }}</td>
+                                    <td>{{ product.sourceName }}</td>
+                                    <td>{{ product.sourceLine }}</td>
+                                    <td>{{ product.fullData }}</td>
+                                    <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
+                                    <td> <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" title="Details"></router-link></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {{ $t('PageSize') }} : <Field name="pageSize" as="select" class="form-control" v-model="pageSize" @change="selectChange">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="100">100</option>
+                            <option value="100000">{{ $t('All') }}</option>
+                        </Field>
+                    </Form>
+                </div>
             </div>
-
-            <div v-if="post" class="content">
-                <Form @submit="fetchData">
-                    <div class="form-actions no-color">
-                        <p>
-                            {{ $t('FilterByGroup') }} : <Field name="filterGroup" as="select" v-model="filterGroup" class="form-control">
-                                <option value=""></option>
-                                <option :value="filterGroupValue"
-                                        v-for="filterGroupValue in filterGroupValues"
-                                        :key="filterGroupValue.id">
-                                    {{ filterGroupValue }}
-                                </option>
-                            </Field>
-                        </p>
-                        <p>
-                            {{ $t('FindByName') }} : <Field id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
-                        </p>
-                        <p>
-                            {{ $t('SortBy') }} : <Field name="sort" as="select" class="form-control" v-model="sort">
-                                <option value="Group">{{ $t('Group') }}</option>
-                                <option value="DateReceipt">{{ $t('DateReceipt') }}</option>
-                                <option value="Name">{{ $t('Name') }}</option>
-                            </Field>
-                        </p>
-
-                        <button type="submit" class="btn btn-default btn-lg" :title="$t('Search')">
-                            <i class="bi bi-search"></i>
-                        </button>
-                        <a class="btn btn-default btn-lg" @click="clear" :title="$t('Clear')">
-                            <i class="bi bi-eraser"></i>
-                        </a>
-                    </div>
-
-                    <table class="table alternateLines">
-                        <thead>
-                            <tr>
-                                <th>{{ $t('Id') }}</th>
-                                <th>{{ $t('Group') }}</th>
-                                <th>{{ $t('Name') }}</th>
-                                <th>{{ $t('Price') }}</th>
-                                <th>{{ $t('DateReceipt') }}</th>
-                                <th>{{ $t('SourceName') }}</th>
-                                <th>{{ $t('SourceLine') }}</th>
-                                <th>{{ $t('FullData') }}</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="product in post" :key="product.id">
-                                <td>{{ product.id }} </td>
-                                <td>{{ product.group }}</td>
-                                <td>{{ product.name }}</td>
-                                <td>{{ product.price }}</td>
-                                <td>{{ formatDate(product.dateReceipt) }}</td>
-                                <td>{{ product.sourceName }}</td>
-                                <td>{{ product.sourceLine }}</td>
-                                <td>{{ product.fullData }}</td>
-                                <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
-                                <td> <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" title="Details"></router-link></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    {{ $t('PageSize') }} : <Field name="pageSize" as="select" class="form-control" v-model="pageSize" @change="selectChange">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="100">100</option>
-                        <option value="100000">{{ $t('All') }}</option>
-                    </Field>
-                </Form>
-            </div>
-        </div>
+        </main>
     </div>
 </template>
 
