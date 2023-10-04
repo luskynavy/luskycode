@@ -27,6 +27,7 @@ export default {
         PricesCount: 'Prices count',
         Loading: 'Loading... Please refresh once the ASP.NET backend has started. See {0] for more details.',
         vueUrl: 'https://aka.ms/jspsintegrationvue',
+        PricesStartAt0: 'Prices start at 0',
     },
     fr: {
         GroupProducts: 'Groupe de produits',
@@ -56,5 +57,6 @@ export default {
         PricesCount: 'Nombre de prix',
         Loading: 'Chargement en cours... Veuillez rafraîchir quand le backend ASP.NET aura démarré. Voir {0} pour plus de détails.',
         vueUrl: 'https://aka.ms/jspsintegrationvue',
+        PricesStartAt0: 'Les prix commencent à 0',
     },
 }

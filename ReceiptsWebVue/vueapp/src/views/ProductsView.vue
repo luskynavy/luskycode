@@ -90,6 +90,9 @@
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
 
+    let defaultSort = "Group";
+    let defaultPageSize = 10;
+
     export default defineComponent({
         data() {
             return {
@@ -99,8 +102,8 @@
                 filterGroup: "",
                 filterGroupValues: [],
                 searchString: "",
-                sort: "Group",
-                pageSize: 10
+                sort: defaultSort,
+                pageSize: defaultPageSize
             };
         },
         components: {
@@ -127,8 +130,8 @@
             clear() {
                 this.filterGroup = "";
                 this.searchString = "";
-                this.sort = "Group";
-                this.pageSize = 10;
+                this.sort = defaultSort;
+                this.pageSize = defaultPageSize;
 
                 this.fetchData();
             },

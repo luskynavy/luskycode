@@ -1,7 +1,9 @@
 <template>
     <div class="post">
         <div v-if="loading" class="loading">
-            Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationvue">https://aka.ms/jspsintegrationvue</a> for more details.
+            <i18n-t keypath="Loading" tag="p" scope="global">
+                <a :href="vueUrl">{{ $t('vueUrl') }}</a>
+            </i18n-t>
         </div>
 
         <div v-if="post" class="content">
@@ -12,56 +14,42 @@
                 <dd class="col-sm-10">
                     {{ post.id }}
                 </dd>
-            </dl>
-            <dl class="row">
                 <dt class="col-sm-2">
                     {{ $t('Name') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.name }}
                 </dd>
-            </dl>
-            <dl class="row">
                 <dt class="col-sm-2">
                     {{ $t('Group') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.group }}
                 </dd>
-            </dl>
-            <dl class="row">
                 <dt class="col-sm-2">
                     {{ $t('Price') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.price }}
                 </dd>
-            </dl>
-            <dl class="row">
                 <dt class="col-sm-2">
                     {{ $t('DateReceipt') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.dateReceipt }}
                 </dd>
-            </dl>
-            <dl class="row">
                 <dt class="col-sm-2">
                     {{ $t('SourceName') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.sourceName }}
                 </dd>
-            </dl>
-            <dl class="row">
                 <dt class="col-sm-2">
                     {{ $t('SourceLine') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.sourceLine }}
                 </dd>
-            </dl>
-            <dl class="row">
                 <dt class="col-sm-2">
                     {{ $t('FullData') }}
                 </dt>
@@ -69,6 +57,8 @@
                     {{ post.fullData }}
                 </dd>
             </dl>
+
+            <ProductPrices :name="post.name" :id="post.id" />
         </div>
     </div>
 </template>
@@ -76,6 +66,7 @@
 <script lang="js">
     import { defineComponent } from 'vue';
     import { useRoute } from 'vue-router';
+    import ProductPrices from '../components/ProductPrices.vue';
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
@@ -83,9 +74,13 @@
     export default defineComponent({
         data() {
             return {
+                vueUrl: 'https://aka.ms/jspsintegrationvue',
                 loading: false,
                 post: null
             };
+        },
+        components: {
+            ProductPrices
         },
         created() {
             // fetch the data when the view is created and the data is
@@ -104,7 +99,7 @@
                 const route = useRoute();
                 const id = route.params.id;
 
-                console.log("id: " + id);
+                //console.log("id: " + id);
 
                 fetch(baseUrl + 'Products/' + id)
                     .then(r => r.json())
@@ -117,3 +112,14 @@
         },
     });
 </script>
+
+<style>
+    dt {
+        font-weight: 700;
+    }
+
+    dd {
+        margin-bottom: 0.5rem;
+        margin-left: 0;
+    }
+</style>
