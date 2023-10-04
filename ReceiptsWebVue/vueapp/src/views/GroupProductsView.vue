@@ -1,14 +1,16 @@
 <template>
     <div class="post">
         <div v-if="loading" class="loading">
-            Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationvue">https://aka.ms/jspsintegrationvue</a> for more details.
+            <i18n-t keypath="Loading" tag="p" scope="global">
+                <a :href="vueUrl">{{ $t('vueUrl') }}</a>
+            </i18n-t>
         </div>
 
         <div v-if="post" class="content">
             <Form @submit="fetchData">
                 <div class="form-actions no-color">
                     <p>
-                        Filter by group : <Field name="filterGroup" as="select" v-model="filterGroup" class="form-control">
+                        {{ $t('FilterByGroup') }} : <Field name="filterGroup" as="select" v-model="filterGroup" class="form-control">
                             <option value=""></option>
                             <option :value="filterGroupValue"
                                     v-for="filterGroupValue in filterGroupValues"
@@ -18,35 +20,35 @@
                         </Field>
                     </p>
                     <p>
-                        Find by name : <Field id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
+                        {{ $t('FindByName') }} : <Field id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
                     </p>
                     <p>
-                        Sort by : <Field name="sort" as="select" class="form-control" v-model="sort">
-                            <option value="Group">Group</option>
-                            <option value="PriceRatio">PriceRatio</option>
-                            <option value="PricesCount">PricesCount</option>
+                        {{ $t('SortBy') }} : <Field name="sort" as="select" class="form-control" v-model="sort">
+                            <option value="Group">{{ $t('Group') }}</option>
+                            <option value="PriceRatio">{{ $t('PriceRatio') }}</option>
+                            <option value="PricesCount">{{ $t('PricesCount') }}</option>
                         </Field>
                     </p>
 
-                    <button type="submit" class="btn btn-default btn-lg" title="Search">
+                    <button type="submit" class="btn btn-default btn-lg" :title="$t('Search')">
                         <i class="bi bi-search"></i>
                     </button>
-                    <a class="btn btn-default btn-lg" @click="clear" title="Clear">
+                    <a class="btn btn-default btn-lg" @click="clear" :title="$t('Clear')">
                         <i class="bi bi-eraser"></i>
                     </a>
                 </div>
                 <table class="table alternateLines">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Group</th>
-                            <th>Name</th>
-                            <th>Min</th>
-                            <th>Max</th>
-                            <th>MinDate</th>
-                            <th>MaxDate</th>
-                            <th>PriceRatio</th>
-                            <th>PricesCount</th>
+                            <th>{{ $t('Id') }}</th>
+                            <th>{{ $t('Group') }}</th>
+                            <th>{{ $t('Name') }}</th>
+                            <th>{{ $t('Min') }}</th>
+                            <th>{{ $t('Max') }}</th>
+                            <th>{{ $t('MinDate') }}</th>
+                            <th>{{ $t('MaxDate') }}</th>
+                            <th>{{ $t('PriceRatio') }}</th>
+                            <th>{{ $t('PricesCount') }}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -62,16 +64,16 @@
                             <td>{{ groupProduct.priceRatio.toFixed(2) }}</td>
                             <td>{{ groupProduct.pricesCount }}</td>
                             <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
-                            <td> <router-link :to="`/details/${groupProduct.id}`" class="bi bi-info-circle" title="Details"></router-link></td>
+                            <td> <router-link :to="`/details/${groupProduct.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link></td>
                         </tr>
                     </tbody>
                 </table>
 
-                Page Size : <Field name="pageSize" as="select" class="form-control" v-model="pageSize" @change="selectChange">
+                {{ $t('PageSize') }} : <Field name="pageSize" as="select" class="form-control" v-model="pageSize" @change="selectChange">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="100">100</option>
-                    <option value="100000">All</option>
+                    <option value="100000">{{ $t('All') }}</option>
                 </Field>
             </Form>
         </div>

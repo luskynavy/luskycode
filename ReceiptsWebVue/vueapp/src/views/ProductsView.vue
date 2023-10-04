@@ -2,14 +2,16 @@
     <div class="container">
         <div class="post">
             <div v-if="loading" class="loading">
-                Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationvue">https://aka.ms/jspsintegrationvue</a> for more details.
+                <i18n-t keypath="Loading" tag="p" scope="global">
+                    <a :href="vueUrl">{{ $t('vueUrl') }}</a>
+                </i18n-t>
             </div>
 
             <div v-if="post" class="content">
                 <Form @submit="fetchData">
                     <div class="form-actions no-color">
                         <p>
-                            Filter by group : <Field name="filterGroup" as="select" v-model="filterGroup" class="form-control">
+                            {{ $t('FilterByGroup') }} : <Field name="filterGroup" as="select" v-model="filterGroup" class="form-control">
                                 <option value=""></option>
                                 <option :value="filterGroupValue"
                                         v-for="filterGroupValue in filterGroupValues"
@@ -19,20 +21,20 @@
                             </Field>
                         </p>
                         <p>
-                            Find by name : <Field id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
+                            {{ $t('FindByName') }} : <Field id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
                         </p>
                         <p>
-                            Sort by : <Field name="sort" as="select" class="form-control" v-model="sort">
-                                <option value="Group">Group</option>
-                                <option value="DateReceipt">DateReceipt</option>
-                                <option value="Name">Name</option>
+                            {{ $t('SortBy') }} : <Field name="sort" as="select" class="form-control" v-model="sort">
+                                <option value="Group">{{ $t('Group') }}</option>
+                                <option value="DateReceipt">{{ $t('DateReceipt') }}</option>
+                                <option value="Name">{{ $t('Name') }}</option>
                             </Field>
                         </p>
 
-                        <button type="submit" class="btn btn-default btn-lg" title="Search">
+                        <button type="submit" class="btn btn-default btn-lg" :title="$t('Search')">
                             <i class="bi bi-search"></i>
                         </button>
-                        <a class="btn btn-default btn-lg" @click="clear" title="Clear">
+                        <a class="btn btn-default btn-lg" @click="clear" :title="$t('Clear')">
                             <i class="bi bi-eraser"></i>
                         </a>
                     </div>
@@ -40,14 +42,14 @@
                     <table class="table alternateLines">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Group</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>DateReceipt</th>
-                                <th>SourceName</th>
-                                <th>SourceLine</th>
-                                <th>FullData</th>
+                                <th>{{ $t('Id') }}</th>
+                                <th>{{ $t('Group') }}</th>
+                                <th>{{ $t('Name') }}</th>
+                                <th>{{ $t('Price') }}</th>
+                                <th>{{ $t('DateReceipt') }}</th>
+                                <th>{{ $t('SourceName') }}</th>
+                                <th>{{ $t('SourceLine') }}</th>
+                                <th>{{ $t('FullData') }}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -67,11 +69,11 @@
                         </tbody>
                     </table>
 
-                    Page Size : <Field name="pageSize" as="select" class="form-control" v-model="pageSize" @change="selectChange">
+                    {{ $t('PageSize') }} : <Field name="pageSize" as="select" class="form-control" v-model="pageSize" @change="selectChange">
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="100">100</option>
-                        <option value="100000">All</option>
+                        <option value="100000">{{ $t('All') }}</option>
                     </Field>
                 </Form>
             </div>
@@ -89,6 +91,7 @@
     export default defineComponent({
         data() {
             return {
+                vueUrl: 'https://aka.ms/jspsintegrationvue',
                 loading: false,
                 post: null,
                 filterGroup: "",

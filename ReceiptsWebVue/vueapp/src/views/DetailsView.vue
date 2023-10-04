@@ -7,7 +7,7 @@
         <div v-if="post" class="content">
             <dl class="row">
                 <dt class="col-sm-2">
-                    Id
+                    {{ $t('Id') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.id }}
@@ -15,7 +15,7 @@
             </dl>
             <dl class="row">
                 <dt class="col-sm-2">
-                    Name
+                    {{ $t('Name') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.name }}
@@ -23,7 +23,7 @@
             </dl>
             <dl class="row">
                 <dt class="col-sm-2">
-                    Group
+                    {{ $t('Group') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.group }}
@@ -31,7 +31,7 @@
             </dl>
             <dl class="row">
                 <dt class="col-sm-2">
-                    Price
+                    {{ $t('Price') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.price }}
@@ -39,7 +39,7 @@
             </dl>
             <dl class="row">
                 <dt class="col-sm-2">
-                    DateReceiptd
+                    {{ $t('DateReceipt') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.dateReceipt }}
@@ -47,7 +47,7 @@
             </dl>
             <dl class="row">
                 <dt class="col-sm-2">
-                    SourceName
+                    {{ $t('SourceName') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.sourceName }}
@@ -55,7 +55,7 @@
             </dl>
             <dl class="row">
                 <dt class="col-sm-2">
-                    SourceLine
+                    {{ $t('SourceLine') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.sourceLine }}
@@ -63,7 +63,7 @@
             </dl>
             <dl class="row">
                 <dt class="col-sm-2">
-                    FullData
+                    {{ $t('FullData') }}
                 </dt>
                 <dd class="col-sm-10">
                     {{ post.fullData }}

@@ -14,9 +14,9 @@
             <nav>
                 <!--<RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>-->
-                <RouterLink to="/groupproducts">GroupProducts</RouterLink>
-                <RouterLink to="/products">Products</RouterLink>
-                <RouterLink to="/weather">Tests</RouterLink>
+                <RouterLink to="/groupproducts">{{ $t('GroupProducts') }}</RouterLink>
+                <RouterLink to="/products">{{ $t('Products') }}</RouterLink>
+                <RouterLink to="/weather">{{ $t('Tests') }}</RouterLink>
             </nav>
         </div>
     </header>
