@@ -1,8 +1,7 @@
 <template>
     <div class="post">
         <div v-if="loading" class="loading">
-            <i18n-t keypath="Loading" tag="p" scope="global">
-                <a :href="vueUrl">{{ $t('vueUrl') }}</a>
+            <i18n-t keypath="LoadingNoLink" tag="p" scope="global">
             </i18n-t>
         </div>
 

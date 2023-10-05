@@ -78,7 +78,7 @@ namespace webapi.Controllers
 			return res;
 		}
 
-		// GET: /<ProductsController>
+		// GET: /<GroupProducts>
 		[HttpGet]
 		[Route("~/GroupProducts")]
 		public IEnumerable<GroupProducts> GroupProducts(string? filterGroup, string? searchString, string? sort, string? pageSize, int? pageNumber)
@@ -168,6 +168,32 @@ namespace webapi.Controllers
 				selectList.Add(group);
 			};
 			return selectList;
+		}
+
+		[HttpGet]
+		[Route("~/GetProductPrices")]
+		public List<ProductsPrices> GetProductPrices(int id)
+		{
+			if (_context.Products == null)
+			{
+				return new List<ProductsPrices>();
+			}
+
+			var product = _context.Products.FirstOrDefault(m => m.Id == id);
+
+			if (product != null)
+			{
+				var products = _context.Products.Where(m => m.Name == product.Name)
+					.Select(gp => new ProductsPrices
+					{
+						Price = gp.Price,
+						DateReceipt = gp.DateReceipt
+					}).OrderBy(p => p.DateReceipt);
+
+				return products.ToList();
+			}
+
+			return new List<ProductsPrices>();
 		}
 
 		// POST /<ProductsController>
