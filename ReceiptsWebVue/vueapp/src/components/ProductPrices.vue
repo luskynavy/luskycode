@@ -40,12 +40,11 @@
         },
         methods: {
             changeChartYAxis(cb) {
-                //to check (use computed for myChart.options) https://stackoverflow.com/questions/76234815/vue-chart-js-when-i-add-data-charts-are-not-updated/
                 if (cb) {
-                    this.charData.options.scales.y = { min: 0 }
+                    this.minY = undefined
                 }
                 else {
-                    this.charData.options.scales.y = {}
+                    this.minY = 0
                 }
             }
         },
@@ -68,7 +67,7 @@
                             legend: { display: true },
                         },
                         scales: {
-                            //y: { min: 0 }
+                            y: { min: this.minY }
                         }
                     }
                 }
@@ -79,6 +78,7 @@
                 values: [],
                 xValues: [],
                 yValues: [],
+                minY: undefined,
                 PricesStartAt0Check: false
             }
         },
@@ -89,7 +89,7 @@
                 .then(r => r.json())
                 .then(json => {
                     this.values = json;
-                    this.xValues = this.values.map(p => p.dateReceipt);
+                    this.xValues = this.values.map(p => p.dateReceipt.slice(0, 10));
                     this.yValues = this.values.map(p => p.price);
                     return;
                 });
