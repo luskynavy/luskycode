@@ -27,10 +27,19 @@
             </table>
         </div>
     </div>
+
+    Autocomplete:
+    <SimpleTypeahead id="demo"
+                     v-model="searchString"
+                     :items="['Vue','Vue1','Vue2','Vue3','Vue4','Vue5','Vue6','Script','Com']"
+                     :minInputLength="1">
+    </SimpleTypeahead>
 </template>
 
 <script lang="js">
     import { defineComponent } from 'vue';
+    import SimpleTypeahead from 'vue3-simple-typeahead'
+    import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
@@ -39,8 +48,12 @@
         data() {
             return {
                 loading: false,
-                post: null
+                post: null,
+                searchString: ""
             };
+        },
+        components: {
+            SimpleTypeahead
         },
         created() {
             // fetch the data when the view is created and the data is

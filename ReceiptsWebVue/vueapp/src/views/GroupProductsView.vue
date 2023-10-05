@@ -7,30 +7,32 @@
         </div>
 
         <div v-if="post" class="content">
-            <Form @submit="fetchData">
+            <form @submit.prevent="">
                 <div class="form-actions no-color">
                     <p>
-                        {{ $t('FilterByGroup') }} : <Field name="filterGroup" as="select" v-model="filterGroup" class="form-control">
+                        {{ $t('FilterByGroup') }} :
+                        <select name="filterGroup" v-model="filterGroup" class="form-control">
                             <option value=""></option>
                             <option :value="filterGroupValue"
                                     v-for="filterGroupValue in filterGroupValues"
                                     :key="filterGroupValue.id">
                                 {{ filterGroupValue }}
                             </option>
-                        </Field>
+                        </select>
                     </p>
                     <p>
-                        {{ $t('FindByName') }} : <Field id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
+                        {{ $t('FindByName') }} : <input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
                     </p>
                     <p>
-                        {{ $t('SortBy') }} : <Field name="sort" as="select" class="form-control" v-model="sort">
+                        {{ $t('SortBy') }} :
+                        <select name="sort" class="form-control" v-model="sort">
                             <option value="Group">{{ $t('Group') }}</option>
                             <option value="PriceRatio">{{ $t('PriceRatio') }}</option>
                             <option value="PricesCount">{{ $t('PricesCount') }}</option>
-                        </Field>
+                        </select>
                     </p>
 
-                    <button type="submit" class="btn btn-default btn-lg" :title="$t('Search')">
+                    <button class="btn btn-default btn-lg" :title="$t('Search')" @click="submitChanges">
                         <i class="bi bi-search"></i>
                     </button>
                     <a class="btn btn-default btn-lg" @click="clear" :title="$t('Clear')">
@@ -69,20 +71,20 @@
                     </tbody>
                 </table>
 
-                {{ $t('PageSize') }} : <Field name="pageSize" as="select" class="form-control" v-model="pageSize" @change="selectChange">
+                {{ $t('PageSize') }} :
+                <select name="pageSize" class="form-control" v-model="pageSize" @change="submitChanges">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="100">100</option>
                     <option value="100000">{{ $t('All') }}</option>
-                </Field>
-            </Form>
+                </select>
+            </form>
         </div>
     </div>
 </template>
 
 <script lang="js">
     import { defineComponent } from 'vue';
-    import { Form, Field } from 'vee-validate';
     import axios from "axios";
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
@@ -94,7 +96,6 @@
     export default defineComponent({
         data() {
             return {
-                //vueUrl: 'https://aka.ms/jspsintegrationvue',
                 loading: false,
                 post: null,
                 filterGroup: "",
@@ -103,10 +104,6 @@
                 sort: defaultSort,
                 pageSize: defaultPageSize
             };
-        },
-        components: {
-            Form,
-            Field
         },
         created() {
             // fetch the data when the view is created and the data is
@@ -133,7 +130,7 @@
 
                 this.fetchData();
             },
-            selectChange() {
+            submitChanges() {
                 let values = {
                     filterGroup: this.filterGroup,
                     searchString: this.searchString,
