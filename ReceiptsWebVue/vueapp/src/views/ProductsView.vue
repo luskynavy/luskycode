@@ -3,8 +3,9 @@
         <main role="main" class="pb-3">
             <div class="post">
                 <div v-if="loading" class="loading">
-                    <i18n-t keypath="Loading" tag="p" scope="global">
-                        <a :href="vueUrl">{{ $t('vueUrl') }}</a>
+                    <i18n-t keypath="LoadingNoLink" tag="p" scope="global">
+                        <!-- LoadingNoLink without param {0} to prevent crash -->
+                        <!--<a :href="vueUrl">{{ $t('vueUrl') }}</a>-->
                     </i18n-t>
                 </div>
 
@@ -96,7 +97,7 @@
     export default defineComponent({
         data() {
             return {
-                vueUrl: 'https://aka.ms/jspsintegrationvue',
+                //vueUrl: 'https://aka.ms/jspsintegrationvue',
                 loading: false,
                 post: null,
                 filterGroup: "",

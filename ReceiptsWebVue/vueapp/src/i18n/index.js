@@ -14,6 +14,7 @@ function setup(options = { locale: defaultLocale }) {
         locale: options.locale,
         fallbackLocale: defaultLocale,
         messages,
+        //runtimeOnly: false,
         /*numberFormats,
         datetimeFormats,
         pluralizationRules: {
