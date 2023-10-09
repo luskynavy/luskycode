@@ -196,6 +196,24 @@ namespace webapi.Controllers
 			return new List<ProductsPrices>();
 		}
 
+		[HttpGet]
+		[Route("~/ProductsNames")]
+		public List<string> ProductsNames(string? search)
+		{
+			IQueryable<Products> products = _context.Products;
+
+			if (search != null)
+			{
+				products = products.Where(p => p.Name.Contains(search));
+			}
+
+			var res = products.Select(p => p.Name)
+				.Distinct();
+
+			return res.ToList();
+		}
+
+		/*
 		// POST /<ProductsController>
 		[HttpPost]
 		public void Post([FromBody] string value)
@@ -213,5 +231,6 @@ namespace webapi.Controllers
 		public void Delete(int id)
 		{
 		}
+		*/
 	}
 }

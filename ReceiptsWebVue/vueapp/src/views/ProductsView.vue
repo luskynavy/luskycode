@@ -24,7 +24,8 @@
                                 </select>
                             </p>
                             <p>
-                                {{ $t('FindByName') }} : <input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
+                                {{ $t('FindByName') }} : <!--<SimpleTypeahead id="SearchStringAutocomplete" v-model="searchString" :items="productsNames" :minInputLength="1" autocomplete="off" />-->
+                                <input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
                             </p>
                             <p>
                                 {{ $t('SortBy') }} :
@@ -89,6 +90,8 @@
 
 <script lang="js">
     import { defineComponent } from 'vue';
+    import SimpleTypeahead from 'vue3-simple-typeahead'
+    import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
@@ -103,10 +106,14 @@
                 post: null,
                 filterGroup: "",
                 filterGroupValues: [],
+                productsNames: [],
                 searchString: "",
                 sort: defaultSort,
                 pageSize: defaultPageSize
             };
+        },
+        components: {
+            SimpleTypeahead
         },
         created() {
             // fetch the data when the view is created and the data is
@@ -115,6 +122,13 @@
                 .then(r => r.json())
                 .then(json => {
                     this.filterGroupValues = json;
+                    return;
+                });
+
+            fetch(baseUrl + 'ProductsNames?search=')
+                .then(r => r.json())
+                .then(json => {
+                    this.productsNames = json;
                     return;
                 });
 
@@ -185,3 +199,10 @@
         },
     });
 </script>
+
+<style scoped>
+    /*Enlève le retour à la ligne avant le div du SimpleTypeahead */
+    div#SearchStringAutocomplete_wrapper {
+        display: inline;
+    }
+</style>
