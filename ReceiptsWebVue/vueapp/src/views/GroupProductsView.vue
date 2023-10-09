@@ -103,7 +103,7 @@
                 post: null,
                 filterGroup: "",
                 filterGroupValues: [],
-                productsNames: [],
+                //productsNames: [],
                 searchString: "",
                 sort: defaultSort,
                 pageSize: defaultPageSize
@@ -111,7 +111,6 @@
         },
         components: {
             //SimpleTypeahead,
-            typeahead
         },
         created() {
             // fetch the data when the view is created and the data is
@@ -123,12 +122,12 @@
                     return;
                 });
 
-            fetch(baseUrl + 'ProductsNames?search=')
+            /*fetch(baseUrl + 'ProductsNames?search=')
                 .then(r => r.json())
                 .then(json => {
                     this.productsNames = json;
                     return;
-                });
+                });*/
 
             this.fetchData();
         },
