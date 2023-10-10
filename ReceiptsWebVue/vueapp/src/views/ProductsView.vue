@@ -24,8 +24,9 @@
                                 </select>
                             </p>
                             <p>
-                                {{ $t('FindByName') }} : <!--<SimpleTypeahead id="SearchStringAutocomplete" v-model="searchString" :items="productsNames" :minInputLength="1" autocomplete="off" />-->
-                                <input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
+                                {{ $t('FindByName') }} :
+                                <AutoComplete v-model="searchString" :suggestions="filteredProducts" @complete="searchProduct"></AutoComplete>
+                                <!--<input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />-->
                             </p>
                             <p>
                                 {{ $t('SortBy') }} :
@@ -89,9 +90,10 @@
 </template>
 
 <script lang="js">
-    import { defineComponent } from 'vue';
-    import SimpleTypeahead from 'vue3-simple-typeahead'
-    import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
+    import { ref, defineComponent } from 'vue';
+
+    import AutoComplete from 'primevue/autocomplete'
+    import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
@@ -106,14 +108,15 @@
                 post: null,
                 filterGroup: "",
                 filterGroupValues: [],
-                //productsNames: [],
+                filteredProducts: ref(),
+                productsNames: [],
                 searchString: "",
                 sort: defaultSort,
                 pageSize: defaultPageSize
             };
         },
         components: {
-            SimpleTypeahead
+            AutoComplete
         },
         created() {
             // fetch the data when the view is created and the data is
@@ -125,12 +128,12 @@
                     return;
                 });
 
-            /*fetch(baseUrl + 'ProductsNames?search=')
+            fetch(baseUrl + 'ProductsNames?search=')
                 .then(r => r.json())
                 .then(json => {
                     this.productsNames = json;
                     return;
-                });*/
+                });
 
             this.fetchData();
         },
@@ -195,14 +198,15 @@
                 };
                 var d = new Date(date.slice(0, 10))
                 return d.toLocaleString(navigator.language ? navigator.language : navigator['userLanguage'], options)
+            },
+            searchProduct(event) {
+                this.filteredProducts = this.productsNames.filter((product) => {
+                    return product.toLowerCase().includes(event.query.toLowerCase());
+                });
             }
         },
     });
 </script>
 
 <style scoped>
-    /*Enlève le retour à la ligne avant le div du SimpleTypeahead */
-    div#SearchStringAutocomplete_wrapper {
-        display: inline;
-    }
 </style>

@@ -22,7 +22,6 @@
                     </p>
                     <p>
                         {{ $t('FindByName') }} : <input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />
-                        <!--<SimpleTypeahead id="SearchStringAutocomplete" name="searchString" v-model="searchString" :items="productsNames" :minInputLength="1" />-->
                     </p>
                     <p>
                         {{ $t('SortBy') }} :
@@ -87,8 +86,6 @@
 <script lang="js">
     import { defineComponent } from 'vue';
     import axios from "axios";
-    //import SimpleTypeahead from 'vue3-simple-typeahead'
-    //import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
@@ -110,7 +107,7 @@
             };
         },
         components: {
-            //SimpleTypeahead,
+
         },
         created() {
             // fetch the data when the view is created and the data is
@@ -187,8 +184,4 @@
 </script>
 
 <style scoped>
-    /*Enlève le retour à la ligne avant le div du SimpleTypeahead */
-    div#SearchStringAutocomplete_wrapper {
-        display: inline;
-    }
 </style>

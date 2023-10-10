@@ -10,6 +10,8 @@ import i18n from './i18n'
 
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
+import PrimeVue from 'primevue/config';
+
 const app = createApp(App)
 
 app.use(createPinia())
@@ -19,6 +21,9 @@ i18n.setup()
 
 // Pass the VueI18n instance as a plugin to use()
 app.use(i18n.vueI18n)
+
+//Init PrimeVue
+app.use(PrimeVue, { /* options */ });
 
 app.use(router)
 

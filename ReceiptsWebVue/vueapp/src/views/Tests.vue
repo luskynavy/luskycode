@@ -29,7 +29,7 @@
     </div>
 
     Autocomplete:
-    <SimpleTypeahead id="demo"
+    <SimpleTypeahead id="SearchStringAutocomplete"
                      v-model="searchString"
                      :items="['Vue','Vue1','Vue2','Vue3','Vue4','Vue5','Vue6','Script','Com']"
                      :minInputLength="1">
@@ -80,3 +80,10 @@
         },
     });
 </script>
+
+<style scoped>
+    /*Enlève le retour à la ligne avant le div du SimpleTypeahead */
+    div#SearchStringAutocomplete_wrapper {
+        display: inline;
+    }
+</style>
