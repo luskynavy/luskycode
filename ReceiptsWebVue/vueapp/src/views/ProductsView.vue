@@ -1,6 +1,12 @@
 <template>
     <div class="container">
         <main role="main" class="pb-3">
+            <Dialog v-model:visible="modalProductsPrices" modal :header="$t('PricesHistory')" :style="{ width: '50vw' }">
+                <p>
+                    <ProductPrices :name="modalProductName" :id="modalProductId" />
+                </p>
+            </Dialog>
+
             <div class="post">
                 <div v-if="loading" class="loading">
                     <i18n-t keypath="LoadingNoLink" tag="p" scope="global">
@@ -70,7 +76,10 @@
                                     <td>{{ product.sourceLine }}</td>
                                     <td>{{ product.fullData }}</td>
                                     <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
-                                    <td> <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link></td>
+                                    <td>
+                                        <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link>
+                                        <button type="button" class="buttonAsLink bi bi-graph-up" :title="$t('Prices')" @click="showModalProductsPrices(product.name, product.id)"></button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -92,8 +101,11 @@
 <script lang="js">
     import { ref, defineComponent } from 'vue';
 
+    import Dialog from 'primevue/dialog';
     import AutoComplete from 'primevue/autocomplete'
     import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
+
+    import ProductPrices from '../components/ProductPrices.vue';
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
@@ -112,13 +124,19 @@
                 productsNames: [],
                 searchString: "",
                 sort: defaultSort,
-                pageSize: defaultPageSize
+                pageSize: defaultPageSize,
+                modalProductsPrices: false,
+                modalProductname: '',
+                modalProductId: 0,
             };
         },
         components: {
+            ProductPrices,
+            Dialog,
             AutoComplete
         },
         created() {
+
             // fetch the data when the view is created and the data is
             // already being observed
             fetch(baseUrl + 'GroupSelectList')
@@ -136,6 +154,9 @@
                 });
 
             this.fetchData();
+
+        },
+        mounted() {
         },
         watch: {
             // call again the method if the route changes
@@ -203,6 +224,11 @@
                 this.filteredProducts = this.productsNames.filter((product) => {
                     return product.toLowerCase().includes(event.query.toLowerCase());
                 });
+            },
+            showModalProductsPrices(name, id) {
+                this.modalProductsPrices = true
+                this.modalProductName = name
+                this.modalProductId = id
             }
         },
     });
