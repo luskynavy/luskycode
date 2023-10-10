@@ -18,7 +18,7 @@
                     <RouterLink to="/about">About</RouterLink>-->
                     <RouterLink to="/groupproducts">{{ $t('GroupProducts') }}</RouterLink>
                     <RouterLink to="/products">{{ $t('Products') }}</RouterLink>
-                    <RouterLink to="/weather">{{ $t('Tests') }}</RouterLink>
+                    <RouterLink to="/tests">{{ $t('Tests') }}</RouterLink>
 
                     <LocaleSwitcher class="floatRight" />
                 </div>
