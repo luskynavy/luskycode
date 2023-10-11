@@ -21,7 +21,7 @@
                     <div class="form-actions no-color">
                         <p>
                             {{ $t('FilterByGroup') }} :
-                            <select name="filterGroup" v-model="filterGroup" class="form-control">
+                            <select name="filterGroup" v-model="filterGroup" class="form-control" @change="onGroupChange()">
                                 <option value=""></option>
                                 <option :value="filterGroupValue"
                                         v-for="filterGroupValue in filterGroupValues"
@@ -31,16 +31,19 @@
                             </select>
                         </p>
                         <p>
-                            {{ $t('FindByName') }} : <!--<input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />-->
-                            <v-combobox v-model="searchString" :items="productsNames" variantZZ="solo-inverted"></v-combobox>
+                            <!--{{ $t('FindByName') }} : <input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />-->
+                            <v-combobox :label="$t('FindByName')" v-model="searchString" :items="productsNames" variantZZ="solo-inverted"></v-combobox>
                         </p>
                         <p>
-                            {{ $t('SortBy') }} :
+                            <!--{{ $t('SortBy') }} :
                             <select name="sort" class="form-control" v-model="sort">
                                 <option value="Group">{{ $t('Group') }}</option>
                                 <option value="PriceRatio">{{ $t('PriceRatio') }}</option>
                                 <option value="PricesCount">{{ $t('PricesCount') }}</option>
-                            </select>
+                            </select>-->
+                            <v-select :label="$t('SortBy')" v-model="sort"
+                                      :items="[{title:$t('Group'),value:'Group'},{title:$t('PriceRatio'),value:'PriceRatio'},{title:$t('PricesCount'),value:'PricesCount'}]">
+                            </v-select>
                         </p>
 
                         <button class="btn btn-default btn-lg" :title="$t('Search')" @click="submitChanges">
@@ -128,6 +131,20 @@
                 modalProductsPrices: false,
                 modalProductname: '',
                 modalProductId: 0,
+                itemsSort: [
+                    {
+                        title: this.$t('Group'),
+                        value: 'Group',
+                    },
+                    {
+                        title: this.$t('PriceRatio'),
+                        value: 'PriceRatio',
+                    },
+                    {
+                        title: this.$t('PricesCount'),
+                        value: 'PricesCount',
+                    },
+                ]
             };
         },
         components: {
@@ -207,6 +224,16 @@
                 this.modalProductsPrices = true
                 this.modalProductName = name
                 this.modalProductId = id
+            },
+            onGroupChange() {
+                //console.log("group change " + this.filterGroup)
+
+                fetch(baseUrl + 'ProductsNames?group=' + encodeURIComponent(this.filterGroup))
+                    .then(r => r.json())
+                    .then(json => {
+                        this.productsNames = json;
+                        return;
+                    });
             }
         },
     };

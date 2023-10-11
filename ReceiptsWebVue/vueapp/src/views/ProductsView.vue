@@ -20,7 +20,7 @@
                         <div class="form-actions no-color">
                             <p>
                                 {{ $t('FilterByGroup') }} :
-                                <select name="filterGroup" v-model="filterGroup" class="form-control">
+                                <select name="filterGroup" v-model="filterGroup" class="form-control" @change="onGroupChange()">
                                     <option value=""></option>
                                     <option :value="filterGroupValue"
                                             v-for="filterGroupValue in filterGroupValues"
@@ -31,7 +31,7 @@
                             </p>
                             <p>
                                 {{ $t('FindByName') }} :
-                                <AutoComplete v-model="searchString" :suggestions="filteredProducts" @complete="searchProduct"></AutoComplete>
+                                <AutoComplete v-model="searchString" dropdown :emptySearchMessage="$t('NoResultsFound')" :suggestions="filteredProducts" @complete="searchProduct"></AutoComplete>
                                 <!--<input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />-->
                             </p>
                             <p>
@@ -229,6 +229,16 @@
                 this.modalProductsPrices = true
                 this.modalProductName = name
                 this.modalProductId = id
+            },
+            onGroupChange() {
+                console.log("group change " + this.filterGroup)
+
+                fetch(baseUrl + 'ProductsNames?group=' + encodeURIComponent(this.filterGroup))
+                    .then(r => r.json())
+                    .then(json => {
+                        this.productsNames = json;
+                        return;
+                    });
             }
         },
     };

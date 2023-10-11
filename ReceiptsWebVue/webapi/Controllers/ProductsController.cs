@@ -198,13 +198,18 @@ namespace webapi.Controllers
 
 		[HttpGet]
 		[Route("~/ProductsNames")]
-		public List<string> ProductsNames(string? search)
+		public List<string> ProductsNames(string? search, string? group)
 		{
 			IQueryable<Products> products = _context.Products;
 
 			if (search != null)
 			{
 				products = products.Where(p => p.Name.Contains(search));
+			}
+
+			if (group != null)
+			{
+				products = products.Where(p => p.Group.Equals(group));
 			}
 
 			var res = products.Select(p => p.Name)
