@@ -99,11 +99,11 @@
 </template>
 
 <script lang="js">
-    import { ref, defineComponent } from 'vue';
+    import { ref } from 'vue';
 
     import Dialog from 'primevue/dialog';
     import AutoComplete from 'primevue/autocomplete'
-    import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
+    import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
 
     import ProductPrices from '../components/ProductPrices.vue';
 
@@ -113,16 +113,16 @@
     let defaultSort = "Group";
     let defaultPageSize = 10;
 
-    export default defineComponent({
+    export default {
         data() {
             return {
                 loading: false,
                 post: null,
-                filterGroup: "",
+                filterGroup: '',
                 filterGroupValues: [],
                 filteredProducts: ref(),
                 productsNames: [],
-                searchString: "",
+                searchString: '',
                 sort: defaultSort,
                 pageSize: defaultPageSize,
                 modalProductsPrices: false,
@@ -231,7 +231,7 @@
                 this.modalProductId = id
             }
         },
-    });
+    };
 </script>
 
 <style scoped>

@@ -12,9 +12,17 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 
 import PrimeVue from 'primevue/config';
 
+// Vuetify
+//import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
 const app = createApp(App)
 
 app.use(createPinia())
+
+app.use(router)
 
 // Explicitly initialize the i18n library
 i18n.setup()
@@ -25,6 +33,12 @@ app.use(i18n.vueI18n)
 //Init PrimeVue
 app.use(PrimeVue, { /* options */ });
 
-app.use(router)
+//Init Vuetify
+const vuetify = createVuetify({
+    components,
+    directives,
+    theme: { defaultTheme: 'light' }
+})
+app.use(vuetify)
 
 app.mount('#app')
