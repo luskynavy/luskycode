@@ -67,6 +67,8 @@
     import { useRoute } from 'vue-router';
     import ProductPrices from '../components/ProductPrices.vue';
 
+    //import 'bootstrap/dist/css/bootstrap.css'
+
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
 
@@ -112,13 +114,6 @@
     });
 </script>
 
-<style>
-    dt {
-        font-weight: 700;
-    }
-
-    dd {
-        margin-bottom: 0.5rem;
-        margin-left: 0;
-    }
+<!--For dl/dt/dd css of bootstrap-->
+<style lang="css" scoped src="bootstrap/dist/css/bootstrap.css">
 </style>

@@ -231,7 +231,11 @@
                 this.modalProductId = id
             },
             onGroupChange() {
-                console.log("group change " + this.filterGroup)
+                //console.log("group change " + this.filterGroup)
+
+                if (this.filterGroup != '') {
+                    this.searchString = ''
+                }
 
                 fetch(baseUrl + 'ProductsNames?group=' + encodeURIComponent(this.filterGroup))
                     .then(r => r.json())
