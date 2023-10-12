@@ -433,13 +433,22 @@ namespace ReceiptsWeb.Controllers
 			return PartialView(res);
 		}
 
-		public JsonResult LiveTagSearchJson(string search)
+		public JsonResult LiveTagSearchJson(string search, string group)
 		{
-			var res = (
-				from t in _context.Products
-				where t.Name.Contains(search)
-				select new { t.Name }
-				).Distinct().Take(10).ToList();
+			IQueryable<Products> products = _context.Products;
+
+			if (search != null)
+			{
+				products = products.Where(p => p.Name.Contains(search));
+			}
+
+			if (group != null)
+			{
+				products = products.Where(p => p.Group.Equals(group));
+			}
+
+			var res = products.Select(p => new { p.Name })
+				.Distinct().Take(10);
 
 			return Json(res);
 		}

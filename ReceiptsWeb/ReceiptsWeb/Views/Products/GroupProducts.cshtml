@@ -29,7 +29,8 @@
 <form asp-action="GroupProducts" method="get">
 	<div class="form-actions no-color">
 		<p>
-			@SharedLocalizer["Filter by group"] : <select name="filterGroup" asp-items="@ViewBag.GroupList"></select>
+			@SharedLocalizer["Filter by group"] :
+			<select id="filterGroup" name="filterGroup" asp-items="@ViewBag.GroupList" onchange="onGroupChange()"></select>
 		</p>
 		<p>
 			@SharedLocalizer["Find by name"] : <input type="text" id="SearchStringAutocomplete" name="SearchString" value="@ViewBag.searchString" autocomplete="off" />
@@ -171,15 +172,16 @@
 </script>
 
 <script>
-	//Live search with jquery ui autocomplete
+	@*Live search with jquery ui autocomplete*@
 	$(document).ready(function () {
 		$("#SearchStringAutocomplete").autocomplete({
+			minLength: 0,
 			source: function (request, response) {
 				$.ajax({
 					url: "/Products/LiveTagSearchJson",
 					type: "POST",
 					dataType: "json",
-					data: { search: request.term },
+					data: { search: request.term, group: $('#filterGroup').val() },
 					success: function (data) {
 						response($.map(data, function (item) {
 							//return { label: item.name, value: item.id };
@@ -188,6 +190,16 @@
 					}
 				})
 			}
+		}).focus(function () {
+			@*Show the list when input get focus*@
+			$(this).autocomplete("search");
 		});
 	})
+
+	@*Clear search value if group change and is not empty*@
+	function onGroupChange() {
+		if ($("#filterGroup").val() != '') {
+			$("#SearchStringAutocomplete").val('')
+		}
+	}
 </script>
