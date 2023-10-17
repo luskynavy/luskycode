@@ -20,14 +20,16 @@
                         <div class="form-actions no-color">
                             <p>
                                 {{ $t('FilterByGroup') }} :
-                                <select name="filterGroup" v-model="filterGroup" class="form-control" @change="onGroupChange()">
+                                <!--<select name="filterGroup" v-model="filterGroup" class="form-control" @change="onGroupChange()">
                                     <option value=""></option>
                                     <option :value="filterGroupValue"
                                             v-for="filterGroupValue in filterGroupValues"
                                             :key="filterGroupValue.id">
                                         {{ filterGroupValue }}
                                     </option>
-                                </select>
+                                </select>-->
+                                <Dropdown v-model="filterGroup" @change="onGroupChange()"
+                                          :options="filterGroupValues" />
                             </p>
                             <p>
                                 {{ $t('FindByName') }} :
@@ -36,17 +38,19 @@
                             </p>
                             <p>
                                 {{ $t('SortBy') }} :
-                                <select name="sort" class="form-control" v-model="sort">
+                                <!--<select name="sort" class="form-control" v-model="sort">
                                     <option value="Group">{{ $t('Group') }}</option>
                                     <option value="DateReceipt">{{ $t('DateReceipt') }}</option>
                                     <option value="Name">{{ $t('Name') }}</option>
-                                </select>
+                                </select>-->
+                                <Dropdown v-model="sort" optionLabel="title" optionValue="value"
+                                          :options="[{title:$t('Group'),value:'Group'},{title:$t('DateReceipt'),value:'DateReceipt'},{title:$t('Name'),value:'Name'}]" />
                             </p>
 
                             <button class="btn btn-default btn-lg" :title="$t('Search')" @click="submitChanges">
                                 <i class="bi bi-search"></i>
                             </button>
-                            <a class="btn btn-default btn-lg" @click="clear" :title="$t('Clear')">
+                            <a class="btn btn-default btn-lg" @click="init" :title="$t('Clear')">
                                 <i class="bi bi-eraser"></i>
                             </a>
                         </div>
@@ -85,12 +89,14 @@
                         </table>
 
                         {{ $t('PageSize') }} :
-                        <select name="pageSize" class="form-control" v-model="pageSize" @change="submitChanges">
+                        <!--<select name="pageSize" class="form-control" v-model="pageSize" @change="submitChanges">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="100">100</option>
                             <option value="100000">{{ $t('All') }}</option>
-                        </select>
+                        </select>-->
+                        <Dropdown v-model="pageSize" @change="submitChanges" optionLabel="title" optionValue="value"
+                                  :options="[{title:'10',value:'10'},{title:'20',value:'20'},{title:'100',value:'100'},{title:$t('All'),value:'100000'}]" />
                     </form>
                 </div>
             </div>
@@ -102,6 +108,7 @@
     import { ref } from 'vue';
 
     import Dialog from 'primevue/dialog';
+    import Dropdown from 'primevue/dropdown';
     import AutoComplete from 'primevue/autocomplete'
     import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
 
@@ -110,8 +117,8 @@
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
 
-    let defaultSort = "Group";
-    let defaultPageSize = 10;
+    let defaultSort = 'Group';
+    let defaultPageSize = '10';
 
     export default {
         data() {
@@ -133,6 +140,7 @@
         components: {
             ProductPrices,
             Dialog,
+            Dropdown,
             AutoComplete
         },
         created() {
@@ -153,7 +161,7 @@
                     return;
                 });
 
-            this.fetchData();
+            this.init();
 
         },
         mounted() {
@@ -163,13 +171,13 @@
             '$route': 'fetchData'
         },
         methods: {
-            clear() {
+            init() {
                 this.filterGroup = "";
                 this.searchString = "";
                 this.sort = defaultSort;
                 this.pageSize = defaultPageSize;
 
-                this.fetchData();
+                this.submitChanges();
             },
             submitChanges() {
                 let values = {

@@ -20,7 +20,7 @@
             <form @submit.prevent="">
                 <div class="form-actions no-color">
                     <p>
-                        {{ $t('FilterByGroup') }} :
+                        <!--{{ $t('FilterByGroup') }} :
                         <select name="filterGroup" v-model="filterGroup" class="form-control" @change="onGroupChange()">
                             <option value=""></option>
                             <option :value="filterGroupValue"
@@ -28,7 +28,10 @@
                                     :key="filterGroupValue.id">
                                 {{ filterGroupValue }}
                             </option>
-                        </select>
+                        </select>-->
+                        <v-select :label="$t('FilterByGroup')" v-model="filterGroup" @update:modelValue="onGroupChange()"
+                                  :items="filterGroupValues">
+                        </v-select>
                     </p>
                     <p>
                         <!--{{ $t('FindByName') }} : <input id="SearchStringAutocomplete" name="searchString" v-model="searchString" type="text" class="form-control" autocomplete="off" />-->
@@ -49,7 +52,7 @@
                     <button class="btn btn-default btn-lg" :title="$t('Search')" @click="submitChanges">
                         <i class="bi bi-search"></i>
                     </button>
-                    <a class="btn btn-default btn-lg" @click="clear" :title="$t('Clear')">
+                    <a class="btn btn-default btn-lg" @click="init" :title="$t('Clear')">
                         <i class="bi bi-eraser"></i>
                     </a>
                 </div>
@@ -89,12 +92,14 @@
                 </table>
 
                 {{ $t('PageSize') }} :
-                <select name="pageSize" class="form-control" v-model="pageSize" @change="submitChanges">
+                <!--<select name="pageSize" class="form-control" v-model="pageSize" @change="submitChanges">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="100">100</option>
                     <option value="100000">{{ $t('All') }}</option>
-                </select>
+                </select>-->
+                <v-select v-model="pageSize" @update:modelValue="submitChanges" class="w6"
+                          :items="[{title:'10',value:'10'},{title:'20',value:'20'},{title:'100',value:'100'},{title:$t('All'),value:'100000'}]" />
             </form>
         </div>
     </div>
@@ -114,8 +119,8 @@
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log('baseUrl: ' + baseUrl);
 
-    let defaultSort = "Group";
-    let defaultPageSize = 10;
+    let defaultSort = 'Group';
+    let defaultPageSize = '10';
 
     export default {
         data() {
@@ -167,20 +172,20 @@
                     return;
                 });
 
-            this.fetchData();
+            this.init();
         },
         watch: {
             // call again the method if the route changes
             '$route': 'fetchData'
         },
         methods: {
-            clear() {
+            init() {
                 this.filterGroup = '';
                 this.searchString = '';
                 this.sort = defaultSort;
                 this.pageSize = defaultPageSize;
 
-                this.fetchData();
+                this.submitChanges();
             },
             submitChanges() {
                 let values = {
@@ -247,4 +252,8 @@
 </style>-->
 <!--do nothing-->
 <style lang="css" scoped src="vuetify/lib/styles/main.css">
+    /*do nothing if src used*/
+    .w6 {
+        width: 6rem;
+    }
 </style>
