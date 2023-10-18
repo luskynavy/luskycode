@@ -13,6 +13,12 @@ npm create vite
 ```
 And choose js, router, pinia, eslint.
 
+Tailwind css installation:
+```sh
+npm install -D tailwindcss
+npx tailwindcss init
+```
+
 ## Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).

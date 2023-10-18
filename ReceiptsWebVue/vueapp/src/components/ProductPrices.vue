@@ -1,6 +1,6 @@
 <template>
     <Line ref="myChart" id="myChart" :data="charData.data" :options="charData.options" />
-    <label>>{{ $t('PricesStartAt0') }} <input id="PricesStartAt0" type='checkbox' v-model="PricesStartAt0Check" @click='changeChartYAxis(PricesStartAt0Check);'></label>
+    <label>{{ $t('PricesStartAt0') }} <input id="PricesStartAt0" type='checkbox' v-model="PricesStartAt0Check" @click='changeChartYAxis(PricesStartAt0Check);'></label>
 </template>
 
 <script>
