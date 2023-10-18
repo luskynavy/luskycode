@@ -55,7 +55,7 @@
                             </a>
                         </div>
 
-                        <table class="table alternateLines">
+                        <table class="table alternateLinesZZZ">
                             <thead>
                                 <tr>
                                     <th>{{ $t('Id') }}</th>
@@ -70,7 +70,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="product in post" :key="product.id">
+                                <tr v-for="product in post" :key="product.id" class="even:bg-grey">
                                     <td>{{ product.id }} </td>
                                     <td>{{ product.group }}</td>
                                     <td>{{ product.name }}</td>
@@ -81,8 +81,10 @@
                                     <td>{{ product.fullData }}</td>
                                     <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
                                     <td>
-                                        <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link>
-                                        <button type="button" class="buttonAsLink bi bi-graph-up" :title="$t('Prices')" @click="showModalProductsPrices(product.name, product.id)"></button>
+                                        <nobr>
+                                            <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link>
+                                            <button type="button" class="buttonAsLink bi bi-graph-up" :title="$t('Prices')" @click="showModalProductsPrices(product.name, product.id)"></button>
+                                        </nobr>
                                     </td>
                                 </tr>
                             </tbody>

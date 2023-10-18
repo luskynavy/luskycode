@@ -20,7 +20,7 @@
                     <RouterLink to="/products">{{ $t('Products') }}</RouterLink>
                     <RouterLink to="/tests">{{ $t('Tests') }}</RouterLink>
 
-                    <LocaleSwitcher class="tw-float-right" />
+                    <LocaleSwitcher class="float-right" />
                 </div>
             </nav>
         </div>

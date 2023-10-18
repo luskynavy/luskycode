@@ -84,8 +84,10 @@
                             <td>{{ groupProduct.pricesCount }}</td>
                             <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
                             <td>
-                                <router-link :to="`/details/${groupProduct.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link>
-                                <button type="button" class="buttonAsLink bi bi-graph-up" :title="$t('Prices')" @click="showModalProductsPrices(groupProduct.name, groupProduct.id)"></button>
+                                <nobr>
+                                    <router-link :to="`/details/${groupProduct.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link>
+                                    <button type="button" class="buttonAsLink bi bi-graph-up" :title="$t('Prices')" @click="showModalProductsPrices(groupProduct.name, groupProduct.id)"></button>
+                                </nobr>
                             </td>
                         </tr>
                     </tbody>
