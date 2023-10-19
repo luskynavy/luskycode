@@ -31,7 +31,8 @@ export default {
         LoadingNoLink: 'Loading... Please refresh once the ASP.NET backend has started.',
         vueUrl: 'https://aka.ms/jspsintegrationvue',
         PricesStartAt0: 'Prices start at 0',
-        NoResultsFound: 'No results found'
+        NoResultsFound: 'No results found',
+        ExportWithMiniExcel: 'Export with MiniExcel',
     },
     fr: {
         GroupProducts: 'Groupe de produits',
@@ -65,6 +66,7 @@ export default {
         LoadingNoLink: 'Chargement en cours... Veuillez rafraîchir quand le backend ASP.NET aura démarré.',
         vueUrl: 'https://aka.ms/jspsintegrationvue',
         PricesStartAt0: 'Les prix commencent à 0',
-        NoResultsFound: 'Aucun résultat trouvé'
+        NoResultsFound: 'Aucun résultat trouvé',
+        ExportWithMiniExcel: 'Exporter avec MiniExcel',
     },
 }

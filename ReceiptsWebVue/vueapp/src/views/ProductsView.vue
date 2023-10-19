@@ -100,13 +100,13 @@
                         <Dropdown v-model="pageSize" @change="submitChanges" optionLabel="title" optionValue="value"
                                   :options="[{title:'10',value:'10'},{title:'20',value:'20'},{title:'100',value:'100'},{title:$t('All'),value:'100000'}]" />
                     </form>
+
+                    <!--<button id="down" @click="ExportMiniExcel()">
+                        {{ $t('ExportWithMiniExcel') }}
+                    </button>-->
+
+                    <a :href="linkExport">{{ $t('ExportWithMiniExcel') }}</a>
                 </div>
-
-                <!--<button id="down" @click="ExportMiniExcel()">
-                    Export with MiniExcel
-                </button>-->
-
-                <a :href="linkExport">Export with MiniExcel</a>
             </div>
         </main>
     </div>

@@ -105,7 +105,7 @@
             </form>
 
             <button id="down" @click="ExportMiniExcel()">
-                Export with MiniExcel
+                {{ $t('ExportWithMiniExcel') }}
             </button>
         </div>
     </div>
