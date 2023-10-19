@@ -101,6 +101,12 @@
                                   :options="[{title:'10',value:'10'},{title:'20',value:'20'},{title:'100',value:'100'},{title:$t('All'),value:'100000'}]" />
                     </form>
                 </div>
+
+                <!--<button id="down" @click="ExportMiniExcel()">
+                    Export with MiniExcel
+                </button>-->
+
+                <a :href="linkExport">Export with MiniExcel</a>
             </div>
         </main>
     </div>
@@ -137,6 +143,7 @@
                 modalProductsPrices: false,
                 modalProductname: '',
                 modalProductId: 0,
+                linkExport: baseUrl + 'ExportProductsMiniExcel'
             };
         },
         components: {
@@ -253,7 +260,20 @@
                         this.productsNames = json;
                         return;
                     });
-            }
+            },
+            ExportMiniExcel() {
+                fetch(baseUrl + 'ExportProductsMiniExcel')
+                    .then(r => r.blob())
+                    .then(json => {
+                        const url = window.URL.createObjectURL(new Blob([json]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', 'ExportMiniExcel.xlsx');
+                        document.body.appendChild(link);
+                        link.click();
+                        return;
+                    });
+            },
         },
     };
 </script>

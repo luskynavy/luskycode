@@ -103,6 +103,10 @@
                 <v-select v-model="pageSize" @update:modelValue="submitChanges" class="w6"
                           :items="[{title:'10',value:'10'},{title:'20',value:'20'},{title:'100',value:'100'},{title:$t('All'),value:'100000'}]" />
             </form>
+
+            <button id="down" @click="ExportMiniExcel()">
+                Export with MiniExcel
+            </button>
         </div>
     </div>
 </template>
@@ -245,9 +249,21 @@
                         this.productsNames = json;
                         return;
                     });
-            }
+            },
+            ExportMiniExcel() {
+                axios.get(baseUrl + 'ExportGroupProductsMiniExcel', { responseType: 'blob' })
+                    .then((response) => {
+                        const url = window.URL.createObjectURL(new Blob([response.data]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', 'ExportGroupMiniExcel.xlsx');
+                        document.body.appendChild(link);
+                        link.click();
+                        URL.revokeObjectURL(link.href)
+                    })
+            },
         },
-    };
+    }
 </script>
 
 <!--<style lang="css" scoped src="vuetify/dist/vuetify-labs.css">

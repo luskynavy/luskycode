@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using ReceiptsWeb.Models;
 using System.Linq;
 using webapi.Models;
+using MiniExcelLibs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,7 +30,10 @@ namespace webapi.Controllers
 
 			if (!pageSize.IsNullOrEmpty())
 			{
-				int.TryParse(pageSize, out pageSizeInt);
+				if (int.TryParse(pageSize, out var i))
+				{
+					pageSizeInt = i;
+				}
 			}
 			else
 			{
@@ -87,7 +91,10 @@ namespace webapi.Controllers
 
 			if (!pageSize.IsNullOrEmpty())
 			{
-				int.TryParse(pageSize, out pageSizeInt);
+				if (int.TryParse(pageSize, out var i))
+				{
+					pageSizeInt = i;
+				}
 			}
 			else
 			{
@@ -216,6 +223,57 @@ namespace webapi.Controllers
 				.Distinct();
 
 			return res.ToList();
+		}
+
+		[HttpGet]
+		[Route("~/ExportProductsMiniExcel")]
+		public IActionResult ExportProductsMiniExcel()
+		{
+			IQueryable<Products> products = _context.Products;
+
+			var memoryStream = new MemoryStream();
+			//MiniExcel SaveAs extension
+			memoryStream.SaveAs(products);
+			memoryStream.Seek(0, SeekOrigin.Begin);
+			return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+			{
+				FileDownloadName = "MiniExcel.xlsx"
+			};
+		}
+
+		[HttpGet]
+		[Route("~/ExportGroupProductsMiniExcel")]
+		public IActionResult ExportGroupProductsMiniExcel()
+		{
+			IQueryable<Products> products = _context.Products;
+
+			var groupsProducts = products.GroupBy(
+									 p => new
+									 {
+										 p.Group,
+										 p.Name
+									 }).
+									Select(gp => new GroupProducts
+									{
+										Id = gp.Min(p => p.Id),
+										Group = gp.Key.Group,
+										Name = gp.Key.Name,
+										Min = gp.Min(p => p.Price),
+										Max = gp.Max(p => p.Price),
+										MinDate = gp.Min(p => p.DateReceipt),
+										MaxDate = gp.Max(p => p.DateReceipt),
+										PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
+										PricesCount = gp.Count()
+									});
+
+			var memoryStream = new MemoryStream();
+			//MiniExcel SaveAs extension
+			memoryStream.SaveAs(groupsProducts);
+			memoryStream.Seek(0, SeekOrigin.Begin);
+			return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+			{
+				FileDownloadName = "MiniExcel.xlsx"
+			};
 		}
 
 		/*
