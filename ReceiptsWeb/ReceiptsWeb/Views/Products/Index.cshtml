@@ -141,6 +141,10 @@
 	@SharedLocalizer["Page Size"] : <select name="pageSize" asp-items="@ViewBag.PageSizeList" onchange="$('#pageNumber').val(1); this.form.submit()"></select>
 </form>
 
+
+<a asp-action="ExportMiniExcel">@SharedLocalizer["Export with MiniExcel"]</a>
+<a asp-action="ExportEPPlus">@SharedLocalizer["Export with EPPlus"]</a>
+
 <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/themes/smoothness/jquery-ui.css">
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/chart/dist/js/chart.min.js"></script>

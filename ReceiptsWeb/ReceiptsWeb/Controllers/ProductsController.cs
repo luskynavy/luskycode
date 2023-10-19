@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Localization;
@@ -8,7 +9,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
+using MiniExcelLibs;
 using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 using ReceiptsWeb.Models;
 
 namespace ReceiptsWeb.Controllers
@@ -451,6 +454,37 @@ namespace ReceiptsWeb.Controllers
 				.Distinct().Take(10);
 
 			return Json(res);
+		}
+
+		public IActionResult ExportMiniExcel()
+		{
+			IQueryable<Products> products = _context.Products;
+
+			var memoryStream = new MemoryStream();
+			//MiniExcel SaveAs extension
+			memoryStream.SaveAs(products);
+			memoryStream.Seek(0, SeekOrigin.Begin);
+			return new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+			{
+				//FileDownloadName = "MiniExcel.xlsx"
+			};
+		}
+
+		public IActionResult ExportEPPlus()
+		{
+			IQueryable<Products> products = _context.Products;
+
+			//Needed for version 5 or above
+			//ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+			using (ExcelPackage ep = new ExcelPackage())
+			{
+				ExcelWorksheet ws = ep.Workbook.Worksheets.Add("Products");
+				ws.Cells["A1"].LoadFromCollection(products.ToList(), true);
+				return new FileContentResult(ep.GetAsByteArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+				{
+					FileDownloadName = "EPPlus.xlsx"
+				};
+			}
 		}
 	}
 }

@@ -147,6 +147,12 @@
   <data name="Edit" xml:space="preserve">
     <value>Modifier</value>
   </data>
+  <data name="Export with EPPlus" xml:space="preserve">
+    <value>Exporter avec EPPlus</value>
+  </data>
+  <data name="Export with MiniExcel" xml:space="preserve">
+    <value>Exporter avec MiniExcel</value>
+  </data>
   <data name="Filter by group" xml:space="preserve">
     <value>Filtrer par groupe</value>
   </data>
