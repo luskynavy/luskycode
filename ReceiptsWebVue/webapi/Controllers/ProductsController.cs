@@ -148,8 +148,12 @@ namespace webapi.Controllers
 				{
 					groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
 				}
+                else if (sort == "MaxDate")
+                {
+                    groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
+                }
 
-				groupsProducts = groupsProducts.Take(pageSizeInt);
+                groupsProducts = groupsProducts.Take(pageSizeInt);
 
 				var res = groupsProducts.ToList();
 				return res;

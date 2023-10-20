@@ -45,7 +45,7 @@
                             <option value="PricesCount">{{ $t('PricesCount') }}</option>
                         </select>-->
                         <v-select :label="$t('SortBy')" v-model="sort"
-                                  :items="[{title:$t('Group'),value:'Group'},{title:$t('PriceRatio'),value:'PriceRatio'},{title:$t('PricesCount'),value:'PricesCount'}]">
+                                  :items="[{title:$t('Group'),value:'Group'},{title:$t('PriceRatio'),value:'PriceRatio'},{title:$t('PricesCount'),value:'PricesCount'},{title:$t('MaxDate'),value:'MaxDate'}]">
                         </v-select>
                     </p>
 

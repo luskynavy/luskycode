@@ -59,6 +59,10 @@ body {
     display:inline;
 }
 
+tbody > tr:hover {
+    background-color: #a8c3e1 !important;
+}
+
 table.alternateLines > tbody > tr:nth-child(even) {
     background-color: #eeeeee;
 }

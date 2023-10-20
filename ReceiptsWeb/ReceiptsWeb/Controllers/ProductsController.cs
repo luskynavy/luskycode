@@ -177,8 +177,12 @@ namespace ReceiptsWeb.Controllers
 				{
 					groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
 				}
+                else if (sort == "MaxDate")
+                {
+                    groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
+                }
 
-				return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt));
+                return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt));
 			}
 			else
 			{
@@ -246,7 +250,8 @@ namespace ReceiptsWeb.Controllers
 			{
 				new SelectListItem { Text = _sharedLocalizer["Group"], Value = "Group"},
 				new SelectListItem { Text = _sharedLocalizer["PriceRatio"], Value = "PriceRatio" },
-				new SelectListItem { Text = _sharedLocalizer["PricesCount"], Value = "PricesCount" }
+				new SelectListItem { Text = _sharedLocalizer["PricesCount"], Value = "PricesCount" },
+				new SelectListItem { Text = _sharedLocalizer["MaxDate"], Value = "MaxDate" },
 			};
 
 			var selected = selectList.Find(p => p.Value == value);
