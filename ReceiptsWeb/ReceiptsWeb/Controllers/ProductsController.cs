@@ -18,8 +18,8 @@ namespace ReceiptsWeb.Controllers
 {
 	public class ProductsController : Controller
 	{
-		private const string _defaultSort = "DefaultSort";
-		private const string _defaultGroupSort = "DefaultGroupSort";
+		private const string _cookieDefaultSortName = "DefaultSort";
+		private const string _cookieDefaultGroupSortName = "DefaultGroupSort";
 		private readonly ReceiptsContext _context;
 		private readonly IStringLocalizer<ProductsController> _localizer;
 		private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
@@ -49,12 +49,12 @@ namespace ReceiptsWeb.Controllers
 			//Default sort from cookies if sort is null
 			if (sort.IsNullOrEmpty())
 			{
-				var defaultSort = Request.Cookies.FirstOrDefault(c => c.Key.Equals(_defaultSort));
+				var defaultSort = Request.Cookies.FirstOrDefault(c => c.Key.Equals(_cookieDefaultSortName));
 				sort = defaultSort.Value;
 			}
 			else
 			{
-				Response.Cookies.Append(_defaultSort,
+				Response.Cookies.Append(_cookieDefaultSortName,
 				sort,
 				new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
 			}
@@ -119,12 +119,12 @@ namespace ReceiptsWeb.Controllers
 			//Default sort from cookies if sort is null
 			if (sort.IsNullOrEmpty())
 			{
-				var defaultSort = Request.Cookies.FirstOrDefault(c => c.Key.Equals(_defaultGroupSort));
+				var defaultSort = Request.Cookies.FirstOrDefault(c => c.Key.Equals(_cookieDefaultGroupSortName));
 				sort = defaultSort.Value;
 			}
 			else
 			{
-				Response.Cookies.Append(_defaultGroupSort,
+				Response.Cookies.Append(_cookieDefaultGroupSortName,
 				sort,
 				new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
 			}
