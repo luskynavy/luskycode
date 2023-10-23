@@ -18,6 +18,8 @@ namespace ReceiptsWeb.Controllers
 {
 	public class ProductsController : Controller
 	{
+		private const string _defaultSort = "DefaultSort";
+		private const string _defaultGroupSort = "DefaultGroupSort";
 		private readonly ReceiptsContext _context;
 		private readonly IStringLocalizer<ProductsController> _localizer;
 		private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
@@ -42,6 +44,19 @@ namespace ReceiptsWeb.Controllers
 			else
 			{
 				pageSize = pageSizeDefault.ToString();
+			}
+
+			//Default sort from cookies if sort is null
+			if (sort.IsNullOrEmpty())
+			{
+				var defaultSort = Request.Cookies.FirstOrDefault(c => c.Key.Equals(_defaultSort));
+				sort = defaultSort.Value;
+			}
+			else
+			{
+				Response.Cookies.Append(_defaultSort,
+				sort,
+				new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
 			}
 
 			//Values for view
@@ -69,17 +84,17 @@ namespace ReceiptsWeb.Controllers
 			}
 
 			//Sort
-			if (sort == "Group" || sort.IsNullOrEmpty())
-			{
-				products = products.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt);
-			}
-			else if (sort == "DateReceipt")
+			if (sort == "DateReceipt")
 			{
 				products = products.OrderByDescending(p => p.DateReceipt);
 			}
 			else if (sort == "Name")
 			{
 				products = products.OrderBy(p => p.Name);
+			}
+			else //Group or unknown
+			{
+				products = products.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt);
 			}
 
 			return products != null ?
@@ -99,6 +114,19 @@ namespace ReceiptsWeb.Controllers
 			else
 			{
 				pageSize = pageSizeDefault.ToString();
+			}
+
+			//Default sort from cookies if sort is null
+			if (sort.IsNullOrEmpty())
+			{
+				var defaultSort = Request.Cookies.FirstOrDefault(c => c.Key.Equals(_defaultGroupSort));
+				sort = defaultSort.Value;
+			}
+			else
+			{
+				Response.Cookies.Append(_defaultGroupSort,
+				sort,
+				new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
 			}
 
 			//Values for view
@@ -165,11 +193,7 @@ namespace ReceiptsWeb.Controllers
                                      };*/
 
 				//Sort
-				if (sort == "Group" || sort.IsNullOrEmpty())
-				{
-					groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
-				}
-				else if (sort == "PriceRatio")
+				if (sort == "PriceRatio")
 				{
 					groupsProducts = groupsProducts.OrderByDescending(p => p.PriceRatio);
 				}
@@ -177,12 +201,16 @@ namespace ReceiptsWeb.Controllers
 				{
 					groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
 				}
-                else if (sort == "MaxDate")
-                {
-                    groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
-                }
+				else if (sort == "MaxDate")
+				{
+					groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
+				}
+				else //Group or unknown
+				{
+					groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
+				}
 
-                return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt));
+				return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt));
 			}
 			else
 			{
@@ -481,7 +509,7 @@ namespace ReceiptsWeb.Controllers
 
 			//Needed for version 5 or above
 			//ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-			using (ExcelPackage ep = new ExcelPackage())
+			using (var ep = new ExcelPackage())
 			{
 				ExcelWorksheet ws = ep.Workbook.Worksheets.Add("Products");
 				ws.Cells["A1"].LoadFromCollection(products.ToList(), true);
