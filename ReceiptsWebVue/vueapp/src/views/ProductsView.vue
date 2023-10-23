@@ -120,8 +120,11 @@
     import AutoComplete from 'primevue/autocomplete'
     import 'primevue/resources/themes/bootstrap4-light-blue/theme.css';
 
+    import VueCookies from 'vue-cookies'
+
     import ProductPrices from '../components/ProductPrices.vue';
 
+    const cookieDefaultSortName = 'DefaultSort'
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
 
@@ -181,9 +184,14 @@
         },
         methods: {
             init() {
+                let cookieDefaultSort = VueCookies.get(cookieDefaultSortName)
+                if (cookieDefaultSort == null) {
+                    cookieDefaultSort = 'Group'
+                }
+
                 this.filterGroup = "";
                 this.searchString = "";
-                this.sort = defaultSort;
+                this.sort = cookieDefaultSort;
                 this.pageSize = defaultPageSize;
 
                 this.submitChanges();
@@ -217,6 +225,10 @@
                     params += '&sort=' + (values.sort !== undefined ? values.sort : '')
                     params += '&pageSize=' + (values.pageSize !== undefined ? values.pageSize : '10')
                     params += '&pageNumber=' + (values.pageNumber !== undefined ? values.pageNumber : '')
+
+                    if (values.sort !== undefined) {
+                        VueCookies.set(cookieDefaultSortName, values.sort, "1y")
+                    }
                 }
                 //console.log("params: " + params);
 

@@ -116,12 +116,14 @@
     import ProductPrices from '../components/ProductPrices.vue';
 
     //import { VCombobox } from 'vuetify/lib';
+    import VueCookies from 'vue-cookies'
 
     //imports are working but override all styles in all others views
     //import 'vuetify/styles'
     //import 'vuetify/dist/vuetify-labs.css';
     //import 'vuetify/lib/styles/main.css';
 
+    const cookieDefaultGroupSortName = 'DefaultGroupSort'
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log('baseUrl: ' + baseUrl);
 
@@ -186,9 +188,14 @@
         },
         methods: {
             init() {
+                let cookieDefaultSort = VueCookies.get(cookieDefaultGroupSortName)
+                if (cookieDefaultSort == null) {
+                    cookieDefaultSort = 'Group'
+                }
+
                 this.filterGroup = '';
                 this.searchString = '';
-                this.sort = defaultSort;
+                this.sort = cookieDefaultSort;
                 this.pageSize = defaultPageSize;
 
                 this.submitChanges();
@@ -213,6 +220,10 @@
                     console.log('pageSize: ' + values.pageSize);
                 }*/
 
+                if (values.sort !== undefined) {
+                    VueCookies.set(cookieDefaultGroupSortName, values.sort, "1y")
+                }
+
                 axios.get(baseUrl + 'GroupProducts',
                     { params: values })
                     .then(r => r.data)
@@ -221,6 +232,7 @@
                         this.loading = false;
                         return;
                     });
+
             },
             formatDate(date) {
                 var options = {
