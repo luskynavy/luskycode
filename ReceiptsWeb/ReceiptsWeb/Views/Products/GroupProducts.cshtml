@@ -25,20 +25,24 @@
 		</div>
 	</div>
 </div>
-
+<br/>
 <form asp-action="GroupProducts" method="get">
 	<div class="form-actions no-color">
 		<p>
-			@SharedLocalizer["Filter by group"] :
+			<label>@SharedLocalizer["Filter by group"] : </label>
 			<select id="filterGroup" name="filterGroup" asp-items="@ViewBag.GroupList" onchange="onGroupChange()"></select>
+			&nbsp;&nbsp;&nbsp;
+			<label>@SharedLocalizer["Find by name"] : </label>
+			<input type="text" id="SearchStringAutocomplete" name="SearchString" value="@ViewBag.searchString" autocomplete="off" />
 		</p>
 		<p>
-			@SharedLocalizer["Find by name"] : <input type="text" id="SearchStringAutocomplete" name="SearchString" value="@ViewBag.searchString" autocomplete="off" />
+			<label>@SharedLocalizer["Sort by"] : </label>
+			<select name="sort" asp-items="@ViewBag.GroupProductsSortList"></select>
+			&nbsp;&nbsp;&nbsp;
+			<label>@Localizer["Include products with only one price"]</label>
+			<input name="products1price" type='checkbox' @(ViewBag.products1price == "on" ? "checked" : "")>
 		</p>
 		<p>
-			@SharedLocalizer["Sort by"] : <select name="sort" asp-items="@ViewBag.GroupProductsSortList"></select>
-		</p>
-
 		<button type="submit" class="btn btn-default btn-lg" title="@SharedLocalizer["Search"]">
 			<i class="bi bi-search"></i>
 		</button>

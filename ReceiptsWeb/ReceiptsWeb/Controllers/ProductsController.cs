@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Identity;
 using MiniExcelLibs;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
@@ -103,7 +104,7 @@ namespace ReceiptsWeb.Controllers
 		}
 
 		// GET: GroupProducts
-		public async Task<IActionResult> GroupProducts(string searchString, string filterGroup, string sort, string pageSize, int? pageNumber)
+		public async Task<IActionResult> GroupProducts(string searchString, string filterGroup, string sort, string pageSize, string products1price, int? pageNumber)
 		{
 			int pageSizeInt = pageSizeDefault;
 
@@ -133,6 +134,7 @@ namespace ReceiptsWeb.Controllers
 			ViewBag.searchString = searchString;
 			ViewBag.filterGroup = filterGroup;
 			ViewBag.sort = sort;
+			ViewBag.products1price = products1price;
 			ViewBag.pageSize = pageSize;
 
 			//Select lists
@@ -191,6 +193,12 @@ namespace ReceiptsWeb.Controllers
                                          MinDate = gp.Min(p => p.DateReceipt),
                                          MaxDate = gp.Max(p => p.DateReceipt)
                                      };*/
+
+				//Filter products with only one price (useless for comparaison)
+				if (products1price != "on")
+				{
+					groupsProducts = groupsProducts.Where(p => p.PricesCount > 1);
+				}
 
 				//Sort
 				if (sort == "PriceRatio")
