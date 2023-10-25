@@ -37,6 +37,10 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="text-right">
+                @await Html.PartialAsync("_SelectLanguagePartial")
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -49,9 +53,6 @@
         <div class="row">
             <div class="col-md-6">
                 <p>&copy; @System.DateTime.Now.Year - ReceiptsWeb</p>
-            </div>
-            <div class="col-md-6 text-right">
-                @await Html.PartialAsync("_SelectLanguagePartial")
             </div>
         </div>
     </footer>
