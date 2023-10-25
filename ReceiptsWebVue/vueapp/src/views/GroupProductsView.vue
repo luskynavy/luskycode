@@ -49,6 +49,8 @@
                         </v-select>
                     </p>
 
+                    <v-switch :label="$t('IncludeProductsWithOnlyOnePrice')" v-model="products1price"></v-switch>
+
                     <button class="btn btn-default btn-lg" :title="$t('Search')" @click="submitChanges">
                         <i class="bi bi-search"></i>
                     </button>
@@ -140,6 +142,7 @@
                 productsNames: [],
                 searchString: '',
                 sort: defaultSort,
+                products1price: false,
                 pageSize: defaultPageSize,
                 modalProductsPrices: false,
                 modalProductname: '',
@@ -196,6 +199,7 @@
                 this.filterGroup = '';
                 this.searchString = '';
                 this.sort = cookieDefaultSort;
+                this.products1price = false;
                 this.pageSize = defaultPageSize;
 
                 this.submitChanges();
@@ -205,6 +209,7 @@
                     filterGroup: this.filterGroup,
                     searchString: this.searchString,
                     sort: this.sort,
+                    products1price: this.products1price,
                     pageSize: this.pageSize
                 }
                 this.fetchData(values)
@@ -217,6 +222,7 @@
                     console.log('filterGroup: ' + values.filterGroup);
                     console.log('searchString: ' + values.searchString);
                     console.log('sort: ' + values.sort);
+                    console.log('products1price: ' + values.products1price);
                     console.log('pageSize: ' + values.pageSize);
                 }*/
 

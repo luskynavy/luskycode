@@ -85,7 +85,7 @@ namespace webapi.Controllers
 		// GET: /<GroupProducts>
 		[HttpGet]
 		[Route("~/GroupProducts")]
-		public IEnumerable<GroupProducts> GroupProducts(string? filterGroup, string? searchString, string? sort, string? pageSize, int? pageNumber)
+		public IEnumerable<GroupProducts> GroupProducts(string? filterGroup, string? searchString, string? sort, string? pageSize, string? products1price, int? pageNumber)
 		{
 			int pageSizeInt = pageSizeDefault;
 
@@ -135,6 +135,12 @@ namespace webapi.Controllers
 											PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
 											PricesCount = gp.Count()
 										});
+				//Filter products with only one price (useless for comparaison)
+				if (products1price != "true")
+				{
+					groupsProducts = groupsProducts.Where(p => p.PricesCount > 1);
+				}
+
 				//Sort
 				if (sort == "Group" || sort.IsNullOrEmpty())
 				{
@@ -148,12 +154,12 @@ namespace webapi.Controllers
 				{
 					groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
 				}
-                else if (sort == "MaxDate")
-                {
-                    groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
-                }
+				else if (sort == "MaxDate")
+				{
+					groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
+				}
 
-                groupsProducts = groupsProducts.Take(pageSizeInt);
+				groupsProducts = groupsProducts.Take(pageSizeInt);
 
 				var res = groupsProducts.ToList();
 				return res;
