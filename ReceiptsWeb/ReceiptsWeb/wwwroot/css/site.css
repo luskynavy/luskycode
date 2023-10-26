@@ -56,7 +56,7 @@ body {
 }
 
 .inline {
-    display:inline;
+    display: inline;
 }
 
 tbody > tr:hover {
@@ -65,4 +65,8 @@ tbody > tr:hover {
 
 table.alternateLines > tbody > tr:nth-child(even) {
     background-color: #eeeeee;
+}
+
+.hoverblue:hover {
+    background-color: #a8c3e1
 }

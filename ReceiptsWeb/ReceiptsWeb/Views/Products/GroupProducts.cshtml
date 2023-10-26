@@ -43,10 +43,10 @@
 			<input name="products1price" type='checkbox' @(ViewBag.products1price == "on" ? "checked" : "")>
 		</p>
 		<p>
-		<button type="submit" class="btn btn-default btn-lg" title="@SharedLocalizer["Search"]">
+		<button type="submit" class="btn btn-default btn-lg hoverblue" title="@SharedLocalizer["Search"]">
 			<i class="bi bi-search"></i>
 		</button>
-		<a class="btn btn-default btn-lg" asp-action="GroupProducts" title="@SharedLocalizer["Clear"]">
+			<a class="btn btn-default btn-lg hoverblue" asp-action="GroupProducts" title="@SharedLocalizer["Clear"]">
 			<i class="bi bi-eraser"></i>
 		</a>
 	</div>
@@ -129,19 +129,19 @@
 
 	@Model.PageIndex @SharedLocalizer["of"] @Model.TotalPages
 	<a onclick="$('#pageNumber').val(1); this.closest('form').submit()"
-	   class="btn btn-default @firstDisabled">
+	   class="btn btn-default @firstDisabled hoverblue">
 		@SharedLocalizer["First"]
 	</a>
 	<a onclick="$('#pageNumber').val(@Model.PageIndex - 1); this.closest('form').submit()"
-	   class="btn btn-default @prevDisabled">
+	   class="btn btn-default @prevDisabled hoverblue">
 		@SharedLocalizer["Previous"]
 	</a>
 	<a onclick="$('#pageNumber').val(@Model.PageIndex + 1); this.closest('form').submit()"
-	   class="btn btn-default @nextDisabled">
+	   class="btn btn-default @nextDisabled hoverblue">
 		@SharedLocalizer["Next"]
 	</a>
 	<a onclick="$('#pageNumber').val(@Model.TotalPages); this.closest('form').submit()"
-	   class="btn btn-default @lastDisabled">
+	   class="btn btn-default @lastDisabled hoverblue">
 		@SharedLocalizer["Last"]
 	</a>
 

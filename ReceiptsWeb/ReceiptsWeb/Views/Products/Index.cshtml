@@ -35,15 +35,14 @@
 		<p>
 			@SharedLocalizer["Filter by group"] :
 			<select id="filterGroup" name="filterGroup" asp-items="@ViewBag.GroupList" onchange="onGroupChange()"></select>
-		</p>
-		<p>
+			&nbsp;&nbsp;&nbsp;
 			@SharedLocalizer["Find by name"] : <input type="text" id="SearchStringAutocomplete" name="SearchString" value="@ViewBag.searchString" autocomplete="off" />
 		</p>
 		<p>
 			@SharedLocalizer["Sort by"] : <select name="sort" asp-items="@ViewBag.ProductsSortList"></select>
 		</p>
-		<input type="submit" value="@SharedLocalizer["Search"]" />
-		<a class="btn" asp-action="Index">@SharedLocalizer["Clear"]</a>
+		<input class="btn hoverblue" type="submit" value="@SharedLocalizer["Search"]" />
+		<a class="btn hoverblue" asp-action="Index">@SharedLocalizer["Clear"]</a>
 	</div>
 
 	<table class="table alternateLines">
@@ -122,19 +121,19 @@
 
 	@Model.PageIndex @SharedLocalizer["of"] @Model.TotalPages
 	<a onclick="$('#pageNumber').val(1); this.closest('form').submit()"
-	   class="btn btn-default @firstDisabled">
+	   class="btn btn-default @firstDisabled hoverblue">
 		@SharedLocalizer["First"]
 	</a>
 	<a onclick="$('#pageNumber').val(@Model.PageIndex - 1); this.closest('form').submit()"
-	   class="btn btn-default @prevDisabled">
+	   class="btn btn-default @prevDisabled hoverblue">
 		@SharedLocalizer["Previous"]
 	</a>
 	<a onclick="$('#pageNumber').val(@Model.PageIndex + 1); this.closest('form').submit()"
-	   class="btn btn-default @nextDisabled">
+	   class="btn btn-default @nextDisabled hoverblue">
 		@SharedLocalizer["Next"]
 	</a>
 	<a onclick="$('#pageNumber').val(@Model.TotalPages); this.closest('form').submit()"
-	   class="btn btn-default @lastDisabled">
+	   class="btn btn-default @lastDisabled hoverblue">
 		@SharedLocalizer["Last"]
 	</a>
 
