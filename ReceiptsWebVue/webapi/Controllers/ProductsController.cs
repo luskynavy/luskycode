@@ -24,7 +24,7 @@ namespace webapi.Controllers
 
 		// GET: /<ProductsController>
 		[HttpGet]
-		public IEnumerable<Products> Get(string? filterGroup, string? searchString, string? sort, string? pageSize, int? pageNumber)
+		public PaginatedList<Products> Get(string? filterGroup, string? searchString, string? sort, string? pageSize, int? pageNumber)
 		{
 			int pageSizeInt = pageSizeDefault;
 
@@ -67,9 +67,19 @@ namespace webapi.Controllers
 				products = products.OrderBy(p => p.Name);
 			}
 
-			products = products.Take(pageSizeInt);
+			products = products.Select(p => new Products
+			{
+				Id = p.Id,
+				Name = p.Name,
+				DateReceipt = p.DateReceipt,
+				FullData = p.FullData,
+				Group = p.Group,
+				Price = p.Price,
+				SourceLine = p.SourceLine,
+				SourceName = System.IO.Path.GetFileName(p.SourceName)
+			});
 
-			var res = products.ToList();
+			var res = PaginatedList<Products>.Create(products, pageNumber ?? 1, pageSizeInt);
 			return res;
 		}
 
@@ -85,7 +95,7 @@ namespace webapi.Controllers
 		// GET: /<GroupProducts>
 		[HttpGet]
 		[Route("~/GroupProducts")]
-		public IEnumerable<GroupProducts> GroupProducts(string? filterGroup, string? searchString, string? sort, string? pageSize, string? products1price, int? pageNumber)
+		public PaginatedList<GroupProducts> GroupProducts(string? filterGroup, string? searchString, string? sort, string? pageSize, string? products1price, int? pageNumber)
 		{
 			int pageSizeInt = pageSizeDefault;
 
@@ -159,14 +169,12 @@ namespace webapi.Controllers
 					groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
 				}
 
-				groupsProducts = groupsProducts.Take(pageSizeInt);
-
-				var res = groupsProducts.ToList();
+				var res = PaginatedList<GroupProducts>.Create(groupsProducts, pageNumber ?? 1, pageSizeInt);
 				return res;
 			}
 			else
 			{
-				return new List<GroupProducts>();
+				return new PaginatedList<GroupProducts>(new List<GroupProducts>(), 0, 1, pageSizeInt);
 			}
 		}
 

@@ -34,6 +34,11 @@ export default {
         PricesStartAt0: 'Prices start at 0',
         NoResultsFound: 'No results found',
         ExportWithMiniExcel: 'Export with MiniExcel',
+        of: 'of',
+        First: 'First',
+        Previous: 'Previous',
+        Next: 'Next',
+        Last: 'Last',
     },
     fr: {
         GroupProducts: 'Groupe de produits',
@@ -70,5 +75,10 @@ export default {
         PricesStartAt0: 'Les prix commencent à 0',
         NoResultsFound: 'Aucun résultat trouvé',
         ExportWithMiniExcel: 'Exporter avec MiniExcel',
+        of: 'sur',
+        First: 'Première',
+        Previous: 'Précédente',
+        Next: 'Suivante',
+        Last: 'Dernière',
     },
 }

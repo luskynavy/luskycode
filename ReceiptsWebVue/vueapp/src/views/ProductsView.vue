@@ -70,7 +70,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="product in post" :key="product.id" class="even:bg-grey">
+                                <tr v-for="product in post.data" :key="product.id" class="even:bg-grey">
                                     <td>{{ product.id }} </td>
                                     <td>{{ product.group }}</td>
                                     <td>{{ product.name }}</td>
@@ -90,6 +90,27 @@
                             </tbody>
                         </table>
 
+                        {{post.pageIndex}} {{ $t('of') }} {{post.totalPages}}
+                        <a @click="if (this.pageNumber != 1) {this.pageNumber = 1; submitChanges()}"
+                           v-bind:class="post.pageIndex == 1 ? 'isDisabled': ''">
+                            {{ $t('First') }}
+                        </a>
+                        &nbsp;
+                        <a @click="if (post.hasPreviousPage) {this.pageNumber = post.pageIndex - 1; submitChanges()}"
+                           v-bind:class="post.hasPreviousPage ? '': 'isDisabled'">
+                            {{ $t('Previous') }}
+                        </a>
+                        &nbsp;
+                        <a @click="if (post.hasNextPage) {this.pageNumber = post.pageIndex + 1; submitChanges()}"
+                           v-bind:class="post.hasNextPage ? '': 'isDisabled'">
+                            {{ $t('Next') }}
+                        </a>
+                        &nbsp;
+                        <a @click="if (this.pageNumber != post.totalPages) {this.pageNumber = post.totalPages; submitChanges()}"
+                           v-bind:class="post.pageIndex == post.totalPages ? 'isDisabled': ''">
+                            {{ $t('Last') }}
+                        </a>
+
                         {{ $t('PageSize') }} :
                         <!--<select name="pageSize" class="form-control" v-model="pageSize" @change="submitChanges">
                             <option value="10">10</option>
@@ -97,7 +118,7 @@
                             <option value="100">100</option>
                             <option value="100000">{{ $t('All') }}</option>
                         </select>-->
-                        <Dropdown v-model="pageSize" @change="submitChanges" optionLabel="title" optionValue="value"
+                        <Dropdown v-model="pageSize" @change="changePageSize" optionLabel="title" optionValue="value"
                                   :options="[{title:'10',value:'10'},{title:'20',value:'20'},{title:'100',value:'100'},{title:$t('All'),value:'100000'}]" />
                     </form>
 
@@ -124,9 +145,9 @@
 
     import ProductPrices from '../components/ProductPrices.vue';
 
-    const cookieDefaultSortName = 'DefaultSort'
+    const cookieName = 'DefaultSort'
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
-    //console.log("baseUrl: " + baseUrl);
+    //console.log('baseUrl: ' + baseUrl);
 
     let defaultSort = 'Group';
     let defaultPageSize = '10';
@@ -143,6 +164,7 @@
                 searchString: '',
                 sort: defaultSort,
                 pageSize: defaultPageSize,
+                pageNumber: 1,
                 modalProductsPrices: false,
                 modalProductname: '',
                 modalProductId: 0,
@@ -176,23 +198,22 @@
             this.init();
 
         },
-        mounted() {
-        },
         watch: {
             // call again the method if the route changes
             '$route': 'fetchData'
         },
         methods: {
             init() {
-                let cookieDefaultSort = VueCookies.get(cookieDefaultSortName)
+                let cookieDefaultSort = VueCookies.get(cookieName)
                 if (cookieDefaultSort == null) {
                     cookieDefaultSort = 'Group'
                 }
 
-                this.filterGroup = "";
-                this.searchString = "";
+                this.filterGroup = '';
+                this.searchString = '';
                 this.sort = cookieDefaultSort;
                 this.pageSize = defaultPageSize;
+                this.pageNumber = 1;
 
                 this.submitChanges();
             },
@@ -201,7 +222,8 @@
                     filterGroup: encodeURIComponent(this.filterGroup),
                     searchString: encodeURIComponent(this.searchString),
                     sort: encodeURIComponent(this.sort),
-                    pageSize: encodeURIComponent(this.pageSize)
+                    pageSize: encodeURIComponent(this.pageSize),
+                    pageNumber: encodeURIComponent(this.pageNumber),
                 }
                 this.fetchData(values)
             },
@@ -212,10 +234,11 @@
                 let params = ''
 
                 /*if (values != undefined) {
-                    console.log("filterGroup: " + values.filterGroup);
-                    console.log("searchString: " + values.searchString);
-                    console.log("sort: " + values.sort);
-                    console.log("pageSize: " + values.pageSize);
+                    console.log('filterGroup: ' + values.filterGroup);
+                    console.log('searchString: ' + values.searchString);
+                    console.log('sort: ' + values.sort);
+                    console.log('pageSize: ' + values.pageSize);
+                    console.log('pageNumber: ' + values.pageNumber);
                 }*/
 
                 if (values !== undefined) {
@@ -227,10 +250,10 @@
                     params += '&pageNumber=' + (values.pageNumber !== undefined ? values.pageNumber : '')
 
                     if (values.sort !== undefined) {
-                        VueCookies.set(cookieDefaultSortName, values.sort, "1y")
+                        VueCookies.set(cookieName, values.sort, '1y')
                     }
                 }
-                //console.log("params: " + params);
+                //console.log('params: ' + params);
 
                 fetch(baseUrl + 'Products' + params)
                     .then(r => r.json())
@@ -242,9 +265,9 @@
             },
             formatDate(date) {
                 var options = {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "numeric"
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: 'numeric'
                 };
                 var d = new Date(date.slice(0, 10))
                 return d.toLocaleString(navigator.language ? navigator.language : navigator['userLanguage'], options)
@@ -273,7 +296,11 @@
                         return;
                     });
             },
-            ExportMiniExcel() {
+            changePageSize() {
+                this.pageNumber = 1
+                this.submitChanges()
+            },
+            /*exportMiniExcel() {
                 fetch(baseUrl + 'ExportProductsMiniExcel')
                     .then(r => r.blob())
                     .then(json => {
@@ -285,7 +312,7 @@
                         link.click();
                         return;
                     });
-            },
+            },*/
         },
     };
 </script>
