@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace webapi.Models;
+﻿namespace webapi.Models;
 
 public class PaginatedList<T>
 {

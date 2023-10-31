@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ReceiptsWeb.Models;
-using System.Linq;
 using webapi.Models;
 using MiniExcelLibs;
 

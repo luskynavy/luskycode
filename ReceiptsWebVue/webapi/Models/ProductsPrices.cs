@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-
-namespace ReceiptsWeb.Models
+﻿namespace ReceiptsWeb.Models
 {
 	public class ProductsPrices
 	{
