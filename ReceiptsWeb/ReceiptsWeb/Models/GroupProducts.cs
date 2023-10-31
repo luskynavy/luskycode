@@ -1,7 +1,5 @@
-﻿using Humanizer.Localisation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Net.NetworkInformation;
 
 namespace ReceiptsWeb.Models
 {

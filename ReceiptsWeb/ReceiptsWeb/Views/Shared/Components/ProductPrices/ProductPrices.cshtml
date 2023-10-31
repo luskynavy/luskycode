@@ -34,7 +34,7 @@ yValues = [
     datasets: [{
       fill: false,
       lineTension: 0,
-      label: '@Model.FirstOrDefault()?.Name',
+      label: "@Html.Raw(Model.FirstOrDefault()?.Name)",
       backgroundColor: "rgba(0,0,255,1.0)",
       borderColor: "rgba(0,0,255,0.1)",
       data: yValues
