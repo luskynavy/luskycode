@@ -2,10 +2,41 @@
 
 namespace SystemCommandlineCore
 {
+    interface Common
+    {
+        public string TestMethod();
+    }
+    class ClassToFind : Common
+    {
+        public string TestMethod()
+        {
+            return "ClassToFind";
+        }
+    }
+
+    class ClassToFindToo : Common
+    {
+        public string TestMethod()
+        {
+            return "ClassToFindToo";
+        }
+    }
+
     internal class Program
     {
         static void Main(string[] args)
         {
+            //Test to instance a class from name
+            Type? t = Type.GetType("SystemCommandlineCore.ClassToFind");
+            if (t != null)
+            {
+                Common? myClass = Activator.CreateInstance(t) as Common;
+                if (myClass != null)
+                {
+                    Console.WriteLine("Reflection call: " + myClass.TestMethod());
+                }
+            }
+
             //Required option, file to be read
             var fileOption = new Option<FileInfo>(
                 name: "--file",
@@ -26,9 +57,9 @@ namespace SystemCommandlineCore
             rootCommand.AddOption(verboseOption);
 
             rootCommand.SetHandler((file, verbose) =>
-            {
-                ReadFile(file, verbose);
-            },
+                {
+                    ReadFile(file, verbose);
+                },
                 fileOption, verboseOption);
 
             rootCommand.InvokeAsync(args);

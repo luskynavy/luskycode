@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SystemCommandlineCore": {
+      "commandName": "Project",
+      "commandLineArgs": "--file SystemCommandlineCore.runtimeconfig.json --verbose"
+    }
+  }
+}
