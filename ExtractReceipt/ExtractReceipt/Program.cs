@@ -61,19 +61,35 @@ namespace ExtractReceipt
             try
             {
                 string pdfPath = @"..\..\..\Tickets\";
+                bool noCsv = false;
 
+                //Manage options
+                foreach (var arg in args)
+                {
+                    if (arg == "-nocsv")
+                    {
+                        noCsv = true;
+                    }
+                }
+
+                //Extract products from pdf
                 Console.Write("ExtractProducts");
                 Stopwatch sw = Stopwatch.StartNew();
                 var allProducts = ExtractProducts(pdfPath);
                 sw.Stop();
                 Console.WriteLine($" in {sw.ElapsedMilliseconds} ms");
 
-                Console.Write("ExportCsv");
-                sw.Start();
-                ExportCsv("receipts.csv", allProducts);
-                sw.Stop();
-                Console.WriteLine($" in {sw.ElapsedMilliseconds} ms");
+                //Export csv if needed
+                if (!noCsv)
+                {
+                    Console.Write("ExportCsv");
+                    sw.Start();
+                    ExportCsv("receipts.csv", allProducts);
+                    sw.Stop();
+                    Console.WriteLine($" in {sw.ElapsedMilliseconds} ms");
+                }
 
+                //Add products do db
                 Console.Write("AddProductsToDb");
                 sw.Start();
                 int nbProductsAdded = AddProductsToDb(allProducts);
