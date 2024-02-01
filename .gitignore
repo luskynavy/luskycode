@@ -14,3 +14,6 @@ bin/
 .vshistory/
 .cr/
 Ticket*.pdf
+*.suo
+*.o
+*.pdb
