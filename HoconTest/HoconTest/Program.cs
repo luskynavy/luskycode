@@ -6,6 +6,11 @@ namespace HoconTest
     {
         private static void Main(string[] args)
         {
+            //Read .conf file:
+            // - easier to read than json
+            // - accept comments
+            // - support environment variables
+
             //Get the config from a file
             Config conf = Hocon.HoconConfigurationFactory.FromFile("test.conf");
             if (conf != null)
@@ -19,6 +24,7 @@ namespace HoconTest
                     Console.WriteLine("all.your.database = " + val);
                 }
 
+                //Just a string without "
                 if (conf.HasPath("all.stringWithout"))
                 {
                     //Get value
@@ -27,7 +33,7 @@ namespace HoconTest
                     Console.WriteLine("all.stringWithout = " + val);
                 }
 
-                //non existant environment variable NON_EXISTANT_ENVIRONMENT_VARIABLE, line will be removed after loading
+                //Non existant environment variable NON_EXISTANT_ENVIRONMENT_VARIABLE, line will be removed after loading
                 if (conf.HasPath("all.willBeRemoved"))
                 {
                     Console.WriteLine("It's not possible, line has not been removed");
