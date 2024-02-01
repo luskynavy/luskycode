@@ -17,12 +17,19 @@ namespace ConsoleAppCore
             _connectionstring = connectionstring;
         }
 
-        public Meteo QuelTempsFaitIl(DateTime dateSouhaitee)
+        public Meteo? QuelTempsFaitIl(DateTime dateSouhaitee)
         {
             using (var connection = new SqlConnection(_connectionstring))
             {
-                var ligne = connection.QueryFirst("select Valeur from [dbo].InfosMeteo where DATE = Convert(date, @date)", new { date = dateSouhaitee });
-                return Enum.Parse(typeof(Meteo), ligne.Valeur);
+                var ligne = connection.QueryFirstOrDefault("select Valeur from [dbo].InfosMeteo where DATE = Convert(date, @date)", new { date = dateSouhaitee });
+                if (ligne != null)
+                {
+                    return Enum.Parse(typeof(Meteo), ligne.Valeur);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

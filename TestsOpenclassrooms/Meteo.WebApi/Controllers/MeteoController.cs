@@ -1,4 +1,5 @@
 ﻿using ConsoleAppCore;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meteo.WebApi.Controllers
@@ -15,6 +16,21 @@ namespace Meteo.WebApi.Controllers
             var repository = new MeteoRepository(_connectionstring);
             var resultat = repository.QuelTempsFaitIl(new DateTime(2023, 8, 2));
             return Ok(resultat.ToString());
+        }
+
+        [HttpPost]
+        public ActionResult<string> Post([FromBody] DateType maDate)
+        {
+            var repository = new MeteoRepository(_connectionstring);
+            try
+            {
+                var resultat = repository.QuelTempsFaitIl(new DateTime(maDate.Annee, maDate.Mois, maDate.Jour));
+                return Ok(resultat.ToString());
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
