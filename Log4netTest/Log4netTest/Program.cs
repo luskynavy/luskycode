@@ -1,13 +1,20 @@
-﻿namespace NLogTest
+﻿using log4net;
+using log4net.Config;
+using log4net.Repository.Hierarchy;
+
+namespace Log4netTest
 {
     internal class Program
     {
-        private static readonly NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static void Main()
+        public static void Main(string[] args)
         {
             try
             {
+                //Set config file name
+                XmlConfigurator.Configure(new FileInfo("log4net.config"));
+
                 //Set current thread name
                 Thread.CurrentThread.Name = "main";
 
@@ -25,7 +32,7 @@
             }
             catch (Exception ex)
             {
-                log.Error(ex, "Goodbye cruel world");
+                log.Error("Goodbye cruel world", ex);
             }
         }
     }
