@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Emgu.CV;
-using Emgu.Util;
 using Emgu.CV.Structure;
-using Emgu.CV.CvEnum;
-
-
 
 namespace FaceDetection
 {
@@ -20,7 +11,12 @@ namespace FaceDetection
     {
         private CascadeClassifier _cascadeClassifier;
         private Rectangle[] _rec;
-        OpenFileDialog openFileDialog1;
+        private OpenFileDialog openFileDialog1;
+
+        // Detect face (or body or upper body) on images
+        //Left click to choose an image
+        //Middle click to put rabbit ears and nose on detected face
+        //Right click to zoom
 
         public Form1()
         {
@@ -41,7 +37,7 @@ namespace FaceDetection
         private Rectangle[] DetectFaces()
         {
             var image = new Image<Gray, byte>(new Bitmap(pictureBox1.Image));
-            Rectangle[] face = _cascadeClassifier.DetectMultiScale(image, 1.1, 10, new Size(20,20), Size.Empty); //the actual face detection happens here
+            Rectangle[] face = _cascadeClassifier.DetectMultiScale(image, 1.1, 10, new Size(20, 20), Size.Empty); //the actual face detection happens here
             //Rectangle[] face = _cascadeClassifier.DetectMultiScale(image, 1.1, 1, new Size(50, 100), Size.Empty); //the actual face detection happens here
 
             return face;
@@ -76,7 +72,7 @@ namespace FaceDetection
 
             //the pens
             Pen pr = new Pen(Color.Red, 1);
-            Pen pg = new Pen(Color.Green, 1);            
+            Pen pg = new Pen(Color.Green, 1);
 
             //draw rectangles around faces
             using (Graphics gr = Graphics.FromImage(pictureBox1.Image))
@@ -85,11 +81,10 @@ namespace FaceDetection
                 {
                     //draw the face
                     gr.DrawRectangle(pr, r);
-                    
 
                     //draw the portrait around the face
                     Rectangle b = GetPortrait(r);
-                    gr.DrawRectangle(pg, b);                                        
+                    gr.DrawRectangle(pg, b);
                 }
             }
         }
@@ -117,7 +112,7 @@ namespace FaceDetection
             }
             else
             {
-                /*OpenFileDialog*/ openFileDialog1 = new OpenFileDialog();
+                openFileDialog1 = new OpenFileDialog();
                 openFileDialog1.InitialDirectory = ".";
                 openFileDialog1.Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png";
                 openFileDialog1.FilterIndex = 2;
