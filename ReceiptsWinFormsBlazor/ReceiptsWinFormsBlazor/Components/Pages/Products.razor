@@ -1,0 +1,48 @@
+﻿@page "/products"
+@* @rendermode InteractiveServer *@
+@inject IDbContextFactory<ReceiptsContext> DbFactory
+
+<PageTitle>Products</PageTitle>
+
+<h1>Products</h1>
+
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Group</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.DateReceipt.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private Product[]? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        products = await context.Products.Take(10).ToArrayAsync();
+    }
+}
