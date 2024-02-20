@@ -1,5 +1,4 @@
 ﻿@page "/products"
-@* @rendermode InteractiveServer *@
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 
 <PageTitle>Products</PageTitle>
@@ -30,6 +29,14 @@ else
                     <td>@product.Name</td>
                     <td>@product.Price</td>
                     <td>@product.DateReceipt.ToShortDateString()</td>
+                    <td>
+                        <a title="Details" href="details/@product.Id" style="text-decoration:none">
+                            &nbsp;🔍&nbsp;
+                        </a>
+                        @* <a title="Edit" href="edit/@product.Id" style="text-decoration:none">
+                            &nbsp;📝&nbsp;
+                        </a> *@
+                    </td>
                 </tr>
             }
         </tbody>
@@ -38,8 +45,10 @@ else
 
 
 @code {
+    // The products list
     private Product[]? products;
 
+    // Navigated
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();

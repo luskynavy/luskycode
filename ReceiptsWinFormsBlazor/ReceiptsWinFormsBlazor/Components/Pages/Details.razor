@@ -1,0 +1,101 @@
+﻿@page "/details/{ProductId:int}"
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<ReceiptsContext> DbFactory
+
+<h3>Details</h3>
+
+@if (NotFound && !Loading)
+{
+    <div class="alert alert-warning">A Product with that id doesn't exist.</div>
+}
+else
+{
+    @if (Product is null || Loading)
+    {
+        <div class="alert alert-info">Loading...</div>
+    }
+    else
+    {
+        <dl class="row">
+            <dt class = "col-sm-2">
+                    Group
+            </dt>
+            <dd class = "col-sm-10">
+                @Product.Group
+            </dd>
+            <dt class="col-sm-2">
+                Name
+            </dt>
+            <dd class="col-sm-10">
+                @Product.Name
+            </dd>
+            <dt class="col-sm-2">
+                Price
+            </dt>
+            <dd class="col-sm-10">
+                @Product.Price
+            </dd>
+            <dt class="col-sm-2">
+                Date
+            </dt>
+            <dd class="col-sm-10">
+                @Product.DateReceipt.ToShortDateString()
+            </dd>
+            <dt class="col-sm-2">
+                FullData
+            </dt>
+            <dd class="col-sm-10">
+                @Product.FullData
+            </dd>
+        </dl>
+    }
+}
+
+@code {
+
+    // Tracking of asynchronous calls.
+    private bool Loading;
+
+    // Id from route of product.
+    [Parameter]
+    public int ProductId { get; set; }
+
+    // Product entity.
+    private Product? Product { get; set; }
+
+    // Set to true when not found.
+    private bool NotFound = false;
+
+    // Navigated
+    protected override async Task OnParametersSetAsync()
+    {
+
+        if (Loading)
+        {
+            return; //avoid concurrent requests.
+        }
+
+        NotFound = false;
+        Product = null;
+
+        Loading = true;
+
+        using var context = DbFactory.CreateDbContext();
+
+        if (context.Products is not null)
+        {
+            Product = await context.Products
+                .AsNoTracking()
+                .SingleOrDefaultAsync(
+                    c => c.Id == ProductId);
+
+            if (Product is null)
+            {
+                NotFound = true;
+            }
+        }
+
+        Loading = false;
+    }
+
+}

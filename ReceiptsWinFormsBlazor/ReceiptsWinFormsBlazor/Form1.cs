@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics.Metrics;
 using ReceiptsBlazorWinForms.Components;
 using ReceiptsBlazorWinForms.Models;
 
@@ -23,6 +22,9 @@ namespace ReceiptsBlazorWinForms
             string? connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContextFactory<ReceiptsContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            //Debug with browser with about:debugging, only work with .net maui ?
+            //services.AddBlazorWebViewDeveloperTools();
 
             services.AddWindowsFormsBlazorWebView();
             blazorWebView1.HostPage = "wwwroot\\index.html";

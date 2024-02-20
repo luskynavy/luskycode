@@ -1,6 +1,3 @@
-using System.Windows.Forms;
-using ReceiptsBlazorWinForms.Models;
-
 namespace ReceiptsBlazorWinForms
 {
     public static class Program

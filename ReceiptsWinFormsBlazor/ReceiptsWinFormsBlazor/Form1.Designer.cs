@@ -51,7 +51,7 @@ namespace ReceiptsBlazorWinForms
             ClientSize = new Size(800, 450);
             Controls.Add(blazorWebView1);
             Name = "Form1";
-            Text = "Form1";
+            Text = "ReceiptsWebBlazor";
             ResumeLayout(false);
         }
 
