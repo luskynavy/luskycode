@@ -12,8 +12,6 @@ namespace ReceiptsWebBlazor
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             //Ajoute la bdd à l'injection de dépendance
-            /*builder.Services.AddDbContext<ReceiptsContext>(options =>
-                options.UseSqlServer(connectionString));*/
             builder.Services.AddDbContextFactory<ReceiptsContext>(options =>
                 options.UseSqlServer(connectionString));
 
