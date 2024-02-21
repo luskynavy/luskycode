@@ -23,22 +23,16 @@ namespace AutoDeclaratif
         {
             InitializeComponent();
         }
-
-        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            //Lines Date, Duration and separator are readonly
-            if (e.RowIndex % NUMBER_OF_LINES == 0 || e.RowIndex % NUMBER_OF_LINES == DURATION_LINE || e.RowIndex % NUMBER_OF_LINES == NUMBER_OF_LINES - 1)
-            {
-                e.Cancel = true;
-            }
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-            BindDataGridView();
+            BindDataGridView(DateTime.Now);
         }
 
-        private void BindDataGridView()
+        /// <summary>
+        /// Set data grid view for the date date
+        /// </summary>
+        /// <param name="date"></param>
+        private void BindDataGridView(DateTime date)
         {
             //Set columns
             DataTable dt = new DataTable();
@@ -58,7 +52,7 @@ namespace AutoDeclaratif
             dt.Columns["Total"].ReadOnly = true;
             dt.Columns["Moyenne"].ReadOnly = true;
 
-            SetMonthData(dt);
+            SetMonthData(dt, date);
 
             dataGridView1.DataSource = dt;
 
@@ -82,15 +76,21 @@ namespace AutoDeclaratif
 
             for (int i = 0; i < NUMBER_OF_WEEKS; i++)
             {
+
+                dataGridView1.Rows[i * NUMBER_OF_LINES].ReadOnly = true;
+
                 dataGridView1.Rows[i * NUMBER_OF_LINES + DURATION_LINE].DefaultCellStyle.BackColor = Color.LightGray;
+                dataGridView1.Rows[i * NUMBER_OF_LINES + DURATION_LINE].ReadOnly = true;
 
                 //No Separator line for last week
                 if (i != NUMBER_OF_WEEKS - 1)
                 {
                     dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].ReadOnly = true;
+                    dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].Height = dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].Height * 2 / 3;
                 }
 
-                for (int j = 1; j < 8; j++)
+                for (int j = 1; j < 10; j++)
                 {
                     dataGridView1[j, i * NUMBER_OF_LINES].Style.BackColor = Color.FromArgb(255, 240, 240, 240);
                     dataGridView1[j, i * NUMBER_OF_LINES].Style.Font = boldFont;
@@ -106,10 +106,15 @@ namespace AutoDeclaratif
                new object[] { true });
         }
 
-        private static void SetMonthData(DataTable dt)
+        /// <summary>
+        /// Set the month data in the datatable  dt for the date date
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="date"></param>
+        private static void SetMonthData(DataTable dt, DateTime date)
         {
             //Get first monday of the first week of the month
-            DateTime today = DateTime.Now;
+            DateTime today = date;
             var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
             var firstMonday = firstDayOfMonth.AddDays(-((int)firstDayOfMonth.DayOfWeek) + 1);
 
@@ -123,8 +128,8 @@ namespace AutoDeclaratif
                     var dayInWeek = firstMonday.AddDays(day + i * 7);
                     dates[day + 1] = dayInWeek.ToString("dddd").Substring(0, 3) + " " + dayInWeek.ToString("dd/MM");
                 }
-                dates[8] = "";
-                dates[9] = "";
+                dates[8] = "Total";
+                dates[9] = "Moyenne";
 
                 //Set data for a week
                 dt.Rows.Add(dates);
@@ -140,6 +145,11 @@ namespace AutoDeclaratif
                     dt.Rows.Add();
                 }
             }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            BindDataGridView(dateTimePicker1.Value);
         }
     }
 }
