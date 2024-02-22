@@ -23,6 +23,7 @@ namespace AutoDeclaratif
         {
             InitializeComponent();
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             BindDataGridView(DateTime.Now);
@@ -76,7 +77,6 @@ namespace AutoDeclaratif
 
             for (int i = 0; i < NUMBER_OF_WEEKS; i++)
             {
-
                 dataGridView1.Rows[i * NUMBER_OF_LINES].ReadOnly = true;
 
                 dataGridView1.Rows[i * NUMBER_OF_LINES + DURATION_LINE].DefaultCellStyle.BackColor = Color.LightGray;
@@ -113,9 +113,27 @@ namespace AutoDeclaratif
         /// <param name="date"></param>
         private static void SetMonthData(DataTable dt, DateTime date)
         {
+            DateHoursDb db = new DateHoursDb("Data Source=Hours.sqlite");
+            db.DeleteTable();
+            var hours = db.GetAll();
+            var now = DateTime.Now;
+            var today = new DateTime(now.Year, now.Month, now.Day);
+            var linesToday = db.Create(new DateHours { Date = today, Arrival = "09:22", Break = "00:22" });
+            var linesYesterday = db.Create(new DateHours { Date = today.AddDays(-1), Arrival = "09:11", Break = "01:11", Departure = "18:11" });
+            var hoursToday = db.Get(today);
+            var hoursYesterday = db.Get(today.AddDays(-1));
+            var hoursTomorrow = db.Get(today.AddDays(1));
+            var updateToday = db.Update(new DateHours { Date = today, Arrival = "01:23", Break = "00:45", Departure = "06:00" });
+            var updateTomorrow = db.Update(new DateHours { Date = today.AddDays(1), Arrival = "01:23", Break = "00:45", Departure = "06:00" });
+            var hoursUpdatedToday = db.Get(today);
+            var replaceToday = db.UpdateOrInsert(new DateHours { Date = today, Arrival = "01:44", Break = "00:44", Departure = "06:44" });
+            var hoursReplacedToday = db.Get(today);
+            var replaceTomorrow = db.UpdateOrInsert(new DateHours { Date = today.AddDays(1), Arrival = "01:55", Break = "00:55", Departure = "06:55" });
+            var hoursReplacedTomorrow = db.Get(today.AddDays(1));
+            var hoursAll = db.GetAll();
+
             //Get first monday of the first week of the month
-            DateTime today = date;
-            var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             var firstMonday = firstDayOfMonth.AddDays(-((int)firstDayOfMonth.DayOfWeek) + 1);
 
             for (int i = 0; i < NUMBER_OF_WEEKS; i++)
@@ -147,9 +165,25 @@ namespace AutoDeclaratif
             }
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             BindDataGridView(dateTimePicker1.Value);
+        }
+
+        private void Previous_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = dateTimePicker1.Value.AddMonths(-1);
+        }
+
+        private void Next_Click(object sender, EventArgs e)
+        {
+            dateTimePicker1.Value = dateTimePicker1.Value.AddMonths(1);
+        }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var newVal = dataGridView1[e.ColumnIndex, e.RowIndex].Value;
+            var row = e.RowIndex % NUMBER_OF_LINES;
         }
     }
 }
