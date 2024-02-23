@@ -33,6 +33,10 @@ namespace AutoDeclaratif
             connection.Close();
         }
 
+        /// <summary>
+        /// Delete the table
+        /// </summary>
+        /// <returns></returns>
         public int DeleteTable()
         {
             var connection = new SqliteConnection(_dbConnectionString);
@@ -96,6 +100,21 @@ namespace AutoDeclaratif
             return connection.Query<DateHours>("SELECT rowid AS Id, Date, Arrival, Break, Departure" +
                 " FROM DateHours" +
                 " WHERE Date = @Date;", date);
+        }
+
+        /// <summary>
+        /// Get DateHours beetween two dates
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public IEnumerable<DateHours> Get(DateTime start, DateTime end)
+        {
+            var connection = new SqliteConnection(_dbConnectionString);
+
+            return connection.Query<DateHours>("SELECT rowid AS Id, Date, Arrival, Break, Departure" +
+                " FROM DateHours" +
+                " WHERE Date >= @start AND Date <= @end;", new { start, end });
         }
 
         /// <summary>

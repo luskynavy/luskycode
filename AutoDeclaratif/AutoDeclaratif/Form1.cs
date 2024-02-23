@@ -6,9 +6,12 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Schema;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace AutoDeclaratif
 {
@@ -17,7 +20,7 @@ namespace AutoDeclaratif
         private const int DURATION_LINE = 4;
         private const int SEPARATOR_LINE = NUMBER_OF_LINES - 1;
         private const int NUMBER_OF_LINES = 6;
-        private const int NUMBER_OF_WEEKS = 6;
+        private const int NUMBER_OF_WEEKS = 6 - 1;
 
         public Form1()
         {
@@ -114,7 +117,7 @@ namespace AutoDeclaratif
         private static void SetMonthData(DataTable dt, DateTime date)
         {
             DateHoursDb db = new DateHoursDb("Data Source=Hours.sqlite");
-            db.DeleteTable();
+            /*db.DeleteTable();
             var hours = db.GetAll();
             var now = DateTime.Now;
             var today = new DateTime(now.Year, now.Month, now.Day);
@@ -130,31 +133,91 @@ namespace AutoDeclaratif
             var hoursReplacedToday = db.Get(today);
             var replaceTomorrow = db.UpdateOrInsert(new DateHours { Date = today.AddDays(1), Arrival = "01:55", Break = "00:55", Departure = "06:55" });
             var hoursReplacedTomorrow = db.Get(today.AddDays(1));
-            var hoursAll = db.GetAll();
+            var dateHours = db.Get(today.AddDays(-1), today);
+            var hoursAll = db.GetAll();*/
 
             //Get first monday of the first week of the month
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            var firstMonday = firstDayOfMonth.AddDays(-((int)firstDayOfMonth.DayOfWeek) + 1);
+
+            DateTime firstMonday;
+            //If first day of month is a sunday
+            if (firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday)
+            {
+                //Go to next monday, since Sunday is rarely used
+                firstMonday = firstDayOfMonth.AddDays(1);
+            }
+            else
+            {
+                //Remove one week and add a day for monday since sunday is number 0
+                firstMonday = firstDayOfMonth.AddDays(-((int)firstDayOfMonth.DayOfWeek) + 1);
+            }
+
+            //Get all the weeks
+            var dateHours = db.Get(firstMonday, firstMonday.AddDays(7 * NUMBER_OF_WEEKS - 1));
 
             for (int i = 0; i < NUMBER_OF_WEEKS; i++)
             {
                 //Build each day text
                 DataRow dates = dt.NewRow();
+                DataRow arrivals = dt.NewRow();
+                DataRow breaks = dt.NewRow();
+                DataRow departures = dt.NewRow();
+                DataRow durations = dt.NewRow();
+
                 dates[0] = "";
+                arrivals[0] = "Arrivée";
+                breaks[0] = "Pause";
+                departures[0] = "Départ";
+                durations[0] = "Durée";
+
+                var total = 0.0;
+                var ndDaysWithFullData = 0;
+
                 for (int day = 0; day < 7; day++)
                 {
                     var dayInWeek = firstMonday.AddDays(day + i * 7);
+                    var dayDatehours = dateHours.FirstOrDefault(d => d.Date == dayInWeek);
+
                     dates[day + 1] = dayInWeek.ToString("dddd").Substring(0, 3) + " " + dayInWeek.ToString("dd/MM");
+                    arrivals[day + 1] = dayDatehours?.Arrival;
+                    breaks[day + 1] = dayDatehours?.Break;
+                    departures[day + 1] = dayDatehours?.Departure;
+                    if (dayDatehours  != null && dayDatehours.Departure != null && dayDatehours.Arrival != null && dayDatehours.Break != null)
+                    {
+                        var duration = (TimeSpan.Parse(dayDatehours.Departure) -
+                            TimeSpan.Parse(dayDatehours.Arrival) -
+                            TimeSpan.Parse(dayDatehours.Break)).TotalHours;
+                        durations[day + 1] = Math.Round(duration, 2 );
+                        total += duration;
+                        ndDaysWithFullData++;
+                    }
+                    else
+                    {
+                        durations[day + 1] = "";
+                    }
                 }
+
                 dates[8] = "Total";
                 dates[9] = "Moyenne";
 
+                arrivals[8] = "";
+                arrivals[9] = "";
+
+                breaks[8] = "";
+                breaks[9] = "";
+
+                departures[8] = "";
+                departures[9] = "";
+
+                durations[8] = Math.Round(total, 2);
+                durations[9] = ndDaysWithFullData != 0 ? Math.Round(total / ndDaysWithFullData, 2) : 0;
+
                 //Set data for a week
                 dt.Rows.Add(dates);
-                dt.Rows.Add("Arrivée", "09:00", "09:20", "09:20", "09:20", "09:20", "", "", "", "");
-                dt.Rows.Add("Pause", "00:20", "00:20", "00:40", "00:20", "00:20", "", "", "", "");
-                dt.Rows.Add("Départ", "18:00", "18:20", "18:20", "18:20", "18:20", "", "", "", "");
-                dt.Rows.Add("Durée", "09:00", "09:20", "09:20", "09:20", "09:20", "", "", "36,5", "7,33");
+                dt.Rows.Add(arrivals);
+                dt.Rows.Add(breaks);
+                dt.Rows.Add(departures);
+                dt.Rows.Add(durations);
 
                 //No Separator line for last week
                 if (i != NUMBER_OF_WEEKS - 1)
@@ -183,7 +246,47 @@ namespace AutoDeclaratif
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             var newVal = dataGridView1[e.ColumnIndex, e.RowIndex].Value;
+
+            //Add 0 at begining if needed
+            if (newVal.ToString().Length == 4)
+            {
+                dataGridView1[e.ColumnIndex, e.RowIndex].Value = "0" + newVal;
+            }
+
             var row = e.RowIndex % NUMBER_OF_LINES;
+        }
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.FormattedValue.ToString() == "")
+            {
+                return;
+            }
+            string pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
+            Match m = Regex.Match(e.FormattedValue.ToString(), pattern);
+            if (!m.Success)
+            {
+                DataGridView dgv = (DataGridView)sender;
+                dgv.CancelEdit();
+            }
+        }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            //Empty selected cells on delete key if cells are note readonly
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (!dataGridView1.CurrentCell.IsInEditMode)
+                {
+                    foreach (DataGridViewCell selected_cell in dataGridView1.SelectedCells)
+                    {
+                        if (!selected_cell.ReadOnly)
+                        {
+                            selected_cell.Value = "";
+                        }
+                    }
+                }
+            }
         }
     }
 }
