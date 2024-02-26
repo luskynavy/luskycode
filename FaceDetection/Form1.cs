@@ -11,7 +11,7 @@ namespace FaceDetection
     {
         private CascadeClassifier _cascadeClassifier;
         private Rectangle[] _rec;
-        private OpenFileDialog openFileDialog1;
+        private OpenFileDialog _openFileDialog1;
 
         // Detect face (or body or upper body) on images
         //Left click to choose an image
@@ -112,15 +112,15 @@ namespace FaceDetection
             }
             else
             {
-                openFileDialog1 = new OpenFileDialog();
-                openFileDialog1.InitialDirectory = ".";
-                openFileDialog1.Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png";
-                openFileDialog1.FilterIndex = 2;
+                _openFileDialog1 = new OpenFileDialog();
+                _openFileDialog1.InitialDirectory = ".";
+                _openFileDialog1.Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png";
+                _openFileDialog1.FilterIndex = 2;
                 //openFileDialog1.RestoreDirectory = true ;
 
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                if (_openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    pictureBox1.Load(openFileDialog1.FileName);
+                    pictureBox1.Load(_openFileDialog1.FileName);
 
                     DetectAndDraw();
                 }
