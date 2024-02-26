@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Schema;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace AutoDeclaratif
 {
     public partial class Form1 : Form
     {
+        private const int DEPARTURE_LINE = 2;
+        private const int BREAK_LINE = 3;
         private const int DURATION_LINE = 4;
         private const int SEPARATOR_LINE = NUMBER_OF_LINES - 1;
         private const int NUMBER_OF_LINES = 6;
         private const int NUMBER_OF_WEEKS = 6 - 1;
+
+        private bool _isDeleting = false;
+
+        private DateTime _firstDayOfMonth;
+        private DateTime _firstMonday;
+        private DateHoursDb _db;
 
         public Form1()
         {
@@ -114,50 +116,35 @@ namespace AutoDeclaratif
         /// </summary>
         /// <param name="dt"></param>
         /// <param name="date"></param>
-        private static void SetMonthData(DataTable dt, DateTime date)
+        private void SetMonthData(DataTable dt, DateTime date)
         {
-            DateHoursDb db = new DateHoursDb("Data Source=Hours.sqlite");
-            /*db.DeleteTable();
-            var hours = db.GetAll();
-            var now = DateTime.Now;
-            var today = new DateTime(now.Year, now.Month, now.Day);
-            var linesToday = db.Create(new DateHours { Date = today, Arrival = "09:22", Break = "00:22" });
-            var linesYesterday = db.Create(new DateHours { Date = today.AddDays(-1), Arrival = "09:11", Break = "01:11", Departure = "18:11" });
-            var hoursToday = db.Get(today);
-            var hoursYesterday = db.Get(today.AddDays(-1));
-            var hoursTomorrow = db.Get(today.AddDays(1));
-            var updateToday = db.Update(new DateHours { Date = today, Arrival = "01:23", Break = "00:45", Departure = "06:00" });
-            var updateTomorrow = db.Update(new DateHours { Date = today.AddDays(1), Arrival = "01:23", Break = "00:45", Departure = "06:00" });
-            var hoursUpdatedToday = db.Get(today);
-            var replaceToday = db.UpdateOrInsert(new DateHours { Date = today, Arrival = "01:44", Break = "00:44", Departure = "06:44" });
-            var hoursReplacedToday = db.Get(today);
-            var replaceTomorrow = db.UpdateOrInsert(new DateHours { Date = today.AddDays(1), Arrival = "01:55", Break = "00:55", Departure = "06:55" });
-            var hoursReplacedTomorrow = db.Get(today.AddDays(1));
-            var dateHours = db.Get(today.AddDays(-1), today);
-            var hoursAll = db.GetAll();*/
+            _db = new DateHoursDb("Data Source=Hours.sqlite");
 
             //Get first monday of the first week of the month
-            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            _firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
 
-            DateTime firstMonday;
             //If first day of month is a sunday
-            if (firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday)
+            if (_firstDayOfMonth.DayOfWeek == DayOfWeek.Sunday)
             {
                 //Go to next monday, since Sunday is rarely used
-                firstMonday = firstDayOfMonth.AddDays(1);
+                _firstMonday = _firstDayOfMonth.AddDays(1);
             }
             else
             {
                 //Remove one week and add a day for monday since sunday is number 0
-                firstMonday = firstDayOfMonth.AddDays(-((int)firstDayOfMonth.DayOfWeek) + 1);
+                _firstMonday = _firstDayOfMonth.AddDays(-((int)_firstDayOfMonth.DayOfWeek) + 1);
             }
 
             //Get all the weeks
-            var dateHours = db.Get(firstMonday, firstMonday.AddDays(7 * NUMBER_OF_WEEKS - 1));
+            var dateHours = _db.Get(_firstMonday, _firstMonday.AddDays(7 * NUMBER_OF_WEEKS - 1));
 
+            //Clean DateHours without data
+            DeleteEmptyDateHours(dateHours);
+
+            //Build each week
             for (int i = 0; i < NUMBER_OF_WEEKS; i++)
             {
-                //Build each day text
+                //Create each line for current week
                 DataRow dates = dt.NewRow();
                 DataRow arrivals = dt.NewRow();
                 DataRow breaks = dt.NewRow();
@@ -173,21 +160,27 @@ namespace AutoDeclaratif
                 var total = 0.0;
                 var ndDaysWithFullData = 0;
 
+                //Build each day text
                 for (int day = 0; day < 7; day++)
                 {
-                    var dayInWeek = firstMonday.AddDays(day + i * 7);
+                    var dayInWeek = _firstMonday.AddDays(day + i * 7);
                     var dayDatehours = dateHours.FirstOrDefault(d => d.Date == dayInWeek);
 
                     dates[day + 1] = dayInWeek.ToString("dddd").Substring(0, 3) + " " + dayInWeek.ToString("dd/MM");
                     arrivals[day + 1] = dayDatehours?.Arrival;
                     breaks[day + 1] = dayDatehours?.Break;
                     departures[day + 1] = dayDatehours?.Departure;
-                    if (dayDatehours  != null && dayDatehours.Departure != null && dayDatehours.Arrival != null && dayDatehours.Break != null)
+
+                    //Compute duration for the day and updated week total
+                    if (dayDatehours != null &&
+                        !string.IsNullOrEmpty(dayDatehours.Departure) &&
+                        !string.IsNullOrEmpty(dayDatehours.Arrival) &&
+                        !string.IsNullOrEmpty(dayDatehours.Break))
                     {
                         var duration = (TimeSpan.Parse(dayDatehours.Departure) -
                             TimeSpan.Parse(dayDatehours.Arrival) -
                             TimeSpan.Parse(dayDatehours.Break)).TotalHours;
-                        durations[day + 1] = Math.Round(duration, 2 );
+                        durations[day + 1] = Math.Round(duration, 2);
                         total += duration;
                         ndDaysWithFullData++;
                     }
@@ -210,6 +203,7 @@ namespace AutoDeclaratif
                 departures[9] = "";
 
                 durations[8] = Math.Round(total, 2);
+                //Compute average day time
                 durations[9] = ndDaysWithFullData != 0 ? Math.Round(total / ndDaysWithFullData, 2) : 0;
 
                 //Set data for a week
@@ -228,42 +222,125 @@ namespace AutoDeclaratif
             }
         }
 
+        /// <summary>
+        /// Delete emtpy DateHours from db
+        /// </summary>
+        /// <param name="dateHours"></param>
+        private void DeleteEmptyDateHours(IEnumerable<DateHours> dateHours)
+        {
+            foreach (var dayDateHours in dateHours)
+            {
+                if (string.IsNullOrEmpty(dayDateHours.Departure) &&
+                        string.IsNullOrEmpty(dayDateHours.Arrival) &&
+                        string.IsNullOrEmpty(dayDateHours.Break))
+                {
+                    _db.DeleteDay(dayDateHours.Date);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Go to wanted month
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             BindDataGridView(dateTimePicker1.Value);
         }
 
+        /// <summary>
+        /// Go to previous month
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Previous_Click(object sender, EventArgs e)
         {
             dateTimePicker1.Value = dateTimePicker1.Value.AddMonths(-1);
         }
 
+        /// <summary>
+        /// Go to next month
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Next_Click(object sender, EventArgs e)
         {
             dateTimePicker1.Value = dateTimePicker1.Value.AddMonths(1);
         }
 
+        /// <summary>
+        /// Called when cell value is changed after been validated
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            var newVal = dataGridView1[e.ColumnIndex, e.RowIndex].Value;
+            var newVal = dataGridView1[e.ColumnIndex, e.RowIndex].Value.ToString();
 
             //Add 0 at begining if needed
             if (newVal.ToString().Length == 4)
             {
-                dataGridView1[e.ColumnIndex, e.RowIndex].Value = "0" + newVal;
+                newVal = "0" + newVal;
             }
 
-            var row = e.RowIndex % NUMBER_OF_LINES;
+            //Find day to modify
+            var dayToModify = _firstMonday.AddDays(e.RowIndex / NUMBER_OF_LINES * 7 + e.ColumnIndex - 1);
+
+            var dateHours = _db.Get(dayToModify).FirstOrDefault();
+
+            //Create dateHours if not found
+            if (dateHours == null)
+            {
+                dateHours = new DateHours { Date = dayToModify };
+            }
+
+            //Find time to modify
+            var row = e.RowIndex % NUMBER_OF_LINES + 1;
+
+            switch (row)
+            {
+                case DEPARTURE_LINE:
+                    dateHours.Arrival = newVal;
+                    break;
+
+                case BREAK_LINE:
+                    dateHours.Break = newVal;
+                    break;
+
+                case DURATION_LINE:
+                    dateHours.Departure = newVal;
+                    break;
+
+                default:
+                    break;
+            }
+
+            //Update dateHours
+            _db.UpdateOrInsert(dateHours);
+
+            //No refresh during delete
+            if (!_isDeleting)
+            {
+                //Refresh data grid view
+                BindDataGridView(_firstDayOfMonth);
+
+                //Reposition the current cell
+                dataGridView1.CurrentCell = dataGridView1[e.ColumnIndex, e.RowIndex];
+            }
         }
 
+        /// <summary>
+        /// Called to validate cell change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            if (e.FormattedValue.ToString() == "")
-            {
-                return;
-            }
             string pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
             Match m = Regex.Match(e.FormattedValue.ToString(), pattern);
+
+            //Cancel change if not right format
             if (!m.Success)
             {
                 DataGridView dgv = (DataGridView)sender;
@@ -271,6 +348,11 @@ namespace AutoDeclaratif
             }
         }
 
+        /// <summary>
+        /// Manage keys
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
             //Empty selected cells on delete key if cells are note readonly
@@ -278,6 +360,8 @@ namespace AutoDeclaratif
             {
                 if (!dataGridView1.CurrentCell.IsInEditMode)
                 {
+                    _isDeleting = true;
+
                     foreach (DataGridViewCell selected_cell in dataGridView1.SelectedCells)
                     {
                         if (!selected_cell.ReadOnly)
@@ -285,6 +369,18 @@ namespace AutoDeclaratif
                             selected_cell.Value = "";
                         }
                     }
+
+                    _isDeleting = false;
+
+                    //Save current cell position
+                    var savedRow = dataGridView1.CurrentCell.RowIndex;
+                    var savedColumn = dataGridView1.CurrentCell.ColumnIndex;
+
+                    //Refresh data grid view
+                    BindDataGridView(_firstDayOfMonth);
+
+                    //Reposition the current cell
+                    dataGridView1.CurrentCell = dataGridView1[savedColumn, savedRow];
                 }
             }
         }

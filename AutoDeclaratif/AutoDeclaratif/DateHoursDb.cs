@@ -45,6 +45,19 @@ namespace AutoDeclaratif
         }
 
         /// <summary>
+        /// Delete a day
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public int DeleteDay(DateTime date)
+        {
+            var connection = new SqliteConnection(_dbConnectionString);
+
+            return connection.Execute("DELETE FROM DateHours" +
+                " WHERE Date = @Date;", date);
+        }
+
+        /// <summary>
         /// Insert a new DateHours
         /// </summary>
         /// <param name="dateHours"></param>
