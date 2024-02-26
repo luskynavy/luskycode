@@ -36,18 +36,16 @@ namespace FaceDetectionDlib
             var pg = new Pen(Color.Green, 1);
 
             //draw rectangles around faces
-            using (var gr = Graphics.FromImage(pictureBox1.Image))
+            using var gr = Graphics.FromImage(pictureBox1.Image);
+            foreach (var r in _rec)
             {
-                foreach (var r in _rec)
-                {
-                    var rect = new System.Drawing.Rectangle { X = r.Left, Y = r.Top, Width = (int)r.Width, Height = (int)r.Height };
-                    //draw the face
-                    gr.DrawRectangle(pr, rect);
+                var rect = new System.Drawing.Rectangle { X = r.Left, Y = r.Top, Width = (int)r.Width, Height = (int)r.Height };
+                //draw the face
+                gr.DrawRectangle(pr, rect);
 
-                    //draw the portrait around the face
-                    var b = GetPortrait(rect);
-                    gr.DrawRectangle(pg, b);
-                }
+                //draw the portrait around the face
+                var b = GetPortrait(rect);
+                gr.DrawRectangle(pg, b);
             }
         }
 
@@ -61,31 +59,37 @@ namespace FaceDetectionDlib
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            if (((MouseEventArgs)e).Button == MouseButtons.Right)
+            MouseEventArgs mouseEvent = (MouseEventArgs)e;
+            if (mouseEvent.Button == MouseButtons.Right)
             {
                 pictureBox1_RightClick();
             }
-            else if (((MouseEventArgs)e).Button == MouseButtons.Middle)
+            else if (mouseEvent.Button == MouseButtons.Middle)
             {
-                //add bunny ears and nose to the first face found
+                //Add bunny ears and nose to each face found
                 if (_rec.Length != 0)
                 {
                     var ears = new Bitmap("bunny.png");
 
-                    Graphics gr = Graphics.FromImage(pictureBox1.Image);
+                    foreach (var rec in _rec)
+                    {
+                        var gr = Graphics.FromImage(pictureBox1.Image);
 
-                    var earRec = new System.Drawing.Rectangle((int)(_rec[0].Left - _rec[0].Width / 2), (int)(_rec[0].Top - _rec[0].Height * 4 / 4), (int)_rec[0].Width * 2, (int)_rec[0].Height * 2);
-                    gr.DrawImage(ears, earRec);
+                        var earRec = new System.Drawing.Rectangle((int)(rec.Left - rec.Width / 2), (int)(rec.Top - rec.Height * 4 / 4), (int)rec.Width * 2, (int)rec.Height * 2);
+                        gr.DrawImage(ears, earRec);
+                    }
 
                     pictureBox1.Refresh();
                 }
             }
             else
             {
-                _openFileDialog1 = new OpenFileDialog();
-                _openFileDialog1.InitialDirectory = ".";
-                _openFileDialog1.Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png";
-                _openFileDialog1.FilterIndex = 2;
+                _openFileDialog1 = new OpenFileDialog
+                {
+                    InitialDirectory = ".",
+                    Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png",
+                    FilterIndex = 2
+                };
                 //openFileDialog1.RestoreDirectory = true ;
 
                 if (_openFileDialog1.ShowDialog() == DialogResult.OK)

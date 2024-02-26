@@ -91,31 +91,37 @@ namespace FaceDetection
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            if (((MouseEventArgs)e).Button == MouseButtons.Right)
+            MouseEventArgs mouseEvent = (MouseEventArgs)e;
+            if (mouseEvent.Button == MouseButtons.Right)
             {
                 pictureBox1_RightClick();
             }
-            else if (((MouseEventArgs)e).Button == MouseButtons.Middle)
+            else if (mouseEvent.Button == MouseButtons.Middle)
             {
-                //add bunny ears and nose to the first face found
+                //Add bunny ears and nose to each face found
                 if (_rec.Length != 0)
                 {
                     var ears = new Bitmap("bunny.png");
 
-                    Graphics gr = Graphics.FromImage(pictureBox1.Image);
+                    foreach (var rec in _rec)
+                    {
+                        var gr = Graphics.FromImage(pictureBox1.Image);
 
-                    Rectangle earRec = new Rectangle(_rec[0].X - _rec[0].Width / 2, _rec[0].Y - _rec[0].Height * 4 / 4, _rec[0].Width * 2, _rec[0].Height * 2);
-                    gr.DrawImage(ears, earRec);
+                        var earRec = new System.Drawing.Rectangle((int)(rec.Left - rec.Width / 2), rec.Top - rec.Height * 4 / 4, rec.Width * 2, rec.Height * 2);
+                        gr.DrawImage(ears, earRec);
+                    }
 
                     pictureBox1.Refresh();
                 }
             }
             else
             {
-                _openFileDialog1 = new OpenFileDialog();
-                _openFileDialog1.InitialDirectory = ".";
-                _openFileDialog1.Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png";
-                _openFileDialog1.FilterIndex = 2;
+                _openFileDialog1 = new OpenFileDialog
+                {
+                    InitialDirectory = ".",
+                    Filter = "All files (*.*)|*.*|images (*.jpg;*.jpeg;*.bmp;*.gif;*.png)|*.jpg;*.jpeg;*.bmp;*.gif;*.png",
+                    FilterIndex = 2
+                };
                 //openFileDialog1.RestoreDirectory = true ;
 
                 if (_openFileDialog1.ShowDialog() == DialogResult.OK)
