@@ -53,11 +53,10 @@ namespace AutoDeclaratif
             this.dataGridView1.ColumnHeadersVisible = false;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.Size = new System.Drawing.Size(1463, 767);
+            this.dataGridView1.Size = new System.Drawing.Size(1097, 619);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView1_CellValidating);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
@@ -69,13 +68,12 @@ namespace AutoDeclaratif
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePicker1.CustomFormat = "MMMM yyyy";
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(611, 4);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dateTimePicker1.MaximumSize = new System.Drawing.Size(239, 23);
-            this.dateTimePicker1.MinimumSize = new System.Drawing.Size(239, 23);
+            this.dateTimePicker1.Location = new System.Drawing.Point(458, 3);
+            this.dateTimePicker1.MaximumSize = new System.Drawing.Size(180, 23);
+            this.dateTimePicker1.MinimumSize = new System.Drawing.Size(180, 23);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.ShowUpDown = true;
-            this.dateTimePicker1.Size = new System.Drawing.Size(239, 23);
+            this.dateTimePicker1.Size = new System.Drawing.Size(180, 23);
             this.dateTimePicker1.TabIndex = 2;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.DateTimePicker1_ValueChanged);
             // 
@@ -96,15 +94,16 @@ namespace AutoDeclaratif
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainer1.Panel2MinSize = 27;
-            this.splitContainer1.Size = new System.Drawing.Size(1463, 799);
-            this.splitContainer1.SplitterDistance = 28;
+            this.splitContainer1.Size = new System.Drawing.Size(1097, 649);
+            this.splitContainer1.SplitterDistance = 27;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 3;
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.00001F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.next, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.previous, 0, 0);
@@ -115,19 +114,18 @@ namespace AutoDeclaratif
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1463, 28);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1097, 27);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // next
             // 
             this.next.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.next.Location = new System.Drawing.Point(859, 4);
-            this.next.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.next.MaximumSize = new System.Drawing.Size(36, 28);
-            this.next.MinimumSize = new System.Drawing.Size(36, 28);
+            this.next.Location = new System.Drawing.Point(644, 3);
+            this.next.MaximumSize = new System.Drawing.Size(27, 23);
+            this.next.MinimumSize = new System.Drawing.Size(27, 23);
             this.next.Name = "next";
-            this.next.Size = new System.Drawing.Size(36, 28);
+            this.next.Size = new System.Drawing.Size(27, 23);
             this.next.TabIndex = 3;
             this.next.Text = ">";
             this.next.UseVisualStyleBackColor = true;
@@ -136,12 +134,11 @@ namespace AutoDeclaratif
             // previous
             // 
             this.previous.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.previous.Location = new System.Drawing.Point(567, 4);
-            this.previous.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.previous.MaximumSize = new System.Drawing.Size(36, 28);
-            this.previous.MinimumSize = new System.Drawing.Size(36, 28);
+            this.previous.Location = new System.Drawing.Point(425, 3);
+            this.previous.MaximumSize = new System.Drawing.Size(27, 23);
+            this.previous.MinimumSize = new System.Drawing.Size(27, 23);
             this.previous.Name = "previous";
-            this.previous.Size = new System.Drawing.Size(36, 28);
+            this.previous.Size = new System.Drawing.Size(27, 23);
             this.previous.TabIndex = 4;
             this.previous.Text = "<";
             this.previous.UseVisualStyleBackColor = true;
@@ -149,11 +146,10 @@ namespace AutoDeclaratif
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1463, 799);
+            this.ClientSize = new System.Drawing.Size(1097, 649);
             this.Controls.Add(this.splitContainer1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "AutoDéclaratif";
             this.Load += new System.EventHandler(this.Form1_Load);
