@@ -17,3 +17,4 @@ Ticket*.pdf
 *.suo
 *.o
 *.pdb
+packages/
