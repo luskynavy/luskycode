@@ -1,8 +1,8 @@
 ﻿@page "/products/"
 @page "/products/{Page:int}"
-@rendermode InteractiveServer
+@* @rendermode InteractiveServer *@
 @* Disable prerender so request are only done once*@
-@* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 @inject NavigationManager Navigation
 
