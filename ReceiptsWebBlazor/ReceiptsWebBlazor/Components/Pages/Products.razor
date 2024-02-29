@@ -1,5 +1,4 @@
 ﻿@page "/products/"
-@page "/products/{Page:int}"
 @* @rendermode InteractiveServer *@
 @* Disable prerender so request are only done once*@
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
@@ -17,7 +16,12 @@
 }
 else
 {
-    <table class="table">
+    <span>Trouver par nom : </span>
+    <input type="text" id="SearchStringAutocomplete" @bind-value="SearchString" @bind-value:event="oninput" />
+    <button class="btn hoverblue" @onclick="ReloadAsync">Rechercher</button>
+    <button class="btn hoverblue" @onclick="Clear">Effacer</button>
+
+    <table class="table alternateLines">
         <thead>
             <tr>
                 <th>Group</th>
@@ -27,9 +31,9 @@ else
             </tr>
         </thead>
         <tbody>
-            @if (products != null)
+            @if (productsList != null)
             {
-                @foreach (var product in products)
+                @foreach (var product in productsList)
                 {
                     <tr>
                         <td>@product.Group</td>
@@ -50,49 +54,45 @@ else
         </tbody>
     </table>
 
-    <span>@Page sur @TotalPages</span>
-    <a disabled="@(Loading || Page == 1)"
-       class="btn btn-primary @IsDisabled(Page != 1)"
-       href="/products/1">
-        Première
-    </a>
-    <a disabled="@(Loading || !HasPrev)"
-       class="btn btn-primary @IsDisabled(HasPrev)"
-       href="@PrevPage">
-        Précédent
-    </a>
-    <a disabled="@(Loading || !HasNext)"
-       class="btn btn-primary @IsDisabled(HasNext)"
-       href="@NextPage">
-        Suivant
-    </a>
-    <a disabled="@(Loading || Page == TotalPages)"
-       class="btn btn-primary @IsDisabled(Page != TotalPages)"
-       href="/products/@TotalPages">
-        Dernière
-    </a>
+    <span>@(TotalPages == 0 ? 0 : Page) sur @TotalPages</span>
+    <span>&nbsp;</span>
+
+    <button class="btn btn-primary @IsDisabled(Page != 1)" @onclick="GoFirstPage">Première</button>
+    <button class="btn btn-primary @IsDisabled(HasPrev)" @onclick="GoPreviousPage">Précédent</button>
+    <button class="btn btn-primary @IsDisabled(HasNext)" @onclick="GoNextPage">Suivant</button>
+    <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">Dernière</button>
 }
 
 
 @code {
     // The products list
-    private Product[]? products;
+    private Product[]? productsList;
 
     private bool Loading = true;
 
     // Current page
-    [Parameter]
+    // [Parameter]
     public int Page { get; set; }
+
+    // [Parameter]
+    public string? Sort { get; set; }
+
+    //[Parameter]
+    public string? FilterGroup { get; set; }
+
+    //[Parameter]
+    public string? SearchString { get; set; }
+
+    //[Parameter]
+    public bool? Products1price { get; set; }
 
     private int TotalPages { get; set; }
 
     // Previous page management
     private bool HasPrev { get; set; }
-    private string? PrevPage { get; set; }
 
     // Next page management
     private bool HasNext { get; set; }
-    private string? NextPage { get; set; }
 
     // Helper method to set disabled on class for paging.
     // condition: When the element is active (and therefore should not be disabled).
@@ -100,45 +100,107 @@ else
     private string IsDisabled(bool condition) =>
         !Loading && condition ? "" : "disabled";
 
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        // Ensure we're on the same (correct) page.
-        if (Page < 1)
-        {
-            Navigation.NavigateTo("/products/1");
-            return;
-        }
-
-        base.OnAfterRender(firstRender);
-    }
-
     protected override async Task OnParametersSetAsync()
     {
-        if (Page >= 1)
-        {
-            int pageSize = 10;
-
-            using var context = DbFactory.CreateDbContext();
-
-            Loading = true;
-
-            //await Task.Delay(500);
-
-            var count = await context.Products.CountAsync();
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
-            HasPrev = Page > 1;
-            HasNext = Page < TotalPages;
-
-            PrevPage = $"/products/{Page - 1}";
-            NextPage = $"/products/{Page + 1}";
-
-            products = await context.Products.OrderByDescending(p => p.DateReceipt).Skip((Page - 1) * pageSize).Take(pageSize).ToArrayAsync();
-
-            Loading = false;
-        }
+        await ReloadAsync();
 
         await base.OnParametersSetAsync();
+    }
+
+    private async Task ReloadAsync()
+    {
+        int pageSize = 10;
+
+        using var context = DbFactory.CreateDbContext();
+
+        Loading = true;
+
+        //await Task.Delay(500);
+
+        IQueryable<Product> products = context.Products;
+
+        //Filter
+        if (!String.IsNullOrEmpty(FilterGroup))
+        {
+            products = products.Where(s => s.Group.Equals(FilterGroup));
+        }
+
+        if (!String.IsNullOrEmpty(SearchString))
+        {
+            products = products.Where(s => s.Name.Contains(SearchString));
+        }
+
+        //Sort
+        if (Sort == "DateReceipt")
+        {
+            products = products.OrderByDescending(p => p.DateReceipt);
+        }
+        else if (Sort == "Name")
+        {
+            products = products.OrderBy(p => p.Name);
+        }
+        else //Group or unknown
+        {
+            products = products.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt);
+        }
+
+        var count = await products.CountAsync();
+        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+        if (Page > TotalPages)
+        {
+            Page = TotalPages;
+        }
+        if (Page <= 0)
+        {
+            Page = 1;
+        }
+
+        HasPrev = Page > 1;
+        HasNext = Page < TotalPages;
+
+        productsList = await products.Skip((Page - 1) * pageSize).Take(pageSize).ToArrayAsync();
+
+        Loading = false;
+    }
+
+    private async Task Clear()
+    {
+        Page = 1;
+        Sort = null;
+        FilterGroup = null;
+        SearchString = null;
+        Products1price = null;
+
+        await ReloadAsync();
+    }
+
+    private async Task GoFirstPage()
+    {
+        Page = 1;
+
+        await ReloadAsync();
+    }
+
+
+    private async Task GoPreviousPage()
+    {
+        Page--;
+
+        await ReloadAsync();
+    }
+
+    private async Task GoNextPage()
+    {
+        Page++;
+
+        await ReloadAsync();
+    }
+
+    private async Task GoLastPage()
+    {
+        Page = TotalPages;
+
+        await ReloadAsync();
     }
 }
