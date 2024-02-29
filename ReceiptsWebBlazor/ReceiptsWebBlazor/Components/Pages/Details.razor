@@ -3,47 +3,47 @@
 @using Microsoft.EntityFrameworkCore
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 
-<h3>Details</h3>
+<h3>Détails</h3>
 
 @if (NotFound && !Loading)
 {
-    <div class="alert alert-warning">A Product with that id doesn't exist.</div>
+    <div class="alert alert-warning">Aucun produit avec cet id n'existe.</div>
 }
 else
 {
     @if (Product is null || Loading)
     {
-        <div class="alert alert-info">Loading...</div>
+        <div class="alert alert-info">Chargement...</div>
     }
     else
     {
         <dl class="row">
             <dt class = "col-sm-2">
-                    Group
+                Groupe
             </dt>
             <dd class = "col-sm-10">
                 @Product.Group
             </dd>
             <dt class="col-sm-2">
-                Name
+                Nom
             </dt>
             <dd class="col-sm-10">
                 @Product.Name
             </dd>
             <dt class="col-sm-2">
-                Price
+                Prix
             </dt>
             <dd class="col-sm-10">
                 @Product.Price
             </dd>
             <dt class="col-sm-2">
-                Date
+                Date de réception
             </dt>
             <dd class="col-sm-10">
                 @Product.DateReceipt.ToShortDateString()
             </dd>
             <dt class="col-sm-2">
-                FullData
+                Données complétes
             </dt>
             <dd class="col-sm-10">
                 @Product.FullData

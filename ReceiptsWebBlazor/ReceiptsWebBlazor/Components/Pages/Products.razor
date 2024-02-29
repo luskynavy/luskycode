@@ -5,29 +5,53 @@
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 @inject NavigationManager Navigation
 
-<PageTitle>Products</PageTitle>
+<PageTitle>Produits</PageTitle>
 
-<h1>Products</h1>
+<h1>Produits</h1>
 
 
 @if (Loading)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Chargement...</em></p>
 }
 else
 {
+    <p>
+    <span>Filtrer par groupe:</span>
+    <select @bind="FilterGroup">
+        @if (GroupList != null)
+        {
+            <option value=""></option>
+            foreach (var group in GroupList)
+            {
+                    <option value="@group">@group</option>
+            }
+        }
+    </select>
+    <span>&nbsp; &nbsp; &nbsp;</span>
     <span>Trouver par nom : </span>
     <input type="text" id="SearchStringAutocomplete" @bind-value="SearchString" @bind-value:event="oninput" />
+        <span>Trier par : </span>
+        <select @bind="Sort">
+            @if (SortList != null)
+            {
+                foreach (var sort in SortList)
+                {
+                    <option value="@sort">@GetSortName(sort)</option>
+                }
+            }
+        </select>
+    </p>
     <button class="btn hoverblue" @onclick="ReloadAsync">Rechercher</button>
     <button class="btn hoverblue" @onclick="Clear">Effacer</button>
 
     <table class="table alternateLines">
         <thead>
             <tr>
-                <th>Group</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Date</th>
+                <th>Groupe</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Date de réception</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +65,7 @@ else
                         <td>@product.Price</td>
                         <td>@product.DateReceipt.ToShortDateString()</td>
                         <td>
-                            <a title="Details" href="details/@product.Id" style="text-decoration:none">
+                            <a title="Détails" href="details/@product.Id" style="text-decoration:none">
                                 &nbsp;🔍&nbsp;
                             </a>
                             @* <a title="Edit" href="edit/@product.Id" style="text-decoration:none">
@@ -94,6 +118,10 @@ else
     // Next page management
     private bool HasNext { get; set; }
 
+    private List<string>? GroupList { get; set; }
+
+    private List<string>? SortList { get; set; }
+
     // Helper method to set disabled on class for paging.
     // condition: When the element is active (and therefore should not be disabled).
     //            Returns the string literal "disabled" or an empty string.
@@ -107,11 +135,27 @@ else
         await base.OnParametersSetAsync();
     }
 
+    private string GetSortName(string sort)
+    {
+        switch (sort)
+        {
+            case "Name":
+                return "Nom";
+            case "DateReceipt":
+                return "Date de réception";
+            default:
+                return "Groupe";
+        }
+    }
+
     private async Task ReloadAsync()
     {
         int pageSize = 10;
 
         using var context = DbFactory.CreateDbContext();
+
+        GroupList = context.Products.Select(p => p.Group).Distinct().ToList();
+        SortList = new List<string>{ "Group", "DateReceipt", "Name"};
 
         Loading = true;
 
