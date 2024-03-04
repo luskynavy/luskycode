@@ -68,6 +68,9 @@ else
                             <a title="Détails" href="details/@product.Id" style="text-decoration:none">
                                 &nbsp;🔍&nbsp;
                             </a>
+                            <button title="Prix" class="btn" @onclick="() => ShowPrices(product.Id)">
+                                📈
+                            </button>
                             @* <a title="Edit" href="edit/@product.Id" style="text-decoration:none">
                                 &nbsp;📝&nbsp;
                             </a> *@
@@ -85,6 +88,31 @@ else
     <button class="btn btn-primary @IsDisabled(HasPrev)" @onclick="GoPreviousPage">Précédent</button>
     <button class="btn btn-primary @IsDisabled(HasNext)" @onclick="GoNextPage">Suivant</button>
     <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">Dernière</button>
+
+
+
+    @if (ShowPopup)
+    {
+        <!-- This is the popup  -->
+        <div class="modal" tabindex="-1" style="display:block" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Historique des prix</h5>
+                        <!-- Button to close the popup -->
+                        <button type="button" class="close"
+                                @onclick="ClosePopup">
+                            <span aria-hidden="true">X</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <ProductPrices ProductId="@ShowPricesProductId"></ProductPrices>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
 
 
@@ -127,6 +155,21 @@ else
     //            Returns the string literal "disabled" or an empty string.
     private string IsDisabled(bool condition) =>
         !Loading && condition ? "" : "disabled";
+
+    private bool ShowPopup = false;
+    private int ShowPricesProductId;
+    void ShowPrices(int productId)
+    {
+        // Open the Popup
+        ShowPopup = true;
+        ShowPricesProductId = productId;
+    }
+
+    void ClosePopup()
+    {
+       // Close the Popup
+        ShowPopup = false;
+    }
 
     protected override async Task OnParametersSetAsync()
     {

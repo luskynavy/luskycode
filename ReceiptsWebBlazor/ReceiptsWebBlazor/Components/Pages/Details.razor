@@ -43,12 +43,26 @@ else
                 @Product.DateReceipt.ToShortDateString()
             </dd>
             <dt class="col-sm-2">
+                Nom de la source
+            </dt>
+            <dd class="col-sm-10">
+                @Product.SourceName
+            </dd>
+            <dt class="col-sm-2">
+                Ligne de la source
+            </dt>
+            <dd class="col-sm-10">
+                @Product.SourceLine
+            </dd>
+            <dt class="col-sm-2">
                 Données complétes
             </dt>
             <dd class="col-sm-10">
                 @Product.FullData
             </dd>
         </dl>
+
+        <ProductPrices ProductId="@Product.Id"></ProductPrices>
     }
 }
 
