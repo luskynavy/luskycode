@@ -365,7 +365,8 @@ else
         {
             searchList = await SearchProducts(SearchString);
 
-            StateHasChanged();
+            //Refresh the interface since we are in a thread
+            await InvokeAsync(StateHasChanged);
         }
         else
         {
@@ -377,7 +378,6 @@ else
     {
         SearchString = product;
         searchList = null;
-        StateHasChanged();
     }
 
     void ClearSearchList()
