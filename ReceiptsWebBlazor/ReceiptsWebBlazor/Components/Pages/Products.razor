@@ -17,20 +17,46 @@
 else
 {
     <p>
-    <span>Filtrer par groupe:</span>
-    <select @bind="FilterGroup">
-        @if (GroupList != null)
-        {
-            <option value=""></option>
-            foreach (var group in GroupList)
+        <span>Filtrer par groupe:</span>
+        <select @bind="FilterGroup">
+            @if (GroupList != null)
             {
-                    <option value="@group">@group</option>
+                <option value=""></option>
+                foreach (var group in GroupList)
+                {
+                        <option value="@group">@group</option>
+                }
             }
-        }
-    </select>
-    <span>&nbsp; &nbsp; &nbsp;</span>
-    <span>Trouver par nom : </span>
-    <input type="text" id="SearchStringAutocomplete" @bind-value="SearchString" @bind-value:event="oninput" />
+        </select>
+        <span>&nbsp; &nbsp; &nbsp;</span>
+        <span>Trouver par nom : </span>
+
+        @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
+
+        <div class="autocomplete w-25">
+            <input type="text" @bind="SearchString" @oninput="HandleInput" @onblur="ClearSearchList" />
+            @if (searchList is not null)
+            {
+                @if (searchList.Any())
+                {
+                    <ul class="options">
+
+                        @foreach (var customer in searchList)
+                        {
+                            <li class="option" @onclick=@(_ => SelectProduct(customer))>
+                                <span class="option-text">@customer</span>
+                            </li>
+                        }
+
+                    @* else
+                    {
+                        <li class="disabled option">Pas de résultat</li>
+                    } *@
+                    </ul>
+                }
+            }
+        </div>
+        @* @bind-value:event="oninput" *@
         <span>Trier par : </span>
         <select @bind="Sort">
             @if (SortList != null)
@@ -122,6 +148,8 @@ else
 
     private bool Loading = true;
 
+
+
     // Current page
     // [Parameter]
     public int Page { get; set; }
@@ -167,7 +195,7 @@ else
 
     void ClosePopup()
     {
-       // Close the Popup
+        // Close the Popup
         ShowPopup = false;
     }
 
@@ -201,8 +229,6 @@ else
         SortList = new List<string>{ "Group", "DateReceipt", "Name"};
 
         Loading = true;
-
-        //await Task.Delay(500);
 
         IQueryable<Product> products = context.Products;
 
@@ -289,5 +315,73 @@ else
         Page = TotalPages;
 
         await ReloadAsync();
+    }
+
+    private async Task<IEnumerable<string>> SearchProducts(string searchText)
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        return await Task.FromResult(context.Products.Where(
+                     x => x.Name.ToLower().Contains(searchText.ToLower())).Select(p => p.Name).Distinct().Take(10).ToList());
+    }
+
+    // Wait period in (ms) after the user stops typing.
+    const int DebounceMs = 1000;
+
+    // Timer for debounce.
+    System.Timers.Timer? timer;
+
+    private IEnumerable<string>? searchList;
+
+    /* async */ void HandleInput(ChangeEventArgs e)
+    {
+        SearchString = e?.Value?.ToString();
+                    /*
+                    if (SearchString != null)
+                {
+                searchList = await SearchProducts(SearchString);
+                    }
+                    else
+                {
+                searchList = null;
+                }
+        return;
+        */
+
+        timer?.Dispose();
+        timer = new(DebounceMs);
+        timer.Elapsed += NotifyTimerElapsed;
+        timer.Enabled = true;
+    }
+
+    // Fired after debounce time.
+    // sender: Timer
+    // e: Event args
+    private async void NotifyTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        timer?.Dispose();
+        timer = null;
+        if (SearchString != null)
+        {
+            searchList = await SearchProducts(SearchString);
+
+            StateHasChanged();
+        }
+        else
+        {
+            searchList = null;
+        }
+    }
+
+    void SelectProduct(string product)
+    {
+        SearchString = product;
+        searchList = null;
+        StateHasChanged();
+    }
+
+    void ClearSearchList()
+    {
+        searchList = null;
     }
 }
