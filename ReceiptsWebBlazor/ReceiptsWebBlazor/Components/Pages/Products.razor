@@ -25,16 +25,17 @@ else
                     <option value=""></option>
                     foreach (var group in GroupList)
                     {
-                            <option value="@group">@group</option>
+                        <option value="@group">@group</option>
                     }
                 }
             </select>
         </div>
+
         @* <span>&nbsp; </span> *@
-        <div class="autocomplete w-25" >
+        <div class="autocomplete w-25" @onfocusout="ClearSearchList">
             <label>Trouver par nom : </label>
         @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
-            <input type="text" @bind="SearchString" @oninput="HandleInput" @onfocusout="ClearSearchList" />
+            <input type="text" @bind="SearchString" @oninput="HandleInput"  />
             @if (searchList is not null)
             {
                 @if (searchList.Any())
@@ -50,6 +51,7 @@ else
                 }
             }
         </div>
+
         @* @bind-value:event="oninput" *@
         <div>
             <span>Trier par : </span>
@@ -111,6 +113,14 @@ else
     <button class="btn btn-primary @IsDisabled(HasNext)" @onclick="GoNextPage">Suivant</button>
     <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">Dernière</button>
 
+    <span>Taille de page : </span>
+    <select value="@PageSize" @onchange="ChangePageSize"> @*  @bind="PageSize"> *@
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="100">100</option>
+        <option value="100000">Tout</option>
+    </select>
+
 
     @if (ShowPopup)
     {
@@ -152,9 +162,21 @@ else
 
     public string? SearchString { get; set; }
 
-    public bool? Products1price { get; set; }
 
     private int TotalPages { get; set; }
+
+    #region Page size
+    private int PageSize = 10;
+
+    private async Task ChangePageSize(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            int.TryParse(e.Value.ToString(), out PageSize);
+            await ReloadAsync();
+        }
+    }
+    #endregion Page size
 
     // Previous page management
     private bool HasPrev { get; set; }
@@ -172,8 +194,11 @@ else
     private string IsDisabled(bool condition) =>
         !Loading && condition ? "" : "disabled";
 
+#region Popup
     private bool ShowPopup = false;
+
     private int ShowPricesProductId;
+
     void ShowPrices(int productId)
     {
         // Open the Popup
@@ -186,6 +211,7 @@ else
         // Close the Popup
         ShowPopup = false;
     }
+ #endregion //Popup
 
     protected override async Task OnParametersSetAsync()
     {
@@ -209,8 +235,6 @@ else
 
     private async Task ReloadAsync()
     {
-        int pageSize = 10;
-
         using var context = DbFactory.CreateDbContext();
 
         GroupList = context.Products.Select(p => p.Group).Distinct().ToList();
@@ -246,7 +270,7 @@ else
         }
 
         var count = await products.CountAsync();
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+        TotalPages = (int)Math.Ceiling(count / (double)PageSize);
 
         if (Page > TotalPages)
         {
@@ -260,7 +284,7 @@ else
         HasPrev = Page > 1;
         HasNext = Page < TotalPages;
 
-        productsList = await products.Skip((Page - 1) * pageSize).Take(pageSize).ToArrayAsync();
+        productsList = await products.Skip((Page - 1) * PageSize).Take(PageSize).ToArrayAsync();
 
         Loading = false;
     }
@@ -271,11 +295,12 @@ else
         Sort = null;
         FilterGroup = null;
         SearchString = null;
-        Products1price = null;
+        PageSize = 10;
 
         await ReloadAsync();
     }
 
+    #region Page management
     private async Task GoFirstPage()
     {
         Page = 1;
@@ -303,7 +328,9 @@ else
 
         await ReloadAsync();
     }
+    #endregion Page management
 
+    #region Auto complete management
     private async Task<IEnumerable<string>> SearchProducts(string searchText)
     {
         using var context = DbFactory.CreateDbContext();
@@ -360,4 +387,5 @@ else
     {
         searchList = null;
     }
+    #endregion Auto complete management
 }
