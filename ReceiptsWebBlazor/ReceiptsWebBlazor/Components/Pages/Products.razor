@@ -17,56 +17,52 @@
 else
 {
     <p>
-        <span>Filtrer par groupe:</span>
-        <select @bind="FilterGroup">
-            @if (GroupList != null)
-            {
-                <option value=""></option>
-                foreach (var group in GroupList)
+        <div>
+            <span>Filtrer par groupe:</span>
+            <select @bind="FilterGroup">
+                @if (GroupList != null)
                 {
-                        <option value="@group">@group</option>
+                    <option value=""></option>
+                    foreach (var group in GroupList)
+                    {
+                            <option value="@group">@group</option>
+                    }
                 }
-            }
-        </select>
-        <span>&nbsp; &nbsp; &nbsp;</span>
-        <span>Trouver par nom : </span>
-
+            </select>
+        </div>
+        @* <span>&nbsp; </span> *@
+        <div class="autocomplete w-25" >
+            <label>Trouver par nom : </label>
         @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
-
-        <div class="autocomplete w-25">
-            <input type="text" @bind="SearchString" @oninput="HandleInput" @onblur="ClearSearchList" />
+            <input type="text" @bind="SearchString" @oninput="HandleInput" @onfocusout="ClearSearchList" />
             @if (searchList is not null)
             {
                 @if (searchList.Any())
                 {
                     <ul class="options">
-
-                        @foreach (var customer in searchList)
+                        @foreach (var product in searchList)
                         {
-                            <li class="option" @onclick=@(_ => SelectProduct(customer))>
-                                <span class="option-text">@customer</span>
+                            <li class="option" @onmousedown=@(_ => SelectProduct(product))>
+                                <span class="option-text">@product</span>
                             </li>
                         }
-
-                    @* else
-                    {
-                        <li class="disabled option">Pas de résultat</li>
-                    } *@
                     </ul>
                 }
             }
         </div>
         @* @bind-value:event="oninput" *@
-        <span>Trier par : </span>
-        <select @bind="Sort">
-            @if (SortList != null)
-            {
-                foreach (var sort in SortList)
+        <div>
+            <span>Trier par : </span>
+            <select @bind="Sort">
+                @if (SortList != null)
                 {
-                    <option value="@sort">@GetSortName(sort)</option>
+                    foreach (var sort in SortList)
+                    {
+                        <option value="@sort">@GetSortName(sort)</option>
+                    }
                 }
-            }
-        </select>
+            </select>
+        </div>
     </p>
     <button class="btn hoverblue" @onclick="ReloadAsync">Rechercher</button>
     <button class="btn hoverblue" @onclick="Clear">Effacer</button>
@@ -116,7 +112,6 @@ else
     <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">Dernière</button>
 
 
-
     @if (ShowPopup)
     {
         <!-- This is the popup  -->
@@ -148,22 +143,15 @@ else
 
     private bool Loading = true;
 
-
-
     // Current page
-    // [Parameter]
     public int Page { get; set; }
 
-    // [Parameter]
     public string? Sort { get; set; }
 
-    //[Parameter]
     public string? FilterGroup { get; set; }
 
-    //[Parameter]
     public string? SearchString { get; set; }
 
-    //[Parameter]
     public bool? Products1price { get; set; }
 
     private int TotalPages { get; set; }
@@ -295,7 +283,6 @@ else
         await ReloadAsync();
     }
 
-
     private async Task GoPreviousPage()
     {
         Page--;
@@ -326,27 +313,16 @@ else
     }
 
     // Wait period in (ms) after the user stops typing.
-    const int DebounceMs = 1000;
+    const int DebounceMs = 300;
 
     // Timer for debounce.
     System.Timers.Timer? timer;
 
     private IEnumerable<string>? searchList;
 
-    /* async */ void HandleInput(ChangeEventArgs e)
+    void HandleInput(ChangeEventArgs e)
     {
         SearchString = e?.Value?.ToString();
-                    /*
-                    if (SearchString != null)
-                {
-                searchList = await SearchProducts(SearchString);
-                    }
-                    else
-                {
-                searchList = null;
-                }
-        return;
-        */
 
         timer?.Dispose();
         timer = new(DebounceMs);
