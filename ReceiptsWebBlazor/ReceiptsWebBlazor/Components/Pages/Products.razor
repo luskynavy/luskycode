@@ -30,11 +30,16 @@ else
                 }
             </select>
         </div>
-
+        @* <div class="autocomplete w-25">
+            <Autocomplete @bind-value="SearchString" />
+        </div> *@
         @* <span>&nbsp; </span> *@
-        <div class="autocomplete w-25" @onfocusout="ClearSearchList">
-            <label>Trouver par nom : </label>
         @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
+        <div class="autocomplete w-25" @onfocusout="ClearSearchList">
+
+
+            <label>Trouver par nom : </label>
+
             <input type="text" @bind="SearchString" @oninput="HandleInput"  />
             @if (searchList is not null)
             {
