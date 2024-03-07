@@ -30,34 +30,14 @@ else
                 }
             </select>
         </div>
-        @* <div class="autocomplete w-25">
-            <Autocomplete @bind-value="SearchString" />
-        </div> *@
-        @* <span>&nbsp; </span> *@
-        @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
-        <div class="autocomplete w-25" @onfocusout="ClearSearchList">
 
-
+        <div class="autocomplete w-25">
             <label>Trouver par nom : </label>
-
-            <input type="text" @bind="SearchString" @oninput="HandleInput"  />
-            @if (searchList is not null)
-            {
-                @if (searchList.Any())
-                {
-                    <ul class="options">
-                        @foreach (var product in searchList)
-                        {
-                            <li class="option" @onmousedown=@(_ => SelectProduct(product))>
-                                <span class="option-text">@product</span>
-                            </li>
-                        }
-                    </ul>
-                }
-            }
+            <Autocomplete @bind-SearchString="@SearchString" />
         </div>
 
-        @* @bind-value:event="oninput" *@
+        @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
+
         <div>
             <span>Trier par : </span>
             <select @bind="Sort">
@@ -143,7 +123,7 @@ else
                     </div>
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <ProductPrices ProductId="@ShowPricesProductId"></ProductPrices>
+                        <ProductPrices ProductId="@ShowPricesProductId" />
                     </div>
                 </div>
             </div>
@@ -156,18 +136,22 @@ else
     // The products list
     private Product[]? productsList;
 
+    // True if data are loading
     private bool Loading = true;
 
     // Current page
     public int Page { get; set; }
 
+    // Current sort
     public string? Sort { get; set; }
 
+    // Current filter by group
     public string? FilterGroup { get; set; }
 
+    // Current filter by text on product name
     public string? SearchString { get; set; }
 
-
+    // Total number of pages
     private int TotalPages { get; set; }
 
     #region Page size
@@ -181,7 +165,7 @@ else
             await ReloadAsync();
         }
     }
-    #endregion Page size
+    #endregion //Page size
 
     // Previous page management
     private bool HasPrev { get; set; }
@@ -189,8 +173,10 @@ else
     // Next page management
     private bool HasNext { get; set; }
 
+    // Group list for select
     private List<string>? GroupList { get; set; }
 
+    // Sort list for select
     private List<string>? SortList { get; set; }
 
     // Helper method to set disabled on class for paging.
@@ -200,20 +186,22 @@ else
         !Loading && condition ? "" : "disabled";
 
 #region Popup
+    // True if popup is displayed
     private bool ShowPopup = false;
 
+    // Product Id to display in popup
     private int ShowPricesProductId;
 
+    // Open the Popup
     void ShowPrices(int productId)
     {
-        // Open the Popup
         ShowPopup = true;
         ShowPricesProductId = productId;
     }
 
+    // Close the Popup
     void ClosePopup()
     {
-        // Close the Popup
         ShowPopup = false;
     }
  #endregion //Popup
@@ -225,6 +213,7 @@ else
         await base.OnParametersSetAsync();
     }
 
+    // Get text to display for sort value
     private string GetSortName(string sort)
     {
         switch (sort)
@@ -242,6 +231,7 @@ else
     {
         using var context = DbFactory.CreateDbContext();
 
+        // Init select
         GroupList = context.Products.Select(p => p.Group).Distinct().ToList();
         SortList = new List<string>{ "Group", "DateReceipt", "Name"};
 
@@ -294,6 +284,7 @@ else
         Loading = false;
     }
 
+    //Clear button
     private async Task Clear()
     {
         Page = 1;
@@ -333,64 +324,5 @@ else
 
         await ReloadAsync();
     }
-    #endregion Page management
-
-    #region Auto complete management
-    private async Task<IEnumerable<string>> SearchProducts(string searchText)
-    {
-        using var context = DbFactory.CreateDbContext();
-
-        return await Task.FromResult(context.Products.Where(
-                     x => x.Name.ToLower().Contains(searchText.ToLower())).Select(p => p.Name).Distinct().Take(10).ToList());
-    }
-
-    // Wait period in (ms) after the user stops typing.
-    const int DebounceMs = 300;
-
-    // Timer for debounce.
-    System.Timers.Timer? timer;
-
-    private IEnumerable<string>? searchList;
-
-    void HandleInput(ChangeEventArgs e)
-    {
-        SearchString = e?.Value?.ToString();
-
-        timer?.Dispose();
-        timer = new(DebounceMs);
-        timer.Elapsed += NotifyTimerElapsed;
-        timer.Enabled = true;
-    }
-
-    // Fired after debounce time.
-    // sender: Timer
-    // e: Event args
-    private async void NotifyTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
-    {
-        timer?.Dispose();
-        timer = null;
-        if (SearchString != null)
-        {
-            searchList = await SearchProducts(SearchString);
-
-            //Refresh the interface since we are in a thread
-            await InvokeAsync(StateHasChanged);
-        }
-        else
-        {
-            searchList = null;
-        }
-    }
-
-    void SelectProduct(string product)
-    {
-        SearchString = product;
-        searchList = null;
-    }
-
-    void ClearSearchList()
-    {
-        searchList = null;
-    }
-    #endregion Auto complete management
+    #endregion //Page management
 }
