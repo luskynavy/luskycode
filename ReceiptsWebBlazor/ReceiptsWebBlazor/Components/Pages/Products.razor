@@ -99,7 +99,7 @@ else
     <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">Dernière</button>
 
     <span>Taille de page : </span>
-    <select value="@PageSize" @onchange="ChangePageSize"> @*  @bind="PageSize"> *@
+    <select value="@PageSize" @onchange="ChangePageSize">
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="100">100</option>
