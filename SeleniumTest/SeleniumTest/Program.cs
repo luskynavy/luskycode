@@ -9,13 +9,13 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SeleniumTest
 {
-    class Program
+    internal class Program
     {
         private static IWebDriver driver;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-			//create the web driver
+            //create the web driver
             using (driver = new OpenQA.Selenium.Firefox.FirefoxDriver())
             //using (driver = new OpenQA.Selenium.Chrome.ChromeDriver())
             {
@@ -24,7 +24,12 @@ namespace SeleniumTest
                 //open google and do a search
                 driver.Navigate().GoToUrl("https://www.google.ch/");
 
-                By locator = By.XPath("//input[@type='text']");
+                By locatorAccept = By.XPath("//div[text() ='Tout refuser']");
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(locatorAccept));
+                driver.FindElement(locatorAccept).Click();
+
+                //By locator = By.XPath("//input[@type='text']");
+                By locator = By.XPath("//textarea[@title='Rechercher']");
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(locator));
                 driver.FindElement(locator).Click();
                 driver.FindElement(locator).Clear();
@@ -36,7 +41,7 @@ namespace SeleniumTest
                 driver.FindElement(By.LinkText("Vidéos")).Click();
 
                 //wait and click can be done in one line
-                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("Tous"))).Click();                
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("Tous"))).Click();
 
                 /*
                 driver.Navigate().GoToUrl("https://demos.telerik.com/aspnet-mvc/tabstrip");
