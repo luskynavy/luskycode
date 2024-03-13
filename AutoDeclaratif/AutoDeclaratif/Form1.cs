@@ -18,7 +18,7 @@ namespace AutoDeclaratif
         private const int NUMBER_OF_LINES = 6;
         private const int NUMBER_OF_WEEKS = 6 - 1;
 
-        private bool _isDeleting = false;
+        private bool _isUpdating = false;
 
         private DateTime _firstDayOfMonth;
         private DateTime _firstMonday;
@@ -60,7 +60,11 @@ namespace AutoDeclaratif
 
             SetMonthData(dt, date);
 
+            _isUpdating = true;
+
             dataGridView1.DataSource = dt;
+
+            _isUpdating = false;
 
             //Disable sort for all columns
             foreach (DataGridViewColumn col in dataGridView1.Columns)
@@ -320,7 +324,7 @@ namespace AutoDeclaratif
             _db.UpdateOrInsert(dateHours);
 
             //No refresh during delete
-            if (!_isDeleting)
+            if (!_isUpdating)
             {
                 //Refresh data grid view
                 BindDataGridView(_firstDayOfMonth);
@@ -337,14 +341,17 @@ namespace AutoDeclaratif
         /// <param name="e"></param>
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            string pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
-            Match m = Regex.Match(e.FormattedValue.ToString(), pattern);
-
-            //Cancel change if not right format
-            if (!m.Success)
+            if (!string.IsNullOrEmpty(e.FormattedValue.ToString()))
             {
-                DataGridView dgv = (DataGridView)sender;
-                dgv.CancelEdit();
+                string pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
+                Match m = Regex.Match(e.FormattedValue.ToString(), pattern);
+
+                //Cancel change if not right format
+                if (!m.Success)
+                {
+                    DataGridView dgv = (DataGridView)sender;
+                    dgv.CancelEdit();
+                }
             }
         }
 
@@ -360,7 +367,7 @@ namespace AutoDeclaratif
             {
                 if (!dataGridView1.CurrentCell.IsInEditMode)
                 {
-                    _isDeleting = true;
+                    _isUpdating = true;
 
                     foreach (DataGridViewCell selected_cell in dataGridView1.SelectedCells)
                     {
@@ -370,7 +377,7 @@ namespace AutoDeclaratif
                         }
                     }
 
-                    _isDeleting = false;
+                    _isUpdating = false;
 
                     //Save current cell position
                     var savedRow = dataGridView1.CurrentCell.RowIndex;
