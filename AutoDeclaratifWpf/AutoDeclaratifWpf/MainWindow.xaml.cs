@@ -66,7 +66,7 @@ namespace AutoDeclaratifWpf
         {
             DataTable dt = new DataTable();
             dt.Columns.AddRange(new DataColumn[10] {
-                new DataColumn("", typeof(string)),
+                new DataColumn("Type", typeof(string)),
                 new DataColumn("Lundi", typeof(string)),
                 new DataColumn("Mardi", typeof(string)),
                 new DataColumn("Mercredi", typeof(string)),
@@ -95,12 +95,47 @@ namespace AutoDeclaratifWpf
                 col.CanUserSort = false;
             }
 
-            var boldStyle = new Style();
+            var boldFont = new Style();
             Setter fontWeightSetter = new Setter { Property = Control.FontWeightProperty, Value = FontWeights.Bold };
-            boldStyle.Setters.Add(fontWeightSetter);
+            boldFont.Setters.Add(fontWeightSetter);
 
-            //Font boldFont = new Font(dataGridView1[0, 0]. InheritedStyle.Font, FontStyle.Bold);
-            dataGridView1.ColumnHeaderStyle = boldStyle;
+            var lightGrayFont = new Style();
+            //Setter lightGraySetter = new Setter { Property = Control.BackgroundProperty, Value = "LightGray" };
+            //lightGrayFont.Setters.Add(lightGraySetter);
+
+            dataGridView1.ColumnHeaderStyle = boldFont;
+
+            //Set colors for read only cells and week ends
+
+            dataGridView1.Columns[0].CellStyle = boldFont;
+            dataGridView1.Columns[0].CellStyle = lightGrayFont;
+            //dataGridView1.Columns[6/*"Samedi"*/].CellStyle.BackColor = Color.FromArgb(255, 240, 240, 240);
+            //dataGridView1.Columns[7/*"Dimanche"*/].CellStyle.BackColor = Color.FromArgb(255, 240, 240, 240);
+            dataGridView1.Columns[8/*"Total"*/].CellStyle = lightGrayFont;
+            dataGridView1.Columns[9/*"Moyenne"*/].CellStyle = lightGrayFont;
+            /*
+            for (int i = 0; i < NUMBER_OF_WEEKS; i++)
+            {
+                dataGridView1.Rows Rows[i * NUMBER_OF_LINES].ReadOnly = true;
+
+                dataGridView1.Rows Rows[i * NUMBER_OF_LINES + DURATION_LINE].CellStyle = lightGrayFont;
+                dataGridView1.Rows[i * NUMBER_OF_LINES + DURATION_LINE].ReadOnly = true;
+
+                //No Separator line for last week
+                if (i != NUMBER_OF_WEEKS - 1)
+                {
+                    dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].ReadOnly = true;
+                    dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].Height = dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].Height * 2 / 3;
+                }
+
+                for (int j = 1; j < 10; j++)
+                {
+                    dataGridView1[j, i * NUMBER_OF_LINES].Style.BackColor = Color.FromArgb(255, 240, 240, 240);
+                    dataGridView1[j, i * NUMBER_OF_LINES].Style.Font = boldFont;
+                }
+            }
+            */
         }
 
         /// <summary>

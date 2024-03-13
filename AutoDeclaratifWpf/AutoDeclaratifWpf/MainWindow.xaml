@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoDeclaratifWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="800">
+        Title="MainWindow" Height="700" Width="800">
     <Grid>
         <StackPanel>
             <Grid>
@@ -25,7 +25,7 @@
                 </DatePicker>
                 <Button Grid.Column="2"  Content="&gt;" HorizontalAlignment="Left" Click="Button_Click_1" />
             </Grid>
-            <DataGrid x:Name="dataGridView1" Height="1000" d:ItemsSource="{d:SampleData ItemCount=5}" HorizontalContentAlignment="Stretch">
+            <DataGrid x:Name="dataGridView1" Height="700" d:ItemsSource="{d:SampleData ItemCount=30}" HorizontalContentAlignment="Stretch">
                 <!--<DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="FontWeight"
