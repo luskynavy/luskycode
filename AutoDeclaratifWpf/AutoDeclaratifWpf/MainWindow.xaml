@@ -9,29 +9,19 @@
     <Grid>
         <StackPanel>
             <Grid>
-                <!-- Define Columns -->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="186" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button  Grid.Column="0"  Content="&lt;" HorizontalAlignment="Right" Click="Button_Click" />
-                <!--<DatePicker Name="dateTimePicker1" Grid.Column="1" />-->
-                <!--<Calendar Grid.Column="1" x:Name="dateTimePicker1" DisplayModeChanged="dateTimePicker1_DisplayModeChanged" DisplayMode="Year">
-                </Calendar>-->
                 <DatePicker Grid.Column="1" x:Name="dateTimePicker1"  local:DatePickerCalendar.IsMonthYear="True"
                     local:DatePickerDateFormat.DateFormat="MMM yyyy"
                     Text="MMM-yyyy" SelectedDateChanged="dateTimePicker1_SelectedDateChanged">
                 </DatePicker>
                 <Button Grid.Column="2"  Content="&gt;" HorizontalAlignment="Left" Click="Button_Click_1" />
             </Grid>
-            <DataGrid x:Name="dataGridView1" Height="700" d:ItemsSource="{d:SampleData ItemCount=30}" HorizontalContentAlignment="Stretch">
-                <!--<DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                        <Setter Property="FontWeight"
-                        Value="Bold" />
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>-->
+            <DataGrid x:Name="dataGridView1" Height="700" d:ItemsSource="{d:SampleData ItemCount=30}" HorizontalContentAlignment="Stretch" HeadersVisibility="None" CanUserDeleteRows="False" BeginningEdit="dataGridView1_BeginningEdit" CellEditEnding="dataGridView1_CellEditEnding">
             </DataGrid>
         </StackPanel>
     </Grid>

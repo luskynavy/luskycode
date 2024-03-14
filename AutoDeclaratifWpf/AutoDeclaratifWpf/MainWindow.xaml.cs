@@ -1,6 +1,8 @@
 ﻿using System.Data;
+using System.Data.Common;
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -95,47 +97,52 @@ namespace AutoDeclaratifWpf
                 col.CanUserSort = false;
             }
 
+            //Create styles/setters
             var boldFont = new Style();
-            Setter fontWeightSetter = new Setter { Property = Control.FontWeightProperty, Value = FontWeights.Bold };
-            boldFont.Setters.Add(fontWeightSetter);
+            Setter boldFontWeightSetter = new Setter { Property = Control.FontWeightProperty, Value = FontWeights.Bold };
+            boldFont.Setters.Add(boldFontWeightSetter);
 
             var lightGrayFont = new Style();
-            //Setter lightGraySetter = new Setter { Property = Control.BackgroundProperty, Value = "LightGray" };
-            //lightGrayFont.Setters.Add(lightGraySetter);
+            Setter lightGraySetter = new Setter { Property = Control.BackgroundProperty, Value = Brushes.LightGray };
+            lightGrayFont.Setters.Add(lightGraySetter);
 
-            dataGridView1.ColumnHeaderStyle = boldFont;
+            var whiteFont = new Style();
+            Setter whiteSetter = new Setter { Property = Control.BackgroundProperty, Value = Brushes.White };
+            whiteFont.Setters.Add(whiteSetter);
+
+            var lightGrayFont2 = new Style();
+            Setter lightGraySetter2 = new Setter { Property = Control.BackgroundProperty, Value = new SolidColorBrush(Color.FromRgb(240, 240, 240)) };
+            lightGrayFont2.Setters.Add(lightGraySetter2);
+
+            var boldLigtGrayFont = new Style();
+            boldLigtGrayFont.Setters.Add(boldFontWeightSetter);
+            boldLigtGrayFont.Setters.Add(lightGraySetter);
+
+            //dataGridView1.ColumnHeaderStyle = boldFont;
 
             //Set colors for read only cells and week ends
 
-            dataGridView1.Columns[0].CellStyle = boldFont;
-            dataGridView1.Columns[0].CellStyle = lightGrayFont;
-            //dataGridView1.Columns[6/*"Samedi"*/].CellStyle.BackColor = Color.FromArgb(255, 240, 240, 240);
-            //dataGridView1.Columns[7/*"Dimanche"*/].CellStyle.BackColor = Color.FromArgb(255, 240, 240, 240);
+            dataGridView1.Columns[0].CellStyle = boldLigtGrayFont;
+            dataGridView1.Columns[6/*"Samedi"*/].CellStyle = lightGrayFont2;
+            dataGridView1.Columns[7/*"Dimanche"*/].CellStyle = lightGrayFont2;
             dataGridView1.Columns[8/*"Total"*/].CellStyle = lightGrayFont;
             dataGridView1.Columns[9/*"Moyenne"*/].CellStyle = lightGrayFont;
-            /*
+
             for (int i = 0; i < NUMBER_OF_WEEKS; i++)
             {
-                dataGridView1.Rows Rows[i * NUMBER_OF_LINES].ReadOnly = true;
+                var row = dataGridView1.GetRow(i * NUMBER_OF_LINES + DURATION_LINE);
+                dataGridView1.GetCell(row);
 
-                dataGridView1.Rows Rows[i * NUMBER_OF_LINES + DURATION_LINE].CellStyle = lightGrayFont;
-                dataGridView1.Rows[i * NUMBER_OF_LINES + DURATION_LINE].ReadOnly = true;
+                dataGridView1.GetRow(i * NUMBER_OF_LINES).Style = boldLigtGrayFont;
 
                 //No Separator line for last week
                 if (i != NUMBER_OF_WEEKS - 1)
                 {
-                    dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].DefaultCellStyle.BackColor = Color.White;
-                    dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].ReadOnly = true;
-                    dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].Height = dataGridView1.Rows[i * NUMBER_OF_LINES + SEPARATOR_LINE].Height * 2 / 3;
-                }
-
-                for (int j = 1; j < 10; j++)
-                {
-                    dataGridView1[j, i * NUMBER_OF_LINES].Style.BackColor = Color.FromArgb(255, 240, 240, 240);
-                    dataGridView1[j, i * NUMBER_OF_LINES].Style.Font = boldFont;
+                    dataGridView1.GetRow(i * NUMBER_OF_LINES + DURATION_LINE).Style = lightGrayFont;
+                    dataGridView1.GetRow(i * NUMBER_OF_LINES + SEPARATOR_LINE).Style = whiteFont; //dont work, overriden by column color
+                    dataGridView1.GetRow(i * NUMBER_OF_LINES + SEPARATOR_LINE).Height = dataGridView1.GetRow(i * NUMBER_OF_LINES + SEPARATOR_LINE).ActualHeight * 2 / 3;
                 }
             }
-            */
         }
 
         /// <summary>
@@ -274,14 +281,91 @@ namespace AutoDeclaratifWpf
             }
         }
 
-        /*
-        private void dateTimePicker1_DisplayModeChanged(object sender, CalendarModeChangedEventArgs e)
+        private void dataGridView1_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
-            if (dateTimePicker1.DisplayMode == CalendarMode.Month)
+            DataGridRow row = e.Row;
+
+            var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.CurrentItem);
+            var currentColumnIndex = e.Column.DisplayIndex;
+            if (currentRowIndex % NUMBER_OF_LINES == 0 ||
+                currentRowIndex % NUMBER_OF_LINES == DURATION_LINE ||
+                currentRowIndex % NUMBER_OF_LINES == SEPARATOR_LINE)
             {
-                dateTimePicker1.DisplayMode = CalendarMode.Year;
+                e.Cancel = true;
             }
         }
-        */
+
+        private void dataGridView1_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            var newVal = ((TextBox)e.EditingElement).Text;
+
+            string pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
+            Match m = Regex.Match(newVal, pattern);
+
+            //Cancel change if not right format
+            if (!string.IsNullOrEmpty(newVal) && !m.Success)
+            {
+                var previousValue = ((DataRowView)e.Row.Item).Row.ItemArray[e.Column.DisplayIndex];
+
+                ((TextBox)e.EditingElement).Text = previousValue?.ToString();
+            }
+            //Update
+            else
+            {
+                //Add 0 at begining if needed
+                if (newVal.ToString().Length == 4)
+                {
+                    newVal = "0" + newVal;
+                    //((TextBox)e.EditingElement).Text = newVal;
+                }
+
+                var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.CurrentItem);
+
+                //Find day to modify
+                var dayToModify = _firstMonday.AddDays(currentRowIndex / NUMBER_OF_LINES * 7 + e.Column.DisplayIndex - 1);
+
+                var dateHours = _db.Get(dayToModify).FirstOrDefault();
+
+                //Create dateHours if not found
+                if (dateHours == null)
+                {
+                    dateHours = new DateHours { Date = dayToModify };
+                }
+
+                //Find time to modify
+                var row = currentRowIndex % NUMBER_OF_LINES + 1;
+
+                switch (row)
+                {
+                    case DEPARTURE_LINE:
+                        dateHours.Arrival = newVal;
+                        break;
+
+                    case BREAK_LINE:
+                        dateHours.Break = newVal;
+                        break;
+
+                    case DURATION_LINE:
+                        dateHours.Departure = newVal;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                //Update dateHours
+                _db.UpdateOrInsert(dateHours);
+
+                //No refresh during delete
+                if (!_isUpdating)
+                {
+                    //Refresh data grid view
+                    //BindDataGridView(_firstDayOfMonth); //can't refresh here, cause error
+
+                    //Reposition the current cell
+                    //dataGridView1.CurrentCell = dataGridView1[e.ColumnIndex, e.RowIndex];
+                }
+            }
+        }
     }
 }
