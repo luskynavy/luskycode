@@ -1,18 +1,8 @@
 ﻿using System.Data;
-using System.Data.Common;
-using System.Globalization;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AutoDeclaratifWpf
 {
@@ -28,11 +18,9 @@ namespace AutoDeclaratifWpf
         private const int NUMBER_OF_LINES = 6;
         private const int NUMBER_OF_WEEKS = 6 - 1;
 
-        private bool _isUpdating = false;
-
         private DateTime _firstDayOfMonth;
         private DateTime _firstMonday;
-        private DateHoursDb _db;
+        private DateHoursDb? _db;
 
         public MainWindow()
         {
@@ -85,11 +73,7 @@ namespace AutoDeclaratifWpf
 
             SetMonthData(dt, date);
 
-            _isUpdating = true;
-
             dataGridView1.ItemsSource = dt.DefaultView;
-
-            _isUpdating = false;
 
             //Disable sort for all columns
             foreach (var col in dataGridView1.Columns)
@@ -99,29 +83,26 @@ namespace AutoDeclaratifWpf
 
             //Create styles/setters
             var boldFont = new Style();
-            Setter boldFontWeightSetter = new Setter { Property = Control.FontWeightProperty, Value = FontWeights.Bold };
+            var boldFontWeightSetter = new Setter { Property = Control.FontWeightProperty, Value = FontWeights.Bold };
             boldFont.Setters.Add(boldFontWeightSetter);
 
             var lightGrayFont = new Style();
-            Setter lightGraySetter = new Setter { Property = Control.BackgroundProperty, Value = Brushes.LightGray };
+            var lightGraySetter = new Setter { Property = Control.BackgroundProperty, Value = Brushes.LightGray };
             lightGrayFont.Setters.Add(lightGraySetter);
 
             var whiteFont = new Style();
-            Setter whiteSetter = new Setter { Property = Control.BackgroundProperty, Value = Brushes.White };
+            var whiteSetter = new Setter { Property = Control.BackgroundProperty, Value = Brushes.White };
             whiteFont.Setters.Add(whiteSetter);
 
             var lightGrayFont2 = new Style();
-            Setter lightGraySetter2 = new Setter { Property = Control.BackgroundProperty, Value = new SolidColorBrush(Color.FromRgb(240, 240, 240)) };
+            var lightGraySetter2 = new Setter { Property = Control.BackgroundProperty, Value = new SolidColorBrush(Color.FromRgb(240, 240, 240)) };
             lightGrayFont2.Setters.Add(lightGraySetter2);
 
             var boldLigtGrayFont = new Style();
             boldLigtGrayFont.Setters.Add(boldFontWeightSetter);
             boldLigtGrayFont.Setters.Add(lightGraySetter);
 
-            //dataGridView1.ColumnHeaderStyle = boldFont;
-
             //Set colors for read only cells and week ends
-
             dataGridView1.Columns[0].CellStyle = boldLigtGrayFont;
             dataGridView1.Columns[6/*"Samedi"*/].CellStyle = lightGrayFont2;
             dataGridView1.Columns[7/*"Dimanche"*/].CellStyle = lightGrayFont2;
@@ -130,9 +111,6 @@ namespace AutoDeclaratifWpf
 
             for (int i = 0; i < NUMBER_OF_WEEKS; i++)
             {
-                var row = dataGridView1.GetRow(i * NUMBER_OF_LINES + DURATION_LINE);
-                dataGridView1.GetCell(row);
-
                 dataGridView1.GetRow(i * NUMBER_OF_LINES).Style = boldLigtGrayFont;
 
                 //No Separator line for last week
@@ -268,7 +246,7 @@ namespace AutoDeclaratifWpf
                         string.IsNullOrEmpty(dayDateHours.Arrival) &&
                         string.IsNullOrEmpty(dayDateHours.Break))
                 {
-                    _db.DeleteDay(dayDateHours.Date);
+                    _db?.DeleteDay(dayDateHours.Date);
                 }
             }
         }
@@ -283,10 +261,8 @@ namespace AutoDeclaratifWpf
 
         private void dataGridView1_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
-            DataGridRow row = e.Row;
-
             var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.CurrentItem);
-            var currentColumnIndex = e.Column.DisplayIndex;
+
             if (currentRowIndex % NUMBER_OF_LINES == 0 ||
                 currentRowIndex % NUMBER_OF_LINES == DURATION_LINE ||
                 currentRowIndex % NUMBER_OF_LINES == SEPARATOR_LINE)
@@ -316,15 +292,15 @@ namespace AutoDeclaratifWpf
                 if (newVal.ToString().Length == 4)
                 {
                     newVal = "0" + newVal;
-                    //((TextBox)e.EditingElement).Text = newVal;
+                    ((TextBox)e.EditingElement).Text = newVal;
                 }
 
-                var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.CurrentItem);
+                var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.SelectedItem);
 
                 //Find day to modify
                 var dayToModify = _firstMonday.AddDays(currentRowIndex / NUMBER_OF_LINES * 7 + e.Column.DisplayIndex - 1);
 
-                var dateHours = _db.Get(dayToModify).FirstOrDefault();
+                var dateHours = _db?.Get(dayToModify).FirstOrDefault();
 
                 //Create dateHours if not found
                 if (dateHours == null)
@@ -354,17 +330,85 @@ namespace AutoDeclaratifWpf
                 }
 
                 //Update dateHours
-                _db.UpdateOrInsert(dateHours);
+                _db?.UpdateOrInsert(dateHours);
 
-                //No refresh during delete
-                if (!_isUpdating)
+                //Refresh data grid view
+                UpdateDuration(dateHours, currentRowIndex, e.Column.DisplayIndex);
+            }
+        }
+
+        /// <summary>
+        /// Update duration
+        /// </summary>
+        /// <param name="dayDatehours">date hours for computing duration</param>
+        /// <param name="rowIndex">row index of modified cell</param>
+        /// <param name="columnIndex">column index of modified cell</param>
+        void UpdateDuration(DateHours dayDatehours, int rowIndex, int columnIndex)
+        {
+            if (!string.IsNullOrEmpty(dayDatehours.Departure) &&
+                        !string.IsNullOrEmpty(dayDatehours.Arrival) &&
+                        !string.IsNullOrEmpty(dayDatehours.Break))
+            {
+                //Compute duration
+                var duration = (TimeSpan.Parse(dayDatehours.Departure) -
+                            TimeSpan.Parse(dayDatehours.Arrival) -
+                            TimeSpan.Parse(dayDatehours.Break)).TotalHours;
+
+                //Get duration row
+                var rowDurationIndex = rowIndex - rowIndex % NUMBER_OF_LINES + DURATION_LINE;
+                var rowDuration = dataGridView1.GetRow(rowDurationIndex);
+
+                //Get duration cell
+                UpdateCell(columnIndex, rowDuration, duration);
+
+                //Get week days
+                var nbDayToMonday = (int)dayDatehours.Date.DayOfWeek - 1;
+                if (nbDayToMonday == -1)
                 {
-                    //Refresh data grid view
-                    //BindDataGridView(_firstDayOfMonth); //can't refresh here, cause error
-
-                    //Reposition the current cell
-                    //dataGridView1.CurrentCell = dataGridView1[e.ColumnIndex, e.RowIndex];
+                    nbDayToMonday = 6;
                 }
+                var dateMonday = dayDatehours.Date.AddDays(-nbDayToMonday);
+                var dateSunday = dateMonday.AddDays(7);
+
+                var week = _db?.Get(dateMonday, dateSunday);
+
+                //Compute total duration of week
+                var totalDuration = 0.0;
+                var ndDaysWithFullData = 0;
+                foreach (var day in week)
+                {
+                    if (!string.IsNullOrEmpty(day.Departure) &&
+                        !string.IsNullOrEmpty(day.Arrival) &&
+                        !string.IsNullOrEmpty(day.Break))
+                    {
+                        //Compute duration
+                        var durationDay = (TimeSpan.Parse(day.Departure) -
+                                    TimeSpan.Parse(day.Arrival) -
+                                    TimeSpan.Parse(day.Break)).TotalHours;
+
+                        totalDuration += durationDay;
+                        ndDaysWithFullData++;
+                    }
+                }
+
+                //Set total duration
+                UpdateCell(8, rowDuration, totalDuration);
+
+                //Compute average duration
+                var averageDuration = ndDaysWithFullData != 0 ? Math.Round(totalDuration / ndDaysWithFullData, 2) : 0;
+
+                //Set average duration
+                UpdateCell(9, rowDuration, averageDuration);
+            }
+        }
+
+        private void UpdateCell(int columnIndex, DataGridRow rowDuration, double duration)
+        {
+            var cellDuration = dataGridView1.GetCell(rowDuration, columnIndex);
+            if (cellDuration != null)
+            {
+                var textBlock = (TextBlock)cellDuration.Content;
+                textBlock.Text = Math.Round(duration, 2).ToString();
             }
         }
     }
