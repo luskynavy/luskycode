@@ -21,6 +21,7 @@ namespace AutoDeclaratifWpf
         private DateTime _firstDayOfMonth;
         private DateTime _firstMonday;
         private DateHoursDb? _db;
+        private bool _isinEditMode = false;
 
         public MainWindow()
         {
@@ -261,18 +262,31 @@ namespace AutoDeclaratifWpf
 
         private void dataGridView1_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
-            var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.CurrentItem);
+            _isinEditMode = true;
 
-            if (currentRowIndex % NUMBER_OF_LINES == 0 ||
-                currentRowIndex % NUMBER_OF_LINES == DURATION_LINE ||
-                currentRowIndex % NUMBER_OF_LINES == SEPARATOR_LINE)
+            var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.CurrentItem);
+            if (IsRowReadOnly(currentRowIndex))
             {
                 e.Cancel = true;
             }
         }
 
+        /// <summary>
+        /// True if row with this row index is read only
+        /// </summary>
+        /// <param name="currentRowIndex"></param>
+        /// <returns></returns>
+        private static bool IsRowReadOnly(int currentRowIndex)
+        {
+            return currentRowIndex % NUMBER_OF_LINES == 0 ||
+                            currentRowIndex % NUMBER_OF_LINES == DURATION_LINE ||
+                            currentRowIndex % NUMBER_OF_LINES == SEPARATOR_LINE;
+        }
+
         private void dataGridView1_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
+            _isinEditMode = false;
+
             var newVal = ((TextBox)e.EditingElement).Text;
 
             string pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
@@ -295,56 +309,72 @@ namespace AutoDeclaratifWpf
                     ((TextBox)e.EditingElement).Text = newVal;
                 }
 
+                var currentColumnIndex = e.Column.DisplayIndex;
                 var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.SelectedItem);
 
-                //Find day to modify
-                var dayToModify = _firstMonday.AddDays(currentRowIndex / NUMBER_OF_LINES * 7 + e.Column.DisplayIndex - 1);
-
-                var dateHours = _db?.Get(dayToModify).FirstOrDefault();
-
-                //Create dateHours if not found
-                if (dateHours == null)
-                {
-                    dateHours = new DateHours { Date = dayToModify };
-                }
-
-                //Find time to modify
-                var row = currentRowIndex % NUMBER_OF_LINES + 1;
-
-                switch (row)
-                {
-                    case DEPARTURE_LINE:
-                        dateHours.Arrival = newVal;
-                        break;
-
-                    case BREAK_LINE:
-                        dateHours.Break = newVal;
-                        break;
-
-                    case DURATION_LINE:
-                        dateHours.Departure = newVal;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                //Update dateHours
-                _db?.UpdateOrInsert(dateHours);
-
-                //Refresh data grid view
-                UpdateDuration(dateHours, currentRowIndex, e.Column.DisplayIndex);
+                UpdateDbAndDuration(newVal, currentColumnIndex, currentRowIndex);
             }
+        }
+
+        /// <summary>
+        /// Update db and refresh display
+        /// </summary>
+        /// <param name="newVal"></param>
+        /// <param name="currentColumnIndex"></param>
+        /// <param name="currentRowIndex"></param>
+        private void UpdateDbAndDuration(string newVal, int currentColumnIndex, int currentRowIndex)
+        {
+            //Find day to modify
+            var dayToModify = _firstMonday.AddDays(currentRowIndex / NUMBER_OF_LINES * 7 + currentColumnIndex - 1);
+
+            var dateHours = _db?.Get(dayToModify).FirstOrDefault();
+
+            //Create dateHours if not found
+            if (dateHours == null)
+            {
+                dateHours = new DateHours { Date = dayToModify };
+            }
+
+            //Find time to modify
+            var row = currentRowIndex % NUMBER_OF_LINES + 1;
+
+            switch (row)
+            {
+                case DEPARTURE_LINE:
+                    dateHours.Arrival = newVal;
+                    break;
+
+                case BREAK_LINE:
+                    dateHours.Break = newVal;
+                    break;
+
+                case DURATION_LINE:
+                    dateHours.Departure = newVal;
+                    break;
+
+                default:
+                    break;
+            }
+
+            //Update dateHours
+            _db?.UpdateOrInsert(dateHours);
+
+            //Refresh data grid view
+            UpdateDuration(dateHours, currentColumnIndex, currentRowIndex);
         }
 
         /// <summary>
         /// Update duration
         /// </summary>
         /// <param name="dayDatehours">date hours for computing duration</param>
-        /// <param name="rowIndex">row index of modified cell</param>
         /// <param name="columnIndex">column index of modified cell</param>
-        void UpdateDuration(DateHours dayDatehours, int rowIndex, int columnIndex)
+        /// <param name="rowIndex">row index of modified cell</param>
+        private void UpdateDuration(DateHours dayDatehours, int columnIndex, int rowIndex)
         {
+            //Get duration row
+            var rowDurationIndex = rowIndex - rowIndex % NUMBER_OF_LINES + DURATION_LINE;
+            var rowDuration = dataGridView1.GetRow(rowDurationIndex);
+
             if (!string.IsNullOrEmpty(dayDatehours.Departure) &&
                         !string.IsNullOrEmpty(dayDatehours.Arrival) &&
                         !string.IsNullOrEmpty(dayDatehours.Break))
@@ -354,61 +384,101 @@ namespace AutoDeclaratifWpf
                             TimeSpan.Parse(dayDatehours.Arrival) -
                             TimeSpan.Parse(dayDatehours.Break)).TotalHours;
 
-                //Get duration row
-                var rowDurationIndex = rowIndex - rowIndex % NUMBER_OF_LINES + DURATION_LINE;
-                var rowDuration = dataGridView1.GetRow(rowDurationIndex);
-
-                //Get duration cell
+                //Update duration cell
                 UpdateCell(columnIndex, rowDuration, duration);
+            }
+            else
+            {
+                //Update duration cell
+                UpdateCell(columnIndex, rowDuration, null);
+            }
 
-                //Get week days
-                var nbDayToMonday = (int)dayDatehours.Date.DayOfWeek - 1;
-                if (nbDayToMonday == -1)
+            //Get week days
+            var nbDayToMonday = (int)dayDatehours.Date.DayOfWeek - 1;
+            if (nbDayToMonday == -1)
+            {
+                nbDayToMonday = 6;
+            }
+            var dateMonday = dayDatehours.Date.AddDays(-nbDayToMonday);
+            var dateSunday = dateMonday.AddDays(6);
+
+            var week = _db?.Get(dateMonday, dateSunday);
+
+            //Compute total duration of week
+            var totalDuration = 0.0;
+            var ndDaysWithFullData = 0;
+            foreach (var day in week)
+            {
+                if (!string.IsNullOrEmpty(day.Departure) &&
+                    !string.IsNullOrEmpty(day.Arrival) &&
+                    !string.IsNullOrEmpty(day.Break))
                 {
-                    nbDayToMonday = 6;
+                    //Compute duration
+                    var durationDay = (TimeSpan.Parse(day.Departure) -
+                                TimeSpan.Parse(day.Arrival) -
+                                TimeSpan.Parse(day.Break)).TotalHours;
+
+                    totalDuration += durationDay;
+                    ndDaysWithFullData++;
                 }
-                var dateMonday = dayDatehours.Date.AddDays(-nbDayToMonday);
-                var dateSunday = dateMonday.AddDays(7);
+            }
 
-                var week = _db?.Get(dateMonday, dateSunday);
+            //Set total duration
+            UpdateCell(8, rowDuration, totalDuration);
 
-                //Compute total duration of week
-                var totalDuration = 0.0;
-                var ndDaysWithFullData = 0;
-                foreach (var day in week)
+            //Compute average duration
+            var averageDuration = ndDaysWithFullData != 0 ? Math.Round(totalDuration / ndDaysWithFullData, 2) : 0;
+
+            //Set average duration
+            UpdateCell(9, rowDuration, averageDuration);
+        }
+
+        /// <summary>
+        /// Update cell in datagrid
+        /// </summary>
+        /// <param name="columnIndex">column index of modified cell</param>
+        /// <param name="row">row of modified cell</param>
+        /// <param name="value"></param>
+        private void UpdateCell(int columnIndex, DataGridRow row, double? value)
+        {
+            var cell = dataGridView1.GetCell(row, columnIndex);
+            if (cell != null)
+            {
+                var textBlock = (TextBlock)cell.Content;
+                if (value != null)
                 {
-                    if (!string.IsNullOrEmpty(day.Departure) &&
-                        !string.IsNullOrEmpty(day.Arrival) &&
-                        !string.IsNullOrEmpty(day.Break))
-                    {
-                        //Compute duration
-                        var durationDay = (TimeSpan.Parse(day.Departure) -
-                                    TimeSpan.Parse(day.Arrival) -
-                                    TimeSpan.Parse(day.Break)).TotalHours;
-
-                        totalDuration += durationDay;
-                        ndDaysWithFullData++;
-                    }
+                    textBlock.Text = Math.Round((double)value, 2).ToString();
                 }
-
-                //Set total duration
-                UpdateCell(8, rowDuration, totalDuration);
-
-                //Compute average duration
-                var averageDuration = ndDaysWithFullData != 0 ? Math.Round(totalDuration / ndDaysWithFullData, 2) : 0;
-
-                //Set average duration
-                UpdateCell(9, rowDuration, averageDuration);
+                else
+                {
+                    textBlock.Text = "";
+                }
             }
         }
 
-        private void UpdateCell(int columnIndex, DataGridRow rowDuration, double duration)
+        private void dataGridView1_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            var cellDuration = dataGridView1.GetCell(rowDuration, columnIndex);
-            if (cellDuration != null)
+            if (e.Key == System.Windows.Input.Key.Delete)
             {
-                var textBlock = (TextBlock)cellDuration.Content;
-                textBlock.Text = Math.Round(duration, 2).ToString();
+                if (_isinEditMode == false)
+                {
+                    var currentColumnIndex = dataGridView1.CurrentColumn.DisplayIndex;
+                    var currentRowIndex = dataGridView1.Items.IndexOf(dataGridView1.CurrentItem);
+                    var rowSelected = dataGridView1.GetRow(currentRowIndex);
+
+                    //only for not read only cells
+                    if (!dataGridView1.CurrentColumn.IsReadOnly && !IsRowReadOnly(currentRowIndex))
+                    {
+                        var cellDuration = dataGridView1.GetCell(rowSelected, currentColumnIndex);
+                        if (cellDuration != null)
+                        {
+                            var textBlock = (TextBlock)cellDuration.Content;
+                            textBlock.Text = "";
+
+                            UpdateDbAndDuration("", currentColumnIndex, currentRowIndex);
+                        }
+                    }
+                }
             }
         }
     }

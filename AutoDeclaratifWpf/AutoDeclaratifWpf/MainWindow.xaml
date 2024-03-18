@@ -6,23 +6,27 @@
         xmlns:local="clr-namespace:AutoDeclaratifWpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="800">
+
     <Grid>
-        <StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="186" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button  Grid.Column="0"  Content="&lt;" HorizontalAlignment="Right" Click="Button_Click" />
-                <DatePicker Grid.Column="1" x:Name="dateTimePicker1"  local:DatePickerCalendar.IsMonthYear="True"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="186" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"  Content="&lt;" HorizontalAlignment="Right" Click="Button_Click" />
+            <DatePicker Grid.Column="1" x:Name="dateTimePicker1"  local:DatePickerCalendar.IsMonthYear="True"
                     local:DatePickerDateFormat.DateFormat="MMM yyyy"
                     Text="MMM-yyyy" SelectedDateChanged="dateTimePicker1_SelectedDateChanged">
-                </DatePicker>
-                <Button Grid.Column="2"  Content="&gt;" HorizontalAlignment="Left" Click="Button_Click_1" />
-            </Grid>
-            <DataGrid x:Name="dataGridView1" Height="700" d:ItemsSource="{d:SampleData ItemCount=30}" HorizontalContentAlignment="Stretch" HeadersVisibility="None" CanUserDeleteRows="False" BeginningEdit="dataGridView1_BeginningEdit" CellEditEnding="dataGridView1_CellEditEnding">
-            </DataGrid>
-        </StackPanel>
+            </DatePicker>
+            <Button Grid.Column="2"  Content="&gt;" HorizontalAlignment="Left" Click="Button_Click_1" />
+        </Grid>
+        <ScrollViewer Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid ColumnWidth="*" x:Name="dataGridView1" d:ItemsSource="{d:SampleData ItemCount=30}" HeadersVisibility="None" CanUserDeleteRows="False" BeginningEdit="dataGridView1_BeginningEdit" CellEditEnding="dataGridView1_CellEditEnding" PreviewKeyDown="dataGridView1_PreviewKeyDown" Focusable="True" />
+        </ScrollViewer>
     </Grid>
 </Window>
