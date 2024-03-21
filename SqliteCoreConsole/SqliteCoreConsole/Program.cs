@@ -20,6 +20,7 @@ namespace SqliteCoreConsole
             Console.WriteLine($"Database path: {db.DbPath}.");
 
             Console.WriteLine("Blog count : " + db.Blogs.Count());
+            Console.WriteLine("Post count : " + db.Posts.Count());
 
             // Create
             Console.WriteLine("Inserting a new blog");
@@ -27,6 +28,7 @@ namespace SqliteCoreConsole
             db.SaveChanges();
 
             Console.WriteLine("Blog count : " + db.Blogs.Count());
+            Console.WriteLine("Post count : " + db.Posts.Count());
 
             // Read
             Console.WriteLine("Querying for a blog");
@@ -37,16 +39,24 @@ namespace SqliteCoreConsole
             // Update
             Console.WriteLine("Updating the blog and adding a post");
             blog.Url = "https://devblogs.microsoft.com/dotnet";
-            blog.Posts.Add(
-                new Post { Title = "Hello World", Content = "I wrote an app using EF Core!" });
+            var post = new Post { Title = "Hello World", Content = "I wrote an app using EF Core!" };
+            blog.Posts.Add(post);
             db.SaveChanges();
 
+            Console.WriteLine("Blog count : " + db.Blogs.Count());
+            Console.WriteLine("Post count : " + db.Posts.Count());
+
             // Delete
+            Console.WriteLine("Delete the post");
+            db.Remove(post);
+            db.SaveChanges();
+
             Console.WriteLine("Delete the blog");
             db.Remove(blog);
             db.SaveChanges();
 
             Console.WriteLine("Blog count : " + db.Blogs.Count());
+            Console.WriteLine("Post count : " + db.Posts.Count());
         }
     }
 }
