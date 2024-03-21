@@ -12,9 +12,7 @@ namespace SqliteNetPclConsole
 
             Console.WriteLine($"Database path: {db.DatabasePath}.");
 
-            var blogs = db.Table<Blog>();
-
-            Console.WriteLine("Blog count : " + blogs.Count());
+            Console.WriteLine("Blog count : " + db.Table<Blog>().Count());
             Console.WriteLine("Post count : " + db.Table<Post>().Count());
 
             // Create
@@ -37,7 +35,7 @@ namespace SqliteNetPclConsole
             // Update
             Console.WriteLine("Updating the blog and adding a post");
             blog.Url = "https://devblogs.microsoft.com/dotnet";
-            var post = new Post { Title = "Hello World", Content = "I wrote an app using EF Core!", BlogId = blog.BlogId };
+            var post = new Post { Title = "Hello World", Content = "I wrote an app using .Net Core!", BlogId = blog.BlogId };
             db.Insert(post);
 
             Console.WriteLine("Blog count : " + db.Table<Blog>().Count());
@@ -50,9 +48,7 @@ namespace SqliteNetPclConsole
             Console.WriteLine("Delete the blog");
             db.Delete(blog);
 
-            blogs = db.Table<Blog>();
-
-            Console.WriteLine("Blog count : " + blogs.Count());
+            Console.WriteLine("Blog count : " + db.Table<Blog>().Count());
             Console.WriteLine("Post count : " + db.Table<Post>().Count());
         }
     }
