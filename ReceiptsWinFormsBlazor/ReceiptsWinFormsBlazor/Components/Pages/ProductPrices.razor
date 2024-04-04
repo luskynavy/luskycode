@@ -1,0 +1,103 @@
+﻿@page "/prices/{ProductId:int}"
+@* @rendermode InteractiveServer *@
+
+@using Microsoft.EntityFrameworkCore
+@using ChartJs.Blazor
+@using ChartJs.Blazor.LineChart
+@using ChartJs.Blazor.Common
+@using ChartJs.Blazor.Common.Enums
+@using ChartJs.Blazor.Util
+
+@inject IDbContextFactory<ReceiptsContext> DbFactory
+
+@if (NotFound && !Loading)
+{
+    <div class="alert alert-warning">Aucun produit avec cet id n'existe.</div>
+}
+else
+{
+    @if (Loading)
+    {
+        <div class="alert alert-info">Chargement...</div>
+    }
+    else
+    {
+        <Chart Config="_config" @ref="_chart"></Chart>
+    }
+}
+
+@code {
+
+    // Tracking of asynchronous calls.
+    private bool Loading;
+
+    // Id from route of product.
+    [Parameter]
+    public int ProductId { get; set; }
+
+    private LineConfig? _config;
+
+    private Chart? _chart;
+
+    // Set to true when not found.
+    private bool NotFound = false;
+
+    // Navigated
+    protected override async Task OnParametersSetAsync()
+    {
+
+        if (Loading)
+        {
+            return; //avoid concurrent requests.
+        }
+
+        NotFound = false;
+
+        Loading = true;
+
+        using var context = DbFactory.CreateDbContext();
+
+        List<decimal> yvalues = new();
+
+        _config = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                Responsive = true
+            }
+        };
+
+        if (context.Products is not null)
+        {
+            var product = await context.Products.FirstOrDefaultAsync(m => m.Id == ProductId);
+            if (product != null)
+            {
+                var products = context.Products.Where(m => m.Name == product.Name).OrderBy(p => p.DateReceipt);
+                foreach (var items in products)
+                {
+                    _config.Data.Labels.Add(items.DateReceipt.ToShortDateString());
+                    yvalues.Add(items.Price);
+                }
+
+                IDataset<decimal> dataset1 = new LineDataset<decimal>(yvalues)
+                {
+                    Label = product.Name,
+                    LineTension = 0.0,
+                    BackgroundColor = ColorUtil.FromDrawingColor(System.Drawing.Color.Blue),
+                    BorderColor = ColorUtil.FromDrawingColor(System.Drawing.Color.LightBlue),
+                    Fill = FillingMode.Disabled
+                };
+
+                _config.Data.Datasets.Add(dataset1);
+            }
+
+            if (product is null)
+            {
+                NotFound = true;
+            }
+        }
+
+        Loading = false;
+    }
+
+}

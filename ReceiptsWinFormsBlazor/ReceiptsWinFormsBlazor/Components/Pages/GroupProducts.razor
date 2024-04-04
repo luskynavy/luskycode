@@ -1,13 +1,15 @@
-﻿@page "/products/"
+﻿@page "/groupproducts/"
 @* @rendermode InteractiveServer *@
 @* Disable prerender so request are only done once*@
 @* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 @inject NavigationManager Navigation
 
-<PageTitle>Produits</PageTitle>
+@using ReceiptsBlazorWinForms.Components.Pages
 
-<h1>Produits</h1>
+<PageTitle>Groupe de produits</PageTitle>
+
+<h1>Groupe de produits</h1>
 
 
 @if (Loading)
@@ -50,6 +52,10 @@ else
                 }
             </select>
         </div>
+
+        <label>Inclure les produits avec un seul prix
+            <input type="checkbox" @bind="@Products1price" />
+        </label>
     </p>
     <button class="btn hoverblue" @onclick="ReloadAsync">Rechercher</button>
     <button class="btn hoverblue" @onclick="Clear">Effacer</button>
@@ -59,8 +65,12 @@ else
             <tr>
                 <th>Groupe</th>
                 <th>Nom</th>
-                <th>Prix</th>
-                <th>Date de réception</th>
+                <th>Max</th>
+                <th>Min</th>
+                <th>Date min</th>
+                <th>Date max</th>
+                <th>Rapport des prix</th>
+                <th>Nombre de prix</th>
             </tr>
         </thead>
         <tbody>
@@ -71,8 +81,12 @@ else
                     <tr>
                         <td>@product.Group</td>
                         <td>@product.Name</td>
-                        <td>@product.Price</td>
-                        <td>@product.DateReceipt.ToShortDateString()</td>
+                        <td>@product.Min</td>
+                        <td>@product.Max</td>
+                        <td>@product.MinDate.ToShortDateString()</td>
+                        <td>@product.MaxDate.ToShortDateString()</td>
+                        <td>@String.Format("{0:0.00}", product.PriceRatio)</td>
+                        <td>@product.PricesCount</td>
                         <td>
                             <a title="Détails" href="details/@product.Id" style="text-decoration:none">
                                 &nbsp;🔍&nbsp;
@@ -134,7 +148,7 @@ else
 
 @code {
     // The products list
-    private Product[]? productsList;
+    private GroupProduct[]? productsList;
 
     // True if data are loading
     private bool Loading = true;
@@ -167,6 +181,8 @@ else
     }
     #endregion //Page size
 
+    private bool Products1price { get; set; }
+
     // Previous page management
     private bool HasPrev { get; set; }
 
@@ -185,7 +201,7 @@ else
     private string IsDisabled(bool condition) =>
         !Loading && condition ? "" : "disabled";
 
-#region Popup
+    #region Popup
     // True if popup is displayed
     private bool ShowPopup = false;
 
@@ -204,7 +220,7 @@ else
     {
         ShowPopup = false;
     }
- #endregion //Popup
+    #endregion //Popup
 
     protected override async Task OnParametersSetAsync()
     {
@@ -218,10 +234,12 @@ else
     {
         switch (sort)
         {
-            case "Name":
-                return "Nom";
-            case "DateReceipt":
-                return "Date de réception";
+            case "MaxDate":
+                return "Date max";
+            case "PriceRatio":
+                return "Rapport des prix";
+            case "PricesCount":
+                return "Nombre de prix";
             default:
                 return "Groupe";
         }
@@ -233,7 +251,7 @@ else
 
         // Init select
         GroupList = context.Products.Select(p => p.Group).Distinct().ToList();
-        SortList = new List<string>{ "Group", "DateReceipt", "Name"};
+        SortList = new List<string> { "Group", "PriceRatio", "PricesCount", "MaxDate" };
 
         Loading = true;
 
@@ -250,36 +268,70 @@ else
             products = products.Where(s => s.Name.Contains(SearchString));
         }
 
-        //Sort
-        if (Sort == "DateReceipt")
+        if (products != null)
         {
-            products = products.OrderByDescending(p => p.DateReceipt);
-        }
-        else if (Sort == "Name")
-        {
-            products = products.OrderBy(p => p.Name);
-        }
-        else //Group or unknown
-        {
-            products = products.OrderBy(p => p.Group).ThenBy(p => p.Name).ThenBy(p => p.DateReceipt);
-        }
+            //Method syntax
+            var groupsProducts = products.GroupBy(
+                                     p => new
+                                     {
+                                         p.Group,
+                                         p.Name
+                                     }).
+                                    Select(gp => new GroupProduct
+                                        {
+                                            Id = gp.Min(p => p.Id),
+                                            Group = gp.Key.Group,
+                                            Name = gp.Key.Name,
+                                            Min = gp.Min(p => p.Price),
+                                            Max = gp.Max(p => p.Price),
+                                            MinDate = gp.Min(p => p.DateReceipt),
+                                            MaxDate = gp.Max(p => p.DateReceipt),
+                                            PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
+                                            PricesCount = gp.Count()
+                                        });
 
-        var count = await products.CountAsync();
-        TotalPages = (int)Math.Ceiling(count / (double)PageSize);
 
-        if (Page > TotalPages)
-        {
-            Page = TotalPages;
+            //Filter products with only one price (useless for comparaison)
+            if (!Products1price)
+            {
+                groupsProducts = groupsProducts.Where(p => p.PricesCount > 1);
+            }
+
+            //Sort
+            if (Sort == "PriceRatio")
+            {
+                groupsProducts = groupsProducts.OrderByDescending(p => p.PriceRatio);
+            }
+            else if (Sort == "PricesCount")
+            {
+                groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
+            }
+            else if (Sort == "MaxDate")
+            {
+                groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
+            }
+            else //Group or unknown
+            {
+                groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
+            }
+
+            var count = await groupsProducts.CountAsync();
+            TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+
+            if (Page > TotalPages)
+            {
+                Page = TotalPages;
+            }
+            if (Page <= 0)
+            {
+                Page = 1;
+            }
+
+            HasPrev = Page > 1;
+            HasNext = Page < TotalPages;
+
+            productsList = await groupsProducts.Skip((Page - 1) * PageSize).Take(PageSize).ToArrayAsync();
         }
-        if (Page <= 0)
-        {
-            Page = 1;
-        }
-
-        HasPrev = Page > 1;
-        HasNext = Page < TotalPages;
-
-        productsList = await products.Skip((Page - 1) * PageSize).Take(PageSize).ToArrayAsync();
 
         Loading = false;
     }
@@ -292,6 +344,7 @@ else
         FilterGroup = null;
         SearchString = null;
         PageSize = 10;
+        Products1price = false;
 
         await ReloadAsync();
     }

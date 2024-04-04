@@ -17,7 +17,7 @@ public partial class ReceiptsContext : DbContext
     {
     }
 
-    public virtual DbSet<Product> Products { get; set; }    
+    public virtual DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

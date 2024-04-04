@@ -1,0 +1,101 @@
+﻿@* @rendermode InteractiveServer *@
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<ReceiptsContext> DbFactory
+
+<input type="text" @bind="SearchString" @oninput="HandleInput" @onfocusout="ClearSearchList" />
+@if (searchList is not null)
+{
+    @if (searchList.Any())
+    {
+        <ul class="options">
+            @foreach (var product in searchList)
+            {
+                <li class="option" @onmousedown=@(_ => SelectProduct(product))>
+                    <span class="option-text">@product</span>
+                </li>
+            }
+        </ul>
+    }
+}
+
+@code {
+    //To get component value in
+    [Parameter]
+    public string? SearchString { get; set; }
+
+    //To call to set component value out
+    [Parameter]
+    public EventCallback<string> SearchStringChanged { get; set; }
+
+    // Wait period in (ms) after the user stops typing.
+    const int DebounceMs = 300;
+
+    // True if an option has been selected
+    bool selected = false;
+
+    // Timer for debounce.
+    System.Timers.Timer? timer;
+
+    //Results list
+    private IEnumerable<string>? searchList;
+
+    //Handle input change
+    void HandleInput(ChangeEventArgs e)
+    {
+        SearchString = e?.Value?.ToString();
+
+        timer?.Dispose();
+        timer = new(DebounceMs);
+        timer.Elapsed += NotifyTimerElapsed;
+        timer.Enabled = true;
+    }
+
+    // Fired after debounce time.
+    // sender: Timer
+    // e: Event args
+    private async void NotifyTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        timer?.Dispose();
+        timer = null;
+        if (SearchString != null)
+        {
+            searchList = await SearchProducts(SearchString);
+
+            //Refresh the interface since we are in a thread
+            await InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            searchList = null;
+        }
+    }
+
+    // Search the products
+    private async Task<IEnumerable<string>> SearchProducts(string searchText)
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        return await Task.FromResult(context.Products.Where(
+                     x => x.Name.ToLower().Contains(searchText.ToLower())).Select(p => p.Name).Distinct().Take(10).ToList());
+    }
+
+    // Called when an option is selected
+    void SelectProduct(string product)
+    {
+        SearchString = product;
+        SearchStringChanged.InvokeAsync(SearchString);
+        searchList = null;
+
+        selected = true;
+    }
+
+    // Called input loose focus
+    async void ClearSearchList()
+    {
+        if (!selected)
+        {
+            await SearchStringChanged.InvokeAsync(SearchString);
+        }
+        searchList = null;
+    }
+}

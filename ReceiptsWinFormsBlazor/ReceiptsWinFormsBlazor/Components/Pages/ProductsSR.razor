@@ -1,0 +1,143 @@
+﻿@page "/productssr"
+@page "/productssr/{Page:int}"
+@* @rendermode InteractiveServer *@
+@attribute [StreamRendering(true)]
+@inject IDbContextFactory<ReceiptsContext> DbFactory
+@inject NavigationManager Navigation
+
+<PageTitle>Products</PageTitle>
+
+<h1>Products Stream Rendering</h1>
+
+
+@if (Loading)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (products != null)
+            {
+                @foreach (var product in products)
+                {
+                    <tr>
+                        <td>@product.Group</td>
+                        <td>@product.Name</td>
+                        <td>@product.Price</td>
+                        <td>@product.DateReceipt.ToShortDateString()</td>
+                        <td>
+                            <a title="Details" href="details/@product.Id" style="text-decoration:none">
+                                &nbsp;🔍&nbsp;
+                            </a>
+                            @* <a title="Edit" href="edit/@product.Id" style="text-decoration:none">
+                &nbsp;📝&nbsp;
+                </a> *@
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <span>@Page sur @TotalPages</span>
+    <a disabled="@(Loading || Page == 1)"
+       class="btn btn-primary @IsDisabled(Page != 1)"
+       href="/productssr/1">
+        Première
+    </a>
+    <a disabled="@(Loading || !HasPrev)"
+       class="btn btn-primary @IsDisabled(HasPrev)"
+       href="@PrevPage">
+        Précédent
+    </a>
+    <a disabled="@(Loading || !HasNext)"
+       class="btn btn-primary @IsDisabled(HasNext)"
+       href="@NextPage">
+        Suivant
+    </a>
+    <a disabled="@(Loading || Page == TotalPages)"
+       class="btn btn-primary @IsDisabled(Page != TotalPages)"
+       href="/productssr/@TotalPages">
+        Dernière
+    </a>
+}
+
+
+@code {
+    // The products list
+    private Product[]? products;
+
+    private bool Loading = true;
+
+    // Current page
+    [Parameter]
+    public int Page { get; set; }
+
+    private int TotalPages { get; set; }
+
+    // Previous page management
+    private bool HasPrev { get; set; }
+    private string? PrevPage { get; set; }
+
+    // Next page management
+    private bool HasNext { get; set; }
+    private string? NextPage { get; set; }
+
+    // Helper method to set disabled on class for paging.
+    // condition: When the element is active (and therefore should not be disabled).
+    //            Returns the string literal "disabled" or an empty string.
+    private string IsDisabled(bool condition) =>
+        !Loading && condition ? "" : "disabled";
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // Ensure we're on the same (correct) page.
+        if (Page < 1)
+        {
+            Navigation.NavigateTo("/productssr/1");
+            return;
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Page >= 1)
+        {
+            int pageSize = 10;
+
+            using var context = DbFactory.CreateDbContext();
+
+            Loading = true;
+
+            //await Task.Delay(500);
+
+            var count = await context.Products.CountAsync();
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+            HasPrev = Page > 1;
+            HasNext = Page < TotalPages;
+
+            PrevPage = $"/productssr/{Page - 1}";
+            NextPage = $"/productssr/{Page + 1}";
+
+            products = await context.Products.OrderByDescending(p => p.DateReceipt).Skip((Page - 1) * pageSize).Take(pageSize).ToArrayAsync();
+
+            Loading = false;
+        }
+
+        await base.OnParametersSetAsync();
+    }
+}
