@@ -1,4 +1,7 @@
-﻿@using System.Globalization
+﻿@rendermode InteractiveServer
+
+@using System.Globalization
+@using Microsoft.AspNetCore.Localization
 @inject IJSRuntime JS
 @inject NavigationManager Navigation
 
@@ -22,6 +25,9 @@
         new CultureInfo("fr"),
     };
 
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
     private CultureInfo Culture
     {
         get => CultureInfo.CurrentCulture;
@@ -42,6 +48,14 @@
 
                 Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
                 //Navigation.NavigateTo(Navigation.Uri, forceLoad: false);
+
+                //TODO : store in cookies for CultureInfo.CurrentCulture to not be reset when reloading page ?
+
+                HttpContext?.Response.Cookies.Append(
+                    CookieRequestCultureProvider.DefaultCookieName,
+                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(value)),
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                );
 
                 StateHasChanged();
             }
