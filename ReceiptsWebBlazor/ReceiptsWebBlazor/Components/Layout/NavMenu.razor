@@ -1,10 +1,17 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using ReceiptsWebBlazor.Components.Pages
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">ReceiptsWebBlazor</a>
     </div>
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<article class="bottom-row px-4">
+    <CultureSelector />
+</article>
+
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">

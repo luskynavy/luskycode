@@ -4,12 +4,13 @@
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 @inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> Localize
 
 @using ReceiptsWebBlazor.Components.Pages
 
-<PageTitle>Groupe de produits</PageTitle>
+<PageTitle>@Localize["Group products"]</PageTitle>
 
-<h1>Groupe de produits</h1>
+<h1>@Localize["Group products"]</h1>
 
 
 @if (Loading)
@@ -20,7 +21,7 @@ else
 {
     <p>
         <div>
-            <span>Filtrer par groupe:</span>
+            <span>@Localize["Filter by group:"]</span>
             <select @bind="FilterGroup">
                 @if (GroupList != null)
                 {

@@ -1,0 +1,50 @@
+﻿@using System.Globalization
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<p>
+    <label>
+        @* Select your locale: *@
+        <select @bind="Culture">
+            @foreach (var culture in supportedCultures)
+            {
+                <option value="@culture">@culture.DisplayName</option>
+            }
+        </select>
+    </label>
+</p>
+
+@code
+{
+    private CultureInfo[] supportedCultures = new[]
+        {
+        new CultureInfo("en"),
+        new CultureInfo("fr"),
+    };
+
+    private CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                //var js = (IJSInProcessRuntime)JS;
+                //js.InvokeVoid("blazorCulture.set", value.Name);
+
+                var js = JS;
+                js.InvokeVoidAsync("blazorCulture.set", value.Name);
+                js.InvokeVoidAsync("cultureInfo.set", value.Name);
+                CultureInfo.CurrentCulture = value;
+                CultureInfo.CurrentUICulture = value;
+                CultureInfo.DefaultThreadCurrentCulture = value;
+                CultureInfo.DefaultThreadCurrentUICulture = value;
+
+                Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+                //Navigation.NavigateTo(Navigation.Uri, forceLoad: false);
+
+                StateHasChanged();
+            }
+        }
+    }
+}
