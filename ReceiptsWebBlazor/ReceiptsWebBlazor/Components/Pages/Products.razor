@@ -47,7 +47,7 @@ else
                 {
                     foreach (var sort in SortList)
                     {
-                        <option value="@sort">@Localize[sort]</option>
+                        <option value="@sort">@Localize[GetSortName(sort)]</option>
                     }
                 }
             </select>
@@ -213,6 +213,22 @@ else
         await ReloadAsync();
 
         await base.OnParametersSetAsync();
+    }
+
+    // Get text to display for sort value
+    private string GetSortName(string sort)
+    {
+        switch (sort)
+        {
+            case "DateReceipt":
+                return "Date receipt";
+            case "PriceRatio":
+                return "Price ratio";
+            case "Name":
+                return "Name";
+            default:
+                return "Group";
+        }
     }
 
     private async Task ReloadAsync()

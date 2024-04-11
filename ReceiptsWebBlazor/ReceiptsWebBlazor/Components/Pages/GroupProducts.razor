@@ -49,7 +49,7 @@ else
                 {
                     foreach (var sort in SortList)
                     {
-                        <option value="@sort">@GetSortName(sort)</option>
+                        <option value="@sort">@Localize[GetSortName(sort)]</option>
                     }
                 }
             </select>
@@ -238,13 +238,13 @@ else
         switch (sort)
         {
             case "MaxDate":
-                return "Date max";
+                return "Max date";
             case "PriceRatio":
-                return "Rapport des prix";
+                return "Price ratio";
             case "PricesCount":
-                return "Nombre de prix";
+                return "Prices count";
             default:
-                return "Groupe";
+                return "Group";
         }
     }
 
