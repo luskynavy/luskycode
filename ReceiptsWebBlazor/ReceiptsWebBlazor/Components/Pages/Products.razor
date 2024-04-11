@@ -92,7 +92,7 @@ else
         </tbody>
     </table>
 
-    <span>@(TotalPages == 0 ? 0 : Page) sur @TotalPages</span>
+    <span>@(TotalPages == 0 ? 0 : Page) @Localize["of"] @TotalPages</span>
     <span>&nbsp;</span>
 
     <button class="btn btn-primary @IsDisabled(Page != 1)" @onclick="GoFirstPage">@Localize["First"]</button>

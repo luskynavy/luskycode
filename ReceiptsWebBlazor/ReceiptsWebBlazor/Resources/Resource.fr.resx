@@ -189,6 +189,9 @@
   <data name="No product with this ix exists." xml:space="preserve">
     <value>Aucun produit avec cet id n'existe.</value>
   </data>
+  <data name="of" xml:space="preserve">
+    <value>sur</value>
+  </data>
   <data name="Page size" xml:space="preserve">
     <value>Taille de page</value>
   </data>
