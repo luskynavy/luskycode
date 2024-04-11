@@ -213,6 +213,9 @@
   <data name="Products" xml:space="preserve">
     <value>Produits</value>
   </data>
+  <data name="Products SR" xml:space="preserve">
+    <value>Produits SR</value>
+  </data>
   <data name="Products Stream Rendering" xml:space="preserve">
     <value>Produits avec Stream Rendering</value>
   </data>
