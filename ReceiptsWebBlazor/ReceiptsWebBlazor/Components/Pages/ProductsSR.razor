@@ -2,27 +2,29 @@
 @page "/productssr/{Page:int}"
 @rendermode InteractiveServer
 @attribute [StreamRendering(true)]
+
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 @inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> Localize
 
-<PageTitle>Products</PageTitle>
+<PageTitle>@Localize["Products"]</PageTitle>
 
-<h1>Products Stream Rendering</h1>
+<h1>@Localize["Products Stream Rendering"]</h1>
 
 
 @if (Loading)
 {
-    <p><em>Loading...</em></p>
+    <p><em>@Localize["Loading..."]</em></p>
 }
 else
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Group</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Date</th>
+                <th>@Localize["Group"]</th>
+                <th>@Localize["Name"]</th>
+                <th>@Localize["Price"]</th>
+                <th>@Localize["Date"]</th>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +38,7 @@ else
                         <td>@product.Price</td>
                         <td>@product.DateReceipt.ToShortDateString()</td>
                         <td>
-                            <a title="Details" href="details/@product.Id" style="text-decoration:none">
+                            <a title="@Localize["Details"]" href="details/@product.Id" style="text-decoration:none">
                                 &nbsp;🔍&nbsp;
                             </a>
                             @* <a title="Edit" href="edit/@product.Id" style="text-decoration:none">

@@ -1,4 +1,5 @@
 ﻿@using ReceiptsWebBlazor.Components.Pages
+@inject IStringLocalizer<Resource> Localize
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -8,33 +9,29 @@
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
-<article class="bottom-row px-4">
-    <CultureSelector />
-</article>
-
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @Localize["Home"]
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="groupproducts">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Groupe de produits
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> @Localize["Group products"]
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="products">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Produits
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> @Localize["Products"]
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="productssr">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Produits SR
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> @Localize["Products SR"]
             </NavLink>
         </div>
    </nav>

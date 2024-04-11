@@ -2,31 +2,33 @@
 
 @using System.Globalization
 @using Microsoft.AspNetCore.Localization
-@inject IJSRuntime JS
+
 @inject NavigationManager Navigation
 
 <p>
-    <label>
-        @* Select your locale: *@
-        <select @bind="Culture">
-            @foreach (var culture in supportedCultures)
-            {
-                <option value="@culture">@culture.DisplayName</option>
-            }
-        </select>
-    </label>
+    <select @bind="Culture">
+        @foreach (var culture in supportedCultures)
+        {
+            <option value="@culture">@culture.DisplayName</option>
+        }
+    </select>
 </p>
 
 @code
 {
+    // From here https://www.faciletechnolab.com/blog/part-3-how-to-implement-multilanguage-ui-in-aspnet-core-blazor-web-app-in-net-8/
+    // or here with all possible versions https://learn.microsoft.com/en-us/aspnet/core/blazor/globalization-localization?view=aspnetcore-8.0
+
     private CultureInfo[] supportedCultures = new[]
         {
         new CultureInfo("en"),
         new CultureInfo("fr"),
     };
 
-    [CascadingParameter]
-    private HttpContext? HttpContext { get; set; }
+    protected override void OnInitialized()
+    {
+        Culture = CultureInfo.CurrentCulture;
+    }
 
     private CultureInfo Culture
     {
@@ -35,29 +37,14 @@
         {
             if (CultureInfo.CurrentCulture != value)
             {
-                //var js = (IJSInProcessRuntime)JS;
-                //js.InvokeVoid("blazorCulture.set", value.Name);
+                if (CultureInfo.CurrentCulture != value)
+                {
+                    var uri = new Uri(Navigation.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+                    var cultureEscaped = Uri.EscapeDataString(value.Name);
+                    var uriEscaped = Uri.EscapeDataString(uri);
 
-                var js = JS;
-                js.InvokeVoidAsync("blazorCulture.set", value.Name);
-                js.InvokeVoidAsync("cultureInfo.set", value.Name);
-                CultureInfo.CurrentCulture = value;
-                CultureInfo.CurrentUICulture = value;
-                CultureInfo.DefaultThreadCurrentCulture = value;
-                CultureInfo.DefaultThreadCurrentUICulture = value;
-
-                Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
-                //Navigation.NavigateTo(Navigation.Uri, forceLoad: false);
-
-                //TODO : store in cookies for CultureInfo.CurrentCulture to not be reset when reloading page ?
-
-                HttpContext?.Response.Cookies.Append(
-                    CookieRequestCultureProvider.DefaultCookieName,
-                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(value)),
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-                );
-
-                StateHasChanged();
+                    Navigation.NavigateTo($"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}", forceLoad: true);
+                }
             }
         }
     }

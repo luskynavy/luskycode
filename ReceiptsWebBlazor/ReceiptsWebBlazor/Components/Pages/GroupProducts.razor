@@ -2,6 +2,7 @@
 @* @rendermode InteractiveServer *@
 @* Disable prerender so request are only done once*@
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
+
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 @inject NavigationManager Navigation
 @inject IStringLocalizer<Resource> Localize
@@ -15,13 +16,13 @@
 
 @if (Loading)
 {
-    <p><em>Chargement...</em></p>
+    <p><em>@Localize["Loading..."]</em></p>
 }
 else
 {
     <p>
         <div>
-            <span>@Localize["Filter by group:"]</span>
+            <span>@Localize["Filter by group"]</span>
             <select @bind="FilterGroup">
                 @if (GroupList != null)
                 {
@@ -35,14 +36,14 @@ else
         </div>
 
         <div class="autocomplete w-25">
-            <label>Trouver par nom : </label>
+            <label>@Localize["Find by name"]</label>
             <Autocomplete @bind-SearchString="@SearchString" />
         </div>
 
         @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
 
         <div>
-            <span>Trier par : </span>
+            <span>@Localize["Sort by"]</span>
             <select @bind="Sort">
                 @if (SortList != null)
                 {
@@ -54,24 +55,25 @@ else
             </select>
         </div>
 
-        <label>Inclure les produits avec un seul prix
+        <label>
+            @Localize["Include products with only one price"]
             <input type="checkbox" @bind="@Products1price" />
         </label>
     </p>
-    <button class="btn hoverblue" @onclick="ReloadAsync">Rechercher</button>
-    <button class="btn hoverblue" @onclick="Clear">Effacer</button>
+    <button class="btn hoverblue" @onclick="ReloadAsync">@Localize["Search"]</button>
+    <button class="btn hoverblue" @onclick="Clear">@Localize["Clear"]</button>
 
     <table class="table alternateLines">
         <thead>
             <tr>
-                <th>Groupe</th>
-                <th>Nom</th>
-                <th>Max</th>
-                <th>Min</th>
-                <th>Date min</th>
-                <th>Date max</th>
-                <th>Rapport des prix</th>
-                <th>Nombre de prix</th>
+                <th>@Localize["Group"]</th>
+                <th>@Localize["Name"]</th>
+                <th>@Localize["Max"]</th>
+                <th>@Localize["Min"]</th>
+                <th>@Localize["Min date"]</th>
+                <th>@Localize["Max date"]</th>
+                <th>@Localize["Price ratio"]</th>
+                <th>@Localize["Prices count"]</th>
             </tr>
         </thead>
         <tbody>
@@ -89,10 +91,10 @@ else
                         <td>@String.Format("{0:0.00}", product.PriceRatio)</td>
                         <td>@product.PricesCount</td>
                         <td>
-                            <a title="Détails" href="details/@product.Id" style="text-decoration:none">
+                            <a title="@Localize["Details"]" href="details/@product.Id" style="text-decoration:none">
                                 &nbsp;🔍&nbsp;
                             </a>
-                            <button title="Prix" class="btn" @onclick="() => ShowPrices(product.Id)">
+                            <button title="@Localize["Price"]" class="btn" @onclick="() => ShowPrices(product.Id)">
                                 📈
                             </button>
                             @* <a title="Edit" href="edit/@product.Id" style="text-decoration:none">
@@ -108,17 +110,17 @@ else
     <span>@(TotalPages == 0 ? 0 : Page) sur @TotalPages</span>
     <span>&nbsp;</span>
 
-    <button class="btn btn-primary @IsDisabled(Page != 1)" @onclick="GoFirstPage">Première</button>
-    <button class="btn btn-primary @IsDisabled(HasPrev)" @onclick="GoPreviousPage">Précédent</button>
-    <button class="btn btn-primary @IsDisabled(HasNext)" @onclick="GoNextPage">Suivant</button>
-    <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">Dernière</button>
+    <button class="btn btn-primary @IsDisabled(Page != 1)" @onclick="GoFirstPage">@Localize["First"]</button>
+    <button class="btn btn-primary @IsDisabled(HasPrev)" @onclick="GoPreviousPage">@Localize["Previous"]</button>
+    <button class="btn btn-primary @IsDisabled(HasNext)" @onclick="GoNextPage">@Localize["Next"]</button>
+    <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">@Localize["Last"]</button>
 
-    <span>Taille de page : </span>
+    <span>@Localize["Page size"]</span>
     <select value="@PageSize" @onchange="ChangePageSize">
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="100">100</option>
-        <option value="100000">Tout</option>
+        <option value="100000">@Localize["All"]</option>
     </select>
 
 

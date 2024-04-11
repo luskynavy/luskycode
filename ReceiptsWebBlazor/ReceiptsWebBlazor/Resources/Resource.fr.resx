@@ -117,10 +117,121 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Filter by group:" xml:space="preserve">
-    <value>Filtrer par groupe:</value>
+  <data name="About" xml:space="preserve">
+    <value>A propos</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Tout</value>
+  </data>
+  <data name="An unhandled error has occurred." xml:space="preserve">
+    <value>Une erreur inconnue est servenue.</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Effacer</value>
+  </data>
+  <data name="Date receipt" xml:space="preserve">
+    <value>Date de réception</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="Filter by group" xml:space="preserve">
+    <value>Filtrer par groupe</value>
+  </data>
+  <data name="Find by name" xml:space="preserve">
+    <value>Trouver par nom</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>Première</value>
+  </data>
+  <data name="Full data" xml:space="preserve">
+    <value>Données complétes</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Groupe</value>
   </data>
   <data name="Group products" xml:space="preserve">
     <value>Groupe de produits</value>
+  </data>
+  <data name="Hello, world!" xml:space="preserve">
+    <value>Bonjour, le monde!</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Accueil</value>
+  </data>
+  <data name="Include products with only one price" xml:space="preserve">
+    <value>Inclure les produits avec un seul prix</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Dernière</value>
+  </data>
+  <data name="Loading..." xml:space="preserve">
+    <value>Chargement...</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Max date" xml:space="preserve">
+    <value>Date max</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Min date" xml:space="preserve">
+    <value>Date min</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Suivante</value>
+  </data>
+  <data name="No product with this ix exists." xml:space="preserve">
+    <value>Aucun produit avec cet id n'existe.</value>
+  </data>
+  <data name="Page size" xml:space="preserve">
+    <value>Taille de page</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Précédente</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="Price ratio" xml:space="preserve">
+    <value>Rapport des prix</value>
+  </data>
+  <data name="Prices" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="Prices count" xml:space="preserve">
+    <value>Nombre de prix</value>
+  </data>
+  <data name="Prices history" xml:space="preserve">
+    <value>Historique des prix</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Produits</value>
+  </data>
+  <data name="Products Stream Rendering" xml:space="preserve">
+    <value>Produits avec Stream Rendering</value>
+  </data>
+  <data name="Reload" xml:space="preserve">
+    <value>Recharger</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Rechercher</value>
+  </data>
+  <data name="Sort by" xml:space="preserve">
+    <value>Trier par</value>
+  </data>
+  <data name="Source line" xml:space="preserve">
+    <value>Ligne de la source</value>
+  </data>
+  <data name="Source name" xml:space="preserve">
+    <value>Nom de la source</value>
+  </data>
+  <data name="Welcome to your new app." xml:space="preserve">
+    <value>Bienvenue dans votre nouvelle application.</value>
   </data>
 </root>
