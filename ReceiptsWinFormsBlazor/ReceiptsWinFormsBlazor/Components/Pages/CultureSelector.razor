@@ -1,7 +1,6 @@
 ﻿@* @rendermode InteractiveServer *@
 
 @using System.Globalization
-@* @using Microsoft.AspNetCore.Localization *@
 
 @inject NavigationManager Navigation
 
@@ -46,13 +45,9 @@
                     CultureInfo.DefaultThreadCurrentCulture = value;
                     CultureInfo.DefaultThreadCurrentUICulture = value;
 
-                    Navigation.NavigateTo("/", forceLoad: true);
+                    var uri = new Uri(Navigation.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
 
-                    // var uri = new Uri(Navigation.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
-                    // var cultureEscaped = Uri.EscapeDataString(value.Name);
-                    // var uriEscaped = Uri.EscapeDataString(uri);
-
-                    // Navigation.NavigateTo($"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}", forceLoad: true);
+                    Navigation.NavigateTo(uri, forceLoad: true);
                 }
             }
         }

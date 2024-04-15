@@ -1,12 +1,9 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using ReceiptsBlazorWinForms.Components;
 using ReceiptsBlazorWinForms.Models;
-using System.Globalization;
 
 namespace ReceiptsBlazorWinForms
 {
@@ -27,19 +24,6 @@ namespace ReceiptsBlazorWinForms
                 options.UseSqlServer(connectionString));
 
             services.AddLocalization();
-
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var supportedCultures = new[] { "en", "fr" };
-                options.SetDefaultCulture(supportedCultures[0])
-                    .AddSupportedCultures(supportedCultures)
-                    .AddSupportedUICultures(supportedCultures);
-
-                //CultureInfo.CurrentCulture = new CultureInfo("fr");
-                //CultureInfo.CurrentUICulture = new CultureInfo("fr");
-                //CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr");
-                //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("fr");
-            });
 
             //Debug with browser with about:debugging, only work with .net maui ?
             //services.AddBlazorWebViewDeveloperTools();
