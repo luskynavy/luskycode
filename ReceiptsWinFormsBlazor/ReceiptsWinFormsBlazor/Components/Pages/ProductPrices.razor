@@ -9,16 +9,17 @@
 @using ChartJs.Blazor.Util
 
 @inject IDbContextFactory<ReceiptsContext> DbFactory
+@inject IStringLocalizer<Resource> Localize
 
 @if (NotFound && !Loading)
 {
-    <div class="alert alert-warning">Aucun produit avec cet id n'existe.</div>
+    <div class="alert alert-warning">@Localize["No product with this ix exists."]</div>
 }
 else
 {
     @if (Loading)
     {
-        <div class="alert alert-info">Chargement...</div>
+        <div class="alert alert-info">@Localize["Loading..."]</div>
     }
     else
     {

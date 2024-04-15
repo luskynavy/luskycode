@@ -1,0 +1,60 @@
+﻿@* @rendermode InteractiveServer *@
+
+@using System.Globalization
+@* @using Microsoft.AspNetCore.Localization *@
+
+@inject NavigationManager Navigation
+
+<p>
+    <select @bind="Culture">
+        @foreach (var culture in supportedCultures)
+        {
+            <option value="@culture">@culture.DisplayName</option>
+        }
+    </select>
+</p>
+
+@code
+{
+    // From here https://www.faciletechnolab.com/blog/part-3-how-to-implement-multilanguage-ui-in-aspnet-core-blazor-web-app-in-net-8/
+    // or here with all possible versions https://learn.microsoft.com/en-us/aspnet/core/blazor/globalization-localization?view=aspnetcore-8.0
+
+    private CultureInfo[] supportedCultures = new[]
+        {
+        new CultureInfo("en"),
+        new CultureInfo("fr"),
+    };
+
+    protected override void OnInitialized()
+    {
+        Culture = CultureInfo.CurrentCulture;
+    }
+
+    private CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                if (CultureInfo.CurrentCulture != value)
+                {
+                    Thread.CurrentThread.CurrentCulture = value;
+                    Thread.CurrentThread.CurrentUICulture = value;
+                    CultureInfo.CurrentCulture = value;
+                    CultureInfo.CurrentUICulture = value;
+                    CultureInfo.DefaultThreadCurrentCulture = value;
+                    CultureInfo.DefaultThreadCurrentUICulture = value;
+
+                    Navigation.NavigateTo("/", forceLoad: true);
+
+                    // var uri = new Uri(Navigation.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+                    // var cultureEscaped = Uri.EscapeDataString(value.Name);
+                    // var uriEscaped = Uri.EscapeDataString(uri);
+
+                    // Navigation.NavigateTo($"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}", forceLoad: true);
+                }
+            }
+        }
+    }
+}

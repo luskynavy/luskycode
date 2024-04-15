@@ -1,61 +1,63 @@
 ﻿@page "/details/{ProductId:int}"
 @* @rendermode InteractiveServer *@
 @using Microsoft.EntityFrameworkCore
-@inject IDbContextFactory<ReceiptsContext> DbFactory
 
-<h3>Détails</h3>
+@inject IDbContextFactory<ReceiptsContext> DbFactory
+@inject IStringLocalizer<Resource> Localize
+
+<h3>@Localize["Details"]</h3>
 
 @if (NotFound && !Loading)
 {
-    <div class="alert alert-warning">Aucun produit avec cet id n'existe.</div>
+    <div class="alert alert-warning">@Localize["No product with this ix exists."]</div>
 }
 else
 {
     @if (Product is null || Loading)
     {
-        <div class="alert alert-info">Chargement...</div>
+        <div class="alert alert-info">@Localize["Chargement..."]</div>
     }
     else
     {
         <dl class="row">
             <dt class = "col-sm-2">
-                Groupe
+                @Localize["Group"]
             </dt>
             <dd class = "col-sm-10">
                 @Product.Group
             </dd>
             <dt class="col-sm-2">
-                Nom
+                @Localize["Name"]
             </dt>
             <dd class="col-sm-10">
                 @Product.Name
             </dd>
             <dt class="col-sm-2">
-                Prix
+                @Localize["Price"]
             </dt>
             <dd class="col-sm-10">
                 @Product.Price
             </dd>
             <dt class="col-sm-2">
-                Date de réception
+                @Localize["Date receipt"]
             </dt>
             <dd class="col-sm-10">
                 @Product.DateReceipt.ToShortDateString()
             </dd>
             <dt class="col-sm-2">
-                Nom de la source
+                @Localize["Source name"]
             </dt>
             <dd class="col-sm-10">
                 @Product.SourceName
             </dd>
             <dt class="col-sm-2">
-                Ligne de la source
+                @Localize["Source line"]
             </dt>
             <dd class="col-sm-10">
                 @Product.SourceLine
             </dd>
             <dt class="col-sm-2">
-                Données complétes
+                @Localize["Full data"]
             </dt>
             <dd class="col-sm-10">
                 @Product.FullData
