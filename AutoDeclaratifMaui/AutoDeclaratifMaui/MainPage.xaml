@@ -5,12 +5,20 @@
              xmlns:material="clr-namespace:UraniumUI.Material.Controls;assembly=UraniumUI.Material"
              x:Class="AutoDeclaratifMaui.MainPage">
 
+    <ContentPage.Resources>
+        <Style x:Key="labelStyle" TargetType="Label">
+            <Setter Property="TextDecorations" Value="Underline" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+    </ContentPage.Resources>
+
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
             <DatePicker Format="MMMM YYYY" />
-            <Label FontSize="25">Grid</Label>
+            <Label Style="{StaticResource labelStyle}">Grid :</Label>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -78,7 +86,7 @@
                 <Label  Grid.Column="7" Grid.Row="4" />
             </Grid>
 
-            <Label FontSize="25">Grid in TableView</Label>
+            <Label Style="{StaticResource labelStyle}">Grid in TableView</Label>
             <TableView>
                 <TableRoot>
                     <TableSection>
@@ -138,7 +146,7 @@
                 </TableRoot>
             </TableView>
 
-            <Label FontSize="25">akgul.Maui.DataGrid</Label>
+            <Label Style="{StaticResource labelStyle}">akgul.Maui.DataGrid</Label>
             <dg:DataGrid RefreshingEnabled="True"
              BackgroundColor="White"
                      IsRefreshing="{Binding Refreshing}"
@@ -176,7 +184,7 @@
                 </dg:DataGrid.RowsBackgroundColorPalette>
             </dg:DataGrid>
 
-            <Label FontSize="25">UraniumUI DataGrid</Label>
+            <Label Style="{StaticResource labelStyle}">UraniumUI DataGrid</Label>
             <material:DataGrid ItemsSource="{Binding Items2}" UseAutoColumns="True" Margin="30" />
             <material:DataGrid ItemsSource="{Binding Items2}" UseAutoColumns="True" HorizontalOptions="Center">
                 <material:DataGrid.CellItemTemplate>
