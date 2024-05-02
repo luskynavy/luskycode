@@ -22,6 +22,14 @@ namespace ReceiptsWeb.Models
 		[Display(Name = "Max", ResourceType = typeof(Resources.SharedResource))]
 		public decimal Max { get; set; }
 
+		[Precision(18, 2)]
+		[Display(Name = "PreviousPrice", ResourceType = typeof(Resources.SharedResource))]
+		public decimal PreviousPrice { get; set; }
+
+		[Precision(18, 2)]
+		[Display(Name = "LastPrice", ResourceType = typeof(Resources.SharedResource))]
+		public decimal LastPrice { get; set; }
+
 		[Display(Name = "MinDate", ResourceType = typeof(Resources.SharedResource))]
 		public DateTime MinDate { get; set; }
 

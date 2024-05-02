@@ -126,6 +126,9 @@
   <data name="Group" xml:space="preserve">
     <value>Group</value>
   </data>
+  <data name="LastPrice" xml:space="preserve">
+    <value>Last price</value>
+  </data>
   <data name="Max" xml:space="preserve">
     <value>Max</value>
   </data>
@@ -141,6 +144,9 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="PreviousPrice" xml:space="preserve">
+    <value>Previous price</value>
+  </data>
   <data name="Price" xml:space="preserve">
     <value>Price</value>
   </data>
@@ -155,5 +161,8 @@
   </data>
   <data name="SourceName" xml:space="preserve">
     <value>Source name</value>
+  </data>
+  <data name="Tendency" xml:space="preserve">
+    <value>Tendency</value>
   </data>
 </root>

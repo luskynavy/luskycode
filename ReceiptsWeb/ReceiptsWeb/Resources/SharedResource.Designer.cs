@@ -88,6 +88,15 @@ namespace ReceiptsWeb.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last price.
+        /// </summary>
+        public static string LastPrice {
+            get {
+                return ResourceManager.GetString("LastPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max.
         /// </summary>
         public static string Max {
@@ -133,6 +142,15 @@ namespace ReceiptsWeb.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Previous price.
+        /// </summary>
+        public static string PreviousPrice {
+            get {
+                return ResourceManager.GetString("PreviousPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price.
         /// </summary>
         public static string Price {
@@ -174,6 +192,15 @@ namespace ReceiptsWeb.Resources {
         public static string SourceName {
             get {
                 return ResourceManager.GetString("SourceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tendency.
+        /// </summary>
+        public static string Tendency {
+            get {
+                return ResourceManager.GetString("Tendency", resourceCulture);
             }
         }
     }

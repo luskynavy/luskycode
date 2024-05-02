@@ -164,6 +164,9 @@ namespace ReceiptsWeb.Controllers
 											Name = gp.Key.Name,
 											Min = gp.Min(p => p.Price),
 											Max = gp.Max(p => p.Price),
+											//if there is at least 2 elements, sort by date, skip the last, so we have the previous product
+											PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
+											LastPrice = gp.OrderByDescending(x => x.DateReceipt).First().Price,
 											MinDate = gp.Min(p => p.DateReceipt),
 											MaxDate = gp.Max(p => p.DateReceipt),
 											PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),

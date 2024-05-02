@@ -67,6 +67,15 @@
 					@Html.DisplayNameFor(model => model.First().Max)
 				</th>
 				<th>
+					@Html.DisplayNameFor(model => model.First().PreviousPrice)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.First().LastPrice)
+				</th>
+				<th>
+					@SharedLocalizer["Tendency"]
+				</th>
+				<th>
 					@Html.DisplayNameFor(model => model.First().MinDate)
 				</th>
 				<th>
@@ -96,6 +105,26 @@
 					</td>
 					<td>
 						@Html.DisplayFor(modelItem => item.Max)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.PreviousPrice)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.LastPrice)
+					</td>
+					<td>
+						@if (item.LastPrice > item.PreviousPrice)
+						{
+							<span class="bi-arrow-up-right" style="color:red"></span>
+						}
+						else if (item.LastPrice == item.PreviousPrice)
+						{
+							<span>=</span>
+						}
+						else
+						{
+							<span class="bi-arrow-down-right" style="color:green"></span>
+						}
 					</td>
 					<td>
 						@item.MinDate.ToShortDateString()
