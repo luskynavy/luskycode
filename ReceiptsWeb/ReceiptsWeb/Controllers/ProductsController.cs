@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -166,12 +167,23 @@ namespace ReceiptsWeb.Controllers
 											Max = gp.Max(p => p.Price),
 											//if there is at least 2 elements, sort by date, skip the last, so we have the previous product
 											//PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
+											PricesList = gp.OrderByDescending(x => x.DateReceipt).Select(z => z.Price),
 											LastPrice = gp.OrderByDescending(x => x.DateReceipt).First().Price,
 											MinDate = gp.Min(p => p.DateReceipt),
 											MaxDate = gp.Max(p => p.DateReceipt),
 											PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
 											PricesCount = gp.Count()
 										});
+
+				/*var groups = await products.GroupBy(
+						p => new
+						{
+							p.Group,
+							p.Name
+						})
+					.Select(gp => new { gp.Key.Name, gp.Key.Group, pricesList = gp.OrderByDescending(x => x.DateReceipt).Select(z => z.Price) })
+					.ToListAsync();*/
+
 				//Query syntax
 				/*var groupsProducts = from p in products
                                      group p by new
@@ -220,9 +232,9 @@ namespace ReceiptsWeb.Controllers
 				foreach (var p in results)
 				{
 					//Get the prices list for the product
-					var prices = products.Where(gp => gp.Name == p.Name && gp.Group == p.Group).OrderByDescending(x => x.DateReceipt).ToList();
+					var prices = p.PricesList;
 					//Skip the prices if they are equal to older
-					p.PreviousPrice = prices.SkipWhile(z => z.Price == p.LastPrice && z != prices.Last()).First().Price;
+					p.PreviousPrice = prices.SkipWhile((z, index) => z == p.LastPrice && index != prices.Count() - 1).First();
 				}
 
 				return View(results);

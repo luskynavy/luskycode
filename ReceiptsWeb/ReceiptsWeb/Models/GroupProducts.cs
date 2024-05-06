@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReceiptsWeb.Models
 {
@@ -42,5 +43,8 @@ namespace ReceiptsWeb.Models
 
 		[Display(Name = "PricesCount", ResourceType = typeof(Resources.SharedResource))]
 		public int PricesCount { get; set; }
+
+		[NotMapped]
+		public IEnumerable<decimal> PricesList { get; set; }
 	}
 }
