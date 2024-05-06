@@ -159,7 +159,7 @@ namespace ReceiptsWeb.Controllers
 										 }).
 										Select(gp => new GroupProducts
 										{
-											Id = gp.Min(p => p.Id),
+											Id = gp.Max(p => p.Id),
 											Group = gp.Key.Group,
 											Name = gp.Key.Name,
 											Min = gp.Min(p => p.Price),
