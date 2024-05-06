@@ -165,7 +165,7 @@ namespace ReceiptsWeb.Controllers
 											Min = gp.Min(p => p.Price),
 											Max = gp.Max(p => p.Price),
 											//if there is at least 2 elements, sort by date, skip the last, so we have the previous product
-											PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
+											//PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
 											LastPrice = gp.OrderByDescending(x => x.DateReceipt).First().Price,
 											MinDate = gp.Min(p => p.DateReceipt),
 											MaxDate = gp.Max(p => p.DateReceipt),
@@ -214,7 +214,18 @@ namespace ReceiptsWeb.Controllers
 					groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
 				}
 
-				return View(await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt));
+				var results = await PaginatedList<GroupProducts>.CreateAsync(groupsProducts, pageNumber ?? 1, pageSizeInt);
+
+				//Get the previous different price
+				foreach (var p in results)
+				{
+					//Get the prices list for the product
+					var prices = products.Where(gp => gp.Name == p.Name && gp.Group == p.Group).OrderByDescending(x => x.DateReceipt).ToList();
+					//Skip the prices if they are equal to older
+					p.PreviousPrice = prices.SkipWhile(z => z.Price == p.LastPrice && z != prices.Last()).First().Price;
+				}
+
+				return View(results);
 			}
 			else
 			{
