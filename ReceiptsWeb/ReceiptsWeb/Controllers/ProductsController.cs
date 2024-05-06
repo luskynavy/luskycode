@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -174,15 +173,6 @@ namespace ReceiptsWeb.Controllers
 											PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
 											PricesCount = gp.Count()
 										});
-
-				/*var groups = await products.GroupBy(
-						p => new
-						{
-							p.Group,
-							p.Name
-						})
-					.Select(gp => new { gp.Key.Name, gp.Key.Group, pricesList = gp.OrderByDescending(x => x.DateReceipt).Select(z => z.Price) })
-					.ToListAsync();*/
 
 				//Query syntax
 				/*var groupsProducts = from p in products
