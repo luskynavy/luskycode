@@ -133,7 +133,7 @@ namespace webapi.Controllers
 										 }).
 										Select(gp => new GroupProducts
 										{
-											Id = gp.Min(p => p.Id),
+											Id = gp.Max(p => p.Id),
 											Group = gp.Key.Group,
 											Name = gp.Key.Name,
 											Min = gp.Min(p => p.Price),
@@ -186,6 +186,7 @@ namespace webapi.Controllers
 		{
 			var groupList = _context.Products.Select(p => p.Group).Distinct().ToList();
 			var selectList = new List<string>();
+			selectList.Add("");
 			foreach (var group in groupList)
 			{
 				selectList.Add(group);
