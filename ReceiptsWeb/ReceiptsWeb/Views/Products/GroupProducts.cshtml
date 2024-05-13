@@ -154,8 +154,6 @@
 		var lastDisabled = Model.PageIndex == Model.TotalPages ? "disabled" : "";
 	}
 
-	<input type="hidden" id="pageNumber" name="pageNumber" value="@Model.PageIndex" />
-
 	@Model.PageIndex @SharedLocalizer["of"] @Model.TotalPages
 	<a onclick="$('#pageNumber').val(1); this.closest('form').submit()"
 	   class="btn btn-default @firstDisabled hoverblue">
@@ -175,6 +173,8 @@
 	</a>
 
 	@SharedLocalizer["Page Size"] : <select name="pageSize" asp-items="@ViewBag.PageSizeList" onchange="$('#pageNumber').val(1); this.form.submit()"></select>
+
+	<input type="hidden" id="pageNumber" name="pageNumber" value="@Model.PageIndex" />
 </form>
 
 <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/themes/smoothness/jquery-ui.css">
