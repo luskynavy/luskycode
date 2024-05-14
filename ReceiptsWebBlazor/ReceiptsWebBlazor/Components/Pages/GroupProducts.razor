@@ -68,8 +68,11 @@ else
             <tr>
                 <th>@Localize["Group"]</th>
                 <th>@Localize["Name"]</th>
-                <th>@Localize["Max"]</th>
                 <th>@Localize["Min"]</th>
+                <th>@Localize["Max"]</th>
+                <th>@Localize["Previous price"]</th>
+                <th>@Localize["Last price"]</th>
+                <th>@Localize["Tendency"]</th>
                 <th>@Localize["Min date"]</th>
                 <th>@Localize["Max date"]</th>
                 <th>@Localize["Price ratio"]</th>
@@ -86,6 +89,22 @@ else
                         <td>@product.Name</td>
                         <td>@product.Min</td>
                         <td>@product.Max</td>
+                        <td>@product.PreviousPrice</td>
+                        <td>@product.LastPrice</td>
+                        <td>
+                            @if (product.LastPrice > product.PreviousPrice)
+                            {
+                                <span style="color:red">↗</span>
+                            }
+                            else if (product.LastPrice == product.PreviousPrice)
+                            {
+                                <span>=</span>
+                            }
+                            else
+                            {
+                                <span style="color:green">↘</span>
+                            }
+                        </td>
                         <td>@product.MinDate.ToShortDateString()</td>
                         <td>@product.MaxDate.ToShortDateString()</td>
                         <td>@String.Format("{0:0.00}", product.PriceRatio)</td>
@@ -287,6 +306,10 @@ else
                                             Name = gp.Key.Name,
                                             Min = gp.Min(p => p.Price),
                                             Max = gp.Max(p => p.Price),
+                                            //if there is at least 2 elements, sort by date, skip the last, so we have the previous product
+                                            //PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
+                                            PricesList = gp.OrderByDescending(x => x.DateReceipt).Select(z => z.Price),
+                                            LastPrice = gp.OrderByDescending(x => x.DateReceipt).First().Price,
                                             MinDate = gp.Min(p => p.DateReceipt),
                                             MaxDate = gp.Max(p => p.DateReceipt),
                                             PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
@@ -334,6 +357,15 @@ else
             HasNext = Page < TotalPages;
 
             productsList = await groupsProducts.Skip((Page - 1) * PageSize).Take(PageSize).ToArrayAsync();
+
+            //Get the previous different price
+            foreach (var p in productsList)
+            {
+                //Get the prices list for the product
+                var prices = p.PricesList;
+                //Skip the prices if they are equal to older
+                p.PreviousPrice = prices.SkipWhile((z, index) => z == p.LastPrice && index != prices.Count() - 1).First();
+            }
         }
 
         Loading = false;
