@@ -18,6 +18,12 @@ public class GroupProduct
     [Precision(18, 2)]
     public decimal Max { get; set; }
 
+    [Precision(18, 2)]
+    public decimal PreviousPrice { get; set; }
+
+    [Precision(18, 2)]
+    public decimal LastPrice { get; set; }
+
     public DateTime MinDate { get; set; }
 
     public DateTime MaxDate { get; set; }
@@ -26,4 +32,6 @@ public class GroupProduct
     public decimal PriceRatio { get; set; }
 
     public int PricesCount { get; set; }
+
+    public IEnumerable<decimal> PricesList { get; set; }
 }
