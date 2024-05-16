@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ReceiptsBlazorWinForms.Components;
 using ReceiptsBlazorWinForms.Models;
+using Microsoft.Extensions.Logging;
 
 namespace ReceiptsBlazorWinForms
 {
@@ -25,8 +26,10 @@ namespace ReceiptsBlazorWinForms
 
             services.AddLocalization();
 
-            //Debug with browser with about:debugging, only work with .net maui ?
-            //services.AddBlazorWebViewDeveloperTools();
+            //Debug with browser with about:debugging, only work with .net maui ? (F12 or CTRL + SHIFT + I to debug web)
+#if DEBUG
+            services.AddBlazorWebViewDeveloperTools();
+#endif
 
             services.AddWindowsFormsBlazorWebView();
             blazorWebView1.HostPage = "wwwroot\\index.html";
