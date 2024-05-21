@@ -31,6 +31,9 @@ namespace ReceiptsWeb.Models
 		[Display(Name = "LastPrice", ResourceType = typeof(Resources.SharedResource))]
 		public decimal LastPrice { get; set; }
 
+		[Display(Name = "LastPricePerKilo", ResourceType = typeof(Resources.SharedResource))]
+		public decimal LastPricePerKilo { get; set; }
+
 		[Display(Name = "MinDate", ResourceType = typeof(Resources.SharedResource))]
 		public DateTime MinDate { get; set; }
 

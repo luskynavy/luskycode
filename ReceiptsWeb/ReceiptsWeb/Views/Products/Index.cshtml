@@ -1,4 +1,4 @@
-﻿@model PaginatedList<ReceiptsWeb.Models.Products>
+﻿@model PaginatedList<ReceiptsWeb.Models.Products2>
 
 @using Microsoft.AspNetCore.Mvc.Localization
 
@@ -58,6 +58,9 @@
 					@Html.DisplayNameFor(model => model.First().Price)
 				</th>
 				<th>
+					@Html.DisplayNameFor(model => model.First().PricePerKilo)
+				</th>
+				<th>
 					@Html.DisplayNameFor(model => model.First().DateReceipt)
 				</th>
 				<th>
@@ -84,6 +87,9 @@
 					</td>
 					<td>
 						@Html.DisplayFor(modelItem => item.Price)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.PricePerKilo)
 					</td>
 					<td>
 						@item.DateReceipt.ToShortDateString()

@@ -73,6 +73,9 @@
 					@Html.DisplayNameFor(model => model.First().LastPrice)
 				</th>
 				<th>
+					@Html.DisplayNameFor(model => model.First().LastPricePerKilo)
+				</th>
+				<th>
 					@SharedLocalizer["Tendency"]
 				</th>
 				<th>
@@ -111,6 +114,9 @@
 					</td>
 					<td>
 						@Html.DisplayFor(modelItem => item.LastPrice)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.LastPricePerKilo)
 					</td>
 					<td>
 						@if (item.LastPrice > item.PreviousPrice)

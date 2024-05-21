@@ -129,6 +129,9 @@
   <data name="LastPrice" xml:space="preserve">
     <value>Last price</value>
   </data>
+  <data name="LastPricePerKilo" xml:space="preserve">
+    <value>Last price per kilo</value>
+  </data>
   <data name="Max" xml:space="preserve">
     <value>Max</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="Price" xml:space="preserve">
     <value>Price</value>
+  </data>
+  <data name="PricePerKilo" xml:space="preserve">
+    <value>Price per kilo</value>
   </data>
   <data name="PriceRatio" xml:space="preserve">
     <value>Price ratio</value>

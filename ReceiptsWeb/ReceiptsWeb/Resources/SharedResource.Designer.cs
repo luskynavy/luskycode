@@ -97,6 +97,15 @@ namespace ReceiptsWeb.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last price per kilo.
+        /// </summary>
+        public static string LastPricePerKilo {
+            get {
+                return ResourceManager.GetString("LastPricePerKilo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max.
         /// </summary>
         public static string Max {
@@ -156,6 +165,15 @@ namespace ReceiptsWeb.Resources {
         public static string Price {
             get {
                 return ResourceManager.GetString("Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price per kilo.
+        /// </summary>
+        public static string PricePerKilo {
+            get {
+                return ResourceManager.GetString("PricePerKilo", resourceCulture);
             }
         }
         
