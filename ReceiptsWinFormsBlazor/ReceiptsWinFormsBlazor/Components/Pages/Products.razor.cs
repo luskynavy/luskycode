@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using ReceiptsBlazorWinForms.Models;
+using System.Text.RegularExpressions;
 
 namespace ReceiptsBlazorWinForms.Components.Pages
 {
     public partial class Products
     {
         // The products list
-        private Product[]? productsList;
+        private List<Products2>? productsList;
 
         // True if data are loading
         private bool Loading = true;
@@ -162,9 +163,88 @@ namespace ReceiptsBlazorWinForms.Components.Pages
             HasPrev = Page > 1;
             HasNext = Page < TotalPages;
 
-            productsList = await products.Skip((Page - 1) * PageSize).Take(PageSize).ToArrayAsync();
+            var results = await products.Skip((Page - 1) * PageSize).Take(PageSize).ToArrayAsync();
+
+            productsList = new List<Products2>();
+
+            //Convert Product in Products and extract price per kilo
+            foreach (var p in results)
+            {
+                var p2 = new Products2
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    DateReceipt = p.DateReceipt,
+                    FullData = p.FullData,
+                    Group = p.Group,
+                    Price = p.Price,
+                    SourceLine = p.SourceLine,
+                    SourceName = p.SourceName,
+                    PricePerKilo = Math.Round(ExtractPricePerKilo(p.Name, p.Price), 2)
+                };
+                productsList.Add(p2);
+            }
 
             Loading = false;
+        }
+
+        /// <summary>
+        /// Extract the price per kilo from product name if possible
+        /// </summary>
+        /// <param name="name">product name with price</param>
+        /// <param name="price">price of product</param>
+        /// <returns></returns>
+        public static decimal ExtractPricePerKilo(string name, decimal price)
+        {
+            //Search weight in gramme (G or GR)
+            // ' 400G' or '.400G' or ' 400GR'
+            string pattern = @"( |\.)(\d+)(G|GR)$";
+            var match = Regex.Match(name, pattern);
+
+            if (match.Success)
+            {
+                return price / (decimal.Parse(match.Groups[2].Value) / 1000);
+            }
+            else
+            {
+                //Search weight in gramme (G or GR) with multiple products
+                // ' 2X100G' or '.2X100G' or ' 2X100GR'
+                pattern = @"( |\.)(\d+)X(\d+)(G|GR)$";
+                match = Regex.Match(name, pattern);
+
+                if (match.Success)
+                {
+                    return price / (decimal.Parse(match.Groups[2].Value) * decimal.Parse(match.Groups[3].Value) / 1000);
+                }
+                else
+                {
+                    //Search weight in kilogramme in integer format
+                    // ' 1KG' or '.2KG'
+                    pattern = @"( |\.)(\d+)KG$";
+                    match = Regex.Match(name, pattern);
+
+                    if (match.Success)
+                    {
+                        return price / (decimal.Parse(match.Groups[2].Value));
+                    }
+                    else
+                    {
+                        //Search weight in kilogramme in decimal format
+                        // ' 1,5KG' or '.1,5KG'
+                        pattern = @"( |\.)(\d+),(\d+)KG$";
+                        match = Regex.Match(name, pattern);
+
+                        if (match.Success)
+                        {
+                            var weightIntegerPart = decimal.Parse(match.Groups[2].Value);
+                            var weightDecimalPart = decimal.Parse(match.Groups[3].Value) / (decimal)Math.Pow(10, match.Groups[3].Value.ToString().Length);
+                            return price / (weightIntegerPart + weightDecimalPart);
+                        }
+                    }
+                }
+            }
+
+            return 0;
         }
 
         //Clear button

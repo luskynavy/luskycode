@@ -5,33 +5,36 @@ namespace ReceiptsBlazorWinForms.Models;
 
 public class GroupProduct
 {
-    [Key]
-    public int Id { get; set; }
+	[Key]
+	public int Id { get; set; }
 
-    public string? Name { get; set; }
+	public string? Name { get; set; }
 
-    public string? Group { get; set; }
+	public string? Group { get; set; }
 
-    [Precision(18, 2)]
-    public decimal Min { get; set; }
+	[Precision(18, 2)]
+	public decimal Min { get; set; }
 
-    [Precision(18, 2)]
-    public decimal Max { get; set; }
+	[Precision(18, 2)]
+	public decimal Max { get; set; }
 
-    [Precision(18, 2)]
-    public decimal PreviousPrice { get; set; }
+	[Precision(18, 2)]
+	public decimal PreviousPrice { get; set; }
 
-    [Precision(18, 2)]
-    public decimal LastPrice { get; set; }
+	[Precision(18, 2)]
+	public decimal LastPrice { get; set; }
 
-    public DateTime MinDate { get; set; }
+	[Precision(18, 2)]
+	public decimal LastPricePerKilo { get; set; }
 
-    public DateTime MaxDate { get; set; }
+	public DateTime MinDate { get; set; }
 
-    [Precision(18, 2)]
-    public decimal PriceRatio { get; set; }
+	public DateTime MaxDate { get; set; }
 
-    public int PricesCount { get; set; }
+	[Precision(18, 2)]
+	public decimal PriceRatio { get; set; }
 
-    public IEnumerable<decimal> PricesList { get; set; }
+	public int PricesCount { get; set; }
+
+	public IEnumerable<decimal> PricesList { get; set; }
 }
