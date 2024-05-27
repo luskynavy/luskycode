@@ -24,6 +24,9 @@ public class GroupProduct
 	[Precision(18, 2)]
 	public decimal LastPrice { get; set; }
 
+	[Precision(18, 2)]
+	public decimal LastPricePerKilo { get; set; }
+
 	public DateTime MinDate { get; set; }
 
 	public DateTime MaxDate { get; set; }

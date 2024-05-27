@@ -72,6 +72,7 @@ else
                 <th>@Localize["Max"]</th>
                 <th>@Localize["Previous price"]</th>
                 <th>@Localize["Last price"]</th>
+                <th>@Localize["Last price per kilo"]</th>
                 <th>@Localize["Tendency"]</th>
                 <th>@Localize["Min date"]</th>
                 <th>@Localize["Max date"]</th>
@@ -91,6 +92,7 @@ else
                         <td>@product.Max</td>
                         <td>@product.PreviousPrice</td>
                         <td>@product.LastPrice</td>
+                        <td>@product.LastPricePerKilo</td>
                         <td>
                             @if (product.LastPrice > product.PreviousPrice)
                             {
@@ -150,7 +152,7 @@ else
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Historique des prix</h5>
+                        <h5 class="modal-title">@Localize["Prices history"]</h5>
                         <!-- Button to close the popup -->
                         <button type="button" class="close"
                                 @onclick="ClosePopup">
@@ -365,6 +367,8 @@ else
                 var prices = p.PricesList;
                 //Skip the prices if they are equal to older
                 p.PreviousPrice = prices.SkipWhile((z, index) => z == p.LastPrice && index != prices.Count() - 1).First();
+
+                p.LastPricePerKilo = Math.Round(Products.ExtractPricePerKilo(p.Name, p.LastPrice), 2);
             }
         }
 

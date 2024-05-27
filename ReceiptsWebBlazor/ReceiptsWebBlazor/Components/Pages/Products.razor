@@ -62,6 +62,7 @@ else
                 <th>@Localize["Group"]</th>
                 <th>@Localize["Name"]</th>
                 <th>@Localize["Price"]</th>
+                <th>@Localize["Price per kilo"]</th>
                 <th>@Localize["Date receipt"]</th>
             </tr>
         </thead>
@@ -74,6 +75,7 @@ else
                         <td>@product.Group</td>
                         <td>@product.Name</td>
                         <td>@product.Price</td>
+                        <td>@product.PricePerKilo</td>
                         <td>@product.DateReceipt.ToShortDateString()</td>
                         <td>
                             <a title="@Localize["Details"]" href="details/@product.Id" style="text-decoration:none">
