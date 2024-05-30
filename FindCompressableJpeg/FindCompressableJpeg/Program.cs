@@ -123,10 +123,10 @@ namespace FindCompressableJpeg
                         {
                         }
 
-                        var nbPixels = exifHeight * exifWidth / 1000;
-                        var sizePerPixel = f.Length / (nbPixels != 0 ? nbPixels : 1);
+                        var nbPixels = exifHeight * exifWidth / 1024;
+                        var sizeFor1024Pixel = f.Length / (nbPixels != 0 ? nbPixels : 1);
 
-                        Console.WriteLine($"{f.Name} ({exifWidth} x {exifHeight}) :  {sizePerPixel}");
+                        Console.WriteLine($"{f.Name} ({exifWidth} x {exifHeight}) :  {sizeFor1024Pixel}");
 
                         stream.Close();
                     }
@@ -157,7 +157,7 @@ namespace FindCompressableJpeg
                         {
                             if (img != null)
                             {
-                                //var nbPixels = img.Height * img.Width / 1000;
+                                //var nbPixels = img.Height * img.Width / 1024;
                                 //var sizePerPixel = f.Length / (nbPixels != 0 ? nbPixels : 1);
 
                                 //Console.WriteLine($"{f.Name} : {img.Width} x {img.Height}");
