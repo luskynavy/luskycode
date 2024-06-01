@@ -181,12 +181,24 @@ namespace FindCompressableJpeg
         /// <param name="width"></param>
         private static void GetBitmapHeightWidth(FileInfo f, ref int height, ref int width)
         {
-            using (var img = new Bitmap(f.FullName))
+            /*using (var img = new Bitmap(f.FullName))
             {
                 if (img != null)
                 {
                     height = img.Height;
                     width = img.Width;
+                }
+            }*/
+
+            //read only the header, no additionnal reference, faster
+            using (var file = new FileStream(f.FullName, FileMode.Open, FileAccess.Read))
+            {
+                using (Image img = Image.FromStream(stream: file,
+                                                    useEmbeddedColorManagement: false,
+                                                    validateImageData: false))
+                {
+                    width = (int)img.PhysicalDimension.Width;
+                    height = (int)img.PhysicalDimension.Height;
                 }
             }
         }
