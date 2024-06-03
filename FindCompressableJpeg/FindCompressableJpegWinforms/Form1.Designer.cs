@@ -35,8 +35,8 @@
             Dimensions = new DataGridViewTextBoxColumn();
             label1 = new Label();
             imagesPath = new TextBox();
-            button1 = new Button();
-            button2 = new Button();
+            SelectPathButton = new Button();
+            GetRatiosButton = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -51,6 +51,7 @@
             dataGridView1.TabIndex = 0;
             dataGridView1.CellMouseDoubleClick += dataGridView1_CellMouseDoubleClick;
             dataGridView1.SortCompare += dataGridView1_SortCompare;
+            dataGridView1.KeyDown += dataGridView1_KeyDown;
             // 
             // NameColumn
             // 
@@ -94,34 +95,34 @@
             imagesPath.Size = new Size(667, 23);
             imagesPath.TabIndex = 2;
             // 
-            // button1
+            // SelectPathButton
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(749, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(39, 23);
-            button1.TabIndex = 3;
-            button1.Text = "...";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            SelectPathButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            SelectPathButton.Location = new Point(749, 12);
+            SelectPathButton.Name = "SelectPathButton";
+            SelectPathButton.Size = new Size(39, 23);
+            SelectPathButton.TabIndex = 3;
+            SelectPathButton.Text = "...";
+            SelectPathButton.UseVisualStyleBackColor = true;
+            SelectPathButton.Click += SelectPathButton_Click;
             // 
-            // button2
+            // GetRatiosButton
             // 
-            button2.Location = new Point(12, 41);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 4;
-            button2.Text = "Get ratios";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            GetRatiosButton.Location = new Point(12, 41);
+            GetRatiosButton.Name = "GetRatiosButton";
+            GetRatiosButton.Size = new Size(75, 23);
+            GetRatiosButton.TabIndex = 4;
+            GetRatiosButton.Text = "Get ratios";
+            GetRatiosButton.UseVisualStyleBackColor = true;
+            GetRatiosButton.Click += GetRatiosButton2_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(GetRatiosButton);
+            Controls.Add(SelectPathButton);
             Controls.Add(imagesPath);
             Controls.Add(label1);
             Controls.Add(dataGridView1);
@@ -141,7 +142,7 @@
         private DataGridViewTextBoxColumn Dimensions;
         private Label label1;
         private TextBox imagesPath;
-        private Button button1;
-        private Button button2;
+        private Button SelectPathButton;
+        private Button GetRatiosButton;
     }
 }

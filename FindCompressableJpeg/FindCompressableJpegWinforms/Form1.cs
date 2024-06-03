@@ -5,8 +5,6 @@ namespace FindCompressableJpegWinforms
 {
     public partial class Form1 : Form
     {
-        private string dirString;
-
         public Form1()
         {
             InitializeComponent();
@@ -29,14 +27,12 @@ namespace FindCompressableJpegWinforms
             //Use first parameter as directory
             if (args.Length <= 1)
             {
-                dirString = ".";
+                imagesPath.Text = Directory.GetCurrentDirectory();
             }
             else
             {
-                dirString = args[1];
+                imagesPath.Text = args[1];
             }
-
-            imagesPath.Text = dirString;
 
             GetRatios();
         }
@@ -116,7 +112,7 @@ namespace FindCompressableJpegWinforms
             {
                 var name = dataGridView1.CurrentRow.Cells[0].Value;
 
-                ProcessStartInfo psi = new ProcessStartInfo(dirString + "\\" + name);
+                ProcessStartInfo psi = new ProcessStartInfo(imagesPath.Text + "\\" + name);
                 psi.UseShellExecute = true;
                 Process.Start(psi);
             }
@@ -132,7 +128,7 @@ namespace FindCompressableJpegWinforms
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void SelectPathButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             folderBrowserDialog.SelectedPath = imagesPath.Text;
@@ -145,9 +141,26 @@ namespace FindCompressableJpegWinforms
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void GetRatiosButton2_Click(object sender, EventArgs e)
         {
             GetRatios();
+        }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            //Go to first row
+            if (e.KeyCode == Keys.Home)
+            {
+                dataGridView1.CurrentCell = dataGridView1[0, 0];
+                e.Handled = true;
+            }
+
+            //Go to last row with data (not the last empty row)
+            if (e.KeyCode == Keys.End)
+            {
+                dataGridView1.CurrentCell = dataGridView1[0, dataGridView1.RowCount - 2];
+                e.Handled = true;
+            }
         }
     }
 }
