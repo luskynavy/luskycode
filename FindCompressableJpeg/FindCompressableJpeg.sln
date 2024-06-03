@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FindCompressableJpeg", "FindCompressableJpeg\FindCompressableJpeg.csproj", "{19438A65-0390-4E95-B7BA-92D5388D0AD2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindCompressableJpegWinforms", "FindCompressableJpegWinforms\FindCompressableJpegWinforms.csproj", "{4BCBC745-13B0-4601-BD26-A0F20A5BE962}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{19438A65-0390-4E95-B7BA-92D5388D0AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19438A65-0390-4E95-B7BA-92D5388D0AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19438A65-0390-4E95-B7BA-92D5388D0AD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BCBC745-13B0-4601-BD26-A0F20A5BE962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCBC745-13B0-4601-BD26-A0F20A5BE962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCBC745-13B0-4601-BD26-A0F20A5BE962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCBC745-13B0-4601-BD26-A0F20A5BE962}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

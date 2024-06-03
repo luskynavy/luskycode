@@ -150,7 +150,7 @@ namespace FindCompressableJpeg
                             try
                             {
                                 //Try Bitmap
-                                GetBitmapHeightWidth(f, ref height, ref width);
+                                GetBitmapHeightWidth(f, out height, out width);
                             }
                             catch (Exception exBitmap)
                             {
@@ -162,8 +162,6 @@ namespace FindCompressableJpeg
                         var sizeFor1024Pixel = f.Length / (nbPixels != 0 ? nbPixels : 1);
 
                         Console.WriteLine($"{f.Name} ({height} x {width}) : {sizeFor1024Pixel}");
-
-
                     }
                     catch (Exception ex)
                     {
@@ -179,7 +177,7 @@ namespace FindCompressableJpeg
         /// <param name="f"></param>
         /// <param name="height"></param>
         /// <param name="width"></param>
-        private static void GetBitmapHeightWidth(FileInfo f, ref int height, ref int width)
+        private static void GetBitmapHeightWidth(FileInfo f, out int height, out int width)
         {
             /*using (var img = new Bitmap(f.FullName))
             {
@@ -232,7 +230,6 @@ namespace FindCompressableJpeg
                 {
                     try
                     {
-
                         int exifHeight = 0, exifWidth = 0;
 
                         try
