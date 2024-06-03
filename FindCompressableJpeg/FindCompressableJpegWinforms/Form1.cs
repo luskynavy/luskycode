@@ -25,6 +25,8 @@ namespace FindCompressableJpegWinforms
         {
             string[] args = Environment.GetCommandLineArgs();
 
+            //First argument is program name then parameters
+            //Use first parameter as directory
             if (args.Length <= 1)
             {
                 dirString = ".";
@@ -34,16 +36,27 @@ namespace FindCompressableJpegWinforms
                 dirString = args[1];
             }
 
-            var dir = new DirectoryInfo(dirString);
+            imagesPath.Text = dirString;
+
+            GetRatios();
+        }
+
+        private void GetRatios()
+        {
+            var dir = new DirectoryInfo(imagesPath.Text);
             FileInfo[] files = dir.GetFiles();
+
+            dataGridView1.Rows.Clear();
 
             foreach (FileInfo file in files)
             {
                 if (FilterJpeg(file))
                 {
+                    //Get dimensions
                     int width, height;
                     GetBitmapHeightWidth(file, out height, out width);
 
+                    //Compute ratio file size / 1024 pixels
                     var nbPixels = height * width / 1024;
                     var sizeFor1024Pixel = file.Length / (nbPixels != 0 ? nbPixels : 1);
 
@@ -52,6 +65,7 @@ namespace FindCompressableJpegWinforms
                 }
             }
 
+            //Sort descending on ratio
             dataGridView1.Sort(dataGridView1.Columns[2], System.ComponentModel.ListSortDirection.Descending);
         }
 
@@ -97,6 +111,7 @@ namespace FindCompressableJpegWinforms
 
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            //Open image on left mouse double click
             if (e.Button == MouseButtons.Left)
             {
                 var name = dataGridView1.CurrentRow.Cells[0].Value;
@@ -115,6 +130,24 @@ namespace FindCompressableJpegWinforms
                 e.SortResult = int.Parse(e.CellValue1.ToString()).CompareTo(int.Parse(e.CellValue2.ToString()));
                 e.Handled = true;//pass by the default sorting
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.SelectedPath = imagesPath.Text;
+
+            DialogResult result = folderBrowserDialog.ShowDialog();
+
+            if (result == DialogResult.OK && !string.IsNullOrEmpty(folderBrowserDialog.SelectedPath))
+            {
+                imagesPath.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            GetRatios();
         }
     }
 }
