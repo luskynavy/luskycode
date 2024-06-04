@@ -37,7 +37,10 @@
             imagesPath = new TextBox();
             SelectPathButton = new Button();
             GetRatiosButton = new Button();
+            label2 = new Label();
+            treshold = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)treshold).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
@@ -108,7 +111,7 @@
             // 
             // GetRatiosButton
             // 
-            GetRatiosButton.Location = new Point(12, 41);
+            GetRatiosButton.Location = new Point(205, 41);
             GetRatiosButton.Name = "GetRatiosButton";
             GetRatiosButton.Size = new Size(75, 23);
             GetRatiosButton.TabIndex = 4;
@@ -116,11 +119,32 @@
             GetRatiosButton.UseVisualStyleBackColor = true;
             GetRatiosButton.Click += GetRatiosButton2_Click;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 44);
+            label2.Name = "label2";
+            label2.Size = new Size(51, 15);
+            label2.TabIndex = 5;
+            label2.Text = "Treshold";
+            // 
+            // treshold
+            // 
+            treshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
+            treshold.Location = new Point(76, 42);
+            treshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            treshold.Name = "treshold";
+            treshold.Size = new Size(120, 23);
+            treshold.TabIndex = 7;
+            treshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(treshold);
+            Controls.Add(label2);
             Controls.Add(GetRatiosButton);
             Controls.Add(SelectPathButton);
             Controls.Add(imagesPath);
@@ -129,6 +153,7 @@
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)treshold).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -144,5 +169,7 @@
         private TextBox imagesPath;
         private Button SelectPathButton;
         private Button GetRatiosButton;
+        private Label label2;
+        private NumericUpDown treshold;
     }
 }

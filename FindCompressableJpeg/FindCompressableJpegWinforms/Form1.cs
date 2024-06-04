@@ -56,8 +56,12 @@ namespace FindCompressableJpegWinforms
                     var nbPixels = height * width / 1024;
                     var sizeFor1024Pixel = file.Length / (nbPixels != 0 ? nbPixels : 1);
 
-                    string[] row = { file.Name, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}" };
-                    dataGridView1.Rows.Add(row);
+                    //Only show value higher than treshold
+                    if (sizeFor1024Pixel >= treshold.Value)
+                    {
+                        string[] row = { file.Name, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}" };
+                        dataGridView1.Rows.Add(row);
+                    }
                 }
             }
 
