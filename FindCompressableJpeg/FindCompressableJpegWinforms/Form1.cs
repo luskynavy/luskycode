@@ -59,7 +59,7 @@ namespace FindCompressableJpegWinforms
                     //Only show value higher than treshold
                     if (sizeFor1024Pixel >= treshold.Value)
                     {
-                        string[] row = { file.Name, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}" };
+                        string[] row = { file.Name, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}", nbPixels.ToString() };
                         dataGridView1.Rows.Add(row);
                     }
                 }
@@ -111,8 +111,8 @@ namespace FindCompressableJpegWinforms
 
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            //Open image on left mouse double click
-            if (e.Button == MouseButtons.Left)
+            //Open image on left mouse double click (but not on header)
+            if (e.RowIndex >= 0 && e.Button == MouseButtons.Left)
             {
                 var name = dataGridView1.CurrentRow.Cells[0].Value;
 
@@ -124,10 +124,19 @@ namespace FindCompressableJpegWinforms
 
         private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
-            //Sort file size and ratio numerically
+            //Sort columns file size and ratio numerically
             if (e.Column.Index == 1 || e.Column.Index == 2)
             {
                 e.SortResult = int.Parse(e.CellValue1.ToString()).CompareTo(int.Parse(e.CellValue2.ToString()));
+                e.Handled = true;//pass by the default sorting
+            }
+            //Sort column dimensions
+            else if (e.Column.Index == 3)
+            {
+                //Use hidden column nbPixels to sort numerically
+                var nbPixelsCell1 = dataGridView1[4, e.RowIndex1].Value.ToString();
+                var nbPixelsCell2 = dataGridView1[4, e.RowIndex2].Value.ToString();
+                e.SortResult = int.Parse(nbPixelsCell1).CompareTo(int.Parse(nbPixelsCell2));
                 e.Handled = true;//pass by the default sorting
             }
         }

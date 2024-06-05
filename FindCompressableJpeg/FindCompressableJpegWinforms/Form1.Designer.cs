@@ -29,16 +29,17 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            NameColumn = new DataGridViewTextBoxColumn();
-            FileSize = new DataGridViewTextBoxColumn();
-            Ratio = new DataGridViewTextBoxColumn();
-            Dimensions = new DataGridViewTextBoxColumn();
             label1 = new Label();
             imagesPath = new TextBox();
             SelectPathButton = new Button();
             GetRatiosButton = new Button();
             label2 = new Label();
             treshold = new NumericUpDown();
+            NameColumn = new DataGridViewTextBoxColumn();
+            FileSize = new DataGridViewTextBoxColumn();
+            Ratio = new DataGridViewTextBoxColumn();
+            Dimensions = new DataGridViewTextBoxColumn();
+            nbPixels = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)treshold).BeginInit();
             SuspendLayout();
@@ -47,7 +48,7 @@
             // 
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NameColumn, FileSize, Ratio, Dimensions });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NameColumn, FileSize, Ratio, Dimensions, nbPixels });
             dataGridView1.Location = new Point(12, 74);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(776, 364);
@@ -55,31 +56,6 @@
             dataGridView1.CellMouseDoubleClick += dataGridView1_CellMouseDoubleClick;
             dataGridView1.SortCompare += dataGridView1_SortCompare;
             dataGridView1.KeyDown += dataGridView1_KeyDown;
-            // 
-            // NameColumn
-            // 
-            NameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            NameColumn.HeaderText = "Name";
-            NameColumn.Name = "NameColumn";
-            NameColumn.ReadOnly = true;
-            // 
-            // FileSize
-            // 
-            FileSize.HeaderText = "File size";
-            FileSize.Name = "FileSize";
-            FileSize.ReadOnly = true;
-            // 
-            // Ratio
-            // 
-            Ratio.HeaderText = "Ratio";
-            Ratio.Name = "Ratio";
-            Ratio.ReadOnly = true;
-            // 
-            // Dimensions
-            // 
-            Dimensions.HeaderText = "Dimensions";
-            Dimensions.Name = "Dimensions";
-            Dimensions.ReadOnly = true;
             // 
             // label1
             // 
@@ -138,6 +114,38 @@
             treshold.TabIndex = 7;
             treshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
             // 
+            // NameColumn
+            // 
+            NameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            NameColumn.HeaderText = "Name";
+            NameColumn.Name = "NameColumn";
+            NameColumn.ReadOnly = true;
+            // 
+            // FileSize
+            // 
+            FileSize.HeaderText = "File size";
+            FileSize.Name = "FileSize";
+            FileSize.ReadOnly = true;
+            // 
+            // Ratio
+            // 
+            Ratio.HeaderText = "Ratio";
+            Ratio.Name = "Ratio";
+            Ratio.ReadOnly = true;
+            // 
+            // Dimensions
+            // 
+            Dimensions.HeaderText = "Dimensions";
+            Dimensions.Name = "Dimensions";
+            Dimensions.ReadOnly = true;
+            // 
+            // nbPixels
+            // 
+            nbPixels.HeaderText = "Nb pixels";
+            nbPixels.Name = "nbPixels";
+            nbPixels.ReadOnly = true;
+            nbPixels.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -151,7 +159,7 @@
             Controls.Add(label1);
             Controls.Add(dataGridView1);
             Name = "Form1";
-            Text = "Form1";
+            Text = "FindCompressableJpeg";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)treshold).EndInit();
             ResumeLayout(false);
@@ -161,15 +169,16 @@
         #endregion
 
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn NameColumn;
-        private DataGridViewTextBoxColumn FileSize;
-        private DataGridViewTextBoxColumn Ratio;
-        private DataGridViewTextBoxColumn Dimensions;
         private Label label1;
         private TextBox imagesPath;
         private Button SelectPathButton;
         private Button GetRatiosButton;
         private Label label2;
         private NumericUpDown treshold;
+        private DataGridViewTextBoxColumn NameColumn;
+        private DataGridViewTextBoxColumn FileSize;
+        private DataGridViewTextBoxColumn Ratio;
+        private DataGridViewTextBoxColumn Dimensions;
+        private DataGridViewTextBoxColumn nbPixels;
     }
 }
