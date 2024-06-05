@@ -39,10 +39,10 @@ namespace FindCompressableJpegWinforms
 
         private void GetRatios()
         {
+            dataGridView1.Rows.Clear();
+
             var dir = new DirectoryInfo(imagesPath.Text);
             FileInfo[] files = dir.GetFiles();
-
-            dataGridView1.Rows.Clear();
 
             foreach (FileInfo file in files)
             {
@@ -96,16 +96,25 @@ namespace FindCompressableJpegWinforms
                 }
             }*/
 
-            //read only the header, no additionnal reference, faster
-            using (var file = new FileStream(f.FullName, FileMode.Open, FileAccess.Read))
+            try
             {
-                using (Image img = Image.FromStream(stream: file,
-                                                    useEmbeddedColorManagement: false,
-                                                    validateImageData: false))
+                //read only the header, no additionnal reference, faster
+                using (var file = new FileStream(f.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    width = (int)img.PhysicalDimension.Width;
-                    height = (int)img.PhysicalDimension.Height;
+                    using (Image img = Image.FromStream(stream: file,
+                                                        useEmbeddedColorManagement: false,
+                                                        validateImageData: false))
+                    {
+                        width = (int)img.PhysicalDimension.Width;
+                        height = (int)img.PhysicalDimension.Height;
+                    }
                 }
+            }
+            catch
+            {
+
+                width = 0;
+                height = 0;
             }
         }
 
