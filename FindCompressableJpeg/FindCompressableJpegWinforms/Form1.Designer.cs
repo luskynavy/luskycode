@@ -42,6 +42,7 @@
             ratioTreshold = new NumericUpDown();
             sizeTreshold = new NumericUpDown();
             label3 = new Label();
+            progressBar1 = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ratioTreshold).BeginInit();
             ((System.ComponentModel.ISupportInitialize)sizeTreshold).BeginInit();
@@ -168,11 +169,20 @@
             label3.TabIndex = 9;
             label3.Text = "Size treshold";
             // 
+            // progressBar1
+            // 
+            progressBar1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            progressBar1.Location = new Point(612, 42);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(176, 23);
+            progressBar1.TabIndex = 10;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(progressBar1);
             Controls.Add(label3);
             Controls.Add(sizeTreshold);
             Controls.Add(ratioTreshold);
@@ -207,5 +217,6 @@
         private DataGridViewTextBoxColumn nbPixels;
         private NumericUpDown sizeTreshold;
         private Label label3;
+        private ProgressBar progressBar1;
     }
 }

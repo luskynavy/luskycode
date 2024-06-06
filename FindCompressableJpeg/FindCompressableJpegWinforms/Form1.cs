@@ -41,6 +41,10 @@ namespace FindCompressableJpegWinforms
         {
             dataGridView1.Rows.Clear();
 
+            progressBar1.Visible = true;
+            progressBar1.SetProgressNoAnimation(0);
+            var nbFileDone = 0;
+
             var dir = new DirectoryInfo(imagesPath.Text);
             FileInfo[] files = dir.GetFiles();
 
@@ -69,7 +73,12 @@ namespace FindCompressableJpegWinforms
                         }
                     }
                 }
+
+                nbFileDone++;
+                progressBar1.SetProgressNoAnimation(100 * nbFileDone / files.Length);
             }
+
+            progressBar1.Visible = false;
 
             //Sort descending on ratio
             dataGridView1.Sort(dataGridView1.Columns[2], System.ComponentModel.ListSortDirection.Descending);
