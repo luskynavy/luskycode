@@ -28,9 +28,15 @@ namespace FindCompressableJpeg
             FileInfo[] files = dir.GetFiles();
 
             Stopwatch sw = Stopwatch.StartNew();
+
             //GetWidthHeightExif(files);
             //sw.Stop();
             //Console.WriteLine($"GetWidthHeightExif in {sw.ElapsedMilliseconds} ms");
+
+            //sw = Stopwatch.StartNew();
+            //GetHeightWidthBitmapHeader(files);
+            //sw.Stop();
+            //Console.WriteLine($"GetHeightWidthBitmapHeader in {sw.ElapsedMilliseconds} ms");
 
             //sw = Stopwatch.StartNew();
             //GetWidthHeightBitmap(files);
@@ -48,7 +54,7 @@ namespace FindCompressableJpeg
 
             //Console.WriteLine();
 
-            sw = Stopwatch.StartNew();
+            //sw = Stopwatch.StartNew();
             GetSizeRatioExif(files);
             sw.Stop();
             Console.WriteLine($"GetSizeRatioExif in {sw.ElapsedMilliseconds} ms");
@@ -70,19 +76,14 @@ namespace FindCompressableJpeg
         /// <param name="files"></param>
         private static void GetWidthHeightExif(FileInfo[] files)
         {
+            int width, height;
             foreach (FileInfo f in files)
             {
                 if (FilterJpeg(f))
                 {
                     try
                     {
-                        //open file in readonly non locking file
-                        var stream = f.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
-                        var exif = ExifReader.ReadJpeg(stream);
-                        var exifHeight = exif.Height;
-                        var exifWidth = exif.Width;
-                        //Console.Write($"{f.Name} : {exifWidth} x {exifHeight}");
-                        stream.Close();
+                        GetExifReaderHeightWidth(f, out height, out width);
                     }
                     catch (Exception ex)
                     {
@@ -125,6 +126,29 @@ namespace FindCompressableJpeg
         }
 
         /// <summary>
+        /// Test image with Bitmap
+        /// </summary>
+        /// <param name="files"></param>
+        private static void GetHeightWidthBitmapHeader(FileInfo[] files)
+        {
+            int width, height;
+            foreach (FileInfo f in files)
+            {
+                if (FilterJpeg(f))
+                {
+                    try
+                    {
+                        GetBitmapHeaderHeightWidth(f, out height, out width);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Exception {ex} for {f.Name}");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Get size ratio with ExifReader and Bitmap
         /// </summary>
         /// <param name="files"></param>
@@ -150,7 +174,7 @@ namespace FindCompressableJpeg
                             try
                             {
                                 //Try Bitmap
-                                GetBitmapHeightWidth(f, out height, out width);
+                                GetBitmapHeaderHeightWidth(f, out height, out width);
                             }
                             catch (Exception exBitmap)
                             {
@@ -177,7 +201,7 @@ namespace FindCompressableJpeg
         /// <param name="f"></param>
         /// <param name="height"></param>
         /// <param name="width"></param>
-        private static void GetBitmapHeightWidth(FileInfo f, out int height, out int width)
+        private static void GetBitmapHeaderHeightWidth(FileInfo f, out int height, out int width)
         {
             /*using (var img = new Bitmap(f.FullName))
             {
@@ -234,11 +258,7 @@ namespace FindCompressableJpeg
 
                         try
                         {
-                            var stream = f.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
-                            var exif = ExifReader.ReadJpeg(stream);
-                            exifHeight = exif.Height;
-                            exifWidth = exif.Width;
-                            stream.Close();
+                            GetExifReaderHeightWidth(f, out exifHeight, out exifWidth);
                         }
                         catch (Exception ex)
                         {

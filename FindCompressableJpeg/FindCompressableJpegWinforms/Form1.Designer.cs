@@ -29,19 +29,22 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            label1 = new Label();
-            imagesPath = new TextBox();
-            SelectPathButton = new Button();
-            GetRatiosButton = new Button();
-            label2 = new Label();
-            treshold = new NumericUpDown();
             NameColumn = new DataGridViewTextBoxColumn();
             FileSize = new DataGridViewTextBoxColumn();
             Ratio = new DataGridViewTextBoxColumn();
             Dimensions = new DataGridViewTextBoxColumn();
             nbPixels = new DataGridViewTextBoxColumn();
+            label1 = new Label();
+            imagesPath = new TextBox();
+            SelectPathButton = new Button();
+            GetRatiosButton = new Button();
+            label2 = new Label();
+            ratioTreshold = new NumericUpDown();
+            sizeTreshold = new NumericUpDown();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)treshold).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ratioTreshold).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)sizeTreshold).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
@@ -56,63 +59,6 @@
             dataGridView1.CellMouseDoubleClick += dataGridView1_CellMouseDoubleClick;
             dataGridView1.SortCompare += dataGridView1_SortCompare;
             dataGridView1.KeyDown += dataGridView1_KeyDown;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 15);
-            label1.Name = "label1";
-            label1.Size = new Size(58, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Jpeg path";
-            // 
-            // imagesPath
-            // 
-            imagesPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            imagesPath.Location = new Point(76, 12);
-            imagesPath.Name = "imagesPath";
-            imagesPath.Size = new Size(667, 23);
-            imagesPath.TabIndex = 2;
-            // 
-            // SelectPathButton
-            // 
-            SelectPathButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            SelectPathButton.Location = new Point(749, 12);
-            SelectPathButton.Name = "SelectPathButton";
-            SelectPathButton.Size = new Size(39, 23);
-            SelectPathButton.TabIndex = 3;
-            SelectPathButton.Text = "...";
-            SelectPathButton.UseVisualStyleBackColor = true;
-            SelectPathButton.Click += SelectPathButton_Click;
-            // 
-            // GetRatiosButton
-            // 
-            GetRatiosButton.Location = new Point(205, 41);
-            GetRatiosButton.Name = "GetRatiosButton";
-            GetRatiosButton.Size = new Size(75, 23);
-            GetRatiosButton.TabIndex = 4;
-            GetRatiosButton.Text = "Get ratios";
-            GetRatiosButton.UseVisualStyleBackColor = true;
-            GetRatiosButton.Click += GetRatiosButton2_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 44);
-            label2.Name = "label2";
-            label2.Size = new Size(51, 15);
-            label2.TabIndex = 5;
-            label2.Text = "Treshold";
-            // 
-            // treshold
-            // 
-            treshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            treshold.Location = new Point(76, 42);
-            treshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            treshold.Name = "treshold";
-            treshold.Size = new Size(120, 23);
-            treshold.TabIndex = 7;
-            treshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
             // 
             // NameColumn
             // 
@@ -146,12 +92,90 @@
             nbPixels.ReadOnly = true;
             nbPixels.Visible = false;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(58, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Jpeg path";
+            // 
+            // imagesPath
+            // 
+            imagesPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            imagesPath.Location = new Point(98, 12);
+            imagesPath.Name = "imagesPath";
+            imagesPath.Size = new Size(645, 23);
+            imagesPath.TabIndex = 2;
+            // 
+            // SelectPathButton
+            // 
+            SelectPathButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            SelectPathButton.Location = new Point(749, 12);
+            SelectPathButton.Name = "SelectPathButton";
+            SelectPathButton.Size = new Size(39, 23);
+            SelectPathButton.TabIndex = 3;
+            SelectPathButton.Text = "...";
+            SelectPathButton.UseVisualStyleBackColor = true;
+            SelectPathButton.Click += SelectPathButton_Click;
+            // 
+            // GetRatiosButton
+            // 
+            GetRatiosButton.Location = new Point(503, 42);
+            GetRatiosButton.Name = "GetRatiosButton";
+            GetRatiosButton.Size = new Size(75, 23);
+            GetRatiosButton.TabIndex = 4;
+            GetRatiosButton.Text = "Get ratios";
+            GetRatiosButton.UseVisualStyleBackColor = true;
+            GetRatiosButton.Click += GetRatiosButton2_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 44);
+            label2.Name = "label2";
+            label2.Size = new Size(80, 15);
+            label2.TabIndex = 5;
+            label2.Text = "Ratio treshold";
+            // 
+            // ratioTreshold
+            // 
+            ratioTreshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
+            ratioTreshold.Location = new Point(98, 42);
+            ratioTreshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            ratioTreshold.Name = "ratioTreshold";
+            ratioTreshold.Size = new Size(120, 23);
+            ratioTreshold.TabIndex = 7;
+            ratioTreshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
+            // 
+            // sizeTreshold
+            // 
+            sizeTreshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
+            sizeTreshold.Location = new Point(339, 42);
+            sizeTreshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            sizeTreshold.Name = "sizeTreshold";
+            sizeTreshold.Size = new Size(120, 23);
+            sizeTreshold.TabIndex = 8;
+            sizeTreshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(260, 44);
+            label3.Name = "label3";
+            label3.Size = new Size(73, 15);
+            label3.TabIndex = 9;
+            label3.Text = "Size treshold";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(treshold);
+            Controls.Add(label3);
+            Controls.Add(sizeTreshold);
+            Controls.Add(ratioTreshold);
             Controls.Add(label2);
             Controls.Add(GetRatiosButton);
             Controls.Add(SelectPathButton);
@@ -161,7 +185,8 @@
             Name = "Form1";
             Text = "FindCompressableJpeg";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)treshold).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ratioTreshold).EndInit();
+            ((System.ComponentModel.ISupportInitialize)sizeTreshold).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -174,11 +199,13 @@
         private Button SelectPathButton;
         private Button GetRatiosButton;
         private Label label2;
-        private NumericUpDown treshold;
+        private NumericUpDown ratioTreshold;
         private DataGridViewTextBoxColumn NameColumn;
         private DataGridViewTextBoxColumn FileSize;
         private DataGridViewTextBoxColumn Ratio;
         private DataGridViewTextBoxColumn Dimensions;
         private DataGridViewTextBoxColumn nbPixels;
+        private NumericUpDown sizeTreshold;
+        private Label label3;
     }
 }

@@ -44,23 +44,29 @@ namespace FindCompressableJpegWinforms
             var dir = new DirectoryInfo(imagesPath.Text);
             FileInfo[] files = dir.GetFiles();
 
+            decimal minimalSize = sizeTreshold.Value * 1024;
+
             foreach (FileInfo file in files)
             {
                 if (FilterJpeg(file))
                 {
-                    //Get dimensions
-                    int width, height;
-                    GetBitmapHeightWidth(file, out height, out width);
-
-                    //Compute ratio file size / 1024 pixels
-                    var nbPixels = height * width / 1024;
-                    var sizeFor1024Pixel = file.Length / (nbPixels != 0 ? nbPixels : 1);
-
-                    //Only show value higher than treshold
-                    if (sizeFor1024Pixel >= treshold.Value)
+                    //Only show file size bigger than treshold
+                    if (file.Length >= minimalSize)
                     {
-                        string[] row = { file.Name, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}", nbPixels.ToString() };
-                        dataGridView1.Rows.Add(row);
+                        //Get dimensions
+                        int width, height;
+                        GetBitmapHeightWidth(file, out height, out width);
+
+                        //Compute ratio file size / 1024 pixels
+                        var nbPixels = height * width / 1024;
+                        var sizeFor1024Pixel = file.Length / (nbPixels != 0 ? nbPixels : 1);
+
+                        //Only show value higher than treshold
+                        if (sizeFor1024Pixel >= ratioTreshold.Value)
+                        {
+                            string[] row = { file.Name, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}", nbPixels.ToString() };
+                            dataGridView1.Rows.Add(row);
+                        }
                     }
                 }
             }
@@ -112,7 +118,6 @@ namespace FindCompressableJpegWinforms
             }
             catch
             {
-
                 width = 0;
                 height = 0;
             }
