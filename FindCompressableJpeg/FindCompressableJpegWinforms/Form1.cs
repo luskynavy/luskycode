@@ -101,6 +101,7 @@ namespace FindCompressableJpegWinforms
         private void backgroundWorker1_RunWorkerCompleted(
             object sender, RunWorkerCompletedEventArgs e)
         {
+            //In main thread
             // First, handle the case where an exception was thrown.
             if (e.Error != null)
             {
@@ -126,6 +127,7 @@ namespace FindCompressableJpegWinforms
         private void backgroundWorker1_ProgressChanged(object sender,
             ProgressChangedEventArgs e)
         {
+            //In main thread
             this.progressBar1.Value = e.ProgressPercentage;
         }
 
