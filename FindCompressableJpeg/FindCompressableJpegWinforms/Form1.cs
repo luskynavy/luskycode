@@ -8,6 +8,8 @@ namespace FindCompressableJpegWinforms
     {
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
 
+        public List<string[]> listRow;
+
         public Form1()
         {
             InitializeComponent();
@@ -133,24 +135,15 @@ namespace FindCompressableJpegWinforms
 
         private void GetRatios()
         {
-            dataGridView1.Rows.Clear();
-
-            progressBar1.Visible = true;
-            progressBar1.SetProgressNoAnimation(0);
-            var nbFileDone = 0;
-
-            /*var modalProgress = new ModalProgress();
-            modalProgress.Show();
-
-            //Center modal on main
-            modalProgress.Location = new Point(
-                this.Location.X + this.Width / 2 - modalProgress.ClientSize.Width / 2,
-                this.Location.Y + this.Height / 2 - modalProgress.ClientSize.Height / 2);*/
+            GetRatiosInit();
 
             var dir = new DirectoryInfo(imagesPath.Text);
             FileInfo[] files = dir.GetFiles();
 
             decimal minimalSize = sizeTreshold.Value * 1024;
+            var nbFileDone = 0;
+
+            listRow = new List<string[]>();
 
             foreach (FileInfo file in files)
             {
@@ -173,7 +166,7 @@ namespace FindCompressableJpegWinforms
                         if (sizeFor1024Pixel >= ratioTreshold.Value)
                         {
                             string[] row = { file.Name, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}", nbPixels.ToString() };
-                            dataGridView1.Rows.Add(row);
+                            listRow.Add(row);
                         }
                     }
                 }
@@ -183,11 +176,37 @@ namespace FindCompressableJpegWinforms
                 //modalProgress.progressBar1.SetProgressNoAnimation(100 * nbFileDone / files.Length);
             }
 
+            GetRatiosEnd();
+        }
+
+        private void GetRatiosEnd()
+        {
             progressBar1.Visible = false;
             //modalProgress.Close();
 
+            foreach (var row in listRow)
+            {
+                dataGridView1.Rows.Add(row);
+            }
+
             //Sort descending on ratio
             dataGridView1.Sort(dataGridView1.Columns[2], System.ComponentModel.ListSortDirection.Descending);
+        }
+
+        private void GetRatiosInit()
+        {
+            dataGridView1.Rows.Clear();
+
+            progressBar1.Visible = true;
+            progressBar1.SetProgressNoAnimation(0);
+
+            /*var modalProgress = new ModalProgress();
+            modalProgress.Show();
+
+            //Center modal on main
+            modalProgress.Location = new Point(
+                this.Location.X + this.Width / 2 - modalProgress.ClientSize.Width / 2,
+                this.Location.Y + this.Height / 2 - modalProgress.ClientSize.Height / 2);*/
         }
 
         /// <summary>
