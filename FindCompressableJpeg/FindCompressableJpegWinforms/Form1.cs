@@ -41,7 +41,7 @@ namespace FindCompressableJpegWinforms
                 imagesPath.Text = args[1];
             }
 
-            GetRatios();
+            //GetRatios();
         }
 
         // Set up the BackgroundWorker object by
@@ -91,10 +91,7 @@ namespace FindCompressableJpegWinforms
             }
             else
             {
-                worker.ReportProgress(1);
-
-                //Exception interthread
-                //GetRatios();
+                GetRatiosProgress(worker);
             }
         }
 
@@ -123,6 +120,8 @@ namespace FindCompressableJpegWinforms
                 // Finally, handle the case where the operation
                 // succeeded.
             }
+
+            GetRatiosEnd();
         }
 
         // This event handler updates the progress bar.
@@ -130,13 +129,21 @@ namespace FindCompressableJpegWinforms
             ProgressChangedEventArgs e)
         {
             //In main thread
-            this.progressBar1.Value = e.ProgressPercentage;
+            //this.progressBar1.Value = e.ProgressPercentage;
+            progressBar1.SetProgressNoAnimation(e.ProgressPercentage);
         }
 
         private void GetRatios()
         {
             GetRatiosInit();
 
+            GetRatiosProgress();
+
+            GetRatiosEnd();
+        }
+
+        private void GetRatiosProgress(BackgroundWorker worker = null)
+        {
             var dir = new DirectoryInfo(imagesPath.Text);
             FileInfo[] files = dir.GetFiles();
 
@@ -160,7 +167,8 @@ namespace FindCompressableJpegWinforms
                         var nbPixels = height * width / 1024;
                         var sizeFor1024Pixel = file.Length / (nbPixels != 0 ? nbPixels : 1);
 
-                        //Thread.Sleep(500);
+                        //Just for tests
+                        //Thread.Sleep(50);
 
                         //Only show value higher than treshold
                         if (sizeFor1024Pixel >= ratioTreshold.Value)
@@ -168,29 +176,45 @@ namespace FindCompressableJpegWinforms
                             string[] row = { file.Name, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}", nbPixels.ToString() };
                             listRow.Add(row);
                         }
+
+                        //Exit if cancel is in progress
+                        if (worker != null && worker.CancellationPending)
+                        {
+                            break;
+                        }
                     }
                 }
 
                 nbFileDone++;
-                progressBar1.SetProgressNoAnimation(100 * nbFileDone / files.Length);
+                if (worker == null)
+                {
+                    progressBar1.SetProgressNoAnimation(100 * nbFileDone / files.Length);
+                }
+                else
+                {
+                    worker.ReportProgress(100 * nbFileDone / files.Length);
+                }
                 //modalProgress.progressBar1.SetProgressNoAnimation(100 * nbFileDone / files.Length);
             }
-
-            GetRatiosEnd();
         }
 
         private void GetRatiosEnd()
         {
+            if (listRow != null)
+            {
+                foreach (var row in listRow)
+                {
+                    dataGridView1.Rows.Add(row);
+                }
+
+                //Sort descending on ratio
+                dataGridView1.Sort(dataGridView1.Columns[2], System.ComponentModel.ListSortDirection.Descending);
+            }
+
             progressBar1.Visible = false;
             //modalProgress.Close();
 
-            foreach (var row in listRow)
-            {
-                dataGridView1.Rows.Add(row);
-            }
-
-            //Sort descending on ratio
-            dataGridView1.Sort(dataGridView1.Columns[2], System.ComponentModel.ListSortDirection.Descending);
+            GetRatiosButton.Text = "Get Ratios";
         }
 
         private void GetRatiosInit()
@@ -304,12 +328,21 @@ namespace FindCompressableJpegWinforms
 
         private void GetRatiosButton2_Click(object sender, EventArgs e)
         {
-            GetRatios();
+            //GetRatios();
 
             if (backgroundWorker1.IsBusy != true)
             {
+                GetRatiosButton.Text = "Cancel";
+
+                GetRatiosInit();
+
                 // Start the asynchronous operation.
                 backgroundWorker1.RunWorkerAsync();
+            }
+            else
+            {
+                // Cancel the asynchronous operation.
+                backgroundWorker1.CancelAsync();
             }
         }
 
