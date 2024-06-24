@@ -24,6 +24,7 @@ else
     else
     {
         <Chart Config="_config" @ref="_chart"></Chart>
+        <label>@Localize["Prices start at 0"] <input type='checkbox' @onclick='changeChartYAxis' @bind='_startAtZero'></label>
     }
 }
 
@@ -39,6 +40,8 @@ else
     private LineConfig? _config;
 
     private Chart? _chart;
+
+    private bool _startAtZero;
 
     // Set to true when not found.
     private bool NotFound = false;
@@ -64,7 +67,19 @@ else
         {
             Options = new LineOptions
             {
-                Responsive = true
+                Responsive = true,
+                Scales = new Scales
+                {
+                    YAxes = new List<ChartJs.Blazor.Common.Axes.CartesianAxis>
+                    {
+                        new ChartJs.Blazor.Common.Axes.LinearCartesianAxis
+                        {
+                            Ticks = new ChartJs.Blazor.Common.Axes.Ticks.LinearCartesianTicks
+                            {
+                            }
+                        }
+                    }
+                }
             }
         };
 
@@ -101,4 +116,21 @@ else
         Loading = false;
     }
 
+    private void changeChartYAxis()
+    {
+        var config = (ChartJs.Blazor.LineChart.LineConfig)_chart.Config;
+
+        if (!_startAtZero)
+        {
+            ((ChartJs.Blazor.Common.Axes.LinearCartesianAxis)config.Options.Scales.YAxes[0]).Ticks.Min = 0;
+            //_chart.options.scales.y = { min: 0 };
+        }
+        else
+        {
+            ((ChartJs.Blazor.Common.Axes.LinearCartesianAxis)config.Options.Scales.YAxes[0]).Ticks.Min = null;
+            //_chart.options.scales.y = { };
+        }
+
+        _chart.Update();
+    }
 }
