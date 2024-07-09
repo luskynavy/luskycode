@@ -1,5 +1,7 @@
 import { reactive } from 'vue'
 import InventoryItemClass from "../classes/InventoryItemClass.js"
+import ItemId from "../classes/ItemId.js"
+import ItemArray from "../classes/ItemArray.js"
 
 export const player = reactive({
     xp: 0,
@@ -13,9 +15,21 @@ export const player = reactive({
         this.cookingLevel = 5;
         this.woodcuttingLevel = 3;
         this.inventory = [
-            new InventoryItemClass(1, 'Wood', 'A wood log', 1),
-            new InventoryItemClass(2, 'Fish', 'A fish', 1),
-            new InventoryItemClass(7, 'Teak', 'A teak wood log', 10),
-            new InventoryItemClass(3, 'Catfish', 'A catfish', 1)];
+            new InventoryItemClass(ItemId.Wood, 1),
+            new InventoryItemClass(ItemId.Fish, 1),
+            new InventoryItemClass(ItemId.Teak, 10),
+            new InventoryItemClass(ItemId.Catfish, 2)]
+    },
+    addToInventory(idItem, count) {
+        var foundInventory = this.inventory.find(i => i.Id == idItem)
+        if (foundInventory === undefined) {
+            var foundItem = ItemArray.find(i => i.Id == idItem)
+            if (foundItem !== undefined) {
+                this.inventory.push(new InventoryItemClass(idItem, count))
+            }
+        }
+        else {
+            foundInventory.Count += count
+        }
     }
 })

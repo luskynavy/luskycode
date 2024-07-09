@@ -1,6 +1,6 @@
 <script setup>
-    import WeatherForecast from './components/WeatherForecast.vue'
-    import TheWelcome from './components/TheWelcome.vue'
+    //import WeatherForecast from './components/WeatherForecast.vue'
+    //import TheWelcome from './components/TheWelcome.vue'
     import 'bootstrap/dist/css/bootstrap.css'
 
     import { player } from './stores/player.js'
