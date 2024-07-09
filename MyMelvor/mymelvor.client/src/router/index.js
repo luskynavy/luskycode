@@ -7,7 +7,6 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            //component: WeatherForecast
             component: HomeView
         },
         {
