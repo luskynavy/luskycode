@@ -1,7 +1,6 @@
 <script setup>
     import { ref } from 'vue'
-    import { player } from '../stores/player.js'
-    import InventoryItemClass from "../classes/InventoryItemClass.js"
+    import { player } from '../stores/player.js'    
     const hoverId = ref(null);
 </script>
 
