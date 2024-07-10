@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMelvorTS.Server", "MyMelvorTS.Server\MyMelvorTS.Server.csproj", "{F7DE5411-500F-4FA4-BB11-577B837F4890}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "mymelvorts.client", "mymelvorts.client\mymelvorts.client.esproj", "{31D495CB-A201-49B6-90BD-7A874EE3D7A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7DE5411-500F-4FA4-BB11-577B837F4890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7DE5411-500F-4FA4-BB11-577B837F4890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7DE5411-500F-4FA4-BB11-577B837F4890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7DE5411-500F-4FA4-BB11-577B837F4890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31D495CB-A201-49B6-90BD-7A874EE3D7A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31D495CB-A201-49B6-90BD-7A874EE3D7A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31D495CB-A201-49B6-90BD-7A874EE3D7A5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{31D495CB-A201-49B6-90BD-7A874EE3D7A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31D495CB-A201-49B6-90BD-7A874EE3D7A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31D495CB-A201-49B6-90BD-7A874EE3D7A5}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B64259D-FFA6-4ECB-9867-2A4CC23F2CCB}
+	EndGlobalSection
+EndGlobal

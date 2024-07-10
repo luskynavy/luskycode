@@ -1,0 +1,6 @@
+@MyMelvorTS.Server_HostAddress = http://localhost:5191
+
+GET {{MyMelvorTS.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
