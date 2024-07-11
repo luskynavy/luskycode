@@ -8,7 +8,7 @@
 
 <template>
   <main>
-      <div class="d-inline-flex flex-row container-fluid">
+      <div class="d-inline-flex flex-row container-fluidZZ">
           <header class="wrapperZZ mb-2ZZ">
               <!--<img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />-->
               <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">-->
