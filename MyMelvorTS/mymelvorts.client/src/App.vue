@@ -3,16 +3,16 @@
   //import TheWelcome from './components/TheWelcome.vue'
   import 'bootstrap/dist/css/bootstrap.css'
 
-  import { player } from './stores/player.ts'
+  import { player } from './stores/player'
 </script>
 
 <template>
   <main>
-      <div class="container-fluidZZ">
-          <header class="wrapperZZ">
+      <div class="d-inline-flex flex-row container-fluid">
+          <header class="wrapperZZ mb-2ZZ">
               <!--<img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />-->
               <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">-->
-              <nav class="navbar bg-light sidebar fixed-leftZZ">
+              <nav class="navbar bg-light sidebar fixed-leftZZ p-3">
                   <div class="navbar-nav">
                       <span class="navbar-brand"><b>MyMelvor</b></span>
                       <RouterLink class="nav-link" to="/">Home</RouterLink>
@@ -24,7 +24,7 @@
               </nav>
           </header>
 
-          <div class="inside">
+          <div class="inside p-3">
               <!--<span>App.vue</span>-->
               <!--<TheWelcome />-->
               <RouterView />
@@ -36,14 +36,14 @@
 <style scoped>
     .sidebar {
         position: fixed;
-        /*top: 0px;*/
-        left: 20px;
+        top: 0px;
+        left: 0px;
         width: 150px;
     }
 
     .inside {
-        position: relative;
-        /*top: 0px;*/
+        position: fixed;
+        top: 0px;
         left: 150px;
     }
 
@@ -51,7 +51,7 @@
         line-height: 1.5;
     }
 
-    @media (min-width: 512px) {
+    @media (min-width: 1024px) {
         /*header {
             display: flex;
             place-items: left;
