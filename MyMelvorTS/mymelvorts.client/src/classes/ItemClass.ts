@@ -1,9 +1,9 @@
 export default class ItemClass {
-    Id = null
-    Name = "";
-    Description = ""
+    Id:number = -1
+    Name:string = "";
+    Description:string = ""
 
-    constructor(id, name, description) {
+    constructor(id:number, name:string, description:string) {
         this.Id = id
         this.Name = name
         this.Description = description

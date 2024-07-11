@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import { player } from '../stores/player.ts'
-    import ItemId from "../classes/ItemId.ts"
+    import { player } from '../stores/player'
+    import ItemId from "../classes/ItemId"
 
     function cookFish(idItem:number) {
         player.addToInventory(idItem, 1)

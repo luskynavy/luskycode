@@ -1,6 +1,6 @@
-<script setup>
+<script setup  lang="ts">
     /*import TheWelcome from '../components/TheWelcome.vue'*/
-    import { player } from '../stores/player.ts'
+    import { player } from '../stores/player'
 </script>
 
 <template>

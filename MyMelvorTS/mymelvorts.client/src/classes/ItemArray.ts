@@ -1,7 +1,7 @@
-import ItemId from "../classes/ItemId.js"
-import ItemClass from "../classes/ItemClass.js"
+import ItemId from "../classes/ItemId"
+import ItemClass from "../classes/ItemClass"
 
-let ItemArray =
+const ItemArray =
     [
         new ItemClass(ItemId.Wood, "Wood", "A wood log"),
         new ItemClass(ItemId.Teak, "Teak", "A teak log"),
