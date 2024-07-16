@@ -15,10 +15,18 @@
 
     function sellItem() {
         player.sellItem(selectedId.value, range.value)
-        if (player.inventory.find(i => i.Id == selectedId.value) == undefined) {
+
+        let itemRemaining = player.inventory.find(i => i.Id == selectedId.value)
+
+        //Remove selection if all items sold
+        if (itemRemaining == undefined) {
             selectedId.value = -1
             selectedItem = undefined
             range.value = 1
+        }
+        //Range value can't be more than item count
+        else if (range.value > itemRemaining.Count ) {
+            range.value = itemRemaining.Count
         }
     }
 </script>
@@ -39,10 +47,11 @@
                 <button :disabled="selectedId==-1" @click="sellItem">Sell {{ range }}</button>
             </aside>
             <div class="d-inline-flexZZ items">
-                <div v-for="item in player.inventory" :key="item.Id" class="item p-1">
+                <div v-for="item in player.inventory" :key="item.Id" class="item p-1"
+                    @click="selectItem(item.Id)" 
+                    @mouseover="hoverId = item.Id" @mouseleave="hoverId = -1">
                     <div class="d-inline-flex flex-column">
-                        <span @mouseover="hoverId = item.Id" @mouseleave="hoverId = -1"
-                        @click="selectItem(item.Id)" :class="selectedId==item.Id ? 'selectedItem' : ''">{{item.Name}} x {{item.Count}}</span>
+                        <span :class="selectedId==item.Id ? 'selectedItem' : ''">{{item.Name}} x {{item.Count}}</span>
                         <span v-if="hoverId==item.Id" class="m-2">
                             {{item.Description}}
                         </span>
