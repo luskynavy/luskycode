@@ -15,7 +15,13 @@
     <main>
         <div>Woodcutting.vue</div>
         <div>Woodcutting level :  {{player.woodcuttingLevel}}</div>
-        <button @click="cutWood(ItemId.Wood)">Cut 1 normal log</button>
-        <button v-if="player.woodcuttingLevel >= 5" @click="cutWood(ItemId.Teak)">Cut 1 teak log</button>
+        <span class="p-2">
+            <span class="p-1">You have {{ player.getNbItemInInventory(ItemId.Wood) }} normal wood</span>
+            <button @click="cutWood(ItemId.Wood)">Cut 1 normal log</button>
+        </span>
+        <span class="p-2">
+            <span class="p-1" v-if="player.woodcuttingLevel >= 5">You have {{ player.getNbItemInInventory(ItemId.Teak) }} teak log</span>
+            <button v-if="player.woodcuttingLevel >= 5" @click="cutWood(ItemId.Teak)">Cut 1 teak log</button>
+        </span>
     </main>
 </template>

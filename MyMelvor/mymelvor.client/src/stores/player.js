@@ -55,6 +55,17 @@ export const usePlayerStore = defineStore('player', () => {
         return inventory.value.find(i => i.Id == idItem) !== undefined
     }
 
+    //Get item count in inventory
+    function getNbItemInInventory(idItem) {
+        const foundInventory = inventory.value.find(i => i.Id == idItem)
+        if (foundInventory === undefined) {
+            return 0
+        }
+        else {
+            return foundInventory.Count
+        }
+    }
+
     //Sell nb 'count' item of id 'idItem'
     function sellItem(idItem, count) {
         this.addToInventory(idItem, -count)
@@ -62,7 +73,7 @@ export const usePlayerStore = defineStore('player', () => {
     }
   
     return { xp, money, cookingLevel, fishingLevel, woodcuttingLevel, inventory, 
-        loadValues, addToInventory, hasItemInInventory, sellItem }
+        loadValues, addToInventory, hasItemInInventory, getNbItemInInventory, sellItem }
   })
 
 /*

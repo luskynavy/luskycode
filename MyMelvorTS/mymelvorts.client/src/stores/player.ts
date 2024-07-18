@@ -51,7 +51,18 @@ export const player = reactive({
 
     //True if has item in inventory
     hasItemInInventory(idItem:number) {
-        return player.inventory.find(i => i.Id == idItem) !== undefined
+        return this.inventory.find(i => i.Id == idItem) !== undefined
+    },
+
+    //Get item count in inventory
+    getNbItemInInventory(idItem:number) {
+        const foundInventory = this.inventory.find(i => i.Id == idItem)
+        if (foundInventory === undefined) {
+            return 0
+        }
+        else {
+            return foundInventory.Count
+        }
     },
 
     //Sell nb 'count' item of id 'idItem'

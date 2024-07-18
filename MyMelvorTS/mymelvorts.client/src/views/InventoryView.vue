@@ -2,6 +2,7 @@
     import { ref } from 'vue'
     import { player } from '../stores/player'
     import InventoryItemClass from "../classes/InventoryItemClass"
+    
     const hoverId = ref(-1)
     const selectedId = ref(-1)
     const range = ref(1)
