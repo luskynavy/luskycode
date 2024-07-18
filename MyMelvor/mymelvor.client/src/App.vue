@@ -3,7 +3,10 @@
     //import TheWelcome from './components/TheWelcome.vue'
     import 'bootstrap/dist/css/bootstrap.css'
 
-    import { player } from './stores/player.js'
+    //import { player } from './stores/player.js'
+    import { usePlayerStore } from './stores/player'
+
+    const player = usePlayerStore()
 </script>
 
 <template>

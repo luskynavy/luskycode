@@ -1,6 +1,9 @@
 <script setup>
     import { ref } from 'vue'
-    import { player } from '../stores/player.js'    
+    //import { player } from '../stores/player.js'
+    import { usePlayerStore } from '../stores/player'
+
+    const player = usePlayerStore()
     const hoverId = ref(null);
 </script>
 

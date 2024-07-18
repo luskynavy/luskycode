@@ -12,22 +12,22 @@ const router = createRouter({
         {
             path: '/inventory',
             name: 'inventory',
-            component: () => import('../views/Inventory.vue')
+            component: () => import('../views/InventoryView.vue')
         },
         {
             path: '/woodcutting',
             name: 'woodcutting',
-            component: () => import('../views/Woodcutting.vue')
+            component: () => import('../views/WoodcuttingView.vue')
         },
         {
             path: '/cooking',
             name: 'cooking',
-            component: () => import('../views/Cooking.vue')
+            component: () => import('../views/CookingView.vue')
         },
         {
             path: '/tests',
             name: 'tests',
-            component: () => import('../views/Tests.vue')
+            component: () => import('../views/TestsView.vue')
         }
     ]
 })

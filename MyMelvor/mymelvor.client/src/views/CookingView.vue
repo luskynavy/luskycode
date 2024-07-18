@@ -1,6 +1,9 @@
 <script setup>
-    import { player } from '../stores/player.js'
+    //import { player } from '../stores/player.js'
+    import { usePlayerStore } from '../stores/player'
     import ItemId from "../classes/ItemId.js"
+
+    const player = usePlayerStore()
 
     function cookFish(idItem) {
         player.addToInventory(idItem, 1)
