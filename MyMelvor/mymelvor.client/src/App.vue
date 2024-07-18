@@ -3,7 +3,7 @@
     //import TheWelcome from './components/TheWelcome.vue'
     import 'bootstrap/dist/css/bootstrap.css'
 
-    //import { player } from './stores/player.js'
+    //import { player } from './stores/player'
     import { usePlayerStore } from './stores/player'
 
     const player = usePlayerStore()
@@ -21,6 +21,7 @@
                         <RouterLink class="nav-link" to="/">Home</RouterLink>
                         <RouterLink class="nav-link" to="/inventory">Inventory</RouterLink>
                         <RouterLink class="nav-link" to="/woodcutting">Woodcutting {{player.woodcuttingLevel}}</RouterLink>
+                        <RouterLink class="nav-link" to="/fishing">Fishing {{player.fishingLevel}}</RouterLink>
                         <RouterLink class="nav-link" to="/cooking">Cooking {{player.cookingLevel}}</RouterLink>
                         <RouterLink class="nav-link" to="/tests">Tests</RouterLink>
                     </div>

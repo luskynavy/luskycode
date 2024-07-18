@@ -1,4 +1,4 @@
-import ItemArray from "../classes/ItemArray.js"
+import ItemArray from "../classes/ItemArray"
 
 export default class InventoryItemClass {
     Id = null

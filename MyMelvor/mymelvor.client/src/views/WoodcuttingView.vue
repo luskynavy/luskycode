@@ -1,6 +1,6 @@
 <script setup>
-    //import { player } from '../stores/player.js'
-    import ItemId from "../classes/ItemId.js"
+    //import { player } from '../stores/player'
+    import ItemId from "../classes/ItemId"
     import { usePlayerStore } from '../stores/player'
 
     const player = usePlayerStore()

@@ -1,13 +1,14 @@
 import { /*reactive,*/ ref } from 'vue'
 import { defineStore } from 'pinia'
-import InventoryItemClass from "../classes/InventoryItemClass.js"
-import ItemId from "../classes/ItemId.js"
-import ItemArray from "../classes/ItemArray.js"
+import InventoryItemClass from "../classes/InventoryItemClass"
+import ItemId from "../classes/ItemId"
+import ItemArray from "../classes/ItemArray"
 
 export const usePlayerStore = defineStore('player', () => {
     const xp = ref(0)
     const money = ref(0)
     const cookingLevel = ref(0)
+    const fishingLevel= ref(0)
     const woodcuttingLevel = ref(0)
     const inventory = ref([])
     
@@ -16,6 +17,7 @@ export const usePlayerStore = defineStore('player', () => {
         xp.value = 170
         money.value = 5000;
         cookingLevel.value = 5;
+        fishingLevel.value = 4;
         woodcuttingLevel.value = 3;
         inventory.value = [
             new InventoryItemClass(ItemId.Wood, 1),
@@ -39,10 +41,28 @@ export const usePlayerStore = defineStore('player', () => {
         //Update item count if found
         else {
             foundInventory.Count += count
+
+            //Remove item if quantity <= 0
+            if (foundInventory.Count <= 0) {
+                const index = this.inventory.indexOf(foundInventory)
+                inventory.value.splice(index, 1)
+            }
         }
     }
+
+    //True if has item in inventory
+    function hasItemInInventory(idItem) {
+        return inventory.value.find(i => i.Id == idItem) !== undefined
+    }
+
+    //Sell nb 'count' item of id 'idItem'
+    function sellItem(idItem, count) {
+        this.addToInventory(idItem, -count)
+        money.value += count * 100
+    }
   
-    return { xp, money, cookingLevel, woodcuttingLevel, inventory, loadValues, addToInventory }
+    return { xp, money, cookingLevel, fishingLevel, woodcuttingLevel, inventory, 
+        loadValues, addToInventory, hasItemInInventory, sellItem }
   })
 
 /*
