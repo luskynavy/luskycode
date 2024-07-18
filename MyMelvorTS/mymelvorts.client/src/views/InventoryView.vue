@@ -1,8 +1,10 @@
 <script setup lang="ts">
     import { ref } from 'vue'
+    import { Sortable } from "sortablejs-vue3"
     import { player } from '../stores/player'
     import InventoryItemClass from "../classes/InventoryItemClass"
-    
+
+
     const hoverId = ref(-1)
     const selectedId = ref(-1)
     const range = ref(1)
@@ -30,6 +32,12 @@
             range.value = itemRemaining.Count
         }
     }
+
+    let options = {
+        ghostClass: "items", //Class name for the drop placeholder
+        chosenClass: "items",  //Class name for the chosen item
+        dragClass: "items"  //Class name for the dragging item
+    };
 </script>
 
 <template>
@@ -48,16 +56,36 @@
                 <button :disabled="selectedId==-1" @click="sellItem">Sell {{ range }}</button>
             </aside>
             <div class="d-inline-flexZZ items">
-                <div v-for="item in player.inventory" :key="item.Id" class="item p-1"
-                    @click="selectItem(item.Id)" 
-                    @mouseover="hoverId = item.Id" @mouseleave="hoverId = -1">
+                <Sortable
+                    :list="player.inventory"
+                    itemKey="Id"
+                    :options="options"
+                    @end="(event:any) => console.log(event)">
+                        <template #item="{element, }">
+                            <div class="item p-1" :key="element.Id"
+                                @click="selectItem(element.Id)" 
+                                @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
+                                    <div class="d-inline-flex flex-column">
+                                        <span :class="selectedId==element.Id ? 'selectedItem' : ''">{{element.Name}} x {{element.Count}}</span>
+                                        <span v-if="hoverId==element.Id" class="m-2">
+                                            {{element.Description}}
+                                        </span>
+                                    </div>
+                            </div>
+                        </template>
+                </Sortable>
+            </div>
+            <div class="d-inline-flexZZ items">
+                <span v-for="element in player.inventory" :key="element.Id" class="item p-1"
+                    @click="selectItem(element.Id)" 
+                    @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
                     <div class="d-inline-flex flex-column">
-                        <span :class="selectedId==item.Id ? 'selectedItem' : ''">{{item.Name}} x {{item.Count}}</span>
-                        <span v-if="hoverId==item.Id" class="m-2">
-                            {{item.Description}}
+                        <span :class="selectedId==element.Id ? 'selectedItem' : ''">{{element.Name}} x {{element.Count}}</span>
+                        <span v-if="hoverId==element.Id" class="m-2">
+                            {{element.Description}}
                         </span>
                     </div>
-                </div>
+                </span>
             </div>
             
         </section>
@@ -86,5 +114,10 @@
   background-color: rgb(250, 250, 250);
   width: 200px;
   float: right;
+}
+
+.draggable {
+    background: #eeeeee;
+    cursor: move;
 }
 </style>

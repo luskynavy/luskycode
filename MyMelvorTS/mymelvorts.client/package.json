@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "sortablejs": "^1.15.2",
+    "sortablejs-vue3": "^1.2.11",
     "vue": "^3.4.29",
     "vue-router": "^4.4.0"
   },
