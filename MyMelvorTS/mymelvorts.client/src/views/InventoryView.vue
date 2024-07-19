@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { ref } from 'vue'
     import { Sortable } from "sortablejs-vue3"
+    import type { SortableEvent } from "sortablejs"    
     import { player } from '../stores/player'
     import InventoryItemClass from "../classes/InventoryItemClass"
 
@@ -33,11 +34,15 @@
         }
     }
 
-    let options = {
-        ghostClass: "items", //Class name for the drop placeholder
-        chosenClass: "items",  //Class name for the chosen item
-        dragClass: "items"  //Class name for the dragging item
-    };
+    //Changed sorting within list
+	function onUpdate(/**Event*/event : SortableEvent) {
+        if (!event.oldIndex || !event.newIndex) {
+            return
+        }
+        //Reorder inventory
+        const item = player.inventory.splice(event.oldIndex, 1)[0]
+        player.inventory.splice(event.newIndex, 0, item)
+	}
 </script>
 
 <template>
@@ -58,9 +63,8 @@
             <Sortable
                 class="items"
                 :list="player.inventory"
-                itemKey="Id"
-                :options="options"
-                @end="(event:any) => console.log(event)">
+                itemKey="Id"                
+                @update="onUpdate">
                     <template #item="{element, }">
                         <div class="item p-1" :key="element.Id"
                             @click="selectItem(element.Id)" 
