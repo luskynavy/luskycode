@@ -11,12 +11,14 @@
     const range = ref(1)
     var selectedItem :InventoryItemClass | undefined
 
+    //Change selected infos
     function selectItem(itemId:number) {
         selectedId.value=itemId
         selectedItem = player.inventory.find(i => i.Id == itemId)
         range.value = 1
     }
 
+    //Sell selected nb 'range' item
     function sellItem() {
         player.sellItem(selectedId.value, range.value)
 
@@ -35,11 +37,11 @@
     }
 
     //Changed sorting within list
-	function onUpdate(/**Event*/event : SortableEvent) {
-        if (!event.oldIndex || !event.newIndex) {
+	function onUpdate(event : SortableEvent) {
+        if (event.oldIndex === undefined|| event.newIndex === undefined) {
             return
         }
-        //Reorder inventory
+        //Move item to new place in inventory
         const item = player.inventory.splice(event.oldIndex, 1)[0]
         player.inventory.splice(event.newIndex, 0, item)
 	}
@@ -49,7 +51,7 @@
     <main>
         <span>Inventory.vue</span>
         <section>
-            <aside class="right">
+            <aside class="right ms-3">
                 <div>
                     <span v-if="selectedId==-1">No item selected</span>                
                     <span v-if="selectedId!=-1">{{ selectedItem?.Name }}</span>
@@ -79,7 +81,7 @@
                     </template>
             </Sortable>
             
-            <!-- <div class="d-inline-flexZZ items">
+            <!-- <div class="items">
                 <span v-for="element in player.inventory" :key="element.Id" class="item p-1"
                     @click="selectItem(element.Id)" 
                     @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
@@ -118,10 +120,5 @@
   background-color: rgb(250, 250, 250);
   width: 200px;
   float: right;
-}
-
-.draggable {
-    background: #eeeeee;
-    cursor: move;
 }
 </style>
