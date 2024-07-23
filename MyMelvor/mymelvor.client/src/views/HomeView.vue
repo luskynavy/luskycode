@@ -1,5 +1,4 @@
-<script setup>
-    /*import TheWelcome from '../components/TheWelcome.vue'*/
+<script setup>    
     //import { player } from '../stores/player'
     import { usePlayerStore } from '../stores/player'
 
