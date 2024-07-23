@@ -95,9 +95,8 @@ function getAndIncrementLastNumber(str, increment, fillWithZeroes) {
                 n = 0;
             }
           	return p1 + '0'.repeat(n) + s + p3;
-        }
-      	else {
-          return p1 + s + p3;
+        } else {
+            return p1 + s + p3;
         }
     });
 }

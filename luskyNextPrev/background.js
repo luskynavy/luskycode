@@ -1,7 +1,8 @@
 var testUrlReturn;
 var holeLimit = 10, fastJump = 10, darkMode = false;
 
-browser.commands.onCommand.addListener((command) => {  
+//manage keyboard shortcuts
+browser.commands.onCommand.addListener((command) => {
   if (command == "next") {
     updateTab(1, 1);
   }
@@ -13,15 +14,28 @@ browser.commands.onCommand.addListener((command) => {
 function updateTab(step, sign) {
   //convert the increment to integer and use it to increment the last number in url of current tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    //console.log("hole limit " + holeLimit);
-    for (i = 0; i < holeLimit; i++) {
-      var nextUrl = getAndIncrementLastNumber(tabs[0].url, step + sign * i);
-      TestUrl(nextUrl);
-      //console.log(nextUrl + ' ' + testUrlReturn);
-      if (testUrlReturn == 1)
-        break;
+    if (hasNumber(tabs[0].url)) {
+      //console.log("hole limit " + holeLimit);
+      for (i = 0; i < holeLimit; i++) {
+        var nextUrl = getAndIncrementLastNumber(tabs[0].url, step + sign * i, true);
+        TestUrl(nextUrl);
+        //console.log(nextUrl + ' ' + testUrlReturn);
+        if (testUrlReturn == 1) {
+          break;
+        } else {
+          var nextUrlWithoutZeroes = getAndIncrementLastNumber(tabs[0].url, step + sign * i, false);
+          if (nextUrlWithoutZeroes != nextUrl) {
+            TestUrl(nextUrlWithoutZeroes);
+
+            if (testUrlReturn == 1) {
+                nextUrl = nextUrlWithoutZeroes;
+                break;
+            }
+          }
+        }
+      }
+      chrome.tabs.update(tabs[0].id, {url: nextUrl});
     }
-    chrome.tabs.update(tabs[0].id, {url: nextUrl});	
   });
 }
 
@@ -45,18 +59,28 @@ function TestUrl(strURL) {
   req.send();
 }
 
+function hasNumber(str) {
+	return str.match(/(\D*)(\d+)(\D*)$/) != null
+}
+
 /**
 * Get and increment by increment the last number of the url string
 * @param str URL String encoded
 * @param increment integer increment to be added
+* @param fillWithZeroes true if must be filled with zeroes at left
 */
-function getAndIncrementLastNumber(str, increment) {
-  return str.replace(/(\D*)(\d+)(\D*)$/, function(s, p1, p2, p3) {
-    var l = p2.length, s = '' + (+p2+increment), n = l - s.length;
-    if (n < 0)
-    {
-        n = 0;
-    }
-    return p1 + '0'.repeat(n) + s + p3;
-  });
+function getAndIncrementLastNumber(str, increment, fillWithZeroes) {
+    return str.replace(/(\D*)(\d+)(\D*)$/, function(s, p1, p2, p3) {
+    	var l = p2.length, s = '' + (+p2+increment);
+      	if (fillWithZeroes == true) {
+           	var n = l - s.length
+            if (n < 0)
+            {
+                n = 0;
+            }
+            return p1 + '0'.repeat(n) + s + p3;
+        } else {
+            return p1 + s + p3;
+        }
+    });
 }
