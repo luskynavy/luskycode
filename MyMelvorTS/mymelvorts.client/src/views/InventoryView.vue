@@ -30,7 +30,7 @@
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         }).then((result) => {
-        if (result.isConfirmed) {
+            if (result.isConfirmed) {
                 player.sellItem(selectedId.value, range.value)
 
                 let itemRemaining = player.inventory.find(i => i.Id == selectedId.value)
@@ -49,7 +49,7 @@
                 Swal.fire({
                     text: "You have sold " + message,
                     icon: "success"
-                });
+                })
             }
         })
     }
