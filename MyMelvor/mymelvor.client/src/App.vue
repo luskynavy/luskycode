@@ -1,6 +1,4 @@
 <script setup>
-    //import WeatherForecast from './components/WeatherForecast.vue'
-    //import TheWelcome from './components/TheWelcome.vue'
     import 'bootstrap/dist/css/bootstrap.css'
 
     //import { player } from './stores/player'
@@ -11,11 +9,9 @@
 
 <template>
     <main>
-        <div class="container-fluidZZ">
-            <header class="wrapperZZ">
-                <!--<img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />-->
-                <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">-->
-                <nav class="navbar bg-light sidebar fixed-leftZZ">
+        <div>
+            <header>
+                <nav class="navbar bg-light sidebar">
                     <div class="navbar-nav">
                         <span class="navbar-brand"><b>MyMelvor</b></span>
                         <RouterLink class="nav-link" to="/">Home</RouterLink>
@@ -29,8 +25,6 @@
             </header>
 
             <div class="inside">
-                <!--<span>App.vue</span>-->
-                <!--<TheWelcome />-->
                 <RouterView />
             </div>
         </div>
@@ -56,16 +50,5 @@
     }
 
     @media (min-width: 512px) {
-        /*header {
-            display: flex;
-            place-items: left;
-            padding-right: calc(var(--section-gap) / 2);
-        }
-
-            header .wrapper {
-                display: flex;
-                place-items: flex-start;
-                flex-wrap: wrap;
-            }*/
     }
 </style>
