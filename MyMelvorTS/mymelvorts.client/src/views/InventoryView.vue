@@ -4,6 +4,7 @@
     import type { SortableEvent } from "sortablejs"    
     import { player } from '../stores/player'
     import InventoryItemClass from "../classes/InventoryItemClass"
+    import Swal from 'sweetalert2'
 
 
     const hoverId = ref(-1)
@@ -20,20 +21,37 @@
 
     //Sell selected nb 'range' item
     function sellItem() {
-        player.sellItem(selectedId.value, range.value)
+        const message = range.value + " " + selectedItem?.Name
 
-        let itemRemaining = player.inventory.find(i => i.Id == selectedId.value)
+        Swal.fire({
+        text: "Sell " + message + " ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        }).then((result) => {
+        if (result.isConfirmed) {
+                player.sellItem(selectedId.value, range.value)
 
-        //Remove selection if all items sold
-        if (itemRemaining == undefined) {
-            selectedId.value = -1
-            selectedItem = undefined
-            range.value = 1
-        }
-        //Range value can't be more than item count
-        else if (range.value > itemRemaining.Count ) {
-            range.value = itemRemaining.Count
-        }
+                let itemRemaining = player.inventory.find(i => i.Id == selectedId.value)
+
+                //Remove selection if all items sold
+                if (itemRemaining == undefined) {
+                    selectedId.value = -1
+                    selectedItem = undefined
+                    range.value = 1
+                }
+                //Range value can't be more than item count
+                else if (range.value > itemRemaining.Count ) {
+                    range.value = itemRemaining.Count
+                }
+
+                Swal.fire({
+                    text: "You have sold " + message,
+                    icon: "success"
+                });
+            }
+        })
     }
 
     //Changed sorting within list
