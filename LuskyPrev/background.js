@@ -28,8 +28,19 @@ function onStorageLoaded(holeLimit) {
 				var nextUrl = getAndIncrementLastNumber(tabs[0].url, -i, true);
 				TestUrl(nextUrl);
 				//console.log(nextUrl + ' ' + testUrlReturn);
-				if (testUrlReturn == 1)
+				if (testUrlReturn == 1) {
 					break;
+                } else {
+                    var nextUrlWithoutZeroes = getAndIncrementLastNumber(tabs[0].url, -i, false);
+                    if (nextUrlWithoutZeroes != nextUrl) {
+                        TestUrl(nextUrlWithoutZeroes);
+
+                        if (testUrlReturn == 1) {
+                            nextUrl = nextUrlWithoutZeroes;
+                            break;
+                        }
+                    }
+                }
 			}
 			chrome.tabs.update(tabs[0].id, {url: nextUrl});	
 		}
