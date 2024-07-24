@@ -3,7 +3,7 @@
 
   "name": "NextPrev Page",
   "description": "Displays the next or previous page by incrementing or decrementing the last number in URL.",
-  "version": "20.1.25",
+  "version": "24.7.24",
   
   "applications": {
     "gecko": {

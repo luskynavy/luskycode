@@ -3,11 +3,11 @@
 
   "name": "Prev Page",
   "description": "Displays the previous page by decrementing the last number in URL.",
-  "version": "1.0",
+  "version": "1.1",
   
   "applications": {
     "gecko": {
-      "id": "prevpage@lusky.com"
+		"id": "prevpage@lusky.com"
     }
   },
 
