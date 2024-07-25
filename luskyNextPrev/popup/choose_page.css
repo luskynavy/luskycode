@@ -2,9 +2,9 @@ body {
   background-color: #fff;
 }
 
-.menu {
+.menu {	
 }
-.menu-item {
+.menu-item {  
   display: inline-block;
   text-align: center;
   cursor: pointer;
@@ -17,6 +17,19 @@ body {
   line-height: 0;
   background-color: #fff;
 }
+
+.menu-item {	
+  width: 32px;
+  height: 32px;
+}
+/* big buttons for android */
+@media only screen and (hover: none) {
+	.menu-item {
+	  width: 20%;
+	  height: 20%;
+	}
+}
+
 .menu-item:hover {
   background-color: #eee;
   border-color: #888;
