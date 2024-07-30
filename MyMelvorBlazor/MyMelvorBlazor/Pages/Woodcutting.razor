@@ -1,0 +1,26 @@
+﻿@page "/woodcutting"
+@using MyMelvorBlazor.Models
+
+<PageTitle>Woodcutting</PageTitle>
+
+<div>Woodcutting.vue</div>
+<div>Woodcutting level : @Player.WoodcuttingLevel</div>
+<span class="p-2">
+    <span class="p-1">You have player.getNbItemInInventory(ItemId.Wood) normal wood</span>
+    <button @onclick="() => cutWood(ItemId.Wood)">Cut 1 normal log</button>
+</span>
+<span class="p-2">
+    @if (Player.WoodcuttingLevel >= 5)
+    {
+        <span class="p-1">You have  player.getNbItemInInventory(ItemId.Teak)  teak log</span>
+        <button @onclick="() => cutWood(ItemId.Teak)">Cut 1 teak log</button>
+    }
+</span>
+
+@code {
+    private void cutWood(ItemId idItem)
+    {
+        Player.AddToInventory(idItem, 1);
+        Player.WoodcuttingLevel++;
+    }
+}

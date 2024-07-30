@@ -1,0 +1,13 @@
+﻿@page "/"
+@using MyMelvorBlazor.Models
+
+<PageTitle>Home</PageTitle>
+
+<div class="d-flex flex-column align-items-start">
+	<div>Xp : @Player.Xp</div>
+	<div>Money : @Player.Money</div>
+	<div>Fishing level : @Player.FishingLevel</div>
+	<div>Cooking level : @Player.CookingLevel</div>
+	<div>Woodcutting level : @Player.WoodcuttingLevel</div>
+</div>
+<button class="btn btn-primary" @onclick="Player.LoadValues">Load values</button>
