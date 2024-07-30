@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { ref } from 'vue'
     //import { Sortable } from "sortablejs-vue3"
-    import type { SortableEvent } from "sortablejs"    
+    //import type { SortableEvent } from "sortablejs"
     import draggable from 'vuedraggable'
     import { player } from '../stores/player'
     import InventoryItemClass from "../classes/InventoryItemClass"
@@ -56,14 +56,14 @@
     }
 
     //Changed sorting within list
-	function onUpdate(event : SortableEvent) {        
+	/*function onUpdate(event : SortableEvent) {
         if (event.oldIndex === undefined|| event.newIndex === undefined) {
             return
         }
         //Move item to new place in inventory
         const item = player.inventory.splice(event.oldIndex, 1)[0]
         player.inventory.splice(event.newIndex, 0, item)
-	}
+	}*/
 </script>
 
 <template>
@@ -104,8 +104,7 @@
             <draggable
                 class="items"
                 v-model="player.inventory" 
-                item-key="Id"
-                @updateZZZ="onUpdate">
+                item-key="Id">
                 <template #item="{element}">
                     <div class="item p-1" :key="element.Id"
                             @click="selectItem(element.Id)" 
