@@ -26,7 +26,7 @@ export const player = reactive({
     },
 
     //Add nb 'count' item of id 'idItem'
-    addToInventory(idItem:number, count:number) {
+    addToInventory(idItem: number, count: number) {
         //Search the item in inventory
         const foundInventory = this.inventory.find(i => i.Id == idItem)
 
@@ -50,12 +50,12 @@ export const player = reactive({
     },
 
     //True if has item in inventory
-    hasItemInInventory(idItem:number) {
+    hasItemInInventory(idItem: number) {
         return this.inventory.find(i => i.Id == idItem) !== undefined
     },
 
     //Get item count in inventory
-    getNbItemInInventory(idItem:number) {
+    getNbItemInInventory(idItem: number) {
         const foundInventory = this.inventory.find(i => i.Id == idItem)
         if (foundInventory === undefined) {
             return 0
@@ -66,7 +66,7 @@ export const player = reactive({
     },
 
     //Sell nb 'count' item of id 'idItem'
-    sellItem(idItem:number, count:number) {
+    sellItem(idItem: number, count: number) {
         this.addToInventory(idItem, -count)
         this.money += count * 100
     }

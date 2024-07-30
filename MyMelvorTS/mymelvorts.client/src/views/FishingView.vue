@@ -2,7 +2,7 @@
     import { player } from '../stores/player'
     import ItemId from "../classes/ItemId"
 
-    function getFish(idItem:number) {
+    function getFish(idItem: number) {
         player.addToInventory(idItem, 1)
         player.fishingLevel++
     }

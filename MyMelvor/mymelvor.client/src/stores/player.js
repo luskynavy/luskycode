@@ -8,10 +8,10 @@ export const usePlayerStore = defineStore('player', () => {
     const xp = ref(0)
     const money = ref(0)
     const cookingLevel = ref(0)
-    const fishingLevel= ref(0)
+    const fishingLevel = ref(0)
     const woodcuttingLevel = ref(0)
     const inventory = ref([])
-    
+
     //Load default values for test
     function loadValues() {
         xp.value = 170
@@ -71,10 +71,12 @@ export const usePlayerStore = defineStore('player', () => {
         this.addToInventory(idItem, -count)
         money.value += count * 100
     }
-  
-    return { xp, money, cookingLevel, fishingLevel, woodcuttingLevel, inventory, 
-        loadValues, addToInventory, hasItemInInventory, getNbItemInInventory, sellItem }
-  })
+
+    return {
+        xp, money, cookingLevel, fishingLevel, woodcuttingLevel, inventory,
+        loadValues, addToInventory, hasItemInInventory, getNbItemInInventory, sellItem
+    }
+})
 
 /*
 export const player = reactive({

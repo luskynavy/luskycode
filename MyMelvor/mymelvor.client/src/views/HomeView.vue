@@ -1,4 +1,4 @@
-<script setup>    
+<script setup>
     //import { player } from '../stores/player'
     import { usePlayerStore } from '../stores/player'
 

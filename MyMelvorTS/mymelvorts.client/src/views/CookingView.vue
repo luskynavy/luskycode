@@ -3,11 +3,11 @@
     import ItemId from "../classes/ItemId"
 
     //Cook a raw fish to a fish
-    function cookFish(idRawItem:number, idItem:number) {
+    function cookFish(idRawItem: number, idItem: number) {
         player.addToInventory(idRawItem, -1)
         player.addToInventory(idItem, 1)
         player.cookingLevel++
-    }    
+    }
 </script>
 
 <template>

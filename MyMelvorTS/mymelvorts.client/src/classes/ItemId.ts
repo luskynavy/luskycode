@@ -1,4 +1,4 @@
-enum ItemId  {
+enum ItemId {
     Wood = 1,
     Teak = 2,
     Fish = 3,

@@ -1,12 +1,12 @@
 import ItemArray from "../classes/ItemArray"
 
 export default class InventoryItemClass {
-    Id:number = -1
-    Name:string = ""
-    Description:string = ""
-    Count:number = 0
+    Id: number = -1
+    Name: string = ""
+    Description: string = ""
+    Count: number = 0
 
-    constructor(id:number, count:number) {
+    constructor(id: number, count: number) {
         this.Id = id
         this.Count = count
 

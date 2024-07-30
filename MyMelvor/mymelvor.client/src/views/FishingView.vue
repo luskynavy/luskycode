@@ -16,7 +16,7 @@
         <div>Fishing.vue</div>
         <div>Fishing level :  {{player.fishingLevel}}</div>
         <span class="p-2">
-            <span class="p-1">You have {{ player.getNbItemInInventory(ItemId.RawFish) }} raw fish</span>        
+            <span class="p-1">You have {{ player.getNbItemInInventory(ItemId.RawFish) }} raw fish</span>
             <button @click="getFish(ItemId.RawFish)">Get 1 raw fish</button>
         </span>
         <span class="p-2">
