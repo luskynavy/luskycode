@@ -1,0 +1,26 @@
+﻿@page "/fishing"
+@using MyMelvorBlazor.Models
+
+<PageTitle>Fishing</PageTitle>
+
+<div>Fishing</div>
+<div>Fishing level : @Player.FishingLevel</div>
+<span class="p-2">
+    <span class="p-1">You have @Player.GetNbItemInInventory(ItemId.RawFish) raw fish</span>
+    <button @onclick="() => getFish(ItemId.RawFish)">Get 1 raw fish</button>
+</span>
+<span class="p-2">
+    @if (Player.FishingLevel >= 5)
+    {
+        <span class="p-1">You have @Player.GetNbItemInInventory(ItemId.RawCatfish) raw catfish</span>
+        <button @onclick="() => getFish(ItemId.RawCatfish)">Get 1 raw catfish</button>
+    }
+</span>
+
+@code {
+    private void getFish(ItemId idItem)
+    {
+        Player.AddToInventory(idItem, 1);
+        Player.FishingLevel++;
+    }
+}

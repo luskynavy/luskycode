@@ -1,0 +1,34 @@
+﻿@page "/cooking"
+@using MyMelvorBlazor.Models
+
+<PageTitle>Cooking</PageTitle>
+
+<div>Cooking</div>
+<div>Cooking level : @Player.CookingLevel</div>
+<span class="p-2">
+    <span class="p-1">You have @Player.GetNbItemInInventory(ItemId.RawFish) raw fish and @Player.GetNbItemInInventory(ItemId.Fish) fish</span>
+    @if (Player.HasItemInInventory(ItemId.RawFish))
+    {
+        <button @onclick="() => cookFish(ItemId.RawFish, ItemId.Fish)">Cook 1 fish</button>
+    }
+</span>
+<span class="p-2">
+    @if (Player.CookingLevel >= 5)
+    {
+        <span class="p-1">You have @Player.GetNbItemInInventory(ItemId.RawCatfish) raw catfish and @Player.GetNbItemInInventory(ItemId.Catfish) catfish</span>
+        @if (Player.HasItemInInventory(ItemId.RawCatfish))
+        {
+            <button @onclick="() => cookFish(ItemId.RawCatfish, ItemId.Catfish)">Cook 1 catfish</button>
+        }
+    }
+</span>
+
+@code {
+    //Cook a raw fish to a fish
+    private void cookFish(ItemId idRawItem, ItemId idItem)
+    {
+        Player.AddToInventory(idRawItem, -1);
+        Player.AddToInventory(idItem, 1);
+        Player.CookingLevel++;
+    }
+}

@@ -53,5 +53,25 @@ namespace MyMelvorBlazor.Models
                 }
             }
         }
+
+        //Get item count in inventory
+        public static int GetNbItemInInventory(ItemId idItem)
+        {
+            var foundInventory = Inventory.FirstOrDefault(i => i.Id == idItem);
+            if (foundInventory == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return foundInventory.Count;
+            }
+        }
+
+        //True if has item in inventory
+        public static bool HasItemInInventory(ItemId idItem)
+        {
+            return Inventory.FirstOrDefault(i => i.Id == idItem) != null;
+        }
     }
 }
