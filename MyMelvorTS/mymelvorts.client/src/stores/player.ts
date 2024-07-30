@@ -13,11 +13,11 @@ export const player = reactive({
 
     //Load default values for test
     loadValues() {
-        this.xp = 170;
-        this.money = 5000;
-        this.cookingLevel = 5;
-        this.fishingLevel = 4;
-        this.woodcuttingLevel = 3;
+        this.xp = 170
+        this.money = 5000
+        this.cookingLevel = 5
+        this.fishingLevel = 4
+        this.woodcuttingLevel = 3
         this.inventory = [
             new InventoryItemClass(ItemId.Wood, 1),
             new InventoryItemClass(ItemId.RawFish, 1),
