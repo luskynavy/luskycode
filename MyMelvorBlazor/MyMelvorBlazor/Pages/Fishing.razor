@@ -18,9 +18,13 @@
 </span>
 
 @code {
+    [CascadingParameter] private Layout.MainLayout? MainLayout { get; set; }
+
     private void getFish(ItemId idItem)
     {
         Player.AddToInventory(idItem, 1);
         Player.FishingLevel++;
+
+        MainLayout?.UpdateMenu();
     }
 }

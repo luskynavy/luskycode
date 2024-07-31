@@ -24,11 +24,15 @@
 </span>
 
 @code {
+    [CascadingParameter] private Layout.MainLayout? MainLayout { get; set; }
+
     //Cook a raw fish to a fish
     private void cookFish(ItemId idRawItem, ItemId idItem)
     {
         Player.AddToInventory(idRawItem, -1);
         Player.AddToInventory(idItem, 1);
         Player.CookingLevel++;
+
+        MainLayout?.UpdateMenu();
     }
 }

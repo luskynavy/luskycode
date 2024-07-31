@@ -6,8 +6,18 @@
 <div class="d-flex flex-column align-items-start">
 	<div>Xp : @Player.Xp</div>
 	<div>Money : @Player.Money</div>
+	<div>Woodcutting level : @Player.WoodcuttingLevel</div>
 	<div>Fishing level : @Player.FishingLevel</div>
 	<div>Cooking level : @Player.CookingLevel</div>
-	<div>Woodcutting level : @Player.WoodcuttingLevel</div>
 </div>
-<button class="btn btn-primary" @onclick="Player.LoadValues">Load values</button>
+<button class="btn btn-primary" @onclick="LoadValues">Load values</button>
+
+@code {
+	[CascadingParameter] private Layout.MainLayout? MainLayout { get; set; }
+
+	private void LoadValues ()
+	{
+		Player.LoadValues();
+		MainLayout?.UpdateMenu();
+	}
+}

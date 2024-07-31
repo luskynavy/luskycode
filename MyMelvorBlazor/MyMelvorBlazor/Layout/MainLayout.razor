@@ -1,7 +1,9 @@
 ﻿@inherits LayoutComponentBase
+
+<CascadingValue Value="this">
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+            <NavMenu ThingToUpdateMenu="@toUpdateNavMenu" />
     </div>
 
     <main>
@@ -14,3 +16,14 @@
         </article>
     </main>
 </div>
+</CascadingValue>
+
+@code {
+    private int toUpdateNavMenu = 0;
+
+    public void UpdateMenu()
+    {
+        toUpdateNavMenu = DateTime.Now.Millisecond;
+        StateHasChanged();
+    }
+}
