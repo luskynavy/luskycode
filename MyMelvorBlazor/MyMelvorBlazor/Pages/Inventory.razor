@@ -1,7 +1,8 @@
 ﻿@page "/inventory"
 @using MyMelvorBlazor.Models
 @using CurrieTechnologies.Razor.SweetAlert2
-@inject SweetAlertService Swal;
+@inject SweetAlertService Swal
+@using BlazorSortableList
 
 <PageTitle>Inventory</PageTitle>
 
@@ -27,23 +28,7 @@
 		<input disabled=@(selectedId==null) @bind="range" @bind:event="oninput" type="range" min="1" max="@(selectedItem==null ? 1 : selectedItem?.Count)" class="slider" id="myRange">
 		<button disabled=@(selectedId==null) @onclick="SellItem">Sell @range</button>
 	</aside>
-	@*   <draggable class="items"
-	v-model="player.inventory"
-	item-key="Id">
-	<template #item="{element}">
-	<div class="item p-1" :key="element.Id"
-	@click="selectItem(element.Id)"
-	@mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
-	<div class="d-inline-flex flex-column">
-	<span :class="selectedId==element.Id ? 'selectedItem' : ''">{{element.Name}} x {{element.Count}}</span>
-	<span v-if="hoverId==element.Id" class="m-2">
-	{{element.Description}}
-	</span>
-	</div>
-	</div>
-	</template>
-	</draggable> *@
-
+	@*
 	<div class="items">
 		@foreach (var element in Player.Inventory)
 		{
@@ -62,6 +47,28 @@
 			</span>
 		}
 	</div>
+	*@
+
+	<div class="items">
+		<SortableList Items="Player.Inventory" Context="element" OnUpdate="OnUpdate">
+			<SortableItemTemplate>
+				<span class="item p-1"
+					  @onclick="() => SelectItem(element.Id)"
+					  @onmouseover="() => hoverId = element.Id" @onmouseleave="() => hoverId = null">
+					<div class="d-inline-flex flex-column">
+						<span class="@(selectedId==element.Id ? "selectedItem" : "")">@element.Name x @element.Count</span>
+						@if (hoverId == element.Id)
+						{
+							<span class="m-2">
+								@element.Description
+							</span>
+						}
+					</div>
+				</span>
+			</SortableItemTemplate>
+		</SortableList>
+	</div>
+
 </section>
 
 @code {
@@ -128,5 +135,23 @@
 	{
 		Player.LoadValues();
 		MainLayout?.UpdateMenu();
+	}
+
+	private void OnUpdate((int oldIndex, int newIndex) indices)
+	{
+		// deconstruct the tuple
+		var (oldIndex, newIndex) = indices;
+
+		var itemToMove = Player.Inventory[oldIndex];
+		Player.Inventory.RemoveAt(oldIndex);
+
+		if (newIndex < Player.Inventory.Count)
+		{
+			Player.Inventory.Insert(newIndex, itemToMove);
+		}
+		else
+		{
+			Player.Inventory.Add(itemToMove);
+		}
 	}
 }
