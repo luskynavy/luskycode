@@ -1,5 +1,7 @@
 ﻿@page "/inventory"
 @using MyMelvorBlazor.Models
+@using CurrieTechnologies.Razor.SweetAlert2
+@inject SweetAlertService Swal;
 
 <PageTitle>Inventory</PageTitle>
 
@@ -22,7 +24,7 @@
 			}
 		</div>
 		<br>
-		<input disabled=@(selectedId==null) @bind="range" type="range" min="1" max="@(selectedItem==null ? 1 : selectedItem?.Count)" class="slider" id="myRange">
+		<input disabled=@(selectedId==null) @bind="range" @bind:event="oninput" type="range" min="1" max="@(selectedItem==null ? 1 : selectedItem?.Count)" class="slider" id="myRange">
 		<button disabled=@(selectedId==null) @onclick="SellItem">Sell @range</button>
 	</aside>
 	@*   <draggable class="items"
@@ -77,27 +79,49 @@
 		range = 1;
 	}
 
-	private void SellItem()
+	private async void SellItem()
 	{
 		if (selectedId != null)
 		{
-			Player.SellItem(selectedId, range);
+			var message = range + " " + selectedItem?.Name;
+			//Sell question
+			SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
+				{
+					Text = "Sell " + message + " ?",
+					Icon = "warning",
+					ShowCancelButton = true,
+					ConfirmButtonColor = "#3085d6",
+					CancelButtonColor = "#d33"
+				});
 
-			var itemRemaining = Player.Inventory.FirstOrDefault(i => i.Id == selectedId);
+			if (!string.IsNullOrEmpty(result.Value))
+			{
+				Player.SellItem(selectedId, range);
 
-			//Remove selection if all items sold
-			if (itemRemaining == null)
-			{
-				selectedId = null;
-				selectedItem = null;
-				range = 1;
-			}
-			//Range value can't be more than item count
-			else if (range > itemRemaining.Count)
-			{
-				range = itemRemaining.Count;
+				var itemRemaining = Player.Inventory.FirstOrDefault(i => i.Id == selectedId);
+
+				//Remove selection if all items sold
+				if (itemRemaining == null)
+				{
+					selectedId = null;
+					selectedItem = null;
+					range = 1;
+				}
+				//Range value can't be more than item count
+				else if (range > itemRemaining.Count)
+				{
+					range = itemRemaining.Count;
+				}
+
+				//Sold message
+				await Swal.FireAsync("", "You have sold " + message, "success");
+
+				//Force refresh of inventory
+				StateHasChanged();
 			}
 		}
+
+
 	}
 
 	private void LoadValues()
