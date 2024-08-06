@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppNavbar } from "./navbar/navbar.component";
 import { HeaderComponent } from "./header/header.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppNavbar, HeaderComponent],
+  imports: [RouterOutlet, AppNavbar, HeaderComponent, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -16,6 +17,10 @@ export class AppComponent {
   isDisabled: boolean = true;
   isActive: boolean = true;
   fruitName: string = 'Apple';
+  textValue: string = "some text";
+
+  userName: string = "John Doe";
+
   onButton() {
     console.log('mouseover');
   }
@@ -32,8 +37,18 @@ export class AppComponent {
     }
   }
 
-  keyupFiltering() {
-    console.log('Enter key pressed');
+  keyupFiltering(user:HTMLInputElement) {
+    console.log(user.value);
+    //console.log('Enter key pressed');
+  }
+
+  updateUserName(username:HTMLInputElement) {
+    this.userName = username.value
+    console.log(this.userName);
+  }
+
+  onKeyup() {
+    console.log(this.textValue);
   }
 }
 

@@ -35,4 +35,14 @@
 
     <input type ="text" (keyup)="keyEnter($event)">
 
-    <input type="text" (keyup.enter)="keyupFiltering()" >
+    <input type="text" (keyup.enter)="keyupFiltering(user)" #user id="userInput">
+
+<p> <!-- data binding -->
+    {{userName}}
+    <input type="text" [value]="userName" #username (keyup.enter)="updateUserName(username)">
+
+    <div>two way data binding
+    <input type="text" [(ngModel)]="userName" >
+
+    <input type="text" [value]="textValue" >
+</div>
