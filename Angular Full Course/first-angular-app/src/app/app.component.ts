@@ -11,5 +11,9 @@ import { HeaderComponent } from "./header/header.component";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'first-angular-app';
+  title: string = 'This loaded dynamically';
+  imgURL: string = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/100px-Angular_full_color_logo.svg.png'
+  isDisabled: boolean = true;
+  isActive: boolean = true;
+  fruitName: string = 'Apple';
 }
