@@ -44,5 +44,5 @@
     <div>two way data binding
     <input type="text" [(ngModel)]="userName" >
 
-    <input type="text" [value]="textValue" >
+    <input type="text" [value]="textValue" (keyup.enter)="onKeyup()">
 </div>
