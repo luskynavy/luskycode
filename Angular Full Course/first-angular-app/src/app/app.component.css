@@ -1,5 +1,6 @@
 .active{
     background-color: green;
+    border: 3px solid yellow;
 }
 
 .no-active{

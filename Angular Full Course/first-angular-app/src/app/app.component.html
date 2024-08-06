@@ -12,6 +12,8 @@
 <button disabled="{{isDisabled}}">Disable using string interpolation</button>
 <button [disabled]="isDisabled">Disable using property binding</button>
 
+<p>
+<!-- class binding -->
 <button [class.active]="isActive"
   [class.no-active]="!isActive"
   [class.active-border]="isActive"
@@ -19,3 +21,18 @@
   >Click me</button>
 
   <button [class.apple]="fruitName == 'Apple'">Fruit Ninja</button>
+
+  <p>
+    <!-- style binding -->
+    <button [style.backgroundColor]="isActive? 'red' : 'green' "
+    [style.border]="isActive? '3px solid yellow' : '' ">
+    Click</button>
+
+    <button [class.active]="isActive">Class binding</button>
+<p>
+    <!-- Events -->
+    <button (click)="buttonClick()" (mouseover)="onButton()">Click me</button>
+
+    <input type ="text" (keyup)="keyEnter($event)">
+
+    <input type="text" (keyup.enter)="keyupFiltering()" >

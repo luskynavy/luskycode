@@ -16,4 +16,24 @@ export class AppComponent {
   isDisabled: boolean = true;
   isActive: boolean = true;
   fruitName: string = 'Apple';
+  onButton() {
+    console.log('mouseover');
+  }
+
+  buttonClick() {
+    console.log("button click")
+  }
+
+  keyEnter(event:any) {
+    //console.log(event.keyCode);
+
+    if (event.keyCode == 13) {
+      console.log('Enter key pressed');
+    }
+  }
+
+  keyupFiltering() {
+    console.log('Enter key pressed');
+  }
 }
+
