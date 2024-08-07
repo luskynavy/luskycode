@@ -4,8 +4,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Angular CLI installation : `npm i -g @angular/cli`
 
-# Project creation 
+# Project creation
+
 Run `ng new first-angular-app` and choose `CSS` and `no SSR`.
+Or `npm install` if project already created.
 
 ## Development server
 
