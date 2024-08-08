@@ -106,3 +106,53 @@
 <div [ngTemplateOutlet]="callToAction">
      <h5>Footer</h5>
 </div>
+
+<!-- For -->
+
+<h3>{{users}}</h3>
+<h3>{{users[0]}}</h3>
+<h3>{{users[1]}}</h3>
+<h3>{{users[2]}}</h3>
+<h3>{{users[3]}}</h3>
+
+<p> ngFor </p>
+<h3 *ngFor="let user of users">{{user}}</h3>
+
+<p> for </p>
+@for(user of users;track user) {
+    <h3>{{user}} using for</h3>
+}
+
+<ul>
+    <li *ngFor="let user of users"> {{user}}</li>
+</ul>
+
+<ul>
+@for(user of users; track user) {
+    <li> {{user}} using for</li>
+}
+</ul>
+
+<button (click)="addNewUser()">Add new user</button>
+<div *ngIf="usersObj.length == 0"> <p>No users to display</p></div>
+
+<ul>
+    <li *ngFor="let user of usersObj; let i = index; let usersCount = count">
+        {{usersCount}} - [{{i}}] {{user.name}} &#x40; {{user.email}} <button (click)="onDeleteIndex(i)">Delete</button>
+    </li>
+</ul>
+
+@if (usersObj.length == 0) 
+{
+<div> <p>No users to display using if</p></div>
+}
+
+<ul>
+    @for(user of usersObj;track user; let i = $index; let usersCount = $count; let first = $first; let last = $last; let even = $even) {
+        <li>{{first}} {{last}} {{even}} {{$odd}} {{usersCount}} - [{{i}}] {{user.id}} : {{user.name}} {{'@'}} {{user.email}} using for <button (click)="onDelete(user)">Delete</button></li>
+    }
+    @empty {
+        <p>No users to display using empty</p>
+    }
+</ul>
+
