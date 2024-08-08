@@ -4,6 +4,17 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
 
+<h1>{{appPostTitle}} (in app)</h1>
+<app-posts-list [postListTitle]="appPostTitle" [postListIsLogin]="appIsLogin" (MessageEvent)="receiveMessage($event)"></app-posts-list>
+
+<p>{{message}}</p>
+<p>{{messageFromChild}}</p>
+
+<button (click)="toggleCourses1_13()">Toggle courses 1 to 13</button>
+
+
+@if (showCourses1_13) {
+    <br>
 <img src="{{ imgURL }}" title="string interpolation">
 <img [src]="imgURL" title="binding">
 
@@ -184,7 +195,7 @@
 <h1 [ngStyle]="{
      'color': isLoggedIn?'green':'red',
      'textTransform': isLoggedIn? 'uppercase' : 'lowercase'
-    }"> 
+    }">
     Ng style directive</h1>
 
     <h1 [class.login]="isLoggedIn" [class.logout]="!isLoggedIn">Class binding</h1>
@@ -192,4 +203,6 @@
     <h1 [ngClass]="{
         'login': isLoggedIn,
         'logout': !isLoggedIn
-    }">Ng class directive</h1>
+    }">Ng class directive
+</h1>
+}

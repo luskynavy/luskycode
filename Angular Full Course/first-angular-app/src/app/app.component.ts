@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppNavbar } from "./navbar/navbar.component";
+import { PostsListComponent} from "./posts-list/posts-list.component"
 import { HeaderComponent } from "./header/header.component";
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass} from '@angular/common';
@@ -8,20 +9,44 @@ import { NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault,
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppNavbar, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass],
+  imports: [RouterOutlet, AppNavbar, PostsListComponent, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title: string = 'This loaded dynamically';
   imgURL: string = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/100px-Angular_full_color_logo.svg.png'
   isDisabled: boolean = true;
   isActive: boolean = true;
   fruitName: string = 'Apple';
   textValue: string = "some text";
+  showCourses1_13: boolean = false;
 
   isLoggedIn:boolean = false;
   userName: string = "John Doe";
+
+  appPostTitle: string = 'Post 1';
+  appIsLogin: boolean = false;
+
+  @ViewChild(PostsListComponent) childMessage : any;
+  message:string = '';
+  messageFromChild:string = '';
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit');
+    console.log(this.childMessage);
+    this.message = this.childMessage.childMessage;
+  }
+
+  receiveMessage(message:string) {
+    console.log(message)
+    this.messageFromChild = message;
+  }
+
+
+  toggleCourses1_13() {
+    this.showCourses1_13 = !this.showCourses1_13;
+  }
 
   onButton() {
     console.log('mouseover');
@@ -83,8 +108,11 @@ export class AppComponent {
 
   constructor() {
     console.log(this.usersObj.length);
-  }
 
+    console.log('constructor');
+    console.log(this.childMessage);
+  }
+  
   addNewUser() {
     let id = this.usersObj.length + 1;
     let user =  {id:id, name:'User '+ id, email:'user'+ id + '@mail.com'};
