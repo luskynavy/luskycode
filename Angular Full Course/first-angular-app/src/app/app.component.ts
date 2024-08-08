@@ -3,12 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { AppNavbar } from "./navbar/navbar.component";
 import { HeaderComponent } from "./header/header.component";
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppNavbar, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet, NgFor],
+  imports: [RouterOutlet, AppNavbar, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -100,6 +100,10 @@ export class AppComponent {
   onDeleteIndex(i:number) {
     console.log(i);
     this.usersObj.splice(i, 1);
+  }
+
+  clearUserRole() {
+    this.userRole = '';
   }
 }
 

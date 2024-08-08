@@ -19,3 +19,13 @@
     background-color: red;
     border: 10px solid green;
 }
+
+.login {
+    color:green;
+    text-transform: uppercase;
+}
+
+.logout {
+    color:red;
+    text-transform: lowercase;
+}

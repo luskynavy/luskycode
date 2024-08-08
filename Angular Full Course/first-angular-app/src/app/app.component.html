@@ -156,3 +156,40 @@
     }
 </ul>
 
+<button (click)="toggleRole()">Toggle role</button>
+<button (click)="clearUserRole()">clear user role</button>
+
+<!--switch-->
+<div [ngSwitch]="userRole">
+    <p *ngSwitchCase="'Admin'">Welcome admin</p>
+    <p *ngSwitchCase="'Member'">Welcome member</p>
+    <p *ngSwitchDefault>Unknow type</p>
+</div>
+
+@switch (userRole) {
+    @case('Admin') {
+        <p>Welcome admin using switch</p>
+    }
+    @case('Member') {
+        <p >Welcome member using switch</p>
+    }
+    @default {
+        <p>Unknow type using switch</p>
+    }
+}
+
+<button (click)="toggleIsLogged()">Toggle log in</button>
+<h1 [style.color]= "isLoggedIn?'green':'red'" [style.textTransform]="isLoggedIn? 'uppercase' : 'lowercase'" >Welcome admin</h1>
+
+<h1 [ngStyle]="{
+     'color': isLoggedIn?'green':'red',
+     'textTransform': isLoggedIn? 'uppercase' : 'lowercase'
+    }"> 
+    Ng style directive</h1>
+
+    <h1 [class.login]="isLoggedIn" [class.logout]="!isLoggedIn">Class binding</h1>
+
+    <h1 [ngClass]="{
+        'login': isLoggedIn,
+        'logout': !isLoggedIn
+    }">Ng class directive</h1>
