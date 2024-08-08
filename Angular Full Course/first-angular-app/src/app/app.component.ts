@@ -5,11 +5,12 @@ import { PostsListComponent} from "./posts-list/posts-list.component"
 import { HeaderComponent } from "./header/header.component";
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass} from '@angular/common';
+import { CardComponent } from "./card/card.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppNavbar, PostsListComponent, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass],
+  imports: [RouterOutlet, AppNavbar, PostsListComponent, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass, CardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

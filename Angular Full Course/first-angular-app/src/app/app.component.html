@@ -7,6 +7,12 @@
 <h1>{{appPostTitle}} (in app)</h1>
 <app-posts-list [postListTitle]="appPostTitle" [postListIsLogin]="appIsLogin" (MessageEvent)="receiveMessage($event)"></app-posts-list>
 
+<app-card>
+   <span header>username</span>
+   <h1 body>John Doe</h1>
+   <button footer>View profile</button>
+</app-card>
+
 <p>{{message}}</p>
 <p>{{messageFromChild}}</p>
 
