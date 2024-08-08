@@ -45,4 +45,64 @@
     <input type="text" [(ngModel)]="userName" >
 
     <input type="text" [value]="textValue" (keyup.enter)="onKeyup()">
+
+    <input type="text" [(ngModel)]="textValue" >
+</div>
+
+<!-- ifs-->
+ <button (click)="toggleIsLogged()">Toggle log in</button>
+<h2 *ngIf="isLoggedIn; else message">{{userName}} using ng-if</h2>
+<h2 *ngIf="!isLoggedIn">Not logged in using ng-if</h2>
+
+@if (isLoggedIn)
+{
+    <h3 >{{userName}} using if</h3>
+} @else {
+    <h2>Not logged in using if</h2>
+}
+
+<ng-template #message>
+    <h4>user is not logged in using ng-template</h4>
+</ng-template>
+
+<button (click)="countLoginAttempts()" *ngIf="loginCount <= 3">Log In</button>
+{{loginCount}}
+
+<h4 *ngIf="loginCount > 3">Exceeded 3 login Attempts, try again later using ng-if</h4>
+
+@if (loginCount <= 3)
+{
+<button (click)="countLoginAttempts()">Login syntax</button>
+}
+
+@if (loginCount > 3)
+{
+<h4>Exceeded 3 login Attempts, try again later using if</h4>
+}
+
+<button (click)="toggleRole()">Toggle role</button>
+<h4 *ngIf="userRole == 'Admin'; else memberMessage">Welcome admin</h4>
+
+<ng-template #memberMessage>
+    <h4>Welcome member</h4>
+</ng-template>
+
+@if (userRole == 'Admin'){
+    <h4>Welcome admin</h4>
+} @else if (userRole == 'Member') {
+    <h4>Welcome member</h4>
+}
+<ng-template #callToAction>
+    <p>Call to action</p>
+    <button>Join now</button>
+</ng-template>
+
+<div [ngTemplateOutlet]="callToAction">
+     <h5>Sidebar</h5>
+</div>
+<div [ngTemplateOutlet]="callToAction">
+    <h5>Hero</h5>
+</div>
+<div [ngTemplateOutlet]="callToAction">
+     <h5>Footer</h5>
 </div>

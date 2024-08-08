@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { AppNavbar } from "./navbar/navbar.component";
 import { HeaderComponent } from "./header/header.component";
 import { FormsModule } from '@angular/forms';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppNavbar, HeaderComponent, FormsModule],
+  imports: [RouterOutlet, AppNavbar, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -19,6 +20,7 @@ export class AppComponent {
   fruitName: string = 'Apple';
   textValue: string = "some text";
 
+  isLoggedIn:boolean = false;
   userName: string = "John Doe";
 
   onButton() {
@@ -49,6 +51,24 @@ export class AppComponent {
 
   onKeyup() {
     console.log(this.textValue);
+  }
+
+  toggleIsLogged() {
+    this.isLoggedIn = !this.isLoggedIn;
+  }
+
+  loginCount: number= 0;
+  userRole: string = "Admin";  
+  countLoginAttempts() {
+    this.loginCount++;
+  }
+
+  toggleRole() {
+    if (this.userRole == 'Admin') {
+      this.userRole = 'Member';
+    } else {
+      this.userRole = 'Admin';
+    }
   }
 }
 
