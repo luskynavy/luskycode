@@ -1,16 +1,17 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ViewContainerRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppNavbar } from "./navbar/navbar.component";
 import { PostsListComponent} from "./posts-list/posts-list.component"
 import { HeaderComponent } from "./header/header.component";
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass} from '@angular/common';
+import { NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass, NgComponentOutlet} from '@angular/common';
 import { CardComponent } from "./card/card.component";
+import { ProfileComponent } from "./profile/profile.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppNavbar, PostsListComponent, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass, CardComponent],
+  imports: [RouterOutlet, AppNavbar, PostsListComponent, HeaderComponent, FormsModule, NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass, CardComponent, NgComponentOutlet, ProfileComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -43,6 +44,19 @@ export class AppComponent implements AfterViewInit {
     console.log(message)
     this.messageFromChild = message;
   }
+
+ loadComponent() {
+  //return PostsListComponent;
+  this.viewContainer.createComponent(PostsListComponent);
+ }
+
+ removeComponent() {
+  this.viewContainer.remove();
+ }
+
+ changeUser() {
+  this.userName = "John Smith";
+ }
 
 
   toggleCourses1_13() {
@@ -107,13 +121,13 @@ export class AppComponent implements AfterViewInit {
     {id:4, name:'Raj', email:'raj@mail.com'},
   ]
 
-  constructor() {
+  constructor(private viewContainer : ViewContainerRef) {
     console.log(this.usersObj.length);
 
-    console.log('constructor');
+    console.log('app constructor');
     console.log(this.childMessage);
   }
-  
+
   addNewUser() {
     let id = this.usersObj.length + 1;
     let user =  {id:id, name:'User '+ id, email:'user'+ id + '@mail.com'};

@@ -7,6 +7,14 @@
 <h1>{{appPostTitle}} (in app)</h1>
 <app-posts-list [postListTitle]="appPostTitle" [postListIsLogin]="appIsLogin" (MessageEvent)="receiveMessage($event)"></app-posts-list>
 
+<!--<div *ngComponentOutlet="loadComponent()"></div> -->
+
+<button (click)="loadComponent()">Create Component</button>
+<button (click)="removeComponent()">Remove Component</button>
+
+<app-profile [pUserName]="userName"></app-profile>
+<button (click)="changeUser()">changeUser</button>
+
 <app-card>
    <span header>username</span>
    <h1 body>John Doe</h1>
