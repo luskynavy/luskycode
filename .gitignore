@@ -18,3 +18,4 @@ Ticket*.pdf
 *.o
 *.pdb
 packages/
+node_modules/
