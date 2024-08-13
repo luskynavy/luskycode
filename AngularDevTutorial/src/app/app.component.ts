@@ -10,5 +10,5 @@ import { TestsComponent } from "./tests/tests.component";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
+  
 }
