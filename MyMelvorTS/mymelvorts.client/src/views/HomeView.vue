@@ -8,9 +8,9 @@
             <div>HomeView.vue</div>
             <div>Xp : {{player.xp}}</div>
             <div>Money : {{player.money}}</div>
-			<div>Woodcutting level :  {{player.woodcuttingLevel}}</div>
+            <div>Woodcutting level :  {{player.woodcuttingLevel}}</div>
             <div>Fishing level : {{player.fishingLevel}}</div>
-            <div>Cooking level : {{player.cookingLevel}}</div>            
+            <div>Cooking level : {{player.cookingLevel}}</div>
         </div>
         <button @click="player.loadValues()">Load values</button>
     </main>

@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {RouterOutlet, RouterLink} from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { TestsComponent } from "./tests/tests.component";
 
 @Component({
@@ -10,5 +10,5 @@ import { TestsComponent } from "./tests/tests.component";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  
+
 }
