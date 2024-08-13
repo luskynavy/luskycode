@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PlayerService } from '../player.service';
 import InventoryItemClass from '../inventoryItemClass';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-inventory',
@@ -28,14 +30,14 @@ export class InventoryComponent {
   sellItem() {
     const message = this.range + " " + this.selectedItem?.Name
 
-    /*Swal.fire({
+    Swal.fire({
         text: "Sell " + message + " ?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
     }).then((result) => {
-        if (result.isConfirmed) {*/
+        if (result.isConfirmed) {
             this.player.sellItem(this.selectedId, this.range)
 
             let itemRemaining = this.player.inventory.find(i => i.Id == this.selectedId)
@@ -51,11 +53,11 @@ export class InventoryComponent {
               this.range = itemRemaining.Count
             }
 
-            /*Swal.fire({
+            Swal.fire({
                 text: "You have sold " + message,
                 icon: "success"
             })
         }
-    })*/
+    })
   }
 }
