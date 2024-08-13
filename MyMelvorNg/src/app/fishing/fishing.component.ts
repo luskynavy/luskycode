@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { PlayerService } from '../player.service';
+import { ItemId } from '../itemid.enum';
 
 @Component({
   selector: 'app-fishing',
@@ -10,9 +11,10 @@ import { PlayerService } from '../player.service';
 })
 export class FishingComponent {
   player = inject(PlayerService)
+  itemId = ItemId;
 
-  getFish(/*idItem: number*/) {
-    //this.player.addToInventory(idItem, 1)
+  getFish(idItem: number) {
+    this.player.addToInventory(idItem, 1)
     this.player.fishingLevel++;
   }
 }

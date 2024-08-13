@@ -1,14 +1,16 @@
 <div>Cooking</div>
 <div>Cooking level : {{player.cookingLevel}}</div>
 <span class="p-2">
-    <!-- <span class="p-1">You have {{ player.getNbItemInInventory(ItemId.RawFish) }} raw fish and {{ player.getNbItemInInventory(ItemId.Fish) }} fish</span> -->
-    <!-- <button v-if="player.hasItemInInventory(ItemId.RawFish)" (click)="cookFish(ItemId.RawFish, ItemId.Fish)">Cook 1 fish</button> -->
-    <button (click)="cookFish()">Cook 1 fish</button>
+    <span class="p-1">You have {{ player.getNbItemInInventory(itemId.RawFish) }} raw fish and {{ player.getNbItemInInventory(itemId.Fish) }} fish</span>
+    @if (player.hasItemInInventory(itemId.RawFish)) {
+        <button v-if="player.hasItemInInventory(ItemId.RawFish)" (click)="cookFish(itemId.RawFish, itemId.Fish)">Cook 1 fish</button>
+    }
 </span>
 <span class="p-2">
-    <!-- <span class="p-1" v-if="player.cookingLevel >= 5">You have {{ player.getNbItemInInventory(ItemId.RawCatfish) }} raw catfish and {{ player.getNbItemInInventory(ItemId.Catfish) }} catfish</span> -->
-    <!-- <button v-if="player.cookingLevel >= 5 && player.hasItemInInventory(ItemId.RawCatfish)" (click)="cookFish(ItemId.RawCatfish, ItemId.Catfish)">Cook 1 catfish</button> -->
-     @if (player.cookingLevel >= 5) {
-        <button (click)="cookFish()">Cook 1 catfish</button>
-     }
+    @if (player.cookingLevel >= 5) {
+        <span class="p-1">You have {{ player.getNbItemInInventory(itemId.RawCatfish) }} raw catfish and {{ player.getNbItemInInventory(itemId.Catfish) }} catfish</span>
+    }
+    @if (player.cookingLevel >= 5 && player.hasItemInInventory(itemId.RawCatfish)) {
+        <button (click)="cookFish(itemId.RawCatfish, itemId.Catfish)">Cook 1 catfish</button>
+    }
 </span>

@@ -1,14 +1,12 @@
 <div>Fishing</div>
 <div>Fishing level :  {{player.fishingLevel}}</div>
 <span class="p-2">
-    <!-- <span class="p-1">You have {{ player.getNbItemInInventory(ItemId.RawFish) }} raw fish</span> -->
-    <!-- <button (click)="getFish(ItemId.RawFish)">Get 1 raw fish</button> -->
-    <button (click)="getFish()">Get 1 raw fish</button>
+    <span class="p-1">You have {{ player.getNbItemInInventory(itemId.RawFish) }} raw fish</span>
+    <button (click)="getFish(itemId.RawFish)">Get 1 raw fish</button>
 </span>
 <span class="p-2">
-    <!-- <span class="p-1" v-if="player.fishingLevel >= 5">You have {{ player.getNbItemInInventory(ItemId.RawCatfish) }} raw catfish</span> -->
-    <!-- <button v-if="player.fishingLevel >= 5" (click)="getFish(ItemId.RawCatfish)">Get 1 raw catfish</button> -->
     @if (player.fishingLevel >= 5) {
-        <button (click)="getFish()">Cook 1 catfish</button>
+        <span class="p-1" v-if="player.fishingLevel >= 5">You have {{ player.getNbItemInInventory(itemId.RawCatfish) }} raw catfish</span>
+        <button (click)="getFish(itemId.RawCatfish)">Cook 1 catfish</button>
      }
 </span>

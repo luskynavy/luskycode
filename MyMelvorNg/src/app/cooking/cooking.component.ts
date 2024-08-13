@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { PlayerService } from '../player.service';
+import { ItemId } from '../itemid.enum';
 
 @Component({
   selector: 'app-cooking',
@@ -9,12 +10,13 @@ import { PlayerService } from '../player.service';
   styleUrl: './cooking.component.css'
 })
 export class CookingComponent {
-  player = inject(PlayerService)
+  player = inject(PlayerService);
+  itemId = ItemId;
 
    //Cook a raw fish to a fish
-   cookFish(/*idRawItem: number, idItem: number*/) {
-    //this.player.addToInventory(idRawItem, -1)
-    //this.player.addToInventory(idItem, 1)
+   cookFish(idRawItem: number, idItem: number) {
+    this.player.addToInventory(idRawItem, -1)
+    this.player.addToInventory(idItem, 1)
     this.player.cookingLevel++
   }
 }
