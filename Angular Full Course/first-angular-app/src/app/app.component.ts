@@ -50,6 +50,10 @@ export class AppComponent implements AfterViewInit {
   this.viewContainer.createComponent(PostsListComponent);
  }
 
+ loadComponentPofile() {
+  this.viewContainer.createComponent(ProfileComponent);
+ }
+
  removeComponent() {
   this.viewContainer.remove();
  }

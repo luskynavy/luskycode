@@ -12,8 +12,13 @@
 <button (click)="loadComponent()">Create Component</button>
 <button (click)="removeComponent()">Remove Component</button>
 
-<app-profile [pUserName]="userName"></app-profile>
+<app-profile [pUserName]="userName">
+    <h1>{{userName}}</h1>
+    <p>Content projected from parent</p>
+</app-profile>
 <button (click)="changeUser()">changeUser</button>
+
+<button (click)="loadComponentPofile()">load profile component</button>
 
 <app-card>
    <span header>username</span>

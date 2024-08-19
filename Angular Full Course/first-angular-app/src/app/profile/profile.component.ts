@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnInit, DoCheck } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +7,7 @@ import { Component, Input, OnChanges, SimpleChanges, OnInit, DoCheck } from '@an
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent implements OnChanges, OnInit, DoCheck {
+export class ProfileComponent implements OnChanges, OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
 
   constructor() {
     console.log("profile constructor triggered");
@@ -33,5 +33,25 @@ export class ProfileComponent implements OnChanges, OnInit, DoCheck {
 
   ngDoCheck(): void {
     console.log("ngDoCheck triggered");
+  }
+
+  ngAfterContentInit(): void {
+    console.log("ngAfterContentInit triggered")
+  }
+
+  ngAfterContentChecked(): void {
+    console.log("ngAfterContentChecked triggered")
+  }
+
+  ngAfterViewInit(): void {
+    console.log("ngAfterViewInit triggered")
+  }
+
+  ngAfterViewChecked(): void {
+    console.log("ngAfterViewChecked triggered")
+  }
+
+  ngOnDestroy(): void {
+    console.log("ngOnDestroy triggered")
   }
 }
