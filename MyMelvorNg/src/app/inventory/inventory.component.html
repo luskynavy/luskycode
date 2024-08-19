@@ -17,44 +17,8 @@
         <input [disabled]="selectedId==-1" [(ngModel)]="range" type="range" min="1" [max]="selectedItem==undefined ? 1 : selectedItem.Count" class="slider" id="myRange">
         <button [disabled]="selectedId==-1" (click)="sellItem()">Sell {{ range }}</button>
     </aside>
-    <!--<Sortable
-        class="items"
-        :list="player.inventory"
-        itemKey="Id"
-        @update="onUpdate"
-        @unchoose="console.log('unchoose')">
-            <template #item="{element, }">
-                <div class="item p-1" :key="element.Id"
-                    @click="selectItem(element.Id)"
-                    @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
-                        <div class="d-inline-flex flex-column">
-                            <span :class="selectedId==element.Id ? 'selectedItem' : ''">{{element.Name}} xx {{element.Count}}</span>
-                            <span v-if="hoverId==element.Id" class="m-2">
-                                {{element.Description}}
-                            </span>
-                        </div>
-                </div>
-            </template>
-    </Sortable>-->
 
-    <!--<draggable class="items"
-                v-model="player.inventory"
-                item-key="Id">
-        <template #item="{element}">
-            <div class="item p-1" :key="element.Id"
-                    @click="selectItem(element.Id)"
-                    @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
-                <div class="d-inline-flex flex-column">
-                    <span :class="selectedId==element.Id ? 'selectedItem' : ''">{{element.Name}} x {{element.Count}}</span>
-                    <span v-if="hoverId==element.Id" class="m-2">
-                        {{element.Description}}
-                    </span>
-                </div>
-            </div>
-        </template>
-    </draggable> -->
-
-    <div class="items">
+    <div [nxtSortablejs]="player.inventory" class="items">
         @for(element of player.inventory; track element.Id) {
         <span class="item p-1"
             (click)="selectItem(element.Id)"

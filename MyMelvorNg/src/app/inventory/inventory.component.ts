@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PlayerService } from '../player.service';
 import InventoryItemClass from '../inventoryItemClass';
+import { SortablejsModule } from 'nxt-sortablejs'
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, SortablejsModule],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })
