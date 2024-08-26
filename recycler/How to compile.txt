@@ -1,0 +1,12 @@
+Code from https://github.com/Krzysiu/cmdwinutils/blob/main/recycler.c.
+Command to send file to recycle bin, should be faster than MaDdoG Software Recycle.exe and with no focus stealing.
+
+A mingw-w64 compiler is needed.
+
+By example Qt\6.1.0\mingw81_64
+To get gcc version:
+> gcc -dumpachine 
+x86_64-w64-mingw32
+
+To compile:
+> gcc recycler.c -o recycler -lole32 -lshell32 -municode
