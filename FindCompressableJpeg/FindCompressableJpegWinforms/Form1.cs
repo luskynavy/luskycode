@@ -28,13 +28,44 @@ namespace FindCompressableJpegWinforms
 
 		private void InitDataGrid()
 		{
+			//Read values from ini
+			var myIni = new IniFile();
+			var pathIni = myIni.Read("Path");
+			var recursiveIni = myIni.Read("Recursive");
+			var sizeTresholdIni = myIni.Read("SizeTreshold");
+			var ratioTresholdIni = myIni.Read("RatioTreshold");
+
+			//Affect value from ini to interface
+			if (recursiveIni != null)
+			{
+				recursive.Checked = recursiveIni == "True";
+			}
+
+			if (sizeTresholdIni != null)
+			{
+				sizeTreshold.Value = int.Parse(sizeTresholdIni);
+			}
+
+			if (ratioTresholdIni != null)
+			{
+				ratioTreshold.Value = int.Parse(ratioTresholdIni);
+			}
+
 			string[] args = Environment.GetCommandLineArgs();
 
 			//First argument is program name then parameters
 			//Use first parameter as directory
 			if (args.Length <= 1)
 			{
-				imagesPath.Text = Directory.GetCurrentDirectory();
+				//argument override path from ini
+				if (pathIni == null)
+				{
+					imagesPath.Text = Directory.GetCurrentDirectory();
+				}
+				else
+				{
+					imagesPath.Text = pathIni;
+				}
 			}
 			else
 			{

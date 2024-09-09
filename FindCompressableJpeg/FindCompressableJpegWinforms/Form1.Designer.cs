@@ -13,7 +13,14 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+			//Save values to ini file
+			var myIni = new IniFile();
+			myIni.Write("Path", imagesPath.Text);
+			myIni.Write("Recursive", recursive.Checked.ToString());
+			myIni.Write("SizeTreshold", sizeTreshold.Value.ToString());
+			myIni.Write("RatioTreshold", ratioTreshold.Value.ToString());
+
+			if (disposing && (components != null))
             {
                 components.Dispose();
             }
