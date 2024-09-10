@@ -35,19 +35,19 @@ namespace FindCompressableJpegWinforms
 			var sizeTresholdIni = myIni.Read("SizeTreshold");
 			var ratioTresholdIni = myIni.Read("RatioTreshold");
 
-			//Affect value from ini to interface
-			if (recursiveIni != null)
-			{
+            //Affect value from ini to interface
+            if(!string.IsNullOrEmpty(recursiveIni))
+            {
 				recursive.Checked = recursiveIni == "True";
 			}
 
-			if (sizeTresholdIni != null)
+			if (!string.IsNullOrEmpty(sizeTresholdIni))
 			{
 				sizeTreshold.Value = int.Parse(sizeTresholdIni);
 			}
 
-			if (ratioTresholdIni != null)
-			{
+            if (!string.IsNullOrEmpty(ratioTresholdIni))
+            {
 				ratioTreshold.Value = int.Parse(ratioTresholdIni);
 			}
 
@@ -57,9 +57,9 @@ namespace FindCompressableJpegWinforms
 			//Use first parameter as directory
 			if (args.Length <= 1)
 			{
-				//argument override path from ini
-				if (pathIni == null)
-				{
+                //argument override path from ini
+                if (string.IsNullOrEmpty(pathIni))
+                {
 					imagesPath.Text = Directory.GetCurrentDirectory();
 				}
 				else
