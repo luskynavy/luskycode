@@ -31,6 +31,37 @@
 
 <button (click)="toggleCourses1_13()">Toggle courses 1 to 13</button>
 
+<h1>{{testPipes}}</h1>
+<button (click)="uppercase()">uppercase</button>
+
+<h1>{{testPipes.toUpperCase()}}</h1>
+
+<h1>{{testPipes | uppercase}}</h1>
+
+<h1>{{testPipes | titlecase}}</h1>
+
+<h1> {{1234567.89 | number}}</h1>
+
+<h1>{{ 0.7 | percent}}</h1>
+
+<h1>{{ 1000 | currency : 'EUR': 'code'}}</h1>
+
+<h1>{{today | date:'short'}} - short</h1>
+<h1>{{today | date:'medium'}} - medium</h1>
+<h1>{{today | date:'long'}} - long</h1>
+<h1>{{today | date:'full'}} - full</h1>
+
+<h1>{{today | date:'dd MMMM yyyy'}} - date only</h1>
+<h1>{{today | date:'hh:mm:ss a z'}} - time only</h1>
+
+<h1>{{user}}</h1>
+<button (click)="convertJson()">Convert JSON</button>
+
+<h1>{{user2 | json}}</h1>
+
+<h1>{{'Hello Angular World' | slice:6:13}}</h1>
+<h1>{{'Hello Angular World' | slice:6:13 | uppercase}}</h1>
+
 
 @if (showCourses1_13) {
     <br>
