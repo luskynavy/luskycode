@@ -4,6 +4,17 @@
 <app-navbar></app-navbar>
 <app-header></app-header>
 
+
+
+<button (click)="toggleCourses1_13()">Toggle courses 1 to 13</button>
+
+<button (click)="toggleCourses14_22()">Toggle courses 14 to 22</button>
+
+<h1>app users : {{userService.users |json}}</h1>
+<app-posts-list></app-posts-list>
+
+@if (showCourses14_22) {
+
 <h1>{{appPostTitle}} (in app)</h1>
 <app-posts-list [postListTitle]="appPostTitle" [postListIsLogin]="appIsLogin" (MessageEvent)="receiveMessage($event)"></app-posts-list>
 
@@ -29,7 +40,6 @@
 <p>{{message}}</p>
 <p>{{messageFromChild}}</p>
 
-<button (click)="toggleCourses1_13()">Toggle courses 1 to 13</button>
 
 <h1>{{testPipes}}</h1>
 <button (click)="uppercase()">uppercase</button>
@@ -61,7 +71,7 @@
 
 <h1>{{'Hello Angular World' | slice:6:13}}</h1>
 <h1>{{'Hello Angular World' | slice:6:13 | uppercase}}</h1>
-
+}
 
 @if (showCourses1_13) {
     <br>

@@ -9,3 +9,13 @@
     <p>04/08/2024</p>
     <p>post text message</p>
 </app-card>
+
+<h1> post list users : {{userService.users | json}}</h1>
+
+<ul>
+    @for(post of posts; track post) {
+        <li>{{post.title}}</li>
+    }
+</ul>
+
+<button (click)="addPost()">Add post</button>

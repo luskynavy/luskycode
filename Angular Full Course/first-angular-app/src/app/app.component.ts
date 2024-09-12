@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NgIf, NgTemplateOutlet, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgStyle, NgClass, NgComponentOutlet, UpperCasePipe, TitleCasePipe, DecimalPipe, PercentPipe, CurrencyPipe, DatePipe, JsonPipe, SlicePipe} from '@angular/common';
 import { CardComponent } from "./card/card.component";
 import { ProfileComponent } from "./profile/profile.component";
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent implements AfterViewInit {
   fruitName: string = 'Apple';
   textValue: string = "some text";
   showCourses1_13: boolean = false;
+  showCourses14_22: boolean = false;
 
   isLoggedIn:boolean = false;
   userName: string = "John Doe";
@@ -90,6 +92,10 @@ export class AppComponent implements AfterViewInit {
     this.showCourses1_13 = !this.showCourses1_13;
   }
 
+  toggleCourses14_22() {
+    this.showCourses14_22 = !this.showCourses14_22;
+  }
+
   onButton() {
     console.log('mouseover');
   }
@@ -141,6 +147,8 @@ export class AppComponent implements AfterViewInit {
 
   users: Array<string> = ["John", "Sam", "Smith", "Raj"];
 
+  userService: any
+
   usersObj: Array<any> = [
     {id:1, name:'John', email:'john@mail.com'},
     {id:2, name:'Sam', email:'sam@mail.com'},
@@ -148,11 +156,18 @@ export class AppComponent implements AfterViewInit {
     {id:4, name:'Raj', email:'raj@mail.com'},
   ]
 
-  constructor(private viewContainer : ViewContainerRef) {
+  constructor(private viewContainer : ViewContainerRef, private userServiceDI:UserService) {
     console.log(this.usersObj.length);
 
     console.log('app constructor');
     console.log(this.childMessage);
+
+    //manually create user service
+    //this.userService = new UserService()
+    //console.log(this.userService)
+
+    //create user service from dependency injection
+    this.userService = userServiceDI
   }
 
   addNewUser() {
