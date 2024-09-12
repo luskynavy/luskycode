@@ -35,9 +35,9 @@ namespace FindCompressableJpegWinforms
 			var sizeTresholdIni = myIni.Read("SizeTreshold");
 			var ratioTresholdIni = myIni.Read("RatioTreshold");
 
-            //Affect value from ini to interface
-            if(!string.IsNullOrEmpty(recursiveIni))
-            {
+			//Affect value from ini to interface
+			if (!string.IsNullOrEmpty(recursiveIni))
+			{
 				recursive.Checked = recursiveIni == "True";
 			}
 
@@ -46,8 +46,8 @@ namespace FindCompressableJpegWinforms
 				sizeTreshold.Value = int.Parse(sizeTresholdIni);
 			}
 
-            if (!string.IsNullOrEmpty(ratioTresholdIni))
-            {
+			if (!string.IsNullOrEmpty(ratioTresholdIni))
+			{
 				ratioTreshold.Value = int.Parse(ratioTresholdIni);
 			}
 
@@ -57,9 +57,9 @@ namespace FindCompressableJpegWinforms
 			//Use first parameter as directory
 			if (args.Length <= 1)
 			{
-                //argument override path from ini
-                if (string.IsNullOrEmpty(pathIni))
-                {
+				//argument override path from ini
+				if (string.IsNullOrEmpty(pathIni))
+				{
 					imagesPath.Text = Directory.GetCurrentDirectory();
 				}
 				else
@@ -79,9 +79,11 @@ namespace FindCompressableJpegWinforms
 		// attaching event handlers.
 		private void InitializeBackgroundWorker()
 		{
-			backgroundWorker1 = new BackgroundWorker();
-			backgroundWorker1.WorkerReportsProgress = true;
-			backgroundWorker1.WorkerSupportsCancellation = true;
+			backgroundWorker1 = new BackgroundWorker
+			{
+				WorkerReportsProgress = true,
+				WorkerSupportsCancellation = true
+			};
 
 			backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
 			backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
@@ -176,7 +178,7 @@ namespace FindCompressableJpegWinforms
 		private void GetRatiosProgress(BackgroundWorker worker = null)
 		{
 			//Remove trailing \ if needed
-			var path = imagesPath.Text.EndsWith("\\") ? imagesPath.Text.Substring(0, imagesPath.Text.Length - 1) : imagesPath.Text;
+			var path = imagesPath.Text.EndsWith('\\') ? imagesPath.Text.Substring(0, imagesPath.Text.Length - 1) : imagesPath.Text;
 			var dir = new DirectoryInfo(path);
 			FileInfo[] files;
 			if (recursive.Checked)
@@ -331,8 +333,10 @@ namespace FindCompressableJpegWinforms
 			{
 				var name = dataGridView1.CurrentRow.Cells[0].Value;
 
-				ProcessStartInfo psi = new ProcessStartInfo(imagesPath.Text + "\\" + name);
-				psi.UseShellExecute = true;
+				var psi = new ProcessStartInfo(imagesPath.Text + "\\" + name)
+				{
+					UseShellExecute = true
+				};
 				Process.Start(psi);
 			}
 		}
@@ -358,8 +362,10 @@ namespace FindCompressableJpegWinforms
 
 		private void SelectPathButton_Click(object sender, EventArgs e)
 		{
-			FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-			folderBrowserDialog.SelectedPath = imagesPath.Text;
+			var folderBrowserDialog = new FolderBrowserDialog
+			{
+				SelectedPath = imagesPath.Text
+			};
 
 			DialogResult result = folderBrowserDialog.ShowDialog();
 
