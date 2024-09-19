@@ -51,6 +51,13 @@ export class AppComponent implements AfterViewInit {
     email:'johnone@mail.com'
   }
 
+  formSubmit(event:any) {
+    event.preventDefault();
+    console.log("Form Submitted");
+    console.log(event.target.name.value);
+  }
+
+
   uppercase() {
     this.testPipes = this.testPipes.toUpperCase()
   }

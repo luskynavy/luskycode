@@ -13,6 +13,21 @@
 <h1>app users : {{userService.users |json}}</h1>
 <app-posts-list></app-posts-list>
 
+<br><br>
+<div class="form-center">
+    <h2>User Form</h2>
+
+    <form (submit)="formSubmit($event)">
+        <input type="text" placeholder="Name" name="name">
+        <br><br>
+        <input type="email" placeholder="Email" name="email">
+        <br><br>
+        <input type="text" placeholder="Address" name="address">
+        <br><br>
+        <button>Submit</button>
+    </form>
+</div>
+
 @if (showCourses14_22) {
 
 <h1>{{appPostTitle}} (in app)</h1>
