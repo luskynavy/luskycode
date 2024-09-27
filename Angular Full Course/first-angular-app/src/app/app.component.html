@@ -15,9 +15,9 @@
 
 <br><br>
 <div class="form-center">
-    <h2>User Form</h2>
+    <h2>User Form by hand</h2>
 
-    <form (submit)="formSubmit($event)">
+    <form (submit)="formSubmitJs($event)">
         <input type="text" placeholder="Name" name="name">
         <br><br>
         <input type="email" placeholder="Email" name="email">
@@ -25,6 +25,55 @@
         <input type="text" placeholder="Address" name="address">
         <br><br>
         <button>Submit</button>
+    </form>
+</div>
+
+<div class="form-center">
+    <h2>User Form with ngForm</h2>
+
+    <form (ngSubmit)="formSubmit(f)" #f="ngForm">
+        <input type="text" placeholder="Name" name="fullName" ngModel #fullName="ngModel" (change)="getValue(fullName)"
+        [class.ng-invalid]="fullName.invalid && fullName.touched" required minlength="3" maxlength="10">
+        <div class="alert">
+            @if (fullName.invalid && fullName.touched) {
+                @if (fullName.hasError('required')) {
+                    <p>Full Name is Required</p>
+                }
+                @if (fullName.hasError('minlength')) {
+                    <p>Full Name must be at least 3 characters long</p>
+                }
+                @if (fullName.hasError('maxlength')) {
+                    <p>Full Name must be at max 10 characters long</p>
+                }
+            }
+
+        </div>
+
+        <br><br>
+        <input type="email" placeholder="Email" name="email" ngModel #email="ngModel"
+        [class.ng-invalid]="email.invalid && email.touched" required pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$">
+        <div class="alert">
+            @if (email.invalid && email.touched) {
+                @if (email.hasError('required')) {
+                    <p>Email is required</p>
+                }
+                @if (email.hasError('pattern')) {
+                    <p>Invalid email address</p>
+                }
+            }
+        </div>
+        <br><br>
+        <textarea name="address" placeholder="Address" ngModel #address="ngModel"
+         [class.ng-invalid]="address.invalid && address.touched" required></textarea>
+        <div class="alert">
+            @if (address.invalid && address.touched) {
+                @if (email.hasError('required')) {
+                    <p>Email is required</p>
+                }
+            }
+        </div>
+        <br><br>
+        <button [disabled]="f.invalid">Submit</button>
     </form>
 </div>
 
