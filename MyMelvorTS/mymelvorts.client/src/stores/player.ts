@@ -54,6 +54,15 @@ export const player = reactive({
         return this.inventory.find(i => i.Id == idItem) !== undefined
     },
 
+    //Get the total number of items in inventory
+    getTotalItemsInInventory() {
+        let nb = 0
+        for (let index = 0; index < this.inventory.length; index++) {
+             nb += this.inventory[index].Count;
+        }
+        return nb
+    },
+
     //Get item count in inventory
     getNbItemInInventory(idItem: number) {
         const foundInventory = this.inventory.find(i => i.Id == idItem)

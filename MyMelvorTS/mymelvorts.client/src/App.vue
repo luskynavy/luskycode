@@ -1,7 +1,11 @@
 <script setup lang="ts">
   import 'bootstrap/dist/css/bootstrap.css'
 
+  import { computed } from 'vue'
+
   import { player } from './stores/player'
+
+  const allLevels = computed(() => player.woodcuttingLevel + player.fishingLevel + player.cookingLevel)
 </script>
 
 <template>
@@ -11,8 +15,8 @@
               <nav class="navbar bg-light sidebar p-3">
                   <div class="navbar-nav">
                       <span class="navbar-brand"><b>MyMelvor</b></span>
-                      <RouterLink class="nav-link" to="/">Home</RouterLink>
-                      <RouterLink class="nav-link" to="/inventory">Inventory</RouterLink>
+                      <RouterLink class="nav-link" to="/">Home {{ allLevels }}</RouterLink>
+                      <RouterLink class="nav-link" to="/inventory">Inventory {{ player.getTotalItemsInInventory() }}</RouterLink>
                       <RouterLink class="nav-link" to="/woodcutting">Woodcutting {{player.woodcuttingLevel}}</RouterLink>
                       <RouterLink class="nav-link" to="/fishing">Fishing {{player.fishingLevel}}</RouterLink>
                       <RouterLink class="nav-link" to="/cooking">Cooking {{player.cookingLevel}}</RouterLink>
@@ -46,6 +50,6 @@
         line-height: 1.5;
     }
 
-    @media (min-width: 1024px) {        
+    @media (min-width: 1024px) {
     }
 </style>
