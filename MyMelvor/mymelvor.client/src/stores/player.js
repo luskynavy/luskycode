@@ -82,12 +82,6 @@ export const usePlayerStore = defineStore('player', () => {
             //Update item count if found
             else {
                 foundDiscovered.Count += count
-
-                //Remove item if quantity <= 0
-                if (foundDiscovered.Count <= 0) {
-                    const index = this.discovered.indexOf(foundDiscovered)
-                    discovered.value.splice(index, 1)
-                }
             }
         }
     }

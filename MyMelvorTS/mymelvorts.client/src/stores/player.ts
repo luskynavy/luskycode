@@ -81,12 +81,6 @@ export const player = reactive({
             //Update item count if found
             else {
                 foundDiscovered.Count += count
-
-                //Remove item if quantity <= 0
-                if (foundDiscovered.Count <= 0) {
-                    const index = this.discovered.indexOf(foundDiscovered)
-                    this.discovered.splice(index, 1)
-                }
             }
         }
     },
