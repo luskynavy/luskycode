@@ -5,6 +5,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { WoodcuttingComponent } from './woodcutting/woodcutting.component';
 import { FishingComponent } from './fishing/fishing.component';
 import { CookingComponent } from './cooking/cooking.component';
+import { StatsComponent } from './stats/stats.component';
 
 
 
@@ -33,5 +34,10 @@ export const routes: Routes = [
         path: 'cooking',
         title: 'Cooking',
         component: CookingComponent,
+    },
+    {
+        path: 'stats',
+        title: 'Stats',
+        component: StatsComponent,
     },
 ];

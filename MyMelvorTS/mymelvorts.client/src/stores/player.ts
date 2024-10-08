@@ -36,9 +36,9 @@ export const player = reactive({
             new InventoryItemClass(ItemId.RawCatfish, 2)
         ],
 
-        this.addToInventory(ItemId.Wood, 1),
-        this.addToInventory(ItemId.RawFish, 1),
-        this.addToInventory(ItemId.Teak, 10),
+        this.addToInventory(ItemId.Wood, 1)
+        this.addToInventory(ItemId.RawFish, 1)
+        this.addToInventory(ItemId.Teak, 10)
         this.addToInventory(ItemId.Catfish, 2)
     },
 

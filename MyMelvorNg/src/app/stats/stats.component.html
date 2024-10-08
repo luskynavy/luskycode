@@ -1,0 +1,16 @@
+<span>Stats</span>
+<div class="items">
+    @for(element of player.discovered; track element.Id) {
+    <span class="item p-1"
+        (mouseover)="hoverId = element.Id" (mouseleave)="hoverId = -1">
+        <div class="d-inline-flex flex-column">
+            <span [class.selectedItem]="element.Count>0">{{element.Name}} x {{element.Count}}</span>
+            @if (hoverId==element.Id) {
+            <span class="m-2">
+                {{element.Description}}
+            </span>
+            }
+        </div>
+    </span>
+    }
+</div>

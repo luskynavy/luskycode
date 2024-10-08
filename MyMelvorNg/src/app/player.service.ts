@@ -14,6 +14,14 @@ export class PlayerService {
     fishingLevel = 0;
     woodcuttingLevel = 0;
     inventory = [] as InventoryItemClass[];
+    discovered= [
+        new InventoryItemClass(ItemId.Wood, 0),
+        new InventoryItemClass(ItemId.Teak, 0),
+        new InventoryItemClass(ItemId.Fish, 0),
+        new InventoryItemClass(ItemId.Catfish, 0),
+        new InventoryItemClass(ItemId.RawFish, 0),
+        new InventoryItemClass(ItemId.RawCatfish, 0)
+    ]
 
     loadValues() {
         this.xp = 170
@@ -21,11 +29,20 @@ export class PlayerService {
         this.cookingLevel = 5
         this.fishingLevel = 4
         this.woodcuttingLevel = 3
-        this.inventory = [
-            new InventoryItemClass(ItemId.Wood, 1),
-            new InventoryItemClass(ItemId.RawFish, 1),
-            new InventoryItemClass(ItemId.Teak, 10),
-            new InventoryItemClass(ItemId.Catfish, 2)]
+
+        this.discovered = [
+            new InventoryItemClass(ItemId.Wood, 0),
+            new InventoryItemClass(ItemId.Teak, 0),
+            new InventoryItemClass(ItemId.Fish, 0),
+            new InventoryItemClass(ItemId.Catfish, 0),
+            new InventoryItemClass(ItemId.RawFish, 0),
+            new InventoryItemClass(ItemId.RawCatfish, 2)
+        ]
+
+        this.addToInventory(ItemId.Wood, 1)
+        this.addToInventory(ItemId.RawFish, 1)
+        this.addToInventory(ItemId.Teak, 10)
+        this.addToInventory(ItemId.Catfish, 2)
     }
 
     //Add nb 'count' item of id 'idItem'
@@ -48,6 +65,31 @@ export class PlayerService {
             if (foundInventory.Count <= 0) {
                 const index = this.inventory.indexOf(foundInventory)
                 this.inventory.splice(index, 1)
+            }
+        }
+
+        //Don't remove item
+        if (count >= 0)
+        {
+            //Search the item in discovered
+            const foundDiscovered = this.discovered.find(i => i.Id == idItem)
+
+            //Create the item if not found
+            if (foundDiscovered === undefined) {
+                const foundItem = ItemArray.find(i => i.Id == idItem)
+                if (foundItem !== undefined) {
+                    this.discovered.push(new InventoryItemClass(idItem, count))
+                }
+            }
+            //Update item count if found
+            else {
+                foundDiscovered.Count += count
+
+                //Remove item if quantity <= 0
+                if (foundDiscovered.Count <= 0) {
+                    const index = this.discovered.indexOf(foundDiscovered)
+                    this.discovered.splice(index, 1)
+                }
             }
         }
     }
