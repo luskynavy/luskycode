@@ -27,7 +27,7 @@ export const player = reactive({
         this.fishingLevel = 4
         this.woodcuttingLevel = 3
 
-        this.discovered= [
+        this.discovered = [
             new InventoryItemClass(ItemId.Wood, 0),
             new InventoryItemClass(ItemId.Teak, 0),
             new InventoryItemClass(ItemId.Fish, 0),

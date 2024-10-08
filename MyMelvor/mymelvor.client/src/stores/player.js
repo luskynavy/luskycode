@@ -11,6 +11,14 @@ export const usePlayerStore = defineStore('player', () => {
     const fishingLevel = ref(0)
     const woodcuttingLevel = ref(0)
     const inventory = ref([])
+    const discovered = ref([
+        new InventoryItemClass(ItemId.Wood, 0),
+        new InventoryItemClass(ItemId.Teak, 0),
+        new InventoryItemClass(ItemId.Fish, 0),
+        new InventoryItemClass(ItemId.Catfish, 0),
+        new InventoryItemClass(ItemId.RawFish, 0),
+        new InventoryItemClass(ItemId.RawCatfish, 0)
+    ])
 
     //Load default values for test
     function loadValues() {
@@ -19,11 +27,20 @@ export const usePlayerStore = defineStore('player', () => {
         cookingLevel.value = 5;
         fishingLevel.value = 4;
         woodcuttingLevel.value = 3;
-        inventory.value = [
-            new InventoryItemClass(ItemId.Wood, 1),
-            new InventoryItemClass(ItemId.Fish, 1),
-            new InventoryItemClass(ItemId.Teak, 10),
-            new InventoryItemClass(ItemId.Catfish, 2)]
+
+        discovered.value = [
+            new InventoryItemClass(ItemId.Wood, 0),
+            new InventoryItemClass(ItemId.Teak, 0),
+            new InventoryItemClass(ItemId.Fish, 0),
+            new InventoryItemClass(ItemId.Catfish, 0),
+            new InventoryItemClass(ItemId.RawFish, 0),
+            new InventoryItemClass(ItemId.RawCatfish, 2)
+        ],
+
+        addToInventory(ItemId.Wood, 1),
+        addToInventory(ItemId.RawFish, 1),
+        addToInventory(ItemId.Teak, 10),
+        addToInventory(ItemId.Catfish, 2)
     }
 
     //Add nb count item of id idItem
@@ -46,6 +63,31 @@ export const usePlayerStore = defineStore('player', () => {
             if (foundInventory.Count <= 0) {
                 const index = this.inventory.indexOf(foundInventory)
                 inventory.value.splice(index, 1)
+            }
+        }
+
+        //Don't remove item
+        if (count >= 0)
+        {
+            //Search the item in discovered
+            var foundDiscovered = discovered.value.find(i => i.Id == idItem)
+
+            //Create the item if not found
+            if (foundDiscovered === undefined) {
+                foundItem = ItemArray.find(i => i.Id == idItem)
+                if (foundItem !== undefined) {
+                    discovered.value.push(new InventoryItemClass(idItem, count))
+                }
+            }
+            //Update item count if found
+            else {
+                foundDiscovered.Count += count
+
+                //Remove item if quantity <= 0
+                if (foundDiscovered.Count <= 0) {
+                    const index = this.discovered.indexOf(foundDiscovered)
+                    discovered.value.splice(index, 1)
+                }
             }
         }
     }
@@ -73,7 +115,7 @@ export const usePlayerStore = defineStore('player', () => {
     }
 
     return {
-        xp, money, cookingLevel, fishingLevel, woodcuttingLevel, inventory,
+        xp, money, cookingLevel, fishingLevel, woodcuttingLevel, inventory, discovered,
         loadValues, addToInventory, hasItemInInventory, getNbItemInInventory, sellItem
     }
 })

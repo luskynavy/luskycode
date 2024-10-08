@@ -1,10 +1,9 @@
 <script setup lang="ts">
     import { ref } from 'vue'
-    import { player } from '../stores/player'
+    import { usePlayerStore } from '../stores/player'
 
+    const player = usePlayerStore()
     const hoverId = ref(-1)
-
-
 </script>
 
 <template>
