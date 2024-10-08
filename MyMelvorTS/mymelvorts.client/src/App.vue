@@ -20,6 +20,7 @@
                       <RouterLink class="nav-link" to="/woodcutting">Woodcutting {{player.woodcuttingLevel}}</RouterLink>
                       <RouterLink class="nav-link" to="/fishing">Fishing {{player.fishingLevel}}</RouterLink>
                       <RouterLink class="nav-link" to="/cooking">Cooking {{player.cookingLevel}}</RouterLink>
+                      <RouterLink class="nav-link" to="/stats">Stats</RouterLink>
                       <RouterLink class="nav-link" to="/tests">Tests</RouterLink>
                   </div>
               </nav>

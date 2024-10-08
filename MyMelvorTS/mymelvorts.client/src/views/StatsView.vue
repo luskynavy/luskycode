@@ -1,0 +1,51 @@
+<script setup lang="ts">
+    import { ref } from 'vue'
+    import { player } from '../stores/player'
+
+    const hoverId = ref(-1)
+
+
+</script>
+
+<template>
+    <main>
+        <span>Stats.vue</span>
+        <section>
+            <div class="items">
+                <span v-for="element in player.discovered" :key="element.Id" class="item p-1"
+                    @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
+                    <div class="d-inline-flex flex-column">
+                        <span :class="element.Count>0 ? 'selectedItem' : ''">{{element.Name}} x {{element.Count}}</span>
+                        <span v-if="hoverId==element.Id" class="m-2">
+                            {{element.Description}}
+                        </span>
+                    </div>
+                </span>
+            </div>
+        </section>
+    </main>
+</template>
+
+<style scoped>
+    .selectedItem {
+        font-weight: bold;
+    }
+
+    .items {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .item {
+        width: 150px;
+        height: 150px;
+        border: 1px solid black;
+    }
+
+    .right {
+        background-color: rgb(250, 250, 250);
+        width: 200px;
+        float: right;
+    }
+</style>
