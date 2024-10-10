@@ -4,8 +4,6 @@
     import { typeColor} from '@/classes/ItemTypeColor'
 
     const hoverId = ref(-1)
-
-
 </script>
 
 <template>
@@ -41,11 +39,5 @@
         width: 150px;
         height: 150px;
         border: 1px solid black;
-    }
-
-    .right {
-        background-color: rgb(250, 250, 250);
-        width: 200px;
-        float: right;
     }
 </style>

@@ -4,6 +4,7 @@ import { PlayerService } from '../player.service';
 import InventoryItemClass from '../inventoryItemClass';
 import { SortablejsModule } from 'nxt-sortablejs'
 import Swal from 'sweetalert2';
+import { typeColor} from '../itemTypeColor'
 
 @Component({
   selector: 'app-inventory',
@@ -26,6 +27,11 @@ export class InventoryComponent {
     this.selectedItem = this.player.inventory.find(i => i.Id == itemId)
     this.range = 1
   }
+
+  typeColor(itemId: number) {
+    return typeColor(itemId)
+  }
+
   //Sell selected nb 'range' item
   sellItem() {
     const message = this.range + " " + this.selectedItem?.Name

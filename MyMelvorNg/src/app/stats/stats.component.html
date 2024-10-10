@@ -2,6 +2,7 @@
 <div class="items">
     @for(element of player.discovered; track element.Id) {
     <span class="item p-1"
+        [style]="{background: typeColor(element.Id)}"
         (mouseover)="hoverId = element.Id" (mouseleave)="hoverId = -1">
         <div class="d-inline-flex flex-column">
             <span [class.selectedItem]="element.Count>0">{{element.Name}} x {{element.Count}}</span>

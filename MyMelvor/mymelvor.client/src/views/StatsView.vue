@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { ref } from 'vue'
     import { usePlayerStore } from '../stores/player'
+    import { typeColor} from '@/classes/ItemTypeColor'
 
     const player = usePlayerStore()
     const hoverId = ref(-1)
@@ -11,6 +12,7 @@
         <span>Stats.vue</span>
         <div class="items">
             <span v-for="element in player.discovered" :key="element.Id" class="item p-1"
+                :style="{background: typeColor(element.Id)}"
                 @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
                 <div class="d-inline-flex flex-column">
                     <span :class="element.Count>0 ? 'selectedItem' : ''">{{element.Name}} x {{element.Count}}</span>
@@ -38,11 +40,5 @@
         width: 150px;
         height: 150px;
         border: 1px solid black;
-    }
-
-    .right {
-        background-color: rgb(250, 250, 250);
-        width: 200px;
-        float: right;
     }
 </style>

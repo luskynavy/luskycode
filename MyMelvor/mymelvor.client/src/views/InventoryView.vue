@@ -5,6 +5,7 @@
     import { usePlayerStore } from '../stores/player'
     import draggable from 'vuedraggable'
     import Swal from 'sweetalert2'
+    import { typeColor} from '@/classes/ItemTypeColor'
 
     const player = usePlayerStore()
     const hoverId = ref(-1)
@@ -83,8 +84,9 @@
                        item-key="Id">
                 <template #item="{element}">
                     <div class="item p-1" :key="element.Id"
-                         @click="selectItem(element.Id)"
-                         @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
+                        :style="{background: typeColor(element.Id)}"
+                        @click="selectItem(element.Id)"
+                        @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
                         <div class="d-inline-flex flex-column">
                             <span :class="selectedId==element.Id ? 'selectedItem' : ''">{{element.Name}} x {{element.Count}}</span>
                             <span v-if="hoverId==element.Id" class="m-2">
