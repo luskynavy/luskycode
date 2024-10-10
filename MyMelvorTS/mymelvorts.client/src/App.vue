@@ -14,7 +14,7 @@
           <header >
               <nav class="navbar bg-light sidebar p-3">
                   <div class="navbar-nav">
-                      <span class="navbar-brand"><b>MyMelvor</b></span>
+                      <span class="navbar-brand"><b>MyMelvorTS</b></span>
                       <RouterLink class="nav-link" to="/">Home {{ allLevels }}</RouterLink>
                       <RouterLink class="nav-link" to="/inventory">Inventory {{ player.getTotalItemsInInventory() }}</RouterLink>
                       <RouterLink class="nav-link" to="/woodcutting">Woodcutting {{player.woodcuttingLevel}}</RouterLink>
