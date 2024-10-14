@@ -12,7 +12,7 @@
         <span>Stats.vue</span>
         <div class="items">
             <span v-for="element in player.discovered" :key="element.Id" class="item p-1"
-                :style="{background: typeColor(element.Id)}"
+                :style="{background: typeColor(element.Type)}"
                 @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
                 <div class="d-inline-flex flex-column">
                     <span :class="element.Count>0 ? 'selectedItem' : ''">{{element.Name}} x {{element.Count}}</span>

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { PlayerService } from '../player.service';
 import { typeColor} from '../itemTypeColor'
+import ItemType from '../itemType';
 
 @Component({
   selector: 'app-stats',
@@ -14,7 +15,7 @@ export class StatsComponent {
 
   hoverId = -1
 
-  typeColor(itemId: number) {
-      return typeColor(itemId)
+  typeColor(type: ItemType) {
+      return typeColor(type)
   }
 }

@@ -1,5 +1,4 @@
 
-import ItemArray from "./ItemArray"
 import ItemType from "./ItemType"
 
 class TypeColor {
@@ -18,8 +17,7 @@ export const ItemTypeColor =
         new TypeColor(ItemType.CookedFood, "#e9967a"),
     ]
 
-export function typeColor(itemId: number) {
-    const type = ItemArray.find(i => i.Id == itemId)?.Type
+export function typeColor(type: ItemType) {
     const color = ItemTypeColor.find(i => i.Type == type)
     return color?.Color
 }

@@ -106,7 +106,7 @@
                        item-key="Id">
                 <template #item="{element}">
                     <div class="item p-1" :key="element.Id"
-                        :style="{background: typeColor(element.Id)}"
+                        :style="{background: typeColor(element.Type)}"
                         @click="selectItem(element.Id)"
                         @mouseover="hoverId = element.Id" @mouseleave="hoverId = -1">
                         <div class="d-inline-flex flex-column">

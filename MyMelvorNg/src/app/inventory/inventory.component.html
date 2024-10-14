@@ -21,7 +21,7 @@
     <div [nxtSortablejs]="player.inventory" class="items">
         @for(element of player.inventory; track element.Id) {
         <span class="item p-1"
-            [style]="{background: typeColor(element.Id)}"
+            [style]="{background: typeColor(element.Type)}"
             (click)="selectItem(element.Id)"
             (mouseover)="hoverId = element.Id" (mouseleave)="hoverId = -1">
             <div class="d-inline-flex flex-column">
