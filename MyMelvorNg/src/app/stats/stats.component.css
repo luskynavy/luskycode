@@ -13,3 +13,8 @@
     height: 150px;
     border: 1px solid black;
 }
+
+.filterButton {
+    width: 150px;    
+    border: 1px solid black;
+}

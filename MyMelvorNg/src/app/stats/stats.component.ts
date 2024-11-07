@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { PlayerService } from '../player.service';
-import { typeColor} from '../itemTypeColor'
+import { typeColor, ItemTypeColor } from '../itemTypeColor'
 import ItemType from '../itemType';
 
 @Component({
@@ -14,8 +14,19 @@ export class StatsComponent {
   player = inject(PlayerService);
 
   hoverId = -1
+  filterId = -1
+
+  myItemTypeColor = ItemTypeColor
 
   typeColor(type: ItemType) {
       return typeColor(type)
+  }
+
+  //Return dicovered array based on current filter
+  filterDiscovered() {
+    if (this.filterId == -1) {
+        return this.player.discovered
+    }
+    return this.player.discovered.filter((x) => x.Type==this.filterId)
   }
 }

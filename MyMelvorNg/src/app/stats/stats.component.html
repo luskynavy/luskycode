@@ -1,6 +1,17 @@
 <span>Stats</span>
 <div class="items">
-    @for(element of player.discovered; track element.Id) {
+    <span [class]="filterId==-1 ? 'selectedItem' : ''" class="filterButton p-1" (click)="filterId=-1">All</span>
+    @for(filterButton of myItemTypeColor; track filterButton.Type) {
+    <span 
+    [class]="filterId==filterButton.Type ? 'selectedItem' : ''" 
+    [style]="{background: typeColor(filterButton.Type)}"
+    class="filterButton p-1"
+     (click)="filterId=filterButton.Type">{{ filterButton.Name }}</span>
+    }
+</div>
+<br>
+<div class="items">
+    @for(element of filterDiscovered(); track element.Id) {
     <span class="item p-1"
         [style]="{background: typeColor(element.Type)}"
         (mouseover)="hoverId = element.Id" (mouseleave)="hoverId = -1">

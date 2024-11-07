@@ -4,17 +4,20 @@ import ItemType from "./itemType"
 class TypeColor {
     Type: ItemType
     Color: string =""
-    constructor(itemType: ItemType, color: string) {
+    Name: string =""
+
+    constructor(itemType: ItemType, color: string, name: string) {
         this.Type = itemType
         this.Color = color
+        this.Name = name
     }
 }
 
 export const ItemTypeColor =
     [
-        new TypeColor(ItemType.Wood, "#deb887" ),
-        new TypeColor(ItemType.RawFood, "#c0c0c0"),
-        new TypeColor(ItemType.CookedFood, "#e9967a"),
+        new TypeColor(ItemType.Wood, "#deb887", "Wood"),
+        new TypeColor(ItemType.RawFood, "#c0c0c0", "Raw Food"),
+        new TypeColor(ItemType.CookedFood, "#e9967a", "Cooked Food"),
     ]
 
 export function typeColor(type: ItemType) {
