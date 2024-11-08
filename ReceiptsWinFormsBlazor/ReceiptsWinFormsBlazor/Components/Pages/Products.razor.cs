@@ -66,6 +66,9 @@ namespace ReceiptsBlazorWinForms.Components.Pages
         // True if popup is displayed
         private bool ShowPopup = false;
 
+        //True if inside popup
+        bool IsInsidePopup = false;
+
         // Product Id to display in popup
         private int ShowPricesProductId;
 
@@ -74,6 +77,7 @@ namespace ReceiptsBlazorWinForms.Components.Pages
         {
             ShowPopup = true;
             ShowPricesProductId = productId;
+            IsInsidePopup = false;
         }
 
         // Close the Popup
@@ -82,6 +86,26 @@ namespace ReceiptsBlazorWinForms.Components.Pages
             ShowPopup = false;
         }
 
+        // Close popup if outside
+        void ClosePopupIfOutside()
+        {
+            if (!IsInsidePopup)
+            {
+                ClosePopup();
+            }
+        }
+
+        // Set mouse is inside popup
+        void MouseInPopup()
+        {
+            IsInsidePopup = true;
+        }
+
+        // Set mouse is outside popup
+        void MouseOutPopup()
+        {
+            IsInsidePopup = false;
+        }
         #endregion Popup
 
         protected override async Task OnParametersSetAsync()

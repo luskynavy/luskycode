@@ -148,9 +148,9 @@ else
     @if (ShowPopup)
     {
         <!-- This is the popup  -->
-        <div class="modal" tabindex="-1" style="display:block" role="dialog" @onclick="ClosePopup">
+        <div class="modal" tabindex="-1" style="display:block" role="dialog" @onclick="ClosePopupIfOutside">
             <div class="modal-dialog modal-lg">
-                <div class="modal-content">
+                <div class="modal-content" @onmouseover="MouseInPopup" @onmouseout="MouseOutPopup">
                     <div class="modal-header">
                         <h5 class="modal-title">@Localize["Prices history"]</h5>
                         <!-- Button to close the popup -->
@@ -229,6 +229,9 @@ else
     // True if popup is displayed
     private bool ShowPopup = false;
 
+    //True if inside popup
+    bool IsInsidePopup = false;
+
     // Product Id to display in popup
     private int ShowPricesProductId;
 
@@ -237,12 +240,34 @@ else
     {
         ShowPopup = true;
         ShowPricesProductId = productId;
+        IsInsidePopup = false;
     }
 
     // Close the Popup
     void ClosePopup()
     {
         ShowPopup = false;
+    }
+
+    // Close popup if outside
+    void ClosePopupIfOutside()
+    {
+        if (!IsInsidePopup)
+        {
+            ClosePopup();
+        }
+    }
+
+    // Set mouse is inside popup
+    void MouseInPopup()
+    {
+        IsInsidePopup = true;
+    }
+
+    // Set mouse is outside popup
+    void MouseOutPopup()
+    {
+        IsInsidePopup = false;
     }
     #endregion //Popup
 
