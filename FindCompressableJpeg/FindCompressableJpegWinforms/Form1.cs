@@ -333,11 +333,17 @@ namespace FindCompressableJpegWinforms
 			{
 				var name = dataGridView1.CurrentRow.Cells[0].Value;
 
-				var psi = new ProcessStartInfo(imagesPath.Text + "\\" + name)
+				try
 				{
-					UseShellExecute = true
-				};
-				Process.Start(psi);
+					var psi = new ProcessStartInfo(imagesPath.Text + "\\" + name)
+					{
+						UseShellExecute = true
+					};
+					Process.Start(psi);
+				}
+				catch
+				{
+				}
 			}
 		}
 
