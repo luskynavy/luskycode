@@ -29,6 +29,7 @@ app.UseCors(x => x
     .AllowAnyOrigin()
     //Only for vueapp (vite default port)
     .WithOrigins("http://localhost:5173")
+    .WithOrigins("http://localhost:4200")
     .AllowAnyMethod()
     .AllowAnyHeader());
 

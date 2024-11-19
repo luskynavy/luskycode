@@ -1,1 +1,41 @@
 <p>group-products works!</p>
+<button
+        (click)="fetchGroupProducts()"
+      > Recherche
+</button>
+<table class="table alternateLines">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Group</th>
+            <th>Name</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>MinDate</th>
+            <th>MaxDate</th>
+            <th>PriceRatio</th>
+            <th>PricesCount</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @for(groupProduct of results; track groupProduct.id) {
+        <tr>
+            <td>{{ groupProduct.id }} </td>
+            <td>{{ groupProduct.group }}</td>
+            <td>{{ groupProduct.name }}</td>
+            <td>{{ groupProduct.min }}</td>
+            <td>{{ groupProduct.max }}</td>
+            <td>{{ formatDate(groupProduct.minDate) }}</td>
+            <td>{{ formatDate(groupProduct.maxDate) }}</td>
+            <td>{{ groupProduct.priceRatio.toFixed(2) }}</td>
+            <td>{{ groupProduct.pricesCount }}</td>
+        </tr>
+    }
+    </tbody>
+</table>
+<span>{{ pageIndex }} sur {{totalPages}}</span>
+<span>{{ hasPreviousPage }}</span>
+<span>{{ hasNextPage }}</span>
+<br>
+

@@ -1,1 +1,9 @@
 <p>products works!</p>
+<span>{{ results }}</span>
+<span>{{ pageIndex }} sur {{totalPages}}</span>
+<span>{{ hasPreviousPage }}</span>
+<span>{{ hasNextPage }}</span>
+<button       
+        (click)="fetchProducts()"
+      > Recherche
+</button>
