@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* import and manual css not working together, must add to every component.css*/
+/*
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+
+
+table.alternateLines > tbody > tr:nth-child(even) {
+    background-color: #eeeeee;
+}
+
+tbody > tr:hover {
+    background-color: #a8c3e1 !important;
+}
+*/

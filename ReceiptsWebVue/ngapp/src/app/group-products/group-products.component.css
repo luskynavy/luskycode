@@ -1,0 +1,12 @@
+
+
+@import "../../../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+@import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+table.alternateLines > tbody > tr:nth-child(even) {
+    background-color: #eeeeee;
+}
+
+tbody > tr:hover {
+    background-color: #a8c3e1 !important;
+}

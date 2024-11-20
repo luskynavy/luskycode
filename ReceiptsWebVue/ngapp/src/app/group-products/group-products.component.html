@@ -38,7 +38,6 @@
         </button>
 
         <a class="btn btn-default btn-lg" (click)="init()" title="Effacer">
-            Effacer
             <i class="bi bi-eraser"></i>
         </a>
     </div>
@@ -90,8 +89,6 @@
     <button (click)="pageNumber = totalPages; submitChanges()"
         [disabled]="pageIndex == totalPages">
         Dernière
-</button>
-    <span>{{ hasNextPage }}</span>
-    <br>
+    </button>
 }
 
