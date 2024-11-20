@@ -22,7 +22,7 @@ export const routes: Routes = [
         component: ProductsComponent,
     },
     {
-        path: 'details',
+        path: 'details/:id',
         title: 'Details',
         component: DetailsComponent,
     },

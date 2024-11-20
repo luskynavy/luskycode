@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete'; //or maybe angular-ng-autocomplete
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-group-products',
   standalone: true,
-  imports: [FormsModule, NguiAutoCompleteModule],
+  imports: [FormsModule, NguiAutoCompleteModule, RouterLink],
   templateUrl: './group-products.component.html',
   styleUrl: './group-products.component.css'
 })

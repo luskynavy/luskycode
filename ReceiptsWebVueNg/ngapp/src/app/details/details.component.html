@@ -1,1 +1,56 @@
-<p>details works!</p>
+@if (loading == true) {
+    <span>En cours de chargement</span>
+}
+@else
+{
+    <dl class="row">
+        <dt class="col-sm-2">
+            Id
+        </dt>
+        <dd class="col-sm-10">
+            {{ product.id }}
+        </dd>
+        <dt class="col-sm-2">
+            Nom
+        </dt>
+        <dd class="col-sm-10">
+            {{ product.name }}
+        </dd>
+        <dt class="col-sm-2">
+            Groupe
+        </dt>
+        <dd class="col-sm-10">
+            {{ product.group }}
+        </dd>
+        <dt class="col-sm-2">
+            Prix
+        </dt>
+        <dd class="col-sm-10">
+            {{ product.price }}
+        </dd>
+        <dt class="col-sm-2">
+            Date de réception
+        </dt>
+        <dd class="col-sm-10">
+            {{ formatDate(product.dateReceipt) }}
+        </dd>
+        <dt class="col-sm-2">
+            Nom de la source
+        </dt>
+        <dd class="col-sm-10">
+            {{ product.sourceName }}
+        </dd>
+        <dt class="col-sm-2">
+            Ligne de la source
+        </dt>
+        <dd class="col-sm-10">
+            {{ product.sourceLine }}
+        </dd>
+        <dt class="col-sm-2">
+            Données complétes
+        </dt>
+        <dd class="col-sm-10">
+            {{ product.fullData }}
+        </dd>
+    </dl>
+}

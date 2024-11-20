@@ -49,14 +49,14 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Group</th>
-                <th>Name</th>
+                <th>Groupe</th>
+                <th>Nom</th>
                 <th>Min</th>
                 <th>Max</th>
-                <th>MinDate</th>
-                <th>MaxDate</th>
-                <th>PriceRatio</th>
-                <th>PricesCount</th>
+                <th>Date min</th>
+                <th>Date max</th>
+                <th>Rapport des prix</th>
+                <th>Nombre de prix</th>
                 <th></th>
             </tr>
         </thead>
@@ -72,6 +72,9 @@
                 <td>{{ formatDate(groupProduct.maxDate) }}</td>
                 <td>{{ groupProduct.priceRatio.toFixed(2) }}</td>
                 <td>{{ groupProduct.pricesCount }}</td>
+                <td>
+                    <a routerLink="/details/{{groupProduct.id}}" class="bi bi-info-circle" title="Détails"></a>
+                </td>
             </tr>
         }
         </tbody>

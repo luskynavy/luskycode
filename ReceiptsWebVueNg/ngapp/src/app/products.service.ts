@@ -23,10 +23,11 @@ export class ProductsService {
       .set('pageSize', pageSize)
       .set('pageNumber', pageNumber)
 
-    return this.http.get(this.url + '/GroupProducts', {
+    return this.http.get(this.url + '/GroupProducts',
+    {
       headers: { Accept: 'application/json' },
       params: httpParams
-     });
+    });
   }
 
   getGroupSelectList(): Observable<any> {
@@ -36,9 +37,18 @@ export class ProductsService {
   getProductsNames(group:string): Observable<any> {
     const httpParams  = new HttpParams()
       .set('group', group)
-    return this.http.get(this.url + '/ProductsNames', {
-       headers: { Accept: 'application/json' },
-       params: httpParams
+    return this.http.get(this.url + '/ProductsNames',
+    {
+      headers: { Accept: 'application/json' },
+      params: httpParams
+    });
+  }
+
+  getProduct(id:number): Observable<any> {
+
+    return this.http.get(this.url + '/Products/'+id,
+    {
+      headers: { Accept: 'application/json' }
     });
   }
 }
