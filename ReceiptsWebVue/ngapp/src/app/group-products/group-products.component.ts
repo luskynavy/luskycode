@@ -68,4 +68,8 @@ export class GroupProductsComponent {
     return d.toLocaleString(navigator.language ? navigator.language : navigator['language'], options)
   }
 
+  changePageSize() {
+    this.pageNumber = 1
+    this.submitChanges()
+  }
 }
