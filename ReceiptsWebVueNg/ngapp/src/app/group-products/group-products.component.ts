@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../products.service';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete'; //or maybe angular-ng-autocomplete
 
 @Component({
   selector: 'app-group-products',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NguiAutoCompleteModule],
   templateUrl: './group-products.component.html',
   styleUrl: './group-products.component.css'
 })
@@ -16,6 +17,8 @@ export class GroupProductsComponent {
   filterGroup:string= '';
   filterGroupValues:string[] = [];
   searchString:string = '';
+  //filteredProducts:string[] = [];
+  productsNames:string[] = [];
   sort:string = 'Group';
   products1price:boolean = false;
   pageSize:number = 10;
@@ -32,6 +35,10 @@ export class GroupProductsComponent {
   ngOnInit() {
     this.productsService.getGroupSelectList().subscribe((data: any) => {
       this.filterGroupValues = data;
+    });
+
+    this.productsService.getProductsNames('').subscribe((data: any) => {
+      this.productsNames = data;
     });
   }
 
@@ -66,6 +73,17 @@ export class GroupProductsComponent {
     };
     var d = new Date(date.slice(0, 10))
     return d.toLocaleString(navigator.language ? navigator.language : navigator['language'], options)
+  }
+
+  onGroupChange() {
+    if (this.filterGroup != '') {
+        this.searchString = ''
+    }
+
+    this.productsService.getProductsNames(this.filterGroup).subscribe((data: any) => {
+      this.productsNames = data;
+      console.log(this.productsNames.length)
+    });
   }
 
   changePageSize() {

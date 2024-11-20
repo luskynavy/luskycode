@@ -7,7 +7,9 @@
         <p>
             Filtrer par groupe
             <select
-                [(ngModel)]="filterGroup">
+                [(ngModel)]="filterGroup"
+                (change)="onGroupChange()"
+                >
                 @for (filter of filterGroupValues; track $index) {
                     <option value="{{filter}}">{{filter}}</option>
                 }
@@ -16,7 +18,8 @@
 
         <p>
             Trouver par nom
-            <input [(ngModel)]="searchString">
+            <!--<input [(ngModel)]="searchString">-->
+            <input auto-complete [(ngModel)]="searchString" [source]="productsNames" style="width:400px;"/>
         </p>
 
         <p>

@@ -32,4 +32,13 @@ export class ProductsService {
   getGroupSelectList(): Observable<any> {
     return this.http.get(this.url + '/GroupSelectList', { headers: { Accept: 'application/json' } });
   }
+
+  getProductsNames(group:string): Observable<any> {
+    const httpParams  = new HttpParams()
+      .set('group', group)
+    return this.http.get(this.url + '/ProductsNames', {
+       headers: { Accept: 'application/json' },
+       params: httpParams
+    });
+  }
 }
