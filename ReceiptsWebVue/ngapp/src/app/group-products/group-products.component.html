@@ -1,41 +1,97 @@
-<p>group-products works!</p>
-<button
-        (click)="fetchGroupProducts()"
-      > Recherche
+@if (loading == true) {
+    <span>En cours de chargement</span>
+}
+@else
+{
+    <div class="form-actions no-color">
+        <p>
+            Filtrer par groupe
+            <select
+                [(ngModel)]="filterGroup">
+                @for (filter of filterGroupValues; track $index) {
+                    <option value="{{filter}}">{{filter}}</option>
+                }
+            </select>
+        </p>
+
+        <p>
+            Trouver par nom
+            <input [(ngModel)]="searchString">
+        </p>
+
+        <p>
+            Trier par
+            <select
+                [(ngModel)]="sort">
+                <option value="Group">Groupe</option>
+                <option value="PriceRatio">Rapport des prix</option>
+                <option value="PricesCount">Nombre de prix</option>
+                <option value="MaxDate">Date max</option>
+            </select>
+        </p>
+
+        Inclure les produits avec un seul prix <input type="checkbox" [(ngModel)]="products1price">
+        <br>
+        <button
+            (click)="submitChanges()"
+            > Recherche
+        </button>
+
+        <a class="btn btn-default btn-lg" (click)="init()" title="Effacer">
+            Effacer
+            <i class="bi bi-eraser"></i>
+        </a>
+    </div>
+    <br>
+    <table class="table alternateLines">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Group</th>
+                <th>Name</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>MinDate</th>
+                <th>MaxDate</th>
+                <th>PriceRatio</th>
+                <th>PricesCount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(groupProduct of results; track groupProduct.id) {
+            <tr>
+                <td>{{ groupProduct.id }} </td>
+                <td>{{ groupProduct.group }}</td>
+                <td>{{ groupProduct.name }}</td>
+                <td>{{ groupProduct.min }}</td>
+                <td>{{ groupProduct.max }}</td>
+                <td>{{ formatDate(groupProduct.minDate) }}</td>
+                <td>{{ formatDate(groupProduct.maxDate) }}</td>
+                <td>{{ groupProduct.priceRatio.toFixed(2) }}</td>
+                <td>{{ groupProduct.pricesCount }}</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <span>{{ pageIndex }} sur {{totalPages}}</span>
+    <button (click)="pageNumber = 1; submitChanges()"
+        [disabled]="pageIndex == 1">
+        Première
+    </button>
+    <button (click)="pageNumber = pageIndex - 1; submitChanges()"
+        [disabled]="hasPreviousPage == false">
+        Précédente
+    </button>
+    <button (click)="pageNumber = pageIndex + 1; submitChanges()"
+        [disabled]="hasNextPage == false">
+        Suivante
+    </button>
+    <button (click)="pageNumber = totalPages; submitChanges()"
+        [disabled]="pageIndex == totalPages">
+        Dernière
 </button>
-<table class="table alternateLines">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Group</th>
-            <th>Name</th>
-            <th>Min</th>
-            <th>Max</th>
-            <th>MinDate</th>
-            <th>MaxDate</th>
-            <th>PriceRatio</th>
-            <th>PricesCount</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @for(groupProduct of results; track groupProduct.id) {
-        <tr>
-            <td>{{ groupProduct.id }} </td>
-            <td>{{ groupProduct.group }}</td>
-            <td>{{ groupProduct.name }}</td>
-            <td>{{ groupProduct.min }}</td>
-            <td>{{ groupProduct.max }}</td>
-            <td>{{ formatDate(groupProduct.minDate) }}</td>
-            <td>{{ formatDate(groupProduct.maxDate) }}</td>
-            <td>{{ groupProduct.priceRatio.toFixed(2) }}</td>
-            <td>{{ groupProduct.pricesCount }}</td>
-        </tr>
-    }
-    </tbody>
-</table>
-<span>{{ pageIndex }} sur {{totalPages}}</span>
-<span>{{ hasPreviousPage }}</span>
-<span>{{ hasNextPage }}</span>
-<br>
+    <span>{{ hasNextPage }}</span>
+    <br>
+}
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,14 +11,25 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<any> {
-    return this.http.get(this.url + '/Products', { headers: { Accept: 'application/json' } });    
+    return this.http.get(this.url + '/Products', { headers: { Accept: 'application/json' } });
   }
 
-  getGroupProducts(): Observable<any> {
-    return this.http.get(this.url + '/GroupProducts', { headers: { Accept: 'application/json' } });
+  getGroupProducts(filterGroup:string, searchString:string, sort:string, products1price:boolean, pageSize:number, pageNumber:number): Observable<any> {
+    const httpParams  = new HttpParams()
+      .set('filterGroup', filterGroup)
+      .set('searchString', searchString)
+      .set('sort', sort)
+      .set('products1price', products1price)
+      .set('pageSize', pageSize)
+      .set('pageNumber', pageNumber)
+
+    return this.http.get(this.url + '/GroupProducts', {
+      headers: { Accept: 'application/json' },
+      params: httpParams
+     });
   }
 
-  getGroupSelectList(): Observable<any> {    
+  getGroupSelectList(): Observable<any> {
     return this.http.get(this.url + '/GroupSelectList', { headers: { Accept: 'application/json' } });
   }
 }
