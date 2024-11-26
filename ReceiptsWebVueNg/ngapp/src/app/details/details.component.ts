@@ -15,7 +15,7 @@ export class DetailsComponent {
 
   id:number = 0;
 
-  constructor(private route: ActivatedRoute, private productsService: ProductsService) {}
+   constructor(private route: ActivatedRoute, private productsService: ProductsService) {}
 
   ngOnInit(): void {
     this.getProduct();
@@ -24,7 +24,7 @@ export class DetailsComponent {
   getProduct(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
 
-    //this.loading = true;
+    this.loading = true;
 
     this.productsService.getProduct(this.id).subscribe((data: any) => {
       this.product = data;
