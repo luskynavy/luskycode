@@ -51,4 +51,15 @@ export class ProductsService {
       headers: { Accept: 'application/json' }
     });
   }
+
+  getProductPrices(id:number): Observable<any> {
+    const httpParams  = new HttpParams()
+      .set('id', id)
+
+    return this.http.get(this.url + '/GetProductPrices',
+    {
+      headers: { Accept: 'application/json' },
+      params: httpParams
+    });
+  }
 }

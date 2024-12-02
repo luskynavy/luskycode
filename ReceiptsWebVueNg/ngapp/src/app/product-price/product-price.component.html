@@ -1,0 +1,10 @@
+<div>
+    @if(loaded) {
+        <canvas baseChart
+            [type]="'line'"
+            [data]="lineChartData"
+            [options]="lineChartOptions"
+            [legend]="lineChartLegend">
+        </canvas>
+    }
+</div>

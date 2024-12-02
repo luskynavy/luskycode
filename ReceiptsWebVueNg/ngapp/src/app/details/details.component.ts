@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../products.service';
+import { ProductPriceComponent } from '../product-price/product-price.component';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [],
+  imports: [ProductPriceComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
