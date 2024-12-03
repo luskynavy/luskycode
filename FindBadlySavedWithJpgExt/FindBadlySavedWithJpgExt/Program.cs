@@ -1,4 +1,6 @@
-﻿namespace FindBadlySavedWithJpgExt
+﻿using System.Globalization;
+
+namespace FindBadlySavedWithJpgExt
 {
     internal class Program
     {
@@ -85,7 +87,11 @@
                 }
             }
 
-            Console.WriteLine("Total size found : " +  totalSize);
+            //format number with spaces and no decimal: 12 000 000
+            var formatNumber = new NumberFormatInfo { NumberGroupSeparator = " " };
+            var totalSizeFormatted = totalSize.ToString("n0", formatNumber);
+
+            Console.WriteLine("Total size found : " +  totalSizeFormatted);
         }
     }
 }
