@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProductsService } from '../products.service';
+import { ProductsService } from '../services/products.service';
 
 @Component({
   selector: 'app-products',
@@ -15,7 +15,7 @@ export class ProductsComponent {
   hasPreviousPage: boolean = false;
   hasNextPage: boolean = false;
 
-  constructor(private productsService: ProductsService) { }  
+  constructor(private productsService: ProductsService) { }
 
     fetchProducts(): void {
       this.productsService.getProducts().subscribe((data: any) => {

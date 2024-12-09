@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ProductsService } from '../products.service';
+import { ProductsService } from '../services/products.service';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete'; //or maybe angular-ng-autocomplete
 import { RouterLink } from '@angular/router';
 

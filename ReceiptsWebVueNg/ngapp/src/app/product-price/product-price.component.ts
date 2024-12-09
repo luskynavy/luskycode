@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { ProductsService } from '../products.service';
+import { ProductsService } from '../services/products.service';
 import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
 
 @Component({
