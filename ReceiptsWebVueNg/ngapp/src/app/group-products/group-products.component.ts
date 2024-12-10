@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../services/products.service';
+import { ProductPriceComponent } from '../product-price/product-price.component';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete'; //or maybe angular-ng-autocomplete
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-group-products',
   standalone: true,
-  imports: [FormsModule, NguiAutoCompleteModule, RouterLink],
+  imports: [FormsModule, NguiAutoCompleteModule, RouterLink, ProductPriceComponent],
   templateUrl: './group-products.component.html',
   styleUrl: './group-products.component.css'
 })
@@ -24,6 +25,10 @@ export class GroupProductsComponent {
   products1price:boolean = false;
   pageSize:number = 10;
   pageNumber:number = 1;
+
+  modalProductsPrices:boolean= false;
+  modalProductName:string= '';
+  modalProductId:number= 0;
 
   results: any[] = [];
   pageIndex: number= 1
@@ -74,6 +79,12 @@ export class GroupProductsComponent {
     };
     var d = new Date(date.slice(0, 10))
     return d.toLocaleString(navigator.language ? navigator.language : navigator['language'], options)
+  }
+
+  showModalProductsPrices(name:string, id:number) {
+    this.modalProductsPrices = true;
+    this.modalProductName = name;
+    this.modalProductId = id;
   }
 
   onGroupChange() {

@@ -3,6 +3,17 @@
 }
 @else
 {
+    <dialog #myDialog>
+        @if (modalProductsPrices) {
+            <button (click)="myDialog.close();modalProductsPrices=false" style="float: right;">X</button>
+            <h2 style="text-align:center">Historique des prix</h2>
+            <app-product-price [name]="modalProductName" [id]="modalProductId" />
+        }
+    </dialog>
+    @if (modalProductsPrices) {
+        <div class="modal-overlay" #overlay (click)="myDialog.close();modalProductsPrices=false"></div>
+    }
+
     <div class="form-actions no-color">
         <p>
             Filtrer par groupe
@@ -74,12 +85,13 @@
                 <td>{{ groupProduct.pricesCount }}</td>
                 <td>
                     <a routerLink="/details/{{groupProduct.id}}" class="bi bi-info-circle" title="Détails"></a>
+                    <button type="button" class="buttonAsLink bi bi-graph-up" :title="Prix" (click)="showModalProductsPrices(groupProduct.name, groupProduct.id);myDialog.show()"></button>
                 </td>
             </tr>
         }
         </tbody>
     </table>
-    <span>{{ pageIndex }} sur {{totalPages}}</span>
+    <span>{{ pageIndex }} sur {{ totalPages }}</span>
     <button (click)="pageNumber = 1; submitChanges()"
         [disabled]="pageIndex == 1">
         Première
