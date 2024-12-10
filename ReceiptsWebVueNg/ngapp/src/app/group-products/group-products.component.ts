@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../services/products.service';
 import { ProductPriceComponent } from '../product-price/product-price.component';
@@ -36,7 +36,7 @@ export class GroupProductsComponent {
   hasPreviousPage: boolean = false;
   hasNextPage: boolean = false;
 
-  constructor(private productsService: ProductsService) { }
+  constructor(private productsService: ProductsService, private elRef:ElementRef) { }
 
   ngOnInit() {
     this.productsService.getGroupSelectList().subscribe((data: any) => {
@@ -85,7 +85,18 @@ export class GroupProductsComponent {
     this.modalProductsPrices = true;
     this.modalProductName = name;
     this.modalProductId = id;
+
+    var myDialog: HTMLDialogElement = this.elRef.nativeElement.querySelector('#myDialog');
+    myDialog.show()
   }
+
+  closeModalProductsPrices() {
+    this.modalProductsPrices = false;
+
+    var myDialog: HTMLDialogElement = this.elRef.nativeElement.querySelector('#myDialog');
+    myDialog.close()
+  }
+
 
   onGroupChange() {
     if (this.filterGroup != '') {

@@ -19,8 +19,7 @@ dialog {
     border-radius: 5px;
     cursor: pointer;
     box-shadow: 0 0 20px 8px #d0d0d0;
-    height: 400px;
-    width: 50vw;
+    width: 75vw;
     z-index: 3;
  }
  .modal-overlay {
