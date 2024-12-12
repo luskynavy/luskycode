@@ -14,3 +14,5 @@ tbody > tr:hover {
     background-color: #a8c3e1 !important;
 }
 */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

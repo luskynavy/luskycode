@@ -10,8 +10,19 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<any> {
-    return this.http.get(this.url + '/Products', { headers: { Accept: 'application/json' } });
+  getProducts(filterGroup:string, searchString:string, sort:string, pageSize:number, pageNumber:number): Observable<any> {
+    const httpParams  = new HttpParams()
+      .set('filterGroup', filterGroup)
+      .set('searchString', searchString)
+      .set('sort', sort)
+      .set('pageSize', pageSize)
+      .set('pageNumber', pageNumber)
+
+    return this.http.get(this.url + '/Products',
+    {
+      headers: { Accept: 'application/json' },
+      params: httpParams
+    });
   }
 
   getGroupProducts(filterGroup:string, searchString:string, sort:string, products1price:boolean, pageSize:number, pageNumber:number): Observable<any> {
