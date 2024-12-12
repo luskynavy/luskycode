@@ -1,13 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../services/products.service';
 import { ProductPriceComponent } from '../product-price/product-price.component';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Observable } from 'rxjs/internal/Observable';
+import { map, startWith } from 'rxjs/operators';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [FormsModule, RouterLink, ProductPriceComponent],
+  imports: [FormsModule, RouterLink, ProductPriceComponent, MatInputModule, MatFormFieldModule, MatAutocompleteModule, ReactiveFormsModule, AsyncPipe],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
@@ -18,6 +24,8 @@ export class ProductsComponent {
   filterGroupValues:string[] = [];
   searchString:string = '';
   productsNames:string[] = [];
+  searchControl = new FormControl('');
+  filteredProducts!: Observable<string[]>;
   sort:string = 'Group';
   pageSize:number = 10;
   pageNumber:number = 1;
@@ -42,6 +50,17 @@ export class ProductsComponent {
     this.productsService.getProductsNames('').subscribe((data: any) => {
       this.productsNames = data;
     });
+
+    this.filteredProducts = this.searchControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterProductsNames(value || '')),
+    );
+  }
+
+  private _filterProductsNames(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.productsNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   init() {

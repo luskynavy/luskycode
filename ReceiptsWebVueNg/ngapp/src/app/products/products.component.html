@@ -29,8 +29,12 @@
 
     <p>
         Trouver par nom
-        <input [(ngModel)]="searchString">
-        <!--<input auto-complete [(ngModel)]="searchString" [source]="productsNames" style="width:400px;"/>-->
+        <input [(ngModel)]="searchString" matInput [formControl]="searchControl" [matAutocomplete]="auto" style="width:400px;">
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (option of filteredProducts | async; track option) {
+            <mat-option [value]="option">{{option}}</mat-option>
+          }
+        </mat-autocomplete>
     </p>
 
     <p>
