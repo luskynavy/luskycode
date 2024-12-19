@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ProductsService } from '../services/products.service';
 import { ProductPriceComponent } from '../product-price/product-price.component';
 import { FormControl, FormsModule , ReactiveFormsModule} from '@angular/forms';
@@ -6,14 +6,28 @@ import { RouterLink } from '@angular/router';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, startWith } from 'rxjs/operators';
 import { AsyncPipe } from '@angular/common';
 
+export interface DialogData {
+  id: number;
+  name: string;
+}
+
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [FormsModule, RouterLink, ProductPriceComponent, MatInputModule, MatFormFieldModule, MatAutocompleteModule, ReactiveFormsModule, AsyncPipe],
+  imports: [FormsModule, RouterLink, MatInputModule, MatFormFieldModule, MatButtonModule, MatAutocompleteModule, ReactiveFormsModule, AsyncPipe],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
@@ -30,9 +44,9 @@ export class ProductsComponent {
   pageSize:number = 10;
   pageNumber:number = 1;
 
-  modalProductsPrices:boolean= false;
   modalProductName:string= '';
   modalProductId:number= 0;
+  readonly dialog = inject(MatDialog);
 
   results: any[] = [];
   pageIndex: number= 1
@@ -96,19 +110,17 @@ export class ProductsComponent {
     }
 
     showModalProductsPrices(name:string, id:number) {
-      this.modalProductsPrices = true;
       this.modalProductName = name;
       this.modalProductId = id;
-  /*
-      var myDialog: HTMLDialogElement = this.elRef.nativeElement.querySelector('#myDialog');
-      myDialog.show()*/
-    }
 
-    closeModalProductsPrices() {
-      this.modalProductsPrices = false;
-  /*
-      var myDialog: HTMLDialogElement = this.elRef.nativeElement.querySelector('#myDialog');
-      myDialog.close()*/
+      //material dialog
+      const dialogRef = this.dialog.open(DialogPrices, {
+        data: {name: this.modalProductName, id: this.modalProductId},
+        maxWidth: '75vw',
+        maxHeight: '75vh',
+        height: '100%',
+        width: '100%',
+      });
     }
 
     onGroupChange() {
@@ -126,4 +138,28 @@ export class ProductsComponent {
       this.pageNumber = 1
       this.submitChanges()
     }
+}
+
+//The dialog prices component
+@Component({
+  selector: 'dialog-prices',
+  templateUrl: 'dialog-prices.html',
+  standalone: true,
+  styleUrl: './products.component.css',
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogClose,
+    ProductPriceComponent
+  ],
+})
+export class DialogPrices {
+  readonly dialogRef = inject(MatDialogRef<DialogPrices>);
+  readonly data = inject<DialogData>(MAT_DIALOG_DATA);
+  readonly id = this.data.id;
+  readonly name = this.data.name;
 }

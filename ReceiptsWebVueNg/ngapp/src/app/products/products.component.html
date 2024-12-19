@@ -3,17 +3,6 @@
 }
 @else
 {
-  <dialog id="myDialog">
-    @if (modalProductsPrices) {
-        <button (click)="closeModalProductsPrices()" style="float: right;">X</button>
-        <h2 style="text-align:center">Historique des prix</h2>
-        <app-product-price [name]="modalProductName" [id]="modalProductId" />
-    }
-  </dialog>
-  @if (modalProductsPrices) {
-    <div class="modal-overlay" #overlay (click)="closeModalProductsPrices()"></div>
-  }
-
   <div class="form-actions no-color">
     <p>
         Filtrer par groupe
