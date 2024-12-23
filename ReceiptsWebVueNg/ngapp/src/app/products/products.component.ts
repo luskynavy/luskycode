@@ -138,6 +138,17 @@ export class ProductsComponent {
       this.pageNumber = 1
       this.submitChanges()
     }
+
+    exportMiniExcel() {
+      this.productsService.exportProductsMiniExcel().subscribe((blob) => {
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(blob);
+        a.href = objectUrl;
+        a.download = 'ExportProductsMiniExcel.xlsx';
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+      });
+    }
 }
 
 //The dialog prices component

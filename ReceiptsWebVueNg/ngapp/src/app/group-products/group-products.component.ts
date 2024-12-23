@@ -113,4 +113,15 @@ export class GroupProductsComponent {
     this.pageNumber = 1
     this.submitChanges()
   }
+
+  exportMiniExcel() {
+    this.productsService.exportGroupProductsMiniExcel().subscribe((blob) => {
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = 'ExportGroupMiniExcel.xlsx';
+      a.click();
+      URL.revokeObjectURL(objectUrl);
+    });
+  }
 }

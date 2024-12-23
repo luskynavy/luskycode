@@ -191,4 +191,30 @@ export class ProductsService {
       });
     }
   }
+
+  exportGroupProductsMiniExcel(): Observable<any> {
+    if (this.mockHttpGet) {
+      const fakeFile = (): File => {
+        const blob = new Blob([''], { type: 'text/html' });
+        return blob as File;
+        };
+      return of(fakeFile)
+    } else {
+      return this.http.get(this.url + '/ExportGroupProductsMiniExcel', { responseType: 'blob' });
+    }
+  }
+
+  exportProductsMiniExcel(): Observable<any> {
+    if (this.mockHttpGet) {
+      return of({
+        "content-disposition": "attachment; filename=MiniExcel.xlsx; filename*=UTF-8''MiniExcel.xlsx",
+        "content-length": "0",
+        "content-type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "date": "Mon,23 Dec 2024 16:39:55 GMT" ,
+        "server": "Kestrel"
+      })
+    } else {
+      return this.http.get(this.url + '/ExportProductsMiniExcel', { responseType: 'blob' });
+    }
+  }
 }
