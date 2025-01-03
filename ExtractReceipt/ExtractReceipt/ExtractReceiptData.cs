@@ -219,11 +219,11 @@ namespace ExtractReceipt
         }
 
         //A string finishing by : a decimal, one or more spaces, the symbol € and maybe (one or more spaces and a number).
-        [GeneratedRegex("(\\d)+,(\\d\\d) +€( +\\d+)?$")]
+        [GeneratedRegex("(\\d+),(\\d\\d) +€( +\\d+)?$")]
         private static partial Regex RegExPriceAtEnd();
 
         // A string starting by : anything, " x" followed by decimal, the symbol €.
-        [GeneratedRegex("^.* +x +(\\d)+,(\\d\\d) +€")]
+        [GeneratedRegex("^.* +x +(\\d+),(\\d\\d) +€")]
         private static partial Regex RegexPriceAtStart();
 
         //Short date.
