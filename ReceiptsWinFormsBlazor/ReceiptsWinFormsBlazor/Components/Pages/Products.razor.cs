@@ -123,9 +123,6 @@ namespace ReceiptsBlazorWinForms.Components.Pages
                 case "DateReceipt":
                     return "Date receipt";
 
-                case "PriceRatio":
-                    return "Price ratio";
-
                 case "Name":
                     return "Name";
 
