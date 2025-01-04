@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace ExtractReceipt
 {
@@ -89,12 +90,13 @@ namespace ExtractReceipt
                         //Price on 1st line: : case A or B.
                         if (lines[i].Contains('€'))
                         {
+                            var name = ExtractProductName(lines[i].Trim());
                             //Case A : one product with its price on one line.
                             if (!lines[i + 1].Contains(" x "))
                             {
                                 var product = new Product()
                                 {
-                                    Name = ExtractProductName(lines[i].Trim()),
+                                    Name = name,
                                     Price = ExtractProductPrice(lines[i].Trim(), true),
                                     Group = productsGroup,
                                     DateReceipt = dateReceipt,
@@ -102,14 +104,19 @@ namespace ExtractReceipt
                                     SourceLine = i,
                                     FullData = lines[i].Trim()
                                 };
-                                Products.Add(product);
+
+                                //Lines with *** are for cancellation, don't add
+                                if (!name.Contains("***"))
+                                {
+                                    Products.Add(product);
+                                }
                             }
                             //Case B: second line with price by kg/L/product.
                             else
                             {
                                 var product = new Product()
                                 {
-                                    Name = ExtractProductName(lines[i].Trim()),
+                                    Name = name,
                                     Price = ExtractProductPrice(lines[i + 1].Trim(), false),
                                     Group = productsGroup,
                                     DateReceipt = dateReceipt,
@@ -117,7 +124,12 @@ namespace ExtractReceipt
                                     SourceLine = i,
                                     FullData = lines[i].Trim() + " " + lines[i + 1].Trim()
                                 };
-                                Products.Add(product);
+
+                                //Lines with *** are for cancellation, don't add
+                                if (!name.Contains("***"))
+                                {
+                                    Products.Add(product);
+                                }
 
                                 //Skip the second line of the product.
                                 i++;
@@ -139,7 +151,12 @@ namespace ExtractReceipt
                                     SourceLine = i,
                                     FullData = lines[i].Trim() + " " + lines[i + 1].Trim()
                                 };
-                                Products.Add(product);
+
+                                //Lines with *** are for cancellation, don't add
+                                if (!product.Name.Contains("***"))
+                                {
+                                    Products.Add(product);
+                                }
 
                                 //Skip the second line of the product.
                                 i++;
