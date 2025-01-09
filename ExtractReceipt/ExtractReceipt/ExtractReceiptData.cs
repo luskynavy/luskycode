@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ExtractReceipt
 {
-    internal partial class ExtractReceiptData
+    public partial class ExtractReceiptData
     {
         //List of products.
         public List<Product>? Products { get; set; }
@@ -178,7 +177,7 @@ namespace ExtractReceipt
         /// </summary>
         /// <param name="line">line with product name</param>
         /// <returns></returns>
-        private static string ExtractProductName(string line)
+        public static string ExtractProductName(string line)
         {
             /* Differents cases:
              *
@@ -203,7 +202,7 @@ namespace ExtractReceipt
         /// <param name="line">line with price</param>
         /// <param name="priceAtEnd"></param>
         /// <returns></returns>
-        private static decimal ExtractProductPrice(string line, bool priceAtEnd)
+        public static decimal ExtractProductPrice(string line, bool priceAtEnd)
         {
             /* Differents cases:
              *

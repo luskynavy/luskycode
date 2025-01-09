@@ -1,9 +1,6 @@
 ﻿using UglyToad.PdfPig.DocumentLayoutAnalysis.TextExtractor;
 using UglyToad.PdfPig;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using ExtractReceipt.Migrations;
-using Microsoft.EntityFrameworkCore.Migrations;
 using System.Diagnostics;
 
 namespace ExtractReceipt
