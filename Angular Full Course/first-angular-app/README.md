@@ -4,6 +4,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Angular CLI installation : `npm i -g @angular/cli`
 
+If installation/update cause errors with angular packages version, force downgrade by example:
+with `npm i @angular-devkit/build-angular@18.1.3 --force`.
+
 # Project creation
 
 Run `ng new first-angular-app` and choose `CSS` and `no SSR`.
