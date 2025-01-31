@@ -10,10 +10,12 @@ export class BookService {
   constructor() { }
 
   addBook(book: Book): Observable<Book> {
-
-    const err = new Error('Error while adding a book')
-    return throwError(() => err)
-
-    return of(book);
+    if (book.id && book.title && book.title)
+    {
+      return of(book);
+    } else {
+      const err = new Error('Id, title and author must not be empty')
+      return throwError(() => err)
+    }
   }
 }
