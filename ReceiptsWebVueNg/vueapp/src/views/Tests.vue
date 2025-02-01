@@ -27,8 +27,9 @@
             </table>
         </div>
     </div>
-
-    Autocomplete:
+	<br>
+    Autocomplete with ['Vue','Vue1','Vue2','Vue3','Vue4','Vue5','Vue6','Script','Com']:
+	<br>
     <SimpleTypeahead id="SearchStringAutocomplete"
                      v-model="searchString"
                      :items="['Vue','Vue1','Vue2','Vue3','Vue4','Vue5','Vue6','Script','Com']"

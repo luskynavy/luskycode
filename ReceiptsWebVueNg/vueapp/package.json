@@ -6,7 +6,7 @@
         "dev": "vite",
         "tailwind": "npx tailwindcss -i ./src/assets/main.css -o ./src/assets/tailwind.css --watch",
         "build": "vite build",
-        "preview": "vite preview",
+        "preview": "vite preview --port=5173",
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
         "predev": "node aspnetcore-https.js"
     },
