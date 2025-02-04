@@ -1,0 +1,15 @@
+<p></p>
+<div>
+    <input type="text" (input)="changeFilter($event)">
+</div>
+
+<br>
+<table>
+    @for (product of filterProducts(); track $index) {
+        <tr>
+            <td>{{product.id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.price}}</td>
+        </tr>
+    }
+</table>

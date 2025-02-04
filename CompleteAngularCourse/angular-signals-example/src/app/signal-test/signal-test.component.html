@@ -1,0 +1,10 @@
+<p>
+  <label>{{label}}</label>
+  <br>
+  <button (click)="toggleDarkMode()">Toggle dark mode</button>
+</p>
+<p>
+  <label>{{totalPrice()}}</label>
+  <br>
+  <input type="number" value={{quantity()}} (change)="changeQuantity($event)">
+</p>
