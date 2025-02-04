@@ -1,0 +1,7 @@
+@for (user of users; track $index) {
+<div>
+    {{user.name}}
+</div>
+}
+
+<button (click)="refresUsers()">Refresh</button>
