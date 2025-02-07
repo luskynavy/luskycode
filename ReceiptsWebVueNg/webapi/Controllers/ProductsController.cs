@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using ReceiptsWeb.Models;
 using webapi.Models;
 using MiniExcelLibs;
+using System.Text.RegularExpressions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,7 +23,7 @@ namespace webapi.Controllers
 
 		// GET: /<ProductsController>
 		[HttpGet]
-		public PaginatedList<Products> Get(string? filterGroup, string? searchString, string? sort, string? pageSize, int? pageNumber)
+		public PaginatedList<ProductExt> Get(string? filterGroup, string? searchString, string? sort, string? pageSize, int? pageNumber)
 		{
 			int pageSizeInt = pageSizeDefault;
 
@@ -78,7 +79,29 @@ namespace webapi.Controllers
 			});
 
 			var res = PaginatedList<Products>.Create(products, pageNumber ?? 1, pageSizeInt);
-			return res;
+
+			var productExtList = new List<ProductExt>();
+            //Convert Product in Products and extract price per kilo
+            foreach (var p in res.Data)
+            {
+                var p2 = new ProductExt
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    DateReceipt = p.DateReceipt,
+                    FullData = p.FullData,
+                    Group = p.Group,
+                    Price = p.Price,
+                    SourceLine = p.SourceLine,
+                    SourceName = p.SourceName,
+                    PricePerKilo = Math.Round(ExtractPricePerKilo(p.Name, p.Price), 2)
+                };
+                productExtList.Add(p2);
+            }
+
+            var paginatedListProductExt = new PaginatedList<ProductExt>(productExtList, res.PageIndex, res.TotalPages);
+
+            return paginatedListProductExt;
 		}
 
 		// GET /<ProductsController>/5
@@ -138,7 +161,11 @@ namespace webapi.Controllers
 											Name = gp.Key.Name,
 											Min = gp.Min(p => p.Price),
 											Max = gp.Max(p => p.Price),
-											MinDate = gp.Min(p => p.DateReceipt),
+                                            //if there is at least 2 elements, sort by date, skip the last, so we have the previous product
+                                            //PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
+                                            PricesList = gp.OrderByDescending(x => x.DateReceipt).Select(z => z.Price),
+                                            LastPrice = gp.OrderByDescending(x => x.DateReceipt).First().Price,
+                                            MinDate = gp.Min(p => p.DateReceipt),
 											MaxDate = gp.Max(p => p.DateReceipt),
 											PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
 											PricesCount = gp.Count()
@@ -168,7 +195,18 @@ namespace webapi.Controllers
 				}
 
 				var res = PaginatedList<GroupProducts>.Create(groupsProducts, pageNumber ?? 1, pageSizeInt);
-				return res;
+
+                //Get the previous different price
+                foreach (var p in res.Data)
+                {
+                    //Get the prices list for the product
+                    var prices = p.PricesList;
+                    //Skip the prices if they are equal to older
+                    p.PreviousPrice = prices.SkipWhile((z, index) => z == p.LastPrice && index != prices.Count() - 1).First();
+
+                    p.LastPricePerKilo = Math.Round(ExtractPricePerKilo(p.Name, p.LastPrice), 2);
+                }
+                return res;
 			}
 			else
 			{
@@ -293,7 +331,66 @@ namespace webapi.Controllers
 			};
 		}
 
-		/*
+        /// <summary>
+        /// Extract the price per kilo from product name if possible
+        /// </summary>
+        /// <param name="name">product name with price</param>
+        /// <param name="price">price of product</param>
+        /// <returns></returns>
+        private static decimal ExtractPricePerKilo(string name, decimal price)
+        {
+            //Search weight in gramme (G or GR)
+            // ' 400G' or '.400G' or ' 400GR'
+            string pattern = @"( |\.)(\d+)(G|GR)$";
+            var match = Regex.Match(name, pattern);
+
+            if (match.Success)
+            {
+                return price / (decimal.Parse(match.Groups[2].Value) / 1000);
+            }
+            else
+            {
+                //Search weight in gramme (G or GR) with multiple products
+                // ' 2X100G' or '.2X100G' or ' 2X100GR'
+                pattern = @"( |\.)(\d+)X(\d+)(G|GR)$";
+                match = Regex.Match(name, pattern);
+
+                if (match.Success)
+                {
+                    return price / (decimal.Parse(match.Groups[2].Value) * decimal.Parse(match.Groups[3].Value) / 1000);
+                }
+                else
+                {
+                    //Search weight in kilogramme in integer format
+                    // ' 1KG' or '.2KG'
+                    pattern = @"( |\.)(\d+)KG$";
+                    match = Regex.Match(name, pattern);
+
+                    if (match.Success)
+                    {
+                        return price / (decimal.Parse(match.Groups[2].Value));
+                    }
+                    else
+                    {
+                        //Search weight in kilogramme in decimal format
+                        // ' 1,5KG' or '.1,5KG'
+                        pattern = @"( |\.)(\d+),(\d+)KG$";
+                        match = Regex.Match(name, pattern);
+
+                        if (match.Success)
+                        {
+                            var weightIntegerPart = decimal.Parse(match.Groups[2].Value);
+                            var weightDecimalPart = decimal.Parse(match.Groups[3].Value) / (decimal)Math.Pow(10, match.Groups[3].Value.ToString().Length);
+                            return price / (weightIntegerPart + weightDecimalPart);
+                        }
+                    }
+                }
+            }
+
+            return 0;
+        }
+
+        /*
 		// POST /<ProductsController>
 		[HttpPost]
 		public void Post([FromBody] string value)
@@ -312,5 +409,5 @@ namespace webapi.Controllers
 		{
 		}
 		*/
-	}
+    }
 }

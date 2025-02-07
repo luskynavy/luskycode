@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ReceiptsWeb.Models
 {
@@ -18,7 +19,16 @@ namespace ReceiptsWeb.Models
 		[Precision(18, 2)]
 		public decimal Max { get; set; }
 
-		public DateTime MinDate { get; set; }
+        [Precision(18, 2)]
+        public decimal PreviousPrice { get; set; }
+
+        [Precision(18, 2)]
+        public decimal LastPrice { get; set; }
+
+        [Precision(18, 2)]
+        public decimal LastPricePerKilo { get; set; }
+
+        public DateTime MinDate { get; set; }
 
 		public DateTime MaxDate { get; set; }
 
@@ -26,5 +36,8 @@ namespace ReceiptsWeb.Models
 		public decimal PriceRatio { get; set; }
 
 		public int PricesCount { get; set; }
-	}
+
+        [JsonIgnore]
+        public IEnumerable<decimal> PricesList { get; set; }
+    }
 }

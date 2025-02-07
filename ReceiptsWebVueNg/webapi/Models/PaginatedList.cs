@@ -7,7 +7,15 @@ public class PaginatedList<T>
 
 	public List<T> Data { get; private set; }
 
-	public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+    public PaginatedList(List<T> items, int pageIndex, int totalPages)
+	{
+        PageIndex = pageIndex;
+		TotalPages = totalPages;
+        Data = new List<T>();
+        Data.AddRange(items);
+    }
+
+    public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
 	{
 		PageIndex = pageIndex;
 		TotalPages = (int)Math.Ceiling(count / (double)pageSize);

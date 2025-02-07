@@ -66,6 +66,10 @@
                             <th>{{ $t('Name') }}</th>
                             <th>{{ $t('Min') }}</th>
                             <th>{{ $t('Max') }}</th>
+                            <th>{{ $t('PreviousPrice') }}</th>
+                            <th>{{ $t('LastPrice') }}</th>
+                            <th>{{ $t('LastPricePerKilo') }}</th>
+                            <th>{{ $t('Tendency') }}</th>
                             <th>{{ $t('MinDate') }}</th>
                             <th>{{ $t('MaxDate') }}</th>
                             <th>{{ $t('PriceRatio') }}</th>
@@ -80,6 +84,14 @@
                             <td>{{ groupProduct.name }}</td>
                             <td>{{ groupProduct.min }}</td>
                             <td>{{ groupProduct.max }}</td>
+                            <td>{{ groupProduct.previousPrice }}</td>
+                            <td>{{ groupProduct.lastPrice }}</td>
+                            <td>{{ groupProduct.lastPricePerKilo }}</td>
+                            <td>
+                                <span v-if="groupProduct.lastPrice > groupProduct.previousPrice" style="color:red">&#x2197;</span>
+                                <span v-else-if="groupProduct.lastPrice == groupProduct.previousPrice">=</span>
+                                <span v-else style="color:green">&#x2198;</span>
+                            </td>
                             <td>{{ formatDate(groupProduct.minDate) }}</td>
                             <td>{{ formatDate(groupProduct.maxDate) }}</td>
                             <td>{{ groupProduct.priceRatio.toFixed(2) }}</td>

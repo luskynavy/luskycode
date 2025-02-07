@@ -62,6 +62,7 @@
                                     <th>{{ $t('Group') }}</th>
                                     <th>{{ $t('Name') }}</th>
                                     <th>{{ $t('Price') }}</th>
+                                    <th>{{ $t('PricePerKilo') }}</th>
                                     <th>{{ $t('DateReceipt') }}</th>
                                     <th>{{ $t('SourceName') }}</th>
                                     <th>{{ $t('SourceLine') }}</th>
@@ -75,6 +76,7 @@
                                     <td>{{ product.group }}</td>
                                     <td>{{ product.name }}</td>
                                     <td>{{ product.price }}</td>
+                                    <td>{{ product.pricePerKilo }}</td>
                                     <td>{{ formatDate(product.dateReceipt) }}</td>
                                     <td>{{ product.sourceName }}</td>
                                     <td>{{ product.sourceLine }}</td>
