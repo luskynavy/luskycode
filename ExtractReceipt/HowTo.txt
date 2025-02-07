@@ -1,0 +1,26 @@
+https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database
+https://medium.com/@codebob75/entity-framework-core-code-first-introduction-best-practices-repository-pattern-clean-22b6152bcb81
+
+
+Projet créé en Code First:
+- Création classe Product
+
+- Création ApplicationDbContext
+
+  public DbSet<Product> Products { get; set; }
+  ...
+  
+  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+  ...
+  
+- Migrations initiale dans le package manager console:
+
+  - pour activer les migrations : "enable-migrations"
+  - Pour créer le code initial de "add-migration NomModif" (NomModif est optionnel)  
+  - Pour créer la bdd : "update-database"
+  
+- Migration suivantes dans le package manager console:
+
+  - Pour mettre à jour le code de migration "add-migration NomModif"
+  - Pour mettre à jour la bdd :  "update-database"
+	

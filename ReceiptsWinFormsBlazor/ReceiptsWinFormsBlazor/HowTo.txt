@@ -1,0 +1,12 @@
+Projet en Database First créé avec EF Core Power Tools:
+
+- EF Core Power Tools utilsié pour créer le contexte ReceiptsContext, basé sur la bdd Receipts.
+
+  Bouton droit sur le projet de Solution explorer -> EF Core Power Tools -> Reverse Engineer wizard avec Dabase Connection:
+    - Data source : Microsoft SQL Server (Microsoft SqlClient)
+    - Server name : (LocalDB)\MSSQLLocalDB
+    - Database name : Receipts
+
+  Utilisé pour créer la Connection String : Connection string (LocalDB)\MSSQLLocalDB.Receipts
+
+- Ajout ";TrustServerCertificate=True" à la chaîne de connection, pour ne pas avoir erreur trusted source machin.
