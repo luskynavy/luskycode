@@ -24,8 +24,3 @@ public partial class Product
 
     public string FullData { get; set; }
 }
-
-public partial class Products2 : Product
-{
-	public decimal PricePerKilo { get; set; }
-}

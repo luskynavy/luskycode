@@ -96,7 +96,7 @@ else
                         <td>
                             @if (product.LastPrice > product.PreviousPrice)
                             {
-                                <span style="color:red">↗</span>
+                                <span style="color:red">&#x2197;</span>
                             }
                             else if (product.LastPrice == product.PreviousPrice)
                             {
@@ -104,7 +104,7 @@ else
                             }
                             else
                             {
-                                <span style="color:green">↘</span>
+                                <span style="color:green">&#x2198;</span>
                             }
                         </td>
                         <td>@product.MinDate.ToShortDateString()</td>
