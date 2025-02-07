@@ -64,6 +64,10 @@
                 <th>Nom</th>
                 <th>Min</th>
                 <th>Max</th>
+                <th>Précédent prix</th>
+                <th>Dernier prix</th>
+                <th>Dernier prix au kilo</th>
+                <th>Tendance</th>
                 <th>Date min</th>
                 <th>Date max</th>
                 <th>Rapport des prix</th>
@@ -79,6 +83,20 @@
                 <td>{{ groupProduct.name }}</td>
                 <td>{{ groupProduct.min }}</td>
                 <td>{{ groupProduct.max }}</td>
+                <td>{{ groupProduct.previousPrice }}</td>
+                <td>{{ groupProduct.lastPrice }}</td>
+                <td>{{ groupProduct.lastPricePerKilo }}</td>
+                <td>
+                    @if (groupProduct.lastPrice > groupProduct.previousPrice) {
+                        <span style="color:red">&#x2197;</span>
+                    }
+                    @else if (groupProduct.lastPrice == groupProduct.previousPrice) {
+                        <span>=</span>
+                    }
+                    @else {
+                        <span style="color:green">&#x2198;</span>
+                    }
+                </td>
                 <td>{{ formatDate(groupProduct.minDate) }}</td>
                 <td>{{ formatDate(groupProduct.maxDate) }}</td>
                 <td>{{ groupProduct.priceRatio.toFixed(2) }}</td>

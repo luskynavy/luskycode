@@ -53,6 +53,7 @@
               <th>Groupe</th>
               <th>Nom</th>
               <th>Prix</th>
+              <th>Prix au kilo</th>
               <th>Date de réception</th>
               <th>Nom de la source</th>
               <th>Ligne de la source</th>
@@ -67,6 +68,7 @@
               <td>{{ product.group }}</td>
               <td>{{ product.name }}</td>
               <td>{{ product.price.toFixed(2) }}</td>
+              <td>{{ product.pricePerKilo.toFixed(2) }}</td>
               <td>{{ formatDate(product.dateReceipt) }}</td>
               <td>{{ product.sourceName }}</td>
               <td>{{ product.sourceLine }}</td>
