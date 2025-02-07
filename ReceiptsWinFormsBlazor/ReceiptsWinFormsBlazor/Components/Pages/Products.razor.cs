@@ -8,7 +8,7 @@ namespace ReceiptsBlazorWinForms.Components.Pages
     public partial class Products
     {
         // The products list
-        private List<Products2>? productsList;
+        private List<ProductExt>? productsList;
 
         // True if data are loading
         private bool Loading = true;
@@ -186,12 +186,12 @@ namespace ReceiptsBlazorWinForms.Components.Pages
 
             var results = await products.Skip((Page - 1) * PageSize).Take(PageSize).ToArrayAsync();
 
-            productsList = new List<Products2>();
+            productsList = new List<ProductExt>();
 
             //Convert Product in Products and extract price per kilo
             foreach (var p in results)
             {
-                var p2 = new Products2
+                var p2 = new ProductExt
                 {
                     Id = p.Id,
                     Name = p.Name,
