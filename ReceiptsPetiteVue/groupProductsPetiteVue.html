@@ -5,21 +5,22 @@
 		<title>Groupe de produits</title>
 
 		<script src="./petite-vue.iife.js"></script>
-		<script src="data.js"></script>
-		<script type="module">
-			//import { createApp } from "https://unpkg.com/petite-vue?module";
-
-			//data.js from http://localhost:5000/GroupProducts?pageSize=100000&products1price=true&sort=MaxDate
-			/*var products = {
+		<script>
+			//default products of data.js from http://localhost:5000/GroupProducts?pageSize=100000&products1price=true&sort=MaxDate
+			var products = {
 				"pageIndex":1,
 				"totalPages":1,
 				"data":[
-					{"id":7065,"name":"APERITIFS","group":"APERITIFS","min":3.49,"max":3.49,"previousPrice":3.49,"lastPrice":3.49,"lastPricePerKilo":0,"minDate":"2024-05-25T00:00:00","maxDate":"2024-05-25T00:00:00","priceRatio":1.00000000000000000000,"pricesCount":1},
-					{"id":7384,"name":"TOURNEDOS ","group":"VOL.LS STANDARD","min":4.38,"max":4.87,"previousPrice":4.56,"lastPrice":4.57,"lastPricePerKilo":0,"minDate":"2021-10-22T00:00:00","maxDate":"2023-10-27T00:00:00","priceRatio":1.11187214611872146118,"pricesCount":5}
+					{"id":7065,"name":"APERITIFS","group":"APERITIFS","min":3.49,"max":3.49,"previousPrice":3.49,"lastPrice":3.49,"lastPricePerKilo":0,"minDate":"2024-05-25T00:00:00","maxDate":"2024-05-25T00:00:00","priceRatio":1.00,"pricesCount":1},
+					{"id":7384,"name":"TOURNEDOS ","group":"VOL.LS STANDARD","min":4.38,"max":4.87,"previousPrice":4.56,"lastPrice":4.57,"lastPricePerKilo":0,"minDate":"2021-10-22T00:00:00","maxDate":"2023-10-27T00:00:00","priceRatio":1.11,"pricesCount":5}
 				],
 				"hasPreviousPage":false,
 				"hasNextPage":false
-			}*/
+			}
+		</script>
+		<script src="data.js"></script>
+		<script type="module">
+			//import { createApp } from "https://unpkg.com/petite-vue?module";
 
 			PetiteVue.createApp({
 				//variables
