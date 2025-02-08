@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Groupe de produits</title>
+
+		<script src="./petite-vue.iife.js"></script>
+		<script src="data.js"></script>
+		<script type="module">
+			//import { createApp } from "https://unpkg.com/petite-vue?module";
+
+			//data.js from http://localhost:5000/GroupProducts?pageSize=100000&products1price=true&sort=MaxDate
+			/*var products = {
+				"pageIndex":1,
+				"totalPages":1,
+				"data":[
+					{"id":7065,"name":"APERITIFS","group":"APERITIFS","min":3.49,"max":3.49,"previousPrice":3.49,"lastPrice":3.49,"lastPricePerKilo":0,"minDate":"2024-05-25T00:00:00","maxDate":"2024-05-25T00:00:00","priceRatio":1.00000000000000000000,"pricesCount":1},
+					{"id":7384,"name":"TOURNEDOS ","group":"VOL.LS STANDARD","min":4.38,"max":4.87,"previousPrice":4.56,"lastPrice":4.57,"lastPricePerKilo":0,"minDate":"2021-10-22T00:00:00","maxDate":"2023-10-27T00:00:00","priceRatio":1.11187214611872146118,"pricesCount":5}
+				],
+				"hasPreviousPage":false,
+				"hasNextPage":false
+			}*/
+
+			PetiteVue.createApp({
+				//variables
+				filterGroup: "",
+				filterName: "",
+				filterGroupSubmitted: "",
+				filterNameSubmitted: "",
+				products: window.products.data,
+				// methods
+				submit() {
+					this.filterGroupSubmitted = this.filterGroup;
+					this.filterNameSubmitted = this.filterName;
+				},
+				filteredData() {
+					if (this.filterNameSubmitted.length > 0 || this.filterGroupSubmitted.length > 0) {
+						return this.products.filter(product =>
+							product.name.toLowerCase().includes(this.filterNameSubmitted.toLowerCase())
+							&& product.group.toLowerCase().includes(this.filterGroupSubmitted.toLowerCase())
+						);
+					} else {
+						return this.products;
+					}
+				},
+				formatDate(date) {
+					var options = {
+						year: 'numeric',
+						month: '2-digit',
+						day: 'numeric'
+					};
+					var d = new Date(date.slice(0, 10))
+					return d.toLocaleString(navigator.language ? navigator.language : navigator['userLanguage'], options)
+            	}
+			}).mount();
+		</script>
+	</head>
+	<body>
+		<div v-scope v-cloak>
+
+			<div>
+				<Label>Filtrer par groupe:</Label>
+				<input type="text" v-model="filterGroup">
+			</div>
+			<div>
+				<Label>Filtrer par nom:</Label>
+				<input type="text" v-model="filterName">
+			</div>
+			<button @click="submit">Recherche</button>
+
+			<table>
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Groupe</th>
+						<th>Nom</th>
+						<th>Min</th>
+						<th>Max</th>
+						<th>Précédent prix</th>
+						<th>Dernier prix</th>
+						<th>Dernier prix au kilo</th>
+						<th>Tendance</th>
+						<th>Date min</th>
+						<th>Date max</th>
+						<th>Rapport des prix</th>
+						<th>Nombre de prix</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr v-for="groupProduct in filteredData()">
+						<td>{{ groupProduct.id }} </td>
+						<td>{{ groupProduct.group }}</td>
+						<td>{{ groupProduct.name }}</td>
+						<td>{{ groupProduct.min }}</td>
+						<td>{{ groupProduct.max }}</td>
+						<td>{{ groupProduct.previousPrice }}</td>
+						<td>{{ groupProduct.lastPrice }}</td>
+						<td>{{ groupProduct.lastPricePerKilo }}</td>
+						<td>
+							<span v-if="groupProduct.lastPrice > groupProduct.previousPrice" style="color:red">&#x2197;</span>
+							<span v-else-if="groupProduct.lastPrice == groupProduct.previousPrice">=</span>
+							<span v-else style="color:green">&#x2198;</span>
+						</td>
+						<td>{{ formatDate(groupProduct.minDate) }}</td>
+						<td>{{ formatDate(groupProduct.maxDate) }}</td>
+						<td>{{ groupProduct.priceRatio.toFixed(2) }}</td>
+						<td>{{ groupProduct.pricesCount }}</td>
+					</tr>
+
+				</tbody>
+			</table>
+
+		</div>
+	</body>
+</html>
+<style>
+	label {
+		display: inline-block;
+		 width: 150px;
+	}
+</style>
