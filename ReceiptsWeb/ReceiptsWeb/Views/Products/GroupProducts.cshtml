@@ -98,7 +98,10 @@
 			{
 				<tr>
 					<td>
-						@Html.DisplayFor(modelItem => item.Group)
+						<a onclick="$('#filterGroup').val('@item.Group'); this.closest('form').submit()"
+						   class="buttonAsLink">
+							@Html.DisplayFor(modelItem => item.Group)
+						</a>
 					</td>
 					<td>
 						@Html.DisplayFor(modelItem => item.Name)
