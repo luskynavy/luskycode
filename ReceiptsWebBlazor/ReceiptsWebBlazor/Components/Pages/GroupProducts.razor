@@ -10,6 +10,7 @@
 @using ReceiptsWebBlazor.Components.Pages
 
 <PageTitle>@Localize["Group products"]</PageTitle>
+<title>@Localize["Group products"]</title>
 
 <h1>@Localize["Group products"]</h1>
 
@@ -86,7 +87,11 @@ else
                 @foreach (var product in productsList)
                 {
                     <tr>
-                        <td>@product.Group</td>
+                        <td>
+                            <a class="linkStyle" @onclick=@(g => ChangeGroup(product.Group))>
+                                @product.Group
+                            </a>
+						</td>
                         <td>@product.Name</td>
                         <td>@product.Min</td>
                         <td>@product.Max</td>
@@ -155,7 +160,7 @@ else
                         <h5 class="modal-title">@Localize["Prices history"]</h5>
                         <!-- Button to close the popup -->
                         <button type="button" class="close"
-                                @onclick="ClosePopup">
+                        @onclick="ClosePopup">
                             <span aria-hidden="true">X</span>
                         </button>
                     </div>
@@ -300,7 +305,7 @@ else
 
         // Init select
         GroupList = context.Products.Select(p => p.Group).Distinct().ToList();
-        SortList = new List<string> { "Group", "PriceRatio", "PricesCount", "MaxDate" };
+        SortList = new List<string> { "MaxDate", "Group", "PriceRatio", "PricesCount" };
 
         Loading = true;
 
@@ -359,13 +364,13 @@ else
             {
                 groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
             }
-            else if (Sort == "MaxDate")
-            {
-                groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
-            }
-            else //Group or unknown
+            else if (Sort == "Group")
             {
                 groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
+            }
+            else //MaxDate or unknown
+            {
+                groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
             }
 
             var count = await groupsProducts.CountAsync();
@@ -404,13 +409,24 @@ else
     private async Task Clear()
     {
         Page = 1;
-        Sort = null;
+        Sort = "MaxDate";
         FilterGroup = null;
         SearchString = null;
         PageSize = 10;
         Products1price = false;
 
         await ReloadAsync();
+    }
+
+	//Change group on group link
+    private async Task ChangeGroup(string? group)
+    {
+        if (!String.IsNullOrEmpty(group))
+        {
+            FilterGroup = group;
+
+            await ReloadAsync();
+        }
     }
 
     #region Page management

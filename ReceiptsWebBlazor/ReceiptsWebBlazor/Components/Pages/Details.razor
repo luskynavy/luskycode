@@ -5,6 +5,8 @@
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 @inject IStringLocalizer<Resource> Localize
 
+<PageTitle>@Localize["Details"]</PageTitle>
+
 <h3>@Localize["Details"]</h3>
 
 @if (NotFound && !Loading)

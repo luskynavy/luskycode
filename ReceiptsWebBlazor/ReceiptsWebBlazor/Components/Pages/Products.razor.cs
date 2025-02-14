@@ -280,6 +280,17 @@ namespace ReceiptsWebBlazor.Components.Pages
             await ReloadAsync();
         }
 
+		//Change group on group link
+        private async Task ChangeGroup(string? group)
+        {
+            if (!String.IsNullOrEmpty(group))
+            {
+                FilterGroup = group;
+
+                await ReloadAsync();
+            }
+        }
+
         #region Page management
 
         private async Task GoFirstPage()
