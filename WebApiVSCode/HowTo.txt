@@ -1,0 +1,46 @@
+WebApi avec swagger créé en ligne de commande et utilisé avec vscode:
+
+- Initialisation du projet en ligne de commande:
+> dotnet new webapi --use-controllers -o WebApiVSCode
+
+- Création des fichiers pour debug depuis visual studio code depuis la palette (F1):
+>.NET: Generate Assets for Build and Debug
+
+=> fichiers .vscode/launch.json et .vscode/tasks.json créés
+
+- Ajout du package Swashbuckle.AspNetCore
+> dotnet add package Swashbuckle.AspNetCore
+
+- Configuration de Swashbuckle.AspNetCore dans Program.cs
+
+builder.Services.AddControllers();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
+=> 
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+- Debug avec F5:
+Site disponible ici : https://localhost:7183/WeatherForecast
+Site swagger disponible ici : https://localhost:7183/swagger/index.html
