@@ -47,10 +47,10 @@
                                           :options="[{title:$t('Group'),value:'Group'},{title:$t('DateReceipt'),value:'DateReceipt'},{title:$t('Name'),value:'Name'}]" />
                             </p>
 
-                            <button class="btn btn-default btn-lg" :title="$t('Search')" @click="submitChanges">
+                            <button class="btn btn-default btn-lg buttonAsLink" :title="$t('Search')" @click="submitChanges">
                                 <i class="bi bi-search"></i>
                             </button>
-                            <a class="btn btn-default btn-lg" @click="init" :title="$t('Clear')">
+                            <a class="btn btn-default btn-lg buttonAsLink" @click="init" :title="$t('Clear')">
                                 <i class="bi bi-eraser"></i>
                             </a>
                         </div>
@@ -81,7 +81,7 @@
                                     <td>{{ product.sourceName }}</td>
                                     <td>{{ product.sourceLine }}</td>
                                     <td>{{ product.fullData }}</td>
-                                    <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
+                                    <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ï¿½a passe pour une expression rï¿½guliï¿½re "/details" -->
                                     <td>
                                         <router-link :to="`/details/${product.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link>
                                         &nbsp;
@@ -93,22 +93,22 @@
 
                         {{post.pageIndex}} {{ $t('of') }} {{post.totalPages}}
                         <a @click="if (this.pageNumber != 1) {this.pageNumber = 1; submitChanges()}"
-                           v-bind:class="post.pageIndex == 1 ? 'isDisabled': ''">
+                            v-bind:class="post.pageIndex == 1 ? 'isDisabled': 'buttonAsLink'">
                             {{ $t('First') }}
                         </a>
                         &nbsp;
                         <a @click="if (post.hasPreviousPage) {this.pageNumber = post.pageIndex - 1; submitChanges()}"
-                           v-bind:class="post.hasPreviousPage ? '': 'isDisabled'">
+                            v-bind:class="post.hasPreviousPage ? 'buttonAsLink': 'isDisabled'">
                             {{ $t('Previous') }}
                         </a>
                         &nbsp;
                         <a @click="if (post.hasNextPage) {this.pageNumber = post.pageIndex + 1; submitChanges()}"
-                           v-bind:class="post.hasNextPage ? '': 'isDisabled'">
+                            v-bind:class="post.hasNextPage ? 'buttonAsLink': 'isDisabled'">
                             {{ $t('Next') }}
                         </a>
                         &nbsp;
                         <a @click="if (this.pageNumber != post.totalPages) {this.pageNumber = post.totalPages; submitChanges()}"
-                           v-bind:class="post.pageIndex == post.totalPages ? 'isDisabled': ''">
+                            v-bind:class="post.pageIndex == post.totalPages ? 'isDisabled': 'buttonAsLink'">
                             {{ $t('Last') }}
                         </a>
 
