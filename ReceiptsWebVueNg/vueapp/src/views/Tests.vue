@@ -60,6 +60,8 @@
             // fetch the data when the view is created and the data is
             // already being observed
             this.fetchData();
+
+            document.title = this.$t('Tests');
         },
         watch: {
             // call again the method if the route changes
@@ -83,7 +85,7 @@
 </script>
 
 <style scoped>
-    /*Enlève le retour à la ligne avant le div du SimpleTypeahead */
+    /*Enlï¿½ve le retour ï¿½ la ligne avant le div du SimpleTypeahead */
     div#SearchStringAutocomplete_wrapper {
         display: inline;
     }

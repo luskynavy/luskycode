@@ -198,6 +198,8 @@
 
             this.init();
 
+            document.title = this.$t('Products');
+
         },
         watch: {
             // call again the method if the route changes

@@ -87,6 +87,8 @@
             // fetch the data when the view is created and the data is
             // already being observed
             this.fetchData();
+
+            document.title = this.$t('Details');
         },
         watch: {
             // call again the method if the route changes

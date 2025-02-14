@@ -6,12 +6,12 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'home',
+            name: 'Home',
             component: HomeView
         },
         {
             path: '/tests',
-            name: 'tests',
+            name: 'Tests',
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
@@ -19,7 +19,7 @@ const router = createRouter({
         },
         {
             path: '/products',
-            name: 'products',
+            name: 'Products',
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
@@ -27,7 +27,7 @@ const router = createRouter({
         },
         {
             path: '/groupproducts',
-            name: 'groupproducts',
+            name: 'Group Products',
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
@@ -35,7 +35,7 @@ const router = createRouter({
         },
         {
             path: '/details/:id',
-            name: 'details',
+            name: 'Details',
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
@@ -52,4 +52,11 @@ const router = createRouter({
     ]
 })
 
+//Use unlocalised route/component names for title
+/*
+router.beforeEach((to, from) => {
+    //document.title = to.meta?.title ?? 'ReceiptsWebVue'
+    document.title = to.name ?? 'ReceiptsWebVue'
+  })
+*/
 export default router

@@ -218,6 +218,8 @@
                 });
 
             this.init();
+
+            document.title = this.$t('GroupProducts');
         },
         watch: {
             // call again the method if the route changes

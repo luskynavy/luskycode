@@ -1,6 +1,6 @@
 export default {
     en: {
-        GroupProducts: 'GroupProducts',
+        GroupProducts: 'Group of products',
         Products: 'Products',
         Details: 'Details',
         Tests: 'Tests',
