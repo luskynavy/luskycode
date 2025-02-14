@@ -36,9 +36,8 @@ export class ProductsComponent {
 
   filterGroup:string= '';
   filterGroupValues:string[] = [];
-  searchString:string = '';
-  productsNames:string[] = [];
   searchControl = new FormControl('');
+  productsNames:string[] = [];
   filteredProducts!: Observable<string[]>;
   sort:string = 'Group';
   pageSize:number = 10;
@@ -63,8 +62,12 @@ export class ProductsComponent {
 
     this.productsService.getProductsNames('').subscribe((data: any) => {
       this.productsNames = data;
-    });
 
+      this.applyFilterProducts()
+    });
+  }
+
+  applyFilterProducts() {
     this.filteredProducts = this.searchControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filterProductsNames(value || '')),
@@ -79,7 +82,7 @@ export class ProductsComponent {
 
   init() {
     this.filterGroup = '';
-    this.searchString = '';
+    this.searchControl.setValue('');
     this.sort = 'Group';
     this.pageSize = 10;
     this.pageNumber = 1;
@@ -88,7 +91,7 @@ export class ProductsComponent {
   submitChanges(): void {
     this.loading = true;
 
-      this.productsService.getProducts(this.filterGroup, this.searchString, this.sort, this.pageSize, this.pageNumber)
+      this.productsService.getProducts(this.filterGroup, this.searchControl.value, this.sort, this.pageSize, this.pageNumber)
       .subscribe((data: any) => {
         this.pageIndex = data.pageIndex;
         this.totalPages = data.totalPages;
@@ -123,14 +126,23 @@ export class ProductsComponent {
       });
     }
 
+    changeGroup(group: string) {
+      this.filterGroup = group;
+
+      this.onGroupChange();
+      this.submitChanges();
+    }
+
     onGroupChange() {
       if (this.filterGroup != '') {
-          this.searchString = ''
+          this.searchControl.setValue('')
       }
 
       this.productsService.getProductsNames(this.filterGroup).subscribe((data: any) => {
         this.productsNames = data;
-        console.log(this.productsNames.length)
+        //console.log(this.productsNames.length)
+
+        this.applyFilterProducts();
       });
     }
 

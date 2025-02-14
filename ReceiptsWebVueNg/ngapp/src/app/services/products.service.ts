@@ -12,7 +12,7 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(filterGroup:string, searchString:string, sort:string, pageSize:number, pageNumber:number): Observable<any> {
+  getProducts(filterGroup:string, searchString:string | null, sort:string, pageSize:number, pageNumber:number): Observable<any> {
     if (this.mockHttpGet) {
       return of({
       "pageIndex": 1,
@@ -45,7 +45,7 @@ export class ProductsService {
     } else {
       const httpParams  = new HttpParams()
         .set('filterGroup', filterGroup)
-        .set('searchString', searchString)
+        .set('searchString', searchString != null ? searchString : '')
         .set('sort', sort)
         .set('pageSize', pageSize)
         .set('pageNumber', pageNumber)

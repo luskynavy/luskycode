@@ -79,7 +79,7 @@
         @for(groupProduct of results; track groupProduct.id) {
             <tr>
                 <td>{{ groupProduct.id }} </td>
-                <td>{{ groupProduct.group }}</td>
+                <td class="buttonAsLink" (click)="changeGroup(groupProduct.group)">{{ groupProduct.group }}</td>
                 <td>{{ groupProduct.name }}</td>
                 <td>{{ groupProduct.min }}</td>
                 <td>{{ groupProduct.max }}</td>

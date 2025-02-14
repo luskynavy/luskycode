@@ -18,7 +18,7 @@
 
     <p>
         Trouver par nom
-        <input [(ngModel)]="searchString" matInput [formControl]="searchControl" [matAutocomplete]="auto" style="width:400px;">
+        <input matInput [formControl]="searchControl" [matAutocomplete]="auto" style="width:400px;">
         <mat-autocomplete #auto="matAutocomplete">
           @for (option of filteredProducts | async; track option) {
             <mat-option [value]="option">{{option}}</mat-option>
@@ -65,7 +65,7 @@
       @for(product of results; track product.id) {
           <tr>
               <td>{{ product.id }} </td>
-              <td>{{ product.group }}</td>
+              <td class="buttonAsLink" (click)="changeGroup(product.group)">{{ product.group }}</td>
               <td>{{ product.name }}</td>
               <td>{{ product.price.toFixed(2) }}</td>
               <td>{{ product.pricePerKilo.toFixed(2) }}</td>

@@ -97,6 +97,12 @@ export class GroupProductsComponent {
     myDialog.close()
   }
 
+  changeGroup(group: string) {
+    this.filterGroup = group;
+
+    this.onGroupChange();
+    this.submitChanges();
+  }
 
   onGroupChange() {
     if (this.filterGroup != '') {
@@ -105,7 +111,7 @@ export class GroupProductsComponent {
 
     this.productsService.getProductsNames(this.filterGroup).subscribe((data: any) => {
       this.productsNames = data;
-      console.log(this.productsNames.length)
+      //console.log(this.productsNames.length)
     });
   }
 
