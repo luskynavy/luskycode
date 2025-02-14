@@ -8,6 +8,7 @@
 @inject IStringLocalizer<Resource> Localize
 
 <PageTitle>@Localize["Products"]</PageTitle>
+<title>@Localize["Products"]</title>
 
 <h1> @Localize["Products"] </h1>
 
@@ -72,7 +73,11 @@ else
                 @foreach (var product in productsList)
                 {
                     <tr>
-                        <td>@product.Group</td>
+                        <td>
+                            <a class="linkStyle" @onclick=@(g => ChangeGroup(product.Group))>
+                                @product.Group
+                            </a>
+                        </td>
                         <td>@product.Name</td>
                         <td>@product.Price</td>
                         <td>@product.PricePerKilo</td>
