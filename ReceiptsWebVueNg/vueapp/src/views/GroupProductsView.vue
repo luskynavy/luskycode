@@ -80,7 +80,7 @@
                     <tbody>
                         <tr v-for="groupProduct in post.data" :key="groupProduct.id">
                             <td>{{ groupProduct.id }} </td>
-                            <td>{{ groupProduct.group }}</td>
+                            <td class="buttonAsLink" @click="changeGroup(groupProduct.group)">{{ groupProduct.group }}</td>
                             <td>{{ groupProduct.name }}</td>
                             <td>{{ groupProduct.min }}</td>
                             <td>{{ groupProduct.max }}</td>
@@ -98,10 +98,9 @@
                             <td>{{ groupProduct.pricesCount }}</td>
                             <!-- `` (backtick) template literrals pour pouvoir utiliser ${} du js et ne pas que ça passe pour une expression régulière "/details" -->
                             <td>
-                                <nobr>
-                                    <router-link :to="`/details/${groupProduct.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link>
-                                    <button type="button" class="buttonAsLink bi bi-graph-up" :title="$t('Prices')" @click="showModalProductsPrices(groupProduct.name, groupProduct.id)"></button>
-                                </nobr>
+                                <router-link :to="`/details/${groupProduct.id}`" class="bi bi-info-circle" :title="$t('Details')"></router-link>
+                                &nbsp;
+                                <button type="button" class="buttonAsLink bi bi-graph-up" :title="$t('Prices')" @click="showModalProductsPrices(groupProduct.name, groupProduct.id)"></button>
                             </td>
                         </tr>
                     </tbody>
@@ -291,6 +290,12 @@
                 this.modalProductsPrices = true
                 this.modalProductName = name
                 this.modalProductId = id
+            },
+            changeGroup(group) {
+                this.filterGroup = group;
+
+                this.onGroupChange();
+                this.submitChanges();
             },
             onGroupChange() {
                 //console.log("group change " + this.filterGroup)
