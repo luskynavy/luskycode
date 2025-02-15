@@ -218,7 +218,8 @@
                 });
 
             this.init();
-
+        },
+        beforeUpdate() {
             document.title = this.$t('GroupProducts');
         },
         watch: {
