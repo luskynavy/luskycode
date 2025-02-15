@@ -39,9 +39,9 @@
 						return this.products.filter(product =>
 							product.name.toLowerCase().includes(this.filterNameSubmitted.toLowerCase())
 							&& product.group.toLowerCase().includes(this.filterGroupSubmitted.toLowerCase())
-						);
+						).slice(0, 30);
 					} else {
-						return this.products;
+						return this.products.slice(0, 30);
 					}
 				},
 				formatDate(date) {
@@ -58,7 +58,6 @@
 	</head>
 	<body>
 		<div v-scope v-cloak>
-
 			<div>
 				<Label>Filtrer par groupe:</Label>
 				<input type="text" v-model="filterGroup">
@@ -68,7 +67,6 @@
 				<input type="text" v-model="filterName">
 			</div>
 			<button @click="submit">Recherche</button>
-
 			<table>
 				<thead>
 					<tr>
