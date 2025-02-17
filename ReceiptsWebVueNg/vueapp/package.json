@@ -15,6 +15,7 @@
         "bootstrap": "^5.3.2",
         "bootstrap-icons": "^1.11.1",
         "chart.js": "^4.4.0",
+        "chartjs-adapter-date-fns": "^3.0.0",
         "pinia": "^2.1.6",
         "primevue": "^3.35.0",
         "vee-validate": "^4.11.7",

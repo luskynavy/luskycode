@@ -12,9 +12,11 @@
         LineElement,
         Title,
         Tooltip,
-        Legend
+        Legend,
+        TimeScale
     } from 'chart.js'
     import { Line } from 'vue-chartjs'
+    import 'chartjs-adapter-date-fns' // for TimeScale, type: "time"
 
     const baseUrl = `${import.meta.env.VITE_API_URL}`;
     //console.log("baseUrl: " + baseUrl);
@@ -26,7 +28,8 @@
         LineElement,
         Title,
         Tooltip,
-        Legend
+        Legend,
+        TimeScale
     )
 
     export default {
@@ -67,6 +70,7 @@
                             legend: { display: true },
                         },
                         scales: {
+                            x: { type: "time" },
                             y: { min: this.minY }
                         }
                     }
