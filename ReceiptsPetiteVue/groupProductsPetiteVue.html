@@ -6,6 +6,7 @@
 
 		<script src="./petite-vue.iife.js"></script>
 		<script src="./chart.min.js"></script>
+		<script src="./chartjs-adapter-date-fns.bundle.min.js"></script>		
 		<script>
 			//default products of data.js from http://localhost:5000/GroupProducts?pageSize=100000&products1price=true&sort=MaxDate
 			var products = {
@@ -99,28 +100,37 @@
 
 					for (let index = data.length - 1; index >= 0 ; index--) {
 						const element = data[index];
-						xValues.push(element.dateReceipt);
+						var d = element.dateReceipt.substring(0, 10)
+						//console.log(d)
+						//xValues.push(new Date(d))
+						xValues.push(d)
 						yValues.push(element.price);
+						//console.log(xValues[xValues.length - 1])
 					}
 
 					var myChart = new Chart("myChart", {
-					type: "line",
-					data: {
-						labels: xValues,
-						datasets: [{
-						fill: false,
-						lineTension: 0,
-						label: this.modalProductName,
-						backgroundColor: "rgba(0,0,255,1.0)",
-						borderColor: "rgba(0,0,255,0.1)",
-						data: yValues
-						}]
-					},
-					options: {
-						plugins: {
-							legend: {display: true},
+						type: "line",
+						data: {
+							labels: xValues,
+							datasets: [{
+							fill: false,
+							lineTension: 0,
+							label: this.modalProductName,
+							backgroundColor: "rgba(0,0,255,1.0)",
+							borderColor: "rgba(0,0,255,0.1)",
+							data: yValues
+							}]
+						},
+						options: {
+							plugins: {
+								legend: {display: true},
+							},
+							scales: {
+								x: {
+									type: "time",
+								}
+							}
 						}
-					}
 					});
 				},
 				destroyChart() {
