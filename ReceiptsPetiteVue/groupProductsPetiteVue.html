@@ -5,20 +5,32 @@
 		<title>Groupe de produits</title>
 
 		<script src="./petite-vue.iife.js"></script>
+		<script src="./chart.min.js"></script>
 		<script>
 			//default products of data.js from http://localhost:5000/GroupProducts?pageSize=100000&products1price=true&sort=MaxDate
 			var products = {
 				"pageIndex":1,
 				"totalPages":1,
 				"data":[
-					{"id":7065,"name":"APERITIFS","group":"APERITIFS","min":3.49,"max":3.49,"previousPrice":3.49,"lastPrice":3.49,"lastPricePerKilo":0,"minDate":"2024-05-25T00:00:00","maxDate":"2024-05-25T00:00:00","priceRatio":1.00,"pricesCount":1},
+					{"id":7065,"name":"APERITIFS","group":"APERITIFS","min":3.49,"max":3.49,"previousPrice":3.49,"lastPrice":3.49,"lastPricePerKilo":0,"minDate":"2024-05-25T00:00:00","maxDate":"2024-05-25T00:00:00","priceRatio":1.00,"pricesCount":2},
 					{"id":7384,"name":"TOURNEDOS ","group":"VOL.LS STANDARD","min":4.38,"max":4.87,"previousPrice":4.56,"lastPrice":4.57,"lastPricePerKilo":0,"minDate":"2021-10-22T00:00:00","maxDate":"2023-10-27T00:00:00","priceRatio":1.11,"pricesCount":5}
+				],
+				"hasPreviousPage":false,
+				"hasNextPage":false
+			}
+			var prices = {
+				"pageIndex":1,
+				"totalPages":1,
+				"data":[
+					{"pricePerKilo":7.62,"id":7862,"name":"APERITIFS","group":"APERITIFS","price":4.57,"dateReceipt":"2025-02-15T00:00:00","sourceName":"Ticket de caisse_15022025-170134.pdf","sourceLine":10,"fullData":"APERITIFS                4,57 €  11"},
+					{"pricePerKilo":6.57,"id":7863,"name":"APERITIFS","group":"APERITIFS","price":3.94,"dateReceipt":"2025-02-10T00:00:00","sourceName":"Ticket de caisse_15022025-170134.pdf","sourceLine":11,"fullData":"APERITIFS                3,94 €  11"}
 				],
 				"hasPreviousPage":false,
 				"hasNextPage":false
 			}
 		</script>
 		<script src="data.js"></script>
+		<script src="prices.js"></script>
 		<script type="module">
 			//import { createApp } from "https://unpkg.com/petite-vue?module";
 
@@ -29,6 +41,10 @@
 				filterGroupSubmitted: "",
 				filterNameSubmitted: "",
 				products: window.products.data,
+				prices: window.prices.data,
+				modalProductsPrices: false,
+				modalProductName: "",
+				pricesStartAt0: false,
 				// methods
 				submit() {
 					this.filterGroupSubmitted = this.filterGroup;
@@ -44,6 +60,11 @@
 						return this.products.slice(0, 30);
 					}
 				},
+				filteredPrices(name) {
+					return this.prices.filter(product =>
+						product.name == name
+					);
+				},
 				formatDate(date) {
 					var options = {
 						year: 'numeric',
@@ -52,12 +73,89 @@
 					};
 					var d = new Date(date.slice(0, 10))
 					return d.toLocaleString(navigator.language ? navigator.language : navigator['userLanguage'], options)
-            	}
+            	},
+				showModalProductsPrices(name) {
+					this.modalProductsPrices = true;
+					this.modalProductName = name;
+
+					this.createChart();
+
+					myDialog.show();
+				},
+				closeModalProductsPrices() {
+					this.modalProductsPrices = false;
+
+					this.destroyChart();
+
+					myDialog.close();
+				},
+				createChart() {
+					var data = this.filteredPrices(this.modalProductName);
+
+					this.pricesStartAt0 = false;
+
+					var xValues = [];
+					var yValues = [];
+
+					for (let index = data.length - 1; index >= 0 ; index--) {
+						const element = data[index];
+						xValues.push(element.dateReceipt);
+						yValues.push(element.price);
+					}
+
+					var myChart = new Chart("myChart", {
+					type: "line",
+					data: {
+						labels: xValues,
+						datasets: [{
+						fill: false,
+						lineTension: 0,
+						label: this.modalProductName,
+						backgroundColor: "rgba(0,0,255,1.0)",
+						borderColor: "rgba(0,0,255,0.1)",
+						data: yValues
+						}]
+					},
+					options: {
+						plugins: {
+							legend: {display: true},
+						}
+					}
+					});
+				},
+				destroyChart() {
+					let chartStatus = Chart.getChart("myChart");
+					if (chartStatus != undefined) {
+  						chartStatus.destroy();
+					}
+				},
+				changeChartYAxis() {
+					let myChart = Chart.getChart("myChart");
+					if (myChart != undefined) {
+						if (!this.pricesStartAt0) {
+							myChart.options.scales.y = { min: 0 }
+							this.pricesStartAt0 = true;
+						} else {
+							myChart.options.scales.y = {  }
+							this.pricesStartAt0 = false;
+						}
+						myChart.update()
+					}
+				}
 			}).mount();
 		</script>
 	</head>
 	<body>
 		<div v-scope v-cloak>
+
+			<dialog id="myDialog">
+				<button @click="closeModalProductsPrices" style="float: right;">X</button>
+				<h1>Historique des prix</h1>
+				<canvas id="myChart"></canvas>
+				<label>Prix commencent à 0<input v-model="pricesStartAt0" type='checkbox' @click='changeChartYAxis();'></label>
+			</dialog>
+			<div v-show="modalProductsPrices" class="modal-overlay" #overlay @click="closeModalProductsPrices"></div>
+
 			<div>
 				<Label>Filtrer par groupe:</Label>
 				<input type="text" v-model="filterGroup">
@@ -67,7 +165,7 @@
 				<input type="text" v-model="filterName">
 			</div>
 			<button @click="submit">Recherche</button>
-			<table>
+			<table class="alternateLines">
 				<thead>
 					<tr>
 						<th>Id</th>
@@ -83,6 +181,7 @@
 						<th>Date max</th>
 						<th>Rapport des prix</th>
 						<th>Nombre de prix</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -105,6 +204,7 @@
 						<td>{{ formatDate(groupProduct.maxDate) }}</td>
 						<td>{{ groupProduct.priceRatio.toFixed(2) }}</td>
 						<td>{{ groupProduct.pricesCount }}</td>
+						<td><button @click="showModalProductsPrices(groupProduct.name)">Prix</button></td>
 					</tr>
 
 				</tbody>
@@ -117,5 +217,28 @@
 	label {
 		display: inline-block;
 		 width: 150px;
+	}
+	table.alternateLines > tbody > tr:nth-child(even) {
+ 	   background-color: #888888;
+	}
+	dialog {
+		background-color: rgba(255, 255, 255, 1);
+		/*color: white;*/
+		border-color: transparent;
+		overflow: hidden;
+		border-radius: 5px;
+		cursor: pointer;
+		box-shadow: 0 0 20px 8px #d0d0d0;
+		width: 75vw;
+		z-index: 3;
+	}
+	.modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.4);
+		z-index: 1;
 	}
 </style>
