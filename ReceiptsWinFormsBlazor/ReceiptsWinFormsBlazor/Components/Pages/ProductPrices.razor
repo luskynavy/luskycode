@@ -7,6 +7,9 @@
 @using ChartJs.Blazor.Common
 @using ChartJs.Blazor.Common.Enums
 @using ChartJs.Blazor.Util
+@using ChartJs.Blazor.Common.Axes
+@using ChartJs.Blazor.Common.Time
+@using ChartJs.Blazor.Common.Axes.Ticks
 
 @inject IDbContextFactory<ReceiptsContext> DbFactory
 @inject IStringLocalizer<Resource> Localize
@@ -70,11 +73,31 @@ else
                 Responsive = true,
                 Scales = new Scales
                 {
-                    YAxes = new List<ChartJs.Blazor.Common.Axes.CartesianAxis>
+                    XAxes = new List<CartesianAxis>
                     {
-                        new ChartJs.Blazor.Common.Axes.LinearCartesianAxis
+                        new TimeAxis
                         {
-                            Ticks = new ChartJs.Blazor.Common.Axes.Ticks.LinearCartesianTicks
+                            Distribution = TimeDistribution.Linear,
+                            Ticks = new TimeTicks
+                            {
+                                Source = TickSource.Data
+                            },
+                            Time = new TimeOptions
+                            {
+                                Unit = TimeMeasurement.Day,
+                                TooltipFormat = "dd/MM/yyyy"
+                            },
+                            GridLines = new GridLines
+                            {
+                                Display = false
+                            }
+                        }
+                    },
+                    YAxes = new List<CartesianAxis>
+                    {
+                        new LinearCartesianAxis
+                        {
+                            Ticks = new LinearCartesianTicks
                             {
                             }
                         }
@@ -91,7 +114,8 @@ else
                 var products = context.Products.Where(m => m.Name == product.Name).OrderBy(p => p.DateReceipt);
                 foreach (var items in products)
                 {
-                    _config.Data.Labels.Add(items.DateReceipt.ToShortDateString());
+                    //_config.Data.Labels.Add(items.DateReceipt.ToShortDateString());
+                    _config.Data.Labels.Add(items.DateReceipt.ToString("yyyy'-'MM'-'dd"));
                     yvalues.Add(items.Price);
                 }
 
@@ -121,16 +145,16 @@ else
     /// </summary>
     private void changeChartYAxis()
     {
-        var config = (ChartJs.Blazor.LineChart.LineConfig)_chart.Config;
+        var config = (LineConfig)_chart.Config;
 
         if (!_startAtZero)
         {
-            ((ChartJs.Blazor.Common.Axes.LinearCartesianAxis)config.Options.Scales.YAxes[0]).Ticks.Min = 0;
+            ((LinearCartesianAxis)config.Options.Scales.YAxes[0]).Ticks.Min = 0;
             //_chart.options.scales.y = { min: 0 };
         }
         else
         {
-            ((ChartJs.Blazor.Common.Axes.LinearCartesianAxis)config.Options.Scales.YAxes[0]).Ticks.Min = null;
+            ((LinearCartesianAxis)config.Options.Scales.YAxes[0]).Ticks.Min = null;
             //_chart.options.scales.y = { };
         }
 
