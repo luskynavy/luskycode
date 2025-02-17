@@ -7,6 +7,7 @@
 
 
 <script src="~/lib/chart/dist/js/chart.min.js"></script>
+<script src="~/lib/chartjs-adapter-date-fns/dist/js/chartjs-adapter-date-fns.bundle.min.js"></script>
 <canvas id="myChart" ></canvas>
 <label>@Localizer["Prices start at 0"] <input type='checkbox' onclick='changeChartYAxis(this);'></label>
 
@@ -15,7 +16,7 @@ xValues = [
     @foreach (var item in Model)
     {
         <text>"</text>
-        @item.DateReceipt.ToShortDateString()
+        @item.DateReceipt.ToString("yyyy'-'MM'-'dd")
         <text>",</text>
     }
 ];
@@ -43,7 +44,12 @@ yValues = [
   options: {
     plugins: {
         legend: {display: true},
-    }
+    },
+	scales: {
+		x: {
+			type: "time",
+		}
+	}
   }
 });
 
