@@ -35,6 +35,7 @@ public class GroupProduct
 	public decimal PriceRatio { get; set; }
 
 	public int PricesCount { get; set; }
-
-	public IEnumerable<decimal> PricesList { get; set; }
+	
+	[Newtonsoft.Json.JsonIgnore]
+    public IEnumerable<decimal> PricesList { get; set; }
 }
