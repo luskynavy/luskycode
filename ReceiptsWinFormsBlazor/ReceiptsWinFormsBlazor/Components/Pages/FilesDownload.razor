@@ -1,0 +1,135 @@
+﻿@page "/files-download"
+@* @rendermode InteractiveServer *@
+@using System.IO
+@using System.Text
+@inject IJSRuntime JS
+
+@inject IDbContextFactory<ReceiptsContext> DbFactory
+@inject IStringLocalizer<Resource> Localize
+
+<PageTitle>@Localize["Files Download"]</PageTitle>
+
+<h1>@Localize["Files Download"]</h1>
+
+<button @onclick="DownloadFileDataFromStream">
+    @Localize["Download Data"]
+</button>
+
+<button @onclick="DownloadFilePricesFromStream">
+    @Localize["Download Prices"]
+</button>
+
+@code {
+
+    Newtonsoft.Json.Serialization.DefaultContractResolver contractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+    {
+        NamingStrategy = new Newtonsoft.Json.Serialization.CamelCaseNamingStrategy
+        {
+            ProcessDictionaryKeys = false
+        }
+    };
+
+    private Stream GetFileStreamData()
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        context.Database.SetCommandTimeout(180);
+
+        if (context.Products is not null)
+        {
+            var groupsProducts = context.Products.GroupBy(
+                                     p => new
+                                     {
+                                         p.Group,
+                                         p.Name
+                                     }).
+                                    Select(gp => new GroupProduct
+                                        {
+                                            Id = gp.Max(p => p.Id),
+                                            Group = gp.Key.Group,
+                                            Name = gp.Key.Name,
+                                            Min = gp.Min(p => p.Price),
+                                            Max = gp.Max(p => p.Price),
+                                            //if there is at least 2 elements, sort by date, skip the last, so we have the previous product
+                                            //PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
+                                            PricesList = gp.OrderByDescending(x => x.DateReceipt).Select(z => z.Price),
+                                            LastPrice = gp.OrderByDescending(x => x.DateReceipt).First().Price,
+                                            MinDate = gp.Min(p => p.DateReceipt),
+                                            MaxDate = gp.Max(p => p.DateReceipt),
+                                            PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
+                                            PricesCount = gp.Count()
+                                        });
+
+            groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
+
+            var groupsProductsList = groupsProducts.ToArray();
+
+            //Get the previous different price
+            foreach (var p in groupsProductsList)
+            {
+                //Get the prices list for the product
+                var prices = p.PricesList;
+                //Skip the prices if they are equal to older
+                p.PreviousPrice = prices.SkipWhile((z, index) => z == p.LastPrice && index != prices.Count() - 1).First();
+
+                p.LastPricePerKilo = Math.Round(Products.ExtractPricePerKilo(p.Name, p.LastPrice), 2);
+
+                p.PricesList = null;
+            }
+
+            var serializerSettings = new Newtonsoft.Json.JsonSerializerSettings();
+            serializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            var json = "var products = {\"data\":" + Newtonsoft.Json.JsonConvert.SerializeObject(groupsProductsList, serializerSettings) + "}";
+
+            var fileStream = new MemoryStream(Encoding.ASCII.GetBytes(json));
+
+            return fileStream;
+        }
+
+        return new MemoryStream();
+    }
+
+    private Stream GetFileStreamPrices()
+    {
+        using var context = DbFactory.CreateDbContext();
+        if (context.Products is not null)
+        {
+            //Get products list
+            var products = context.Products.OrderByDescending(p => p.DateReceipt).Select(products => new
+            {
+                name = products.Name,
+                price = products.Price,
+                dateReceipt= products.DateReceipt
+            });
+
+            //convert to string and create js object
+            var json = "var prices = {\"data\":" + System.Text.Json.JsonSerializer.Serialize(products.ToArray()) + "}";
+
+            var fileStream = new MemoryStream(Encoding.ASCII.GetBytes(json));
+
+            return fileStream;
+        }
+
+        return new MemoryStream();
+    }
+
+    private async Task DownloadFileDataFromStream()
+    {
+        var fileStream = GetFileStreamData();
+        var fileName = "data.json";
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    private async Task DownloadFilePricesFromStream()
+    {
+        var fileStream = GetFileStreamPrices();
+        var fileName = "prices.json";
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+}
