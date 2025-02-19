@@ -8,7 +8,7 @@
 		<script src="./chart.min.js"></script>
 		<script src="./chartjs-adapter-date-fns.bundle.min.js"></script>		
 		<script>
-			//default products of data.js from http://localhost:5000/GroupProducts?pageSize=100000&products1price=true&sort=MaxDate
+			//default products of data.json from https://localhost:7136/GroupProducts?pageSize=100000&products1price=true&sort=MaxDate
 			var products = {
 				"pageIndex":1,
 				"totalPages":1,
@@ -19,6 +19,7 @@
 				"hasPreviousPage":false,
 				"hasNextPage":false
 			}
+			//default prices of prices.json from https://localhost:7136/Products?sort=DateReceipt&pageSize=100000
 			var prices = {
 				"pageIndex":1,
 				"totalPages":1,
@@ -30,8 +31,8 @@
 				"hasNextPage":false
 			}
 		</script>
-		<script src="data.js"></script>
-		<script src="prices.js"></script>
+		<script src="data.json"></script>
+		<script src="prices.json"></script>
 		<script type="module">
 			//import { createApp } from "https://unpkg.com/petite-vue?module";
 
