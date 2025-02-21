@@ -30,6 +30,7 @@ namespace MySqlConsoleApp
                 //mycommand.CommandText = "CREATE TABLE `test`.`tabletest` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = INNODB;";
                 //mycommand.CommandText = "CREATE TABLE `test`.`tabletest` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = MEMORY;";
                 mycommand.CommandText = "CREATE TABLE `test`.`tabletest` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = MYISAM;";
+                //mycommand.CommandText = "CREATE TABLE `test`.`tabletest` (`id` INT NULL, `col1` INT NULL, `col2` INT NULL) ENGINE = ARIA;";
                 ret = mycommand.ExecuteNonQuery();
 
                 //Count elements in table
@@ -54,6 +55,7 @@ namespace MySqlConsoleApp
                 //800 insert per sec for a p8400 in MYISAM/INNODB with mysql 5.1
                 //22000 insert per sec for a i7 4770k en MYISAM with mysql 5.1 or 5.6
                 //9000 insert per sec for a i5 8265U in MYISAM/MEMORY with mysql 5.1 (1000 for INNODB)
+				//8000 insert per sec for a i5 8265U in MYISAM with mariadb 11.7.2
                 Console.WriteLine("\nfor i:0->" + maxInsert + " INSERT INTO tabletest (id, col1, col2) VALUES (i, 2, 3)");
                 for (int i = 0; i < maxInsert; i++)
                 {
