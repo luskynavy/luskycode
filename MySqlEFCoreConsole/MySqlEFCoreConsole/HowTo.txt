@@ -1,0 +1,33 @@
+Lectures et ajout avec entity framework ok avec avec mariadb 11.7.2 mysql 5.1.72 (et normalement mysql 8).
+
+- Installer Microsoft.EntityFrameworkCore.Design 9
+
+- Installer Microsoft.EntityFrameworkCore.Tools 9
+Permet de lancer : Scaffold-DbContext.
+
+- Installer MySql.EntityFrameworkCore 9
+
+- Depuis le package Manager Console :
+Scaffold-DbContext -ContextDir Models -OutputDir Models -Context MysqlDbContext -Force "Server=localhost;Database=receipts2;user=root;password=;" "MySql.EntityFrameworkCore"
+
+
+CREATE TABLE `receipts2`.`foreuro` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `MyEuroColumn` VARCHAR(100) NULL,
+  PRIMARY KEY (`Id`))
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE `receipts2`.`products` (
+	`Id` INT(11) NOT NULL AUTO_INCREMENT,
+	`Name` VARCHAR(100) NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
+	`Group` VARCHAR(100) NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
+	`Price` DECIMAL(20,6) NOT NULL,
+	`DateReceipt` DATETIME NOT NULL,
+	`SourceName` VARCHAR(100) NOT NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
+	`SourceLine` INT(11) NOT NULL DEFAULT '0',
+	`FullData` VARCHAR(100) NOT NULL DEFAULT '0' COLLATE 'utf8mb3_general_ci',
+	PRIMARY KEY (`Id`) USING BTREE
+)
+COLLATE='utf8mb3_general_ci'
+ENGINE=MyISAM;
