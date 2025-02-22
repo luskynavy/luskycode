@@ -2,6 +2,7 @@
 using UglyToad.PdfPig;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExtractReceipt
 {
@@ -59,6 +60,7 @@ namespace ExtractReceipt
             {
                 string pdfPath = @"..\..\..\Tickets\";
                 bool noCsv = false;
+                bool mysqlMode = false;
 
                 //Manage options
                 foreach (var arg in args)
@@ -66,6 +68,10 @@ namespace ExtractReceipt
                     if (arg == "-nocsv")
                     {
                         noCsv = true;
+                    }
+                    else if (arg == "-mysql")
+                    {
+                        mysqlMode = true;
                     }
                 }
 
@@ -87,9 +93,17 @@ namespace ExtractReceipt
                 }
 
                 //Add products do db
-                Console.Write("AddProductsToDb");
+                Console.Write("AddProductsToDb" + (mysqlMode ? " MySql" : ""));
                 sw.Start();
-                int nbProductsAdded = AddProductsToDb(allProducts);
+                int nbProductsAdded;
+                if (!mysqlMode)
+                {
+                    nbProductsAdded = AddProductsToDb(allProducts);
+                }
+                else
+                {
+                    nbProductsAdded = AddProductsToDbMysql(allProducts);
+                }
                 sw.Stop();
                 Console.WriteLine($" added {nbProductsAdded} product(s) in {sw.ElapsedMilliseconds} ms");
 
@@ -181,8 +195,39 @@ namespace ExtractReceipt
                 //Add all products to db.
                 //dbContext.Products.AddRange(allProducts);
 
-
                 foreach(var product in allProducts)
+                {
+                    //Add product only if sourcename is not found
+                    if (!dbContext.Products.Any(p => p.SourceName == product.SourceName
+                    && p.SourceLine == product.SourceLine))
+                    {
+                        dbContext.Products.Add(product);
+                        nbProductsAdded++;
+                    }
+                }
+
+                if (nbProductsAdded != 0)
+                {
+                    dbContext.SaveChanges();
+                }
+            }
+
+            return nbProductsAdded;
+        }
+
+        /// <summary>
+        /// Add all the products to the MySql db
+        /// </summary>
+        /// <param name="allProducts">products list</param>
+        private static int AddProductsToDbMysql(List<Product> allProducts)
+        {
+            int nbProductsAdded = 0;
+
+            //Init db.
+            using (var dbContext = new MysqlDbContext())
+            {
+
+                foreach (var product in allProducts)
                 {
                     //Add product only if sourcename is not found
                     if (!dbContext.Products.Any(p => p.SourceName == product.SourceName

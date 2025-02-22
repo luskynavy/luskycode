@@ -23,4 +23,28 @@ Projet créé en Code First:
 
   - Pour mettre à jour le code de migration "add-migration NomModif"
   - Pour mettre à jour la bdd :  "update-database"
+  
+  
+Pour ajout mysql avec mariadb 11.7.2:
+
+- Installer Pomelo.EntityFrameworkCore.MySql 9 preview
+
+- Depuis le package Manager Console :
+Scaffold-DbContext MysqlDbContext -Force "Server=localhost;Database=receipts;user=root;password=;" "Pomelo.EntityFrameworkCore.MySql"
+
+CREATE TABLE `receipts`.`products` (
+	`Id` INT(11) NOT NULL AUTO_INCREMENT,
+	`Name` VARCHAR(100) NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
+	`Group` VARCHAR(100) NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
+	`Price` DECIMAL(20,6) NOT NULL,
+	`DateReceipt` DATETIME NOT NULL,
+	`SourceName` VARCHAR(100) NOT NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
+	`SourceLine` INT(11) NOT NULL DEFAULT '0',
+	`FullData` VARCHAR(100) NOT NULL DEFAULT '0' COLLATE 'utf8mb3_general_ci',
+	PRIMARY KEY (`Id`) USING BTREE
+)
+COLLATE='utf8mb3_general_ci'
+ENGINE=MyISAM
+;
+
 	
