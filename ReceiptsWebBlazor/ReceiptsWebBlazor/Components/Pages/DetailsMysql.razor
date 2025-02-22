@@ -1,0 +1,120 @@
+﻿@page "/detailsmysql/{ProductId:int}"
+@rendermode InteractiveServer
+@using Microsoft.EntityFrameworkCore
+
+@inject IDbContextFactory<MysqlDbContext> DbFactory
+@inject IStringLocalizer<Resource> Localize
+
+<PageTitle>@Localize["Details MySql"]</PageTitle>
+
+<h3>@Localize["Details MySql"]</h3>
+
+@if (NotFound && !Loading)
+{
+    <div class="alert alert-warning">@Localize["No product with this ix exists."]</div>
+}
+else
+{
+    @if (Product is null || Loading)
+    {
+        <div class="alert alert-info">@Localize["Chargement..."]</div>
+    }
+    else
+    {
+        <dl class="row">
+            <dt class = "col-sm-2">
+                @Localize["Group"]
+            </dt>
+            <dd class = "col-sm-10">
+                @Product.Group
+            </dd>
+            <dt class="col-sm-2">
+                @Localize["Name"]
+            </dt>
+            <dd class="col-sm-10">
+                @Product.Name
+            </dd>
+            <dt class="col-sm-2">
+                @Localize["Price"]
+            </dt>
+            <dd class="col-sm-10">
+                @Product.Price
+            </dd>
+            <dt class="col-sm-2">
+                @Localize["Date receipt"]
+            </dt>
+            <dd class="col-sm-10">
+                @Product.DateReceipt.ToShortDateString()
+            </dd>
+            <dt class="col-sm-2">
+                @Localize["Source name"]
+            </dt>
+            <dd class="col-sm-10">
+                @Product.SourceName
+            </dd>
+            <dt class="col-sm-2">
+                @Localize["Source line"]
+            </dt>
+            <dd class="col-sm-10">
+                @Product.SourceLine
+            </dd>
+            <dt class="col-sm-2">
+                @Localize["Full data"]
+            </dt>
+            <dd class="col-sm-10">
+                @Product.FullData
+            </dd>
+        </dl>
+
+        <ProductPricesMysql ProductId="@Product.Id" />
+    }
+}
+
+@code {
+
+    // Tracking of asynchronous calls.
+    private bool Loading;
+
+    // Id from route of product.
+    [Parameter]
+    public int ProductId { get; set; }
+
+    // Product entity.
+    private Product? Product { get; set; }
+
+    // Set to true when not found.
+    private bool NotFound = false;
+
+    // Navigated
+    protected override async Task OnParametersSetAsync()
+    {
+
+        if (Loading)
+        {
+            return; //avoid concurrent requests.
+        }
+
+        NotFound = false;
+        Product = null;
+
+        Loading = true;
+
+        using var context = DbFactory.CreateDbContext();
+
+        if (context.Products is not null)
+        {
+            Product = await context.Products
+                .AsNoTracking()
+                .SingleOrDefaultAsync(
+                    c => c.Id == ProductId);
+
+            if (Product is null)
+            {
+                NotFound = true;
+            }
+        }
+
+        Loading = false;
+    }
+
+}

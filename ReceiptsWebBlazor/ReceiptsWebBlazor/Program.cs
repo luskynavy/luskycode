@@ -16,8 +16,11 @@ namespace ReceiptsWebBlazor
 			builder.Services.AddDbContextFactory<ReceiptsContext>(options =>
 				options.UseSqlServer(connectionString));
 
-			// Add services to the container.
-			builder.Services.AddRazorComponents()
+            builder.Services.AddDbContextFactory<MysqlDbContext>(/*options =>
+                options.UseSqlServer(connectionString)*/);
+
+            // Add services to the container.
+            builder.Services.AddRazorComponents()
 				.AddInteractiveServerComponents();
 
 			builder.Services.AddLocalization();

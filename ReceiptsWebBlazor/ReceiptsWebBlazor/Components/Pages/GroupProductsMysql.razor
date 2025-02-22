@@ -1,0 +1,461 @@
+﻿@page "/groupproductsmysql/"
+@* @rendermode InteractiveServer *@
+@* Disable prerender so request are only done once*@
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+
+@inject IDbContextFactory<MysqlDbContext> DbFactory
+@inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> Localize
+
+@using ReceiptsWebBlazor.Components.Pages
+
+<PageTitle>@Localize["Group products MySql"]</PageTitle>
+<title>@Localize["Group products MySql"]</title>
+
+<h1>@Localize["Group products MySql"]</h1>
+
+
+@if (Loading)
+{
+    <p><em>@Localize["Loading..."]</em></p>
+}
+else
+{
+    <p>
+        <div>
+            <span>@Localize["Filter by group"]</span>
+            <select @bind="FilterGroup">
+                @if (GroupList != null)
+                {
+                    <option value=""></option>
+                    foreach (var group in GroupList)
+                    {
+                        <option value="@group">@group</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="autocomplete w-25">
+            <label>@Localize["Find by name"]</label>
+            <Autocomplete @bind-SearchString="@SearchString" />
+        </div>
+
+        @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
+
+        <div>
+            <span>@Localize["Sort by"]</span>
+            <select @bind="Sort">
+                @if (SortList != null)
+                {
+                    foreach (var sort in SortList)
+                    {
+                        <option value="@sort">@Localize[GetSortName(sort)]</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <label>
+            @Localize["Include products with only one price"]
+            <input type="checkbox" @bind="@Products1price" />
+        </label>
+    </p>
+    <button class="btn hoverblue" @onclick="ReloadAsync">@Localize["Search"]</button>
+    <button class="btn hoverblue" @onclick="Clear">@Localize["Clear"]</button>
+
+    <table class="table alternateLines">
+        <thead>
+            <tr>
+                <th>@Localize["Group"]</th>
+                <th>@Localize["Name"]</th>
+                <th>@Localize["Min"]</th>
+                <th>@Localize["Max"]</th>
+                <th>@Localize["Previous price"]</th>
+                <th>@Localize["Last price"]</th>
+                <th>@Localize["Last price per kilo"]</th>
+                <th>@Localize["Tendency"]</th>
+                <th>@Localize["Min date"]</th>
+                <th>@Localize["Max date"]</th>
+                <th>@Localize["Price ratio"]</th>
+                <th>@Localize["Prices count"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (productsList != null)
+            {
+                @foreach (var product in productsList)
+                {
+                    <tr>
+                        <td>
+                            <a class="linkStyle" @onclick=@(g => ChangeGroup(product.Group))>
+                                @product.Group
+                            </a>
+						</td>
+                        <td>@product.Name</td>
+                        <td>@String.Format("{0:0.00}", product.Min)</td>
+                        <td>@String.Format("{0:0.00}", product.Max)</td>
+                        <td>@String.Format("{0:0.00}", product.PreviousPrice)</td>
+                        <td>@String.Format("{0:0.00}", product.LastPrice)</td>
+                        <td>@product.LastPricePerKilo</td>
+                        <td>
+                            @if (product.LastPrice > product.PreviousPrice)
+                            {
+                                <span style="color:red">&#x2197;</span>
+                            }
+                            else if (product.LastPrice == product.PreviousPrice)
+                            {
+                                <span>=</span>
+                            }
+                            else
+                            {
+                                <span style="color:green">&#x2198;</span>
+                            }
+                        </td>
+                        <td>@product.MinDate.ToShortDateString()</td>
+                        <td>@product.MaxDate.ToShortDateString()</td>
+                        <td>@String.Format("{0:0.00}", product.PriceRatio)</td>
+                        <td>@product.PricesCount</td>
+                        <td>
+                            <a title="@Localize["Details"]" href="detailsmysql/@product.Id" style="text-decoration:none">
+                                &nbsp;🔍&nbsp;
+                            </a>
+                            <button title="@Localize["Price"]" class="btn" @onclick="() => ShowPrices(product.Id)">
+                                📈
+                            </button>
+                            @* <a title="Edit" href="edit/@product.Id" style="text-decoration:none">
+                                &nbsp;📝&nbsp;
+                            </a> *@
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <span>@(TotalPages == 0 ? 0 : Page) @Localize["of"] @TotalPages</span>
+    <span>&nbsp;</span>
+
+    <button class="btn btn-primary @IsDisabled(Page != 1)" @onclick="GoFirstPage">@Localize["First"]</button>
+    <button class="btn btn-primary @IsDisabled(HasPrev)" @onclick="GoPreviousPage">@Localize["Previous"]</button>
+    <button class="btn btn-primary @IsDisabled(HasNext)" @onclick="GoNextPage">@Localize["Next"]</button>
+    <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">@Localize["Last"]</button>
+
+    <span>@Localize["Page size"]</span>
+    <select value="@PageSize" @onchange="ChangePageSize">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="100">100</option>
+        <option value="100000">@Localize["All"]</option>
+    </select>
+
+
+    @if (ShowPopup)
+    {
+        <!-- This is the popup  -->
+        <div class="modal" tabindex="-1" style="display:block" role="dialog" @onclick="ClosePopupIfOutside">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" @onmouseover="MouseInPopup" @onmouseout="MouseOutPopup">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@Localize["Prices history"]</h5>
+                        <!-- Button to close the popup -->
+                        <button type="button" class="close"
+                        @onclick="ClosePopup">
+                            <span aria-hidden="true">X</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <ProductPricesMysql ProductId="@ShowPricesProductId" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+@code {
+    // The products list
+    private GroupProduct[]? productsList;
+
+    // True if data are loading
+    private bool Loading = true;
+
+    // Current page
+    public int Page { get; set; }
+
+    // Current sort
+    public string? Sort { get; set; }
+
+    // Current filter by group
+    public string? FilterGroup { get; set; }
+
+    // Current filter by text on product name
+    public string? SearchString { get; set; }
+
+    // Total number of pages
+    private int TotalPages { get; set; }
+
+    #region Page size
+    private int PageSize = 10;
+
+    private async Task ChangePageSize(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            int.TryParse(e.Value.ToString(), out PageSize);
+            await ReloadAsync();
+        }
+    }
+    #endregion //Page size
+
+    private bool Products1price { get; set; }
+
+    // Previous page management
+    private bool HasPrev { get; set; }
+
+    // Next page management
+    private bool HasNext { get; set; }
+
+    // Group list for select
+    private List<string>? GroupList { get; set; }
+
+    // Sort list for select
+    private List<string>? SortList { get; set; }
+
+    // Helper method to set disabled on class for paging.
+    // condition: When the element is active (and therefore should not be disabled).
+    //            Returns the string literal "disabled" or an empty string.
+    private string IsDisabled(bool condition) =>
+        !Loading && condition ? "" : "disabled";
+
+    #region Popup
+    // True if popup is displayed
+    private bool ShowPopup = false;
+
+    //True if inside popup
+    bool IsInsidePopup = false;
+
+    // Product Id to display in popup
+    private int ShowPricesProductId;
+
+    // Open the Popup
+    void ShowPrices(int productId)
+    {
+        ShowPopup = true;
+        ShowPricesProductId = productId;
+        IsInsidePopup = false;
+    }
+
+    // Close the Popup
+    void ClosePopup()
+    {
+        ShowPopup = false;
+    }
+
+    // Close popup if outside
+    void ClosePopupIfOutside()
+    {
+        if (!IsInsidePopup)
+        {
+            ClosePopup();
+        }
+    }
+
+    // Set mouse is inside popup
+    void MouseInPopup()
+    {
+        IsInsidePopup = true;
+    }
+
+    // Set mouse is outside popup
+    void MouseOutPopup()
+    {
+        IsInsidePopup = false;
+    }
+    #endregion //Popup
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await ReloadAsync();
+
+        await base.OnParametersSetAsync();
+    }
+
+    // Get text to display for sort value
+    private string GetSortName(string sort)
+    {
+        switch (sort)
+        {
+            case "MaxDate":
+                return "Max date";
+            case "PriceRatio":
+                return "Price ratio";
+            case "PricesCount":
+                return "Prices count";
+            default:
+                return "Group";
+        }
+    }
+
+    private async Task ReloadAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        // Init select
+        GroupList = context.Products.Select(p => p.Group).Distinct().ToList();
+        SortList = new List<string> { "MaxDate", "Group", "PriceRatio", "PricesCount" };
+
+        Loading = true;
+
+        IQueryable<Product> products = context.Products;
+
+        //Filter
+        if (!String.IsNullOrEmpty(FilterGroup))
+        {
+            products = products.Where(s => s.Group.Equals(FilterGroup));
+        }
+
+        if (!String.IsNullOrEmpty(SearchString))
+        {
+            products = products.Where(s => s.Name.Contains(SearchString));
+        }
+
+        if (products != null)
+        {
+            //Method syntax
+            var groupsProducts = products.GroupBy(
+                                     p => new
+                                     {
+                                         p.Group,
+                                         p.Name
+                                     }).
+                                    Select(gp => new GroupProduct
+                                        {
+                                            Id = gp.Max(p => p.Id),
+                                            Group = gp.Key.Group,
+                                            Name = gp.Key.Name,
+                                            Min = gp.Min(p => p.Price),
+                                            Max = gp.Max(p => p.Price),
+                                            //if there is at least 2 elements, sort by date, skip the last, so we have the previous product
+                                            //PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
+                                            PricesList = gp.OrderByDescending(x => x.DateReceipt).Select(z => z.Price),
+                                            LastPrice = gp.OrderByDescending(x => x.DateReceipt).First().Price,
+                                            MinDate = gp.Min(p => p.DateReceipt),
+                                            MaxDate = gp.Max(p => p.DateReceipt),
+                                            PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
+                                            PricesCount = gp.Count()
+                                        });
+
+
+            //Filter products with only one price (useless for comparaison)
+            if (!Products1price)
+            {
+                groupsProducts = groupsProducts.Where(p => p.PricesCount > 1);
+            }
+
+            //Sort
+            if (Sort == "PriceRatio")
+            {
+                groupsProducts = groupsProducts.OrderByDescending(p => p.PriceRatio);
+            }
+            else if (Sort == "PricesCount")
+            {
+                groupsProducts = groupsProducts.OrderByDescending(p => p.PricesCount);
+            }
+            else if (Sort == "Group")
+            {
+                groupsProducts = groupsProducts.OrderBy(p => p.Group).ThenBy(p => p.Name);
+            }
+            else //MaxDate or unknown
+            {
+                groupsProducts = groupsProducts.OrderByDescending(p => p.MaxDate);
+            }
+
+            var count = await groupsProducts.CountAsync();
+            TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+
+            if (Page > TotalPages)
+            {
+                Page = TotalPages;
+            }
+            if (Page <= 0)
+            {
+                Page = 1;
+            }
+
+            HasPrev = Page > 1;
+            HasNext = Page < TotalPages;
+
+            productsList = await groupsProducts.Skip((Page - 1) * PageSize).Take(PageSize).ToArrayAsync();
+
+            //Get the previous different price
+            foreach (var p in productsList)
+            {
+                //Get the prices list for the product
+                var prices = p.PricesList;
+                //Skip the prices if they are equal to older
+                p.PreviousPrice = prices.SkipWhile((z, index) => z == p.LastPrice && index != prices.Count() - 1).First();
+
+                p.LastPricePerKilo = Math.Round(Products.ExtractPricePerKilo(p.Name, p.LastPrice), 2);
+            }
+        }
+
+        Loading = false;
+    }
+
+    //Clear button
+    private async Task Clear()
+    {
+        Page = 1;
+        Sort = "MaxDate";
+        FilterGroup = null;
+        SearchString = null;
+        PageSize = 10;
+        Products1price = false;
+
+        await ReloadAsync();
+    }
+
+	//Change group on group link
+    private async Task ChangeGroup(string? group)
+    {
+        if (!String.IsNullOrEmpty(group))
+        {
+            FilterGroup = group;
+
+            await ReloadAsync();
+        }
+    }
+
+    #region Page management
+    private async Task GoFirstPage()
+    {
+        Page = 1;
+
+        await ReloadAsync();
+    }
+
+    private async Task GoPreviousPage()
+    {
+        Page--;
+
+        await ReloadAsync();
+    }
+
+    private async Task GoNextPage()
+    {
+        Page++;
+
+        await ReloadAsync();
+    }
+
+    private async Task GoLastPage()
+    {
+        Page = TotalPages;
+
+        await ReloadAsync();
+    }
+    #endregion //Page management
+}

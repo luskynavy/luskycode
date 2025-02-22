@@ -59,5 +59,41 @@ namespace ReceiptsWebBlazor.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Download_Data {
+            get {
+                return ResourceManager.GetString("Download Data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Download_Prices {
+            get {
+                return ResourceManager.GetString("Download Prices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Files_Download {
+            get {
+                return ResourceManager.GetString("Files Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Files_Download_MySql {
+            get {
+                return ResourceManager.GetString("Files Download MySql", resourceCulture);
+            }
+        }
     }
 }
