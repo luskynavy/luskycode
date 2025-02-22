@@ -9,9 +9,10 @@ namespace MysqlPomeloEFConsole
     {
         static void TestEuro(MysqlDbContext context)
         {
+            var rand = new Random();
             var foreuro = new Foreuro()
             {
-                MyEuroColumn = "12€10"
+                MyEuroColumn = rand.Next(1, 100).ToString() + "€10"
             };
 
             //Add ok avec mysql 8
@@ -30,15 +31,19 @@ namespace MysqlPomeloEFConsole
 
         private static void TestProduct(MysqlDbContext context)
         {
+            var rand = new Random();
+            int price = rand.Next(1, 100);
+            var date = DateTime.Now;
+
             var product = new Product()
             {
                 Group = "fruits",
                 Name = "bananes",
-                Price = 2.3m,
-                DateReceipt = new DateTime(2025, 2, 25),
+                Price = price + .3m,
+                DateReceipt = new DateTime(date.Year, date.Month, date.Day),
                 SourceName = "test.pdf",
-                SourceLine = 10,
-                FullData = "bananes 2€30 11"
+                SourceLine = rand.Next(1, 100),
+                FullData = "bananes " + price.ToString() + "€30 11"
             };
 
             Product? res = ShowLastProduct(context);
