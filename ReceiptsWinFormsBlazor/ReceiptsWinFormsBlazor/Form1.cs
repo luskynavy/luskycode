@@ -24,6 +24,9 @@ namespace ReceiptsBlazorWinForms
             services.AddDbContextFactory<ReceiptsContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            services.AddDbContextFactory<MysqlDbContext>(/*options =>
+                options.UseSqlServer(connectionString)*/);
+
             services.AddLocalization();
 
             //Debug with browser with about:debugging, only work with .net maui ? (F12 or CTRL + SHIFT + I to debug web)

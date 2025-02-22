@@ -1,0 +1,141 @@
+﻿@page "/productsmysql/"
+@* @rendermode InteractiveServer *@
+@* Disable prerender so request are only done once*@
+@* @rendermode @(new InteractiveServerRenderMode(prerender: false)) *@
+
+@inject IDbContextFactory<MysqlDbContext> DbFactory
+@inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> Localize
+
+<PageTitle>@Localize["Products MySql"]</PageTitle>
+<title>@Localize["Products MySql"]</title>
+
+<h1> @Localize["Products MySql"] </h1>
+
+
+@if (Loading)
+{
+    <p><em>@Localize["Loading..."]</em></p>
+}
+else
+{
+    <p>
+        <div>
+            <span>@Localize["Filter by group"]</span>
+            <select @bind="FilterGroup">
+                @if (GroupList != null)
+                {
+                    <option value=""></option>
+                    foreach (var group in GroupList)
+                    {
+                        <option value="@group">@group</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="autocomplete w-25">
+            <label>@Localize["Find by name"]</label>
+            <Autocomplete @bind-SearchString="@SearchString" />
+        </div>
+
+        @* <input type="text" @bind-value="SearchString" @bind-value:event="oninput" /> *@
+
+        <div>
+            <span>@Localize["Sort by"]</span>
+            <select @bind="Sort">
+                @if (SortList != null)
+                {
+                    foreach (var sort in SortList)
+                    {
+                        <option value="@sort">@Localize[GetSortName(sort)]</option>
+                    }
+                }
+            </select>
+        </div>
+    </p>
+    <button class="btn hoverblue" @onclick="ReloadAsync">@Localize["Search"]</button>
+    <button class="btn hoverblue" @onclick="Clear">@Localize["Clear"]</button>
+
+    <table class="table alternateLines">
+        <thead>
+            <tr>
+                <th>@Localize["Group"]</th>
+                <th>@Localize["Name"]</th>
+                <th>@Localize["Price"]</th>
+                <th>@Localize["Price per kilo"]</th>
+                <th>@Localize["Date receipt"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (productsList != null)
+            {
+                @foreach (var product in productsList)
+                {
+                    <tr>
+                        <td>
+                            <a class="linkStyle" @onclick=@(g => ChangeGroup(product.Group))>
+                                @product.Group
+                            </a>
+                        </td>
+                        <td>@product.Name</td>
+                        <td>@String.Format("{0:0.00}", product.Price)</td>
+                        <td>@product.PricePerKilo</td>
+                        <td>@product.DateReceipt.ToShortDateString()</td>
+                        <td>
+                            <a title="@Localize["Details"]" href="detailsmysql/@product.Id" style="text-decoration:none">
+                                &nbsp;🔍&nbsp;
+                            </a>
+                            <button title="@Localize["Price"]" class="btn" @onclick="() => ShowPrices(product.Id)">
+                                📈
+                            </button>
+                            @* <a title="Edit" href="edit/@product.Id" style="text-decoration:none">
+                                &nbsp;📝&nbsp;
+                            </a> *@
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <span>@(TotalPages == 0 ? 0 : Page) @Localize["of"] @TotalPages</span>
+    <span>&nbsp;</span>
+
+    <button class="btn btn-primary @IsDisabled(Page != 1)" @onclick="GoFirstPage">@Localize["First"]</button>
+    <button class="btn btn-primary @IsDisabled(HasPrev)" @onclick="GoPreviousPage">@Localize["Previous"]</button>
+    <button class="btn btn-primary @IsDisabled(HasNext)" @onclick="GoNextPage">@Localize["Next"]</button>
+    <button class="btn btn-primary @IsDisabled(Page != TotalPages)" @onclick="GoLastPage">@Localize["Last"]</button>
+
+    <span>@Localize["Page size"]</span>
+    <select value="@PageSize" @onchange="ChangePageSize">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="100">100</option>
+        <option value="100000">@Localize["All"]</option>
+    </select>
+
+
+    @if (ShowPopup)
+    {
+        <!-- This is the popup  -->
+        <div class="modal" tabindex="-1" style="display:block" role="dialog" @onclick="ClosePopupIfOutside">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" @onmouseover="MouseInPopup" @onmouseout="MouseOutPopup">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@Localize["Prices history"]</h5>
+                        <!-- Button to close the popup -->
+                        <button type="button" class="close"
+                                @onclick="ClosePopup">
+                            <span aria-hidden="true">X</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <ProductPricesMysql ProductId="@ShowPricesProductId" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

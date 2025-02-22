@@ -1,0 +1,163 @@
+﻿@page "/pricesmysql/{ProductId:int}"
+@* @rendermode InteractiveServer *@
+
+@using Microsoft.EntityFrameworkCore
+@using ChartJs.Blazor
+@using ChartJs.Blazor.LineChart
+@using ChartJs.Blazor.Common
+@using ChartJs.Blazor.Common.Enums
+@using ChartJs.Blazor.Util
+@using ChartJs.Blazor.Common.Axes
+@using ChartJs.Blazor.Common.Time
+@using ChartJs.Blazor.Common.Axes.Ticks
+
+@inject IDbContextFactory<MysqlDbContext> DbFactory
+@inject IStringLocalizer<Resource> Localize
+
+@if (NotFound && !Loading)
+{
+    <div class="alert alert-warning">@Localize["No product with this ix exists."]</div>
+}
+else
+{
+    @if (Loading)
+    {
+        <div class="alert alert-info">@Localize["Loading..."]</div>
+    }
+    else
+    {
+        <Chart Config="_config" @ref="_chart"></Chart>
+        <label>@Localize["Prices start at 0"] <input type='checkbox' @onclick='changeChartYAxis' @bind='_startAtZero'></label>
+    }
+}
+
+@code {
+
+    // Tracking of asynchronous calls.
+    private bool Loading;
+
+    // Id from route of product.
+    [Parameter]
+    public int ProductId { get; set; }
+
+    private LineConfig? _config;
+
+    private Chart? _chart;
+
+    private bool _startAtZero;
+
+    // Set to true when not found.
+    private bool NotFound = false;
+
+    // Navigated
+    protected override async Task OnParametersSetAsync()
+    {
+
+        if (Loading)
+        {
+            return; //avoid concurrent requests.
+        }
+
+        NotFound = false;
+
+        Loading = true;
+
+        using var context = DbFactory.CreateDbContext();
+
+        List<decimal> yvalues = new();
+
+        _config = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                Responsive = true,
+                Scales = new Scales
+                {
+                    XAxes = new List<CartesianAxis>
+                    {
+                        new TimeAxis
+                        {
+                            Distribution = TimeDistribution.Linear,
+                            Ticks = new TimeTicks
+                            {
+                                Source = TickSource.Data
+                            },
+                            Time = new TimeOptions
+                            {
+                                Unit = TimeMeasurement.Day,
+                                TooltipFormat = "dd/MM/yyyy"
+                            },
+                            GridLines = new GridLines
+                            {
+                                Display = false
+                            }
+                        }
+                    },
+                    YAxes = new List<CartesianAxis>
+                    {
+                        new LinearCartesianAxis
+                        {
+                            Ticks = new LinearCartesianTicks
+                            {
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        if (context.Products is not null)
+        {
+            var product = await context.Products.FirstOrDefaultAsync(m => m.Id == ProductId);
+            if (product != null)
+            {
+                var products = context.Products.Where(m => m.Name == product.Name).OrderBy(p => p.DateReceipt);
+                foreach (var items in products)
+                {
+                    //_config.Data.Labels.Add(items.DateReceipt.ToShortDateString());
+                    _config.Data.Labels.Add(items.DateReceipt.ToString("yyyy'-'MM'-'dd"));
+                    yvalues.Add(items.Price);
+                }
+
+                IDataset<decimal> dataset1 = new LineDataset<decimal>(yvalues)
+                {
+                    Label = product.Name,
+                    LineTension = 0.0,
+                    BackgroundColor = ColorUtil.FromDrawingColor(System.Drawing.Color.Blue),
+                    BorderColor = ColorUtil.FromDrawingColor(System.Drawing.Color.LightBlue),
+                    Fill = FillingMode.Disabled
+                };
+
+                _config.Data.Datasets.Add(dataset1);
+            }
+
+            if (product is null)
+            {
+                NotFound = true;
+            }
+        }
+
+        Loading = false;
+    }
+
+    /// <summary>
+    /// Set prices start at zero or not
+    /// </summary>
+    private void changeChartYAxis()
+    {
+        var config = (LineConfig)_chart.Config;
+
+        if (!_startAtZero)
+        {
+            ((LinearCartesianAxis)config.Options.Scales.YAxes[0]).Ticks.Min = 0;
+            //_chart.options.scales.y = { min: 0 };
+        }
+        else
+        {
+            ((LinearCartesianAxis)config.Options.Scales.YAxes[0]).Ticks.Min = null;
+            //_chart.options.scales.y = { };
+        }
+
+        _chart.Update();
+    }
+}

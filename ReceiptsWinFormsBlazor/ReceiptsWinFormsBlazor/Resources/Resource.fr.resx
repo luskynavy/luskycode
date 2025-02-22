@@ -135,6 +135,9 @@
   <data name="Details" xml:space="preserve">
     <value>Détails</value>
   </data>
+  <data name="Details MySql" xml:space="preserve">
+    <value>Détails MySql</value>
+  </data>
   <data name="Filter by group" xml:space="preserve">
     <value>Filtrer par groupe</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="Group products" xml:space="preserve">
     <value>Groupe de produits</value>
+  </data>
+  <data name="Group products MySql" xml:space="preserve">
+    <value>Groupe de produits MySql</value>
   </data>
   <data name="Hello, world!" xml:space="preserve">
     <value>Bonjour, le monde!</value>
@@ -237,6 +243,9 @@
   <data name="Products Stream Rendering" xml:space="preserve">
     <value>Produits avec Stream Rendering</value>
   </data>
+  <data name="Products MySql" xml:space="preserve">
+    <value>Produits MySql</value>
+  </data>
   <data name="Reload" xml:space="preserve">
     <value>Recharger</value>
   </data>
@@ -257,5 +266,17 @@
   </data>
   <data name="Welcome to your new app." xml:space="preserve">
     <value>Bienvenue dans votre nouvelle application.</value>
+  </data>
+  <data name="Files Download" xml:space="preserve">
+    <value>Téléchargement de fichiers</value>
+  </data>
+  <data name="Files Download MySql" xml:space="preserve">
+    <value>Téléchargement de fichiers MySql</value>
+  </data>
+  <data name="Download Data" xml:space="preserve">
+    <value>Téléchargement des données</value>
+  </data>
+  <data name="Download Prices" xml:space="preserve">
+    <value>Téléchargement des prix</value>
   </data>
 </root>
