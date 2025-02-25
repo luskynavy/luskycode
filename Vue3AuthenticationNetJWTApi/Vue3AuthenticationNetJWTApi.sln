@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "vue-3-pinia-jwt-authentication", "vue-3-pinia-jwt-authentication\vue-3-pinia-jwt-authentication.esproj", "{69BB724F-3FB6-123B-7B36-7AC168E32634}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "dotnet-6-jwt-authentication-api\WebApi.csproj", "{601E06EC-47ED-45A8-9171-78F4CB6042E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalWebApiJWT", "MinimalWebApiJWT\MinimalWebApiJWT.csproj", "{9C0627C3-ABB1-937A-156C-58B5754CE0DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{601E06EC-47ED-45A8-9171-78F4CB6042E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{601E06EC-47ED-45A8-9171-78F4CB6042E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{601E06EC-47ED-45A8-9171-78F4CB6042E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C0627C3-ABB1-937A-156C-58B5754CE0DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C0627C3-ABB1-937A-156C-58B5754CE0DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C0627C3-ABB1-937A-156C-58B5754CE0DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C0627C3-ABB1-937A-156C-58B5754CE0DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
