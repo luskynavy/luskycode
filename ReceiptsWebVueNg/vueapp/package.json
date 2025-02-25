@@ -18,7 +18,6 @@
         "chartjs-adapter-date-fns": "^3.0.0",
         "pinia": "^2.1.6",
         "primevue": "^3.35.0",
-        "vee-validate": "^4.11.7",
         "vue": "^3.3.4",
         "vue-chartjs": "^5.2.0",
         "vue-cookies": "^1.8.3",
