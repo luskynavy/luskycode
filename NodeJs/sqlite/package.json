@@ -1,6 +1,8 @@
 {
   "type": "module",
-  "start": "node index.js",
+  "scripts": {
+	"start": "node index.js"
+  },
   "dependencies": {
     "sqlite3": "^5.1.7"
   }
