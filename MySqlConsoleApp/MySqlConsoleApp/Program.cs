@@ -51,26 +51,34 @@ namespace MySqlConsoleApp
 
                 sw.Start();
 
+
                 int maxInsert = 10000;
-                //800 insert per sec for a p8400 in MYISAM/INNODB with mysql 5.1
-                //22000 insert per sec for a i7 4770k en MYISAM with mysql 5.1 or 5.6
-                //9000 insert per sec for a i5 8265U in MYISAM/MEMORY with mysql 5.1 (1000 for INNODB)
-				//8000 insert per sec for a i5 8265U in MYISAM with mariadb 11.7.2
-                Console.WriteLine("\nfor i:0->" + maxInsert + " INSERT INTO tabletest (id, col1, col2) VALUES (i, 2, 3)");
-                for (int i = 0; i < maxInsert; i++)
-                {
-                    mycommand.CommandText = "INSERT INTO tabletest (id, col1, col2) VALUES (" + i + ", 2, 3)";
-                    ret = mycommand.ExecuteNonQuery();
-                    //on ferme le datareader pour pouvoir reexecuter une commande apres
-                    //mydatareader.Close();
-                    if (i % 200 == 0)
+
+                // No speed diff with transaction for inserts
+                //using (var transaction = myconnection.BeginTransaction()) {
+
+                    //800 insert per sec for a p8400 in MYISAM/INNODB with mysql 5.1
+                    //22000 insert per sec for a i7 4770k en MYISAM with mysql 5.1 or 5.6
+                    //9000 insert per sec for a i5 8265U in MYISAM/MEMORY with mysql 5.1 (1000 for INNODB)
+                    //8000 insert per sec for a i5 8265U in MYISAM with mariadb 11.7.2
+                    Console.WriteLine("\nfor i:0->" + maxInsert + " INSERT INTO tabletest (id, col1, col2) VALUES (i, 2, 3)");
+                    for (int i = 0; i < maxInsert; i++)
                     {
-                        Console.WriteLine((double)i + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + "s : " +
-                            (double)i / sw.Elapsed.TotalMilliseconds * 1000 + " inserts per sec");
+                        mycommand.CommandText = "INSERT INTO tabletest (id, col1, col2) VALUES (" + i + ", 2, 3)";
+                        ret = mycommand.ExecuteNonQuery();
+                        //on ferme le datareader pour pouvoir reexecuter une commande apres
+                        //mydatareader.Close();
+                        if (i % 200 == 0)
+                        {
+                            Console.WriteLine((double)i + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + "s : " +
+                                (double)i / sw.Elapsed.TotalMilliseconds * 1000 + " inserts per sec");
+                        }
                     }
-                }
-                Console.WriteLine((double)maxInsert + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + "s : " +
-                    (double)maxInsert / sw.Elapsed.TotalMilliseconds * 1000 + " inserts per sec");
+                    Console.WriteLine((double)maxInsert + " in " + (double)sw.Elapsed.TotalMilliseconds / 1000 + "s : " +
+                        (double)maxInsert / sw.Elapsed.TotalMilliseconds * 1000 + " inserts per sec");
+
+                    //transaction.Commit();
+                //}
 
                 Console.WriteLine();
 
