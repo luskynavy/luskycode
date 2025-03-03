@@ -24,12 +24,19 @@ try {
     );
     console.log("\n" + results[0]['nb'] + " elements in tabletest");
 
+    // No speed diff with transaction for inserts
+    //await connection.query("START TRANSACTION");
+    //await connection.beginTransaction();
+
     // Insert many rows
     const maxInsert = 10000;
     console.log("\nfor i:0->" + maxInsert + " INSERT INTO tabletest (id, col1, col2) VALUES (i, 2, 3)");
     for(let i = 0; i < maxInsert; i++) {
         await connection.execute("INSERT INTO tabletest (id, col1, col2) VALUES (?, 2, 3)", [i]);
     }
+
+    //await connection.query("COMMIT");
+    //await connection.commit();
 
     // Get the size of table
     [results, fields] = await connection.query(
@@ -50,7 +57,7 @@ try {
     console.log("");
 
     // Delete the table
-    await connection.execute("DROP TABLE `test`.`tabletest`;");
+    //await connection.execute("DROP TABLE `test`.`tabletest`;");
 
     connection.end();
 

@@ -47,6 +47,8 @@ await execute (db, `
 let nb = await fetchFirst(db, 'SELECT COUNT(*) as nb FROM tabletest');
 console.log("\n" + nb['nb'] + " elements in tabletest");
 
+db.exec("BEGIN");
+
 // Insert many rows
 const maxInsert = 10000;
 console.log("\nfor i:0->" + maxInsert + " INSERT INTO tabletest (id, col1, col2) VALUES (i, 2, 3)");
@@ -54,6 +56,9 @@ for(let i = 0; i < maxInsert; i++) {
     //db.run("INSERT INTO tabletest (id, col1, col2) VALUES (" + i + ", 2, 3)");
     await execute(db, "INSERT INTO tabletest (id, col1, col2) VALUES (?, 2, 3)", [i]);
 }
+
+// Transaction for fast speed batch inserts
+db.exec("COMMIT");
 
 // Get the size of table
 nb = await fetchFirst(db, 'SELECT COUNT(*) as nb FROM tabletest');
@@ -74,7 +79,7 @@ db.run("DROP TABLE tabletest");
 
 db.close();
 
-//18.749s for 10 000 elements on i5 8265U
+//11.749s for 10 000 elements on i5 8265U with SSD, 120s on normal disk
 console.timeEnd("dbtest");
 
 console.log("Done");
