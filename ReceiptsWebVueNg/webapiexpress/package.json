@@ -1,0 +1,26 @@
+{
+  "name": "webapiexpress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "preview": "tsc && node build/index",
+    "prod": "node build/index",
+    "ts-node": "ts-node ./src/index.ts",
+    "dev": "nodemon src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.13.0"
+  }
+}
