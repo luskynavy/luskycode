@@ -82,7 +82,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
       success: true,
       count: bootcamps.length,
       pagination,
-      data: bootcamps,
+      data: bootcamps
     });
 });
 
