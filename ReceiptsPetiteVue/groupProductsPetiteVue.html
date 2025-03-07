@@ -52,6 +52,15 @@
 					this.filterGroupSubmitted = this.filterGroup;
 					this.filterNameSubmitted = this.filterName;
 				},
+				clear() {
+					this.filterGroup = "";
+					this.filterName = "";
+					this.submit();
+				},
+				changeGroup(group) {
+					this.filterGroup = group;
+					this.submit();
+				},
 				filteredData() {
 					if (this.filterNameSubmitted.length > 0 || this.filterGroupSubmitted.length > 0) {
 						return this.products.filter(product =>
@@ -176,6 +185,7 @@
 				<input type="text" v-model="filterName">
 			</div>
 			<button @click="submit">Recherche</button>
+			<button @click="clear">Effacer</button>
 			<table class="alternateLines">
 				<thead>
 					<tr>
@@ -199,8 +209,8 @@
 
 					<tr v-for="groupProduct in filteredData()">
 						<td>{{ groupProduct.id }} </td>
-						<td>{{ groupProduct.group }}</td>
-						<td>{{ groupProduct.name }}</td>
+						<td><button @click="changeGroup(groupProduct.group)">{{ groupProduct.group }}</button></td>
+						<td>{{ groupProduct.name }}</td>						
 						<td>{{ groupProduct.min }}</td>
 						<td>{{ groupProduct.max }}</td>
 						<td>{{ groupProduct.previousPrice }}</td>
