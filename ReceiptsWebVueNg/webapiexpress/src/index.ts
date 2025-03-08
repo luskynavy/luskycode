@@ -5,19 +5,24 @@ import fs from 'fs';
 //import http from 'http';
 import https from 'https';
 import cors from 'cors';
+import { Db } from './db';
 
 async function main() {
     dotenv.config({ path: './config.env' });
 
     let connection: mysql.Connection;
+    let db = new Db();
 
     try {
         // Create the connection to database
+        db.connect();
+
         connection = await mysql.createConnection({
             host: process.env.MYSQL_HOST,
             user: process.env.MYSQL_USER,
             database: process.env.MYSQL_DB
         });
+
     } catch (error) {
         console.log(error);
     }
@@ -57,6 +62,22 @@ async function main() {
     });
 
     // Empty result for quick test
+    app.get('/Products/:id', async (req: Request, res: Response) => {
+        let result = {
+            "id": 1,
+            "name": "BRIOCHE",
+            "group": "VIENNOISERIE INDUSTRIEL",
+            "price": 3.08,
+            "dateReceipt": "2025-03-08T23:03:28.552Z",
+            "sourceName": "string",
+            "sourceLine": 10,
+            "fullData": "BRIOCHE   (T)        3,08 €  11"
+        };
+
+        res.status(200).json(result);
+    });
+
+    // Empty result for quick test
     app.get('/GroupProducts', async (req: Request, res: Response) => {
         let result = {
             "pageIndex": 1,
@@ -70,9 +91,7 @@ async function main() {
 
     // GET /GroupSelectList
     app.get('/GroupSelectList', async (req: Request, res: Response) => {
-        const [results, fields]: [any, any] = await connection.query(
-            "SELECT DISTINCT `group` FROM products ORDER BY `group`"
-        );
+        const results = await db.getGroupSelectList();
 
         let groups: string[] = [];
 
@@ -82,40 +101,25 @@ async function main() {
         for (let i in results) {
             groups.push(results[i].group);
         }
+
         res.status(200).json(groups);
     });
 
-    // Empty result for quick test
+    // GET /GetProductPrices?id=1
     app.get('/GetProductPrices', async (req: Request, res: Response) => {
-        res.status(200).json("[]");
+        if (req.query.id) {
+            const results = await db.getGetProductPrices(req.query.id as string);
+            res.status(200).json(results);
+        } else {
+            res.status(200).json("[]");
+        }
     });
 
     // GET /ProductsNames?search=a&group=fruits
     app.get('/ProductsNames', async (req: Request, res: Response) => {
-        let nbParams = 0;
-        let paramList = [];
-        let query = "SELECT DISTINCT name FROM products";
-
-        //optional param search using LIKE
-        if (req.query.search) {
-            nbParams++;
-            paramList.push("%" + req.query.search + "%");
-            query += " WHERE name LIKE ?";
-        }
-
-        //optional param group using equal
-        if (req.query.group) {
-            paramList.push(req.query.group);
-            if (nbParams == 0) {
-                query += " WHERE `GROUP`=?";
-            } else {
-                query += " AND `GROUP`=?";
-            }
-        }
-
-        query += " ORDER BY name";
-        const [results, fields]: [any, any] = await connection.query(
-            query, paramList
+        const results = await db.getProductsNames(
+            req.query.search as string | undefined,
+            req.query.group as string | undefined
         );
 
         let names: string[] = [];
