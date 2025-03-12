@@ -49,6 +49,21 @@ exports.login = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
+// @desc    Log user out/ clear cookie
+// @route   GET /api/v1/auth/logout
+// @access  Private
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.cookie("token", "none", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {}
+  });
+});
+
 // @desc    Get current logged in user Login user
 // @route   GET /api/v1/auth/me
 // @access  Private
@@ -115,7 +130,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   const user = await User.findOne({
     resetPasswordToken,
-    resetPasswordExpire: { $gt: Date.now()}
+    resetPasswordExpire: { $gt: Date.now() },
   });
 
   if (!user) {
@@ -137,12 +152,12 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 exports.updateDetails = asyncHandler(async (req, res, next) => {
   const fieldsToUpdate = {
     name: req.body.name,
-    email: req.body.email
-  }
+    email: req.body.email,
+  };
 
   const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
     new: true,
-    runValidators: true
+    runValidators: true,
   });
 
   sendTokenResponse(user, 200, res);
@@ -168,9 +183,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
   });
 });
 
-
-
-// Get token from modeln create cookie and send response
+// Get token from model create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
   //Create token
   const token = user.getSignedJwtToken();

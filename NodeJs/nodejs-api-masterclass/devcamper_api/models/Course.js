@@ -43,6 +43,7 @@ const CourseSchema = new mongoose.Schema({
   },
 });
 
+// Static method to get average rating and save
 CourseSchema.statics.getAverageCost = async function (bootcampId) {
   const obj = await this.aggregate([
     {

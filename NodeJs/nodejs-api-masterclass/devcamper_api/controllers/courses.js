@@ -61,7 +61,7 @@ exports.addCourse = asyncHandler(async (req, res, next) => {
   }
 
   // Make user user is bootcamp owner
-  if (bootcamp.user.toString() !== req.user.id || req.user.role !== "admin") {
+  if (bootcamp.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
         `User ${req.user.id} is not authorized to add a course to bootcamp ${bootcamp._id}`,
@@ -91,7 +91,7 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
   }
 
   // Make user user is course owner
-  if (course.user.toString() !== req.user.id || req.user.role !== "admin") {
+  if (course.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
         `User ${req.user.id} is not authorized to update course ${course._id}`,
@@ -124,7 +124,7 @@ exports.deleteCourse = asyncHandler(async (req, res, next) => {
   }
 
   // Make user user is course owner
-  if (course.user.toString() !== req.user.id || req.user.role !== "admin") {
+  if (course.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
         `User ${req.user.id} is not authorized to update course ${course._id}`,
