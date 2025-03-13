@@ -108,7 +108,7 @@ async function main() {
     // GET /GetProductPrices?id=1
     app.get('/GetProductPrices', async (req: Request, res: Response) => {
         if (req.query.id) {
-            const results = await db.getGetProductPrices(req.query.id as string);
+            const results = await db.getGetProductPrices(req.query.id as string | undefined);
             res.status(200).json(results);
         } else {
             res.status(200).json("[]");
