@@ -80,16 +80,16 @@ else
                             Distribution = TimeDistribution.Linear,
                             Ticks = new TimeTicks
                             {
-                                Source = TickSource.Data
+                                //Source = TickSource.Data
                             },
                             Time = new TimeOptions
                             {
-                                Unit = TimeMeasurement.Day,
+                                Unit = TimeMeasurement.Month,
                                 TooltipFormat = "dd/MM/yyyy"
                             },
                             GridLines = new GridLines
                             {
-                                Display = false
+                                Display = true
                             }
                         }
                     },

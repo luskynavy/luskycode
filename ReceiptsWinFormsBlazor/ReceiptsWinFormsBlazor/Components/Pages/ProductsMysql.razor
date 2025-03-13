@@ -121,7 +121,7 @@ else
         <!-- This is the popup  -->
         <div class="modal" tabindex="-1" style="display:block" role="dialog" @onclick="ClosePopupIfOutside">
             <div class="modal-dialog modal-lg">
-                <div class="modal-content" @onmouseover="MouseInPopup" @onmouseout="MouseOutPopup">
+                <div class="modal-content isResizable" @onmouseover="MouseInPopup" @onmouseout="MouseOutPopup">
                     <div class="modal-header">
                         <h5 class="modal-title">@Localize["Prices history"]</h5>
                         <!-- Button to close the popup -->
