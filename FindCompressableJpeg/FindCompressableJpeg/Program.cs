@@ -17,9 +17,9 @@ namespace FindCompressableJpeg
             {
                 string dirString = args[0];
                 //remove trailing \
-                if (dirString.EndsWith("\\"))
+                if (dirString.EndsWith('\\'))
                 {
-                    dirString = dirString.Substring(0, dirString.Length - 1);
+                    dirString = dirString[..^1];
                 }
 
                 dir = new DirectoryInfo(dirString);
@@ -213,16 +213,12 @@ namespace FindCompressableJpeg
             }*/
 
             //read only the header, no additionnal reference, faster
-            using (var file = new FileStream(f.FullName, FileMode.Open, FileAccess.Read))
-            {
-                using (Image img = Image.FromStream(stream: file,
-                                                    useEmbeddedColorManagement: false,
-                                                    validateImageData: false))
-                {
-                    width = (int)img.PhysicalDimension.Width;
-                    height = (int)img.PhysicalDimension.Height;
-                }
-            }
+            using var file = new FileStream(f.FullName, FileMode.Open, FileAccess.Read);
+            using Image img = Image.FromStream(stream: file,
+                                                useEmbeddedColorManagement: false,
+                                                validateImageData: false);
+            width = (int)img.PhysicalDimension.Width;
+            height = (int)img.PhysicalDimension.Height;
         }
 
         /// <summary>

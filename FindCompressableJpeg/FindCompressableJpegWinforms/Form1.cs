@@ -178,7 +178,7 @@ namespace FindCompressableJpegWinforms
 		private void GetRatiosProgress(BackgroundWorker worker = null)
 		{
 			//Remove trailing \ if needed
-			var path = imagesPath.Text.EndsWith('\\') ? imagesPath.Text.Substring(0, imagesPath.Text.Length - 1) : imagesPath.Text;
+			var path = imagesPath.Text.EndsWith('\\') ? imagesPath.Text[..^1] : imagesPath.Text;
 			var dir = new DirectoryInfo(path);
 			FileInfo[] files;
 			if (recursive.Checked)
@@ -217,7 +217,7 @@ namespace FindCompressableJpegWinforms
 						if (sizeFor1024Pixel >= ratioTreshold.Value)
 						{
 							//filename with absolute path from images path
-							var fileName = file.FullName.Substring(dir.FullName.Length + 1);
+							var fileName = file.FullName[(dir.FullName.Length + 1)..];
 							string[] row = { fileName, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}", nbPixels.ToString() };
 							listRow.Add(row);
 						}
@@ -307,18 +307,14 @@ namespace FindCompressableJpegWinforms
 
 			try
 			{
-				//read only the header, no additionnal reference, faster
-				using (var file = new FileStream(f.FullName, FileMode.Open, FileAccess.Read))
-				{
-					using (Image img = Image.FromStream(stream: file,
-														useEmbeddedColorManagement: false,
-														validateImageData: false))
-					{
-						width = (int)img.PhysicalDimension.Width;
-						height = (int)img.PhysicalDimension.Height;
-					}
-				}
-			}
+                //read only the header, no additionnal reference, faster
+                using var file = new FileStream(f.FullName, FileMode.Open, FileAccess.Read);
+                using Image img = Image.FromStream(stream: file,
+                                                    useEmbeddedColorManagement: false,
+                                                    validateImageData: false);
+                width = (int)img.PhysicalDimension.Width;
+                height = (int)img.PhysicalDimension.Height;
+            }
 			catch
 			{
 				width = 0;
@@ -333,18 +329,8 @@ namespace FindCompressableJpegWinforms
 			{
 				var name = dataGridView1.CurrentRow.Cells[0].Value;
 
-				try
-				{
-					var psi = new ProcessStartInfo(imagesPath.Text + "\\" + name)
-					{
-						UseShellExecute = true
-					};
-					Process.Start(psi);
-				}
-				catch
-				{
-				}
-			}
+                OpenImage(name);
+            }
 		}
 
 		private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
@@ -416,6 +402,37 @@ namespace FindCompressableJpegWinforms
 				dataGridView1.CurrentCell = dataGridView1[0, dataGridView1.RowCount - 2];
 				e.Handled = true;
 			}
-		}
-	}
+
+            //Open image on Enter/Return/Space
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return || e.KeyCode == Keys.Space)
+            {
+                var name = dataGridView1.CurrentRow.Cells[0].Value;
+
+				if (name != null)
+                {
+                    OpenImage(name);
+                }
+                e.Handled = true;
+            }
+        }
+
+		/// <summary>
+		/// Open image with shell
+		/// </summary>
+		/// <param name="name">image name</param>
+        private void OpenImage(object name)
+        {
+            try
+            {
+                var psi = new ProcessStartInfo($"{imagesPath.Text}\\{name}")
+                {
+                    UseShellExecute = true
+                };
+                Process.Start(psi);
+            }
+            catch
+            {
+            }
+        }
+    }
 }
