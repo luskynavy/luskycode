@@ -13,7 +13,7 @@ namespace FindBadlySavedWithJpgExt
         {
             if (args.Length > 0)
             {
-                Console.WriteLine("Searching in " + args[0]);
+                Console.WriteLine($"Searching in {args[0]}");
                 FindBadImages(args[0]);
             }
         }
@@ -25,9 +25,9 @@ namespace FindBadlySavedWithJpgExt
             int pathSize = path.Length;
 
             //path ends witdh \", sould remove ", os has not doubled ending \ in path starting and ending with "
-            if (path[path.Length - 1] == '"')
+            if (path[^1] == '"')
             {
-                path = path.Substring(0, path.Length - 1);
+                path = path[..^1];
             }
 
             var dir = new DirectoryInfo(path);
@@ -40,7 +40,7 @@ namespace FindBadlySavedWithJpgExt
             }
             catch (Exception)
             {
-                Console.WriteLine("Wrong path : " + path);
+                Console.WriteLine($"Wrong path : {path}");
                 return;
             }
 
@@ -52,38 +52,36 @@ namespace FindBadlySavedWithJpgExt
                 try
                 {
                     //Open file in read only
-                    using (var stream = File.Open(file.FullName, FileMode.Open,FileAccess.Read))
-                    using (var reader = new BinaryReader(stream))
+                    using var stream = File.Open(file.FullName, FileMode.Open, FileAccess.Read);
+                    using var reader = new BinaryReader(stream);
+                    int bytesRead = reader.Read(buffer, 0, buffer.Length);
+
+                    //jpg magic
+                    if (buffer[0] != 0xff && buffer[1] != 0xd8 && buffer[2] != 0xff && buffer[3] != 0xe0)
                     {
-                        int bytesRead = reader.Read(buffer, 0, buffer.Length);
-
-                        //jpg magic
-                        if (buffer[0] != 0xff && buffer[1] != 0xd8 && buffer[2] != 0xff && buffer[3] != 0xe0)
+                        //png magic
+                        if (buffer[0] == 137 && buffer[1] == 'P' && buffer[2] == 'N' && buffer[3] == 'G')
                         {
-                            //png magic
-                            if (buffer[0] == 137 && buffer[1] == 'P' && buffer[2] == 'N' && buffer[3] == 'G')
-                            {
-                                Console.WriteLine(file.FullName[pathSize..] + " : PNG");
-                            }
-                            //webp magic
-                            else if (buffer[0] == 'R' && buffer[1] == 'I' && buffer[2] == 'F' && buffer[3] == 'F')
-                            {
-                                Console.WriteLine(file.FullName[pathSize..] + " : WEBP");
-                            }
-                            //something else
-                            else
-                            {
-                                Console.WriteLine(file.FullName[pathSize..] + "");
-                            }
-
-                            totalSize += file.Length;
+                            Console.WriteLine($"{file.FullName[pathSize..]} : PNG");
                         }
+                        //webp magic
+                        else if (buffer[0] == 'R' && buffer[1] == 'I' && buffer[2] == 'F' && buffer[3] == 'F')
+                        {
+                            Console.WriteLine($"{file.FullName[pathSize..]} : WEBP");
+                        }
+                        //something else
+                        else
+                        {
+                            Console.WriteLine(file.FullName[pathSize..]);
+                        }
+
+                        totalSize += file.Length;
                     }
                 }
                 catch (Exception)
                 {
 
-                    Console.WriteLine("Can't read : " + file.FullName[pathSize..]);
+                    Console.WriteLine($"Can't read : {file.FullName[pathSize..]}");
                 }
             }
 
@@ -91,7 +89,7 @@ namespace FindBadlySavedWithJpgExt
             var formatNumber = new NumberFormatInfo { NumberGroupSeparator = " " };
             var totalSizeFormatted = totalSize.ToString("n0", formatNumber);
 
-            Console.WriteLine("Total size found : " +  totalSizeFormatted);
+            Console.WriteLine($"Total size found : {totalSizeFormatted}");
         }
     }
 }
