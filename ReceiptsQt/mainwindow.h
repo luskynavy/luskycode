@@ -33,9 +33,7 @@ private:
     QString _currentName = "";
     int _currentPage = 1;
     int _currentPageSize = 10;
-    int _totalPages = 1;
-
-    QSqlDatabase _db;
+    int _totalPages = 1;    
 
     QString _host = "localhost";
     int _port = 3306;
@@ -43,8 +41,11 @@ private:
     QString _password = "";
     QString _databaseName = "receipts";
 
-    void initDb();
+    QSqlDatabase openDb();
     void submit();
-    void getGroupList();
+    QString buildRequestProducts();
+    int countRequestProducts();
+    QString getFilters();
+    void setGroupList();
 };
 #endif // MAINWINDOW_H

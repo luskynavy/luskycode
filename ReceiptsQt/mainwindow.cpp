@@ -16,11 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->sortComboBox->addItem("Date de réception", "dateReceipt");
     ui->sortComboBox->addItem("Nom", "name");
 
-    initDb();
-
-    getGroupList();
+    setGroupList();
 
     _ready = true;
+
+    submit();
 }
 
 MainWindow::~MainWindow()
@@ -54,27 +54,93 @@ void MainWindow::on_pagesizeComboBox_currentIndexChanged(int index)
     }
 }
 
-void MainWindow::initDb()
+QSqlDatabase MainWindow::openDb()
 {
-    _db = QSqlDatabase::addDatabase("QMYSQL");
-    _db.setDatabaseName(_databaseName);
-    _db.setHostName(_host);
-    _db.setPort(_port);
-    if (!_db.open(_user, _password)) {
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setDatabaseName(_databaseName);
+    db.setHostName(_host);
+    db.setPort(_port);
+    if (!db.open(_user, _password)) {
 
     }
+
+    return db;
 }
 
-void MainWindow::getGroupList()
+void MainWindow::setGroupList()
 {
+    QSqlDatabase db = openDb();
 
-    QSqlQuery query(_db);
+    QSqlQuery query(db);
     query.exec("SELECT DISTINCT `group` FROM products ORDER BY `group`");
     ui->groupComboBox->addItem("");
     while (query.next()) {
         QString group = query.value(0).toString();
         ui->groupComboBox->addItem(group);
     }
+
+    db.close();
+}
+
+int MainWindow::countRequestProducts()
+{
+    QString request = "SELECT COUNT(*) FROM products";
+
+    request += getFilters();
+
+    return 0;
+}
+
+QString MainWindow::getFilters()
+{
+    QString filters = "";
+
+    //Manage filters
+    int nbParams = 0;
+    if (_currentGroup != "")
+    {
+        filters += " WHERE `group` = :group";
+        nbParams++;
+    }
+    if (_currentName != "")
+    {
+        if (nbParams ==0) {
+            filters += " WHERE name LIKE :name";
+            nbParams++;
+        } else {
+            filters += " AND name LIKE :name";
+            nbParams++;
+        }
+    }
+
+    return filters;
+}
+
+QString MainWindow::buildRequestProducts()
+{
+    QString request = "SELECT `group` as Groupe, name as Nom, price as Prix,"
+                      " DATE_FORMAT(DateReceipt, '%d/%m/%Y') as 'Date de réception' FROM products";
+
+    //Manage filters
+    request += getFilters();
+
+    //Manage sort
+    if (_currentSort == "name")
+    {
+        request += " ORDER BY name";
+    }
+    else if (_currentSort == "group")
+    {
+        request += " ORDER BY `group`";
+    }
+    else if (_currentSort == "dateReceipt")
+    {
+        request += " ORDER BY dateReceipt DESC";
+    }
+
+    request +=  " LIMIT :pageSize";
+
+    return request;
 }
 
 void MainWindow::submit()
@@ -91,4 +157,24 @@ void MainWindow::submit()
     qDebug() << "sort " << _currentSort;
     qDebug() << "page " << _currentPage;
     qDebug() << "pagesize " << _currentPageSize;
+
+    QSqlDatabase db = openDb();
+
+    QSqlQueryModel *model = new QSqlQueryModel();
+
+    QSqlQuery *query = new QSqlQuery(db);
+
+    QString request = buildRequestProducts();
+    qDebug() << "request " << request;
+
+    query->prepare(request);
+    query->bindValue(":group", _currentGroup);
+    query->bindValue(":name", QString("%%1%").arg(_currentName));
+    query->bindValue(":pageSize", _currentPageSize);
+    query->exec();
+
+    model->setQuery(*query);
+    ui->tableView->setModel(model);
+
+    db.close();
 }
