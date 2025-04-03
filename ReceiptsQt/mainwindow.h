@@ -25,6 +25,14 @@ private slots:
 
     void on_pagesizeComboBox_currentIndexChanged(int index);
 
+    void on_firstPushButton_clicked();
+
+    void on_previousPushButton_clicked();
+
+    void on_nextPushButton_clicked();
+
+    void on_lastPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool _ready = false;
@@ -44,7 +52,7 @@ private:
     QSqlDatabase openDb();
     void submit();
     QString buildRequestProducts();
-    int countRequestProducts();
+    int countRequestProducts(QSqlDatabase db);
     QString getFilters();
     void setGroupList();
 };

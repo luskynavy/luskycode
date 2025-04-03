@@ -40,7 +40,7 @@ void MainWindow::on_clearButton_clicked()
     ui->groupComboBox->setCurrentIndex(0);
     ui->nameLineEdit->setText("");
     ui->sortComboBox->setCurrentIndex(0);
-    //submit();
+    submit();
     _ready = true;
 }
 
@@ -82,11 +82,24 @@ void MainWindow::setGroupList()
     db.close();
 }
 
-int MainWindow::countRequestProducts()
+int MainWindow::countRequestProducts(QSqlDatabase db)
 {
+    QSqlQuery *query = new QSqlQuery(db);
+
     QString request = "SELECT COUNT(*) FROM products";
 
     request += getFilters();
+
+    query->prepare(request);
+    query->bindValue(":group", _currentGroup);
+    query->bindValue(":name", QString("%%1%").arg(_currentName));
+    query->bindValue(":pageSize", _currentPageSize);
+    query->exec();
+
+    if (query->next())
+    {
+        return query->value(0).toInt();
+    }
 
     return 0;
 }
@@ -131,14 +144,14 @@ QString MainWindow::buildRequestProducts()
     }
     else if (_currentSort == "group")
     {
-        request += " ORDER BY `group`";
+        request += " ORDER BY `group`, name, dateReceipt";
     }
     else if (_currentSort == "dateReceipt")
     {
         request += " ORDER BY dateReceipt DESC";
     }
 
-    request +=  " LIMIT :pageSize";
+    request +=  " LIMIT :pageSize OFFSET :offset";
 
     return request;
 }
@@ -150,31 +163,85 @@ void MainWindow::submit()
     _currentName = ui->nameLineEdit->text();
 
     auto val = ui->sortComboBox->itemData(ui->sortComboBox->currentIndex());
-    _currentSort = val.toString();
-
-    qDebug() << "group " << _currentGroup;
-    qDebug() << "name " << _currentName;
-    qDebug() << "sort " << _currentSort;
-    qDebug() << "page " << _currentPage;
-    qDebug() << "pagesize " << _currentPageSize;
+    _currentSort = val.toString();    
 
     QSqlDatabase db = openDb();
+
+    int count = countRequestProducts(db);
+    _totalPages = (int)std::ceil(count / (double)_currentPageSize);
+    if (_currentPage > _totalPages)
+    {
+        _currentPage = 1;
+    }
+    int offset = (_currentPage - 1) * _currentPageSize;
+
+    ui->pageLabel->setText(QString::number(_currentPage) + " sur " + QString::number(_totalPages));
+
+    //Update page buttons enabled state
+    ui->firstPushButton->setEnabled(_currentPage != 1);
+    ui->previousPushButton->setEnabled(_currentPage >= 2);
+    ui->nextPushButton->setEnabled(_currentPage <= _totalPages - 1);
+    ui->lastPushButton->setEnabled(_currentPage != _totalPages);
 
     QSqlQueryModel *model = new QSqlQueryModel();
 
     QSqlQuery *query = new QSqlQuery(db);
 
     QString request = buildRequestProducts();
+
+    qDebug() << "group " << _currentGroup;
+    qDebug() << "name " << _currentName;
+    qDebug() << "sort " << _currentSort;
+    qDebug() << "page " << _currentPage;
+    qDebug() << "pagesize " << _currentPageSize;
+    qDebug() << "offset " << offset;
     qDebug() << "request " << request;
 
     query->prepare(request);
     query->bindValue(":group", _currentGroup);
     query->bindValue(":name", QString("%%1%").arg(_currentName));
     query->bindValue(":pageSize", _currentPageSize);
+    query->bindValue(":offset", offset);
     query->exec();
 
-    model->setQuery(*query);
+    model->setQuery(std::move(*query));
     ui->tableView->setModel(model);
 
     db.close();
 }
+
+void MainWindow::on_firstPushButton_clicked()
+{
+    _currentPage = 1;
+    submit();
+}
+
+
+void MainWindow::on_previousPushButton_clicked()
+{
+    _currentPage -= 1;
+    if (_currentPage <= 0)
+    {
+        _currentPage = 1;
+    }
+    submit();
+}
+
+
+void MainWindow::on_nextPushButton_clicked()
+{
+    _currentPage += 1;
+    if (_currentPage >= _totalPages)
+    {
+        _currentPage = _totalPages;
+    }
+    submit();
+}
+
+
+void MainWindow::on_lastPushButton_clicked()
+{
+    _currentPage = _totalPages;
+    submit();
+}
+
