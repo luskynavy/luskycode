@@ -178,11 +178,11 @@
 
 			<div>
 				<Label>Filtrer par groupe:</Label>
-				<input type="text" v-model="filterGroup">
+				<input type="text" v-model="filterGroup" @keypress.enter="submit">
 			</div>
 			<div>
 				<Label>Filtrer par nom:</Label>
-				<input type="text" v-model="filterName">
+				<input type="text" v-model="filterName" @keypress.enter="submit">
 			</div>
 			<button @click="submit">Recherche</button>
 			<button @click="clear">Effacer</button>
