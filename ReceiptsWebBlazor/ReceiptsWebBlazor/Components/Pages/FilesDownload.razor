@@ -49,15 +49,15 @@
                         Id = gp.Max(p => p.Id),
                         Group = gp.Key.Group,
                         Name = gp.Key.Name,
-                        Min = gp.Min(p => p.Price),
-                        Max = gp.Max(p => p.Price),
+                        Min = Math.Round(gp.Min(p => p.Price), 2),
+                        Max = Math.Round(gp.Max(p => p.Price), 2),
                         //if there is at least 2 elements, sort by date, skip the last, so we have the previous product
                         //PreviousPrice = gp.Count() >= 2 ? gp.OrderByDescending(x => x.DateReceipt).Skip(1).First().Price : gp.First().Price,
                         PricesList = gp.OrderByDescending(x => x.DateReceipt).Select(z => z.Price),
-                        LastPrice = gp.OrderByDescending(x => x.DateReceipt).First().Price,
+                        LastPrice = Math.Round(gp.OrderByDescending(x => x.DateReceipt).First().Price, 2),
                         MinDate = gp.Min(p => p.DateReceipt),
                         MaxDate = gp.Max(p => p.DateReceipt),
-                        PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
+                        PriceRatio = Math.Round(gp.Max(p => p.Price) / gp.Min(p => p.Price), 2),
                         PricesCount = gp.Count()
                     });
 
@@ -71,7 +71,7 @@
                 //Get the prices list for the product
                 var prices = p.PricesList;
                 //Skip the prices if they are equal to older
-                p.PreviousPrice = prices.SkipWhile((z, index) => z == p.LastPrice && index != prices.Count() - 1).First();
+                p.PreviousPrice = Math.Round(prices.SkipWhile((z, index) => z == p.LastPrice && index != prices.Count() - 1).First(), 2);
 
                 p.LastPricePerKilo = Math.Round(Products.ExtractPricePerKilo(p.Name, p.LastPrice), 2);
 

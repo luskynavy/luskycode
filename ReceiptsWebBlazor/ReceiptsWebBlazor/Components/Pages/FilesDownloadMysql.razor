@@ -57,7 +57,7 @@
                         LastPrice = Math.Round(gp.OrderByDescending(x => x.DateReceipt).First().Price, 2),
                         MinDate = gp.Min(p => p.DateReceipt),
                         MaxDate = gp.Max(p => p.DateReceipt),
-                        PriceRatio = gp.Max(p => p.Price) / gp.Min(p => p.Price),
+                        PriceRatio = Math.Round(gp.Max(p => p.Price) / gp.Min(p => p.Price), 2),
                         PricesCount = gp.Count()
                     });
 
