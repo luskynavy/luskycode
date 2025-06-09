@@ -34,4 +34,7 @@ public:
 	afx_msg void OnBnClickedButton1();
 	CEdit Infos;
 	RECT getInnerWindowScreenRectangle();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	CButton ButtonGetInfos;
+	CButton checkboxRealRectangle;
 };

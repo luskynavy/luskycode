@@ -27,12 +27,15 @@ void CMFCVirtualScreenDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT1, Infos);
+	DDX_Control(pDX, IDC_BUTTON1, ButtonGetInfos);
+	DDX_Control(pDX, IDC_CHECK1, checkboxRealRectangle);
 }
 
 BEGIN_MESSAGE_MAP(CMFCVirtualScreenDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CMFCVirtualScreenDlg::OnBnClickedButton1)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -136,9 +139,13 @@ void CMFCVirtualScreenDlg::OnBnClickedButton1()
 	GetWindowRect(&rect);
 	//ClientToScreen(&rect);
 
-	//Get real window position without window border
+	//If real rectangle checkbox is checked
+	//get real window position without window border
 	//that might be out of screen in fullscreen
-	rect = getInnerWindowScreenRectangle();
+	if (checkboxRealRectangle.GetCheck() == BST_CHECKED)
+	{
+		rect = getInnerWindowScreenRectangle();
+	}
 
 	//test values
 	/*rect.left = 100;
@@ -194,4 +201,21 @@ void CMFCVirtualScreenDlg::OnBnClickedButton1()
 		rect.right, rect.bottom,
 		rectStatus);
 	Infos.SetWindowText(str);
+}
+
+void CMFCVirtualScreenDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+
+	if (ButtonGetInfos)
+	{
+		ButtonGetInfos.MoveWindow(7 + 4, 7 + 4, cx - 7 - 14, 7 + 7 + 9);
+	}
+
+	if (Infos)
+	{
+		Infos.MoveWindow(7 + 4, 41 + 35, cx - 7 - 14, cy - (204 - 169) - 15 - 40);
+		//Infos.SetWindowPos(NULL, 7 + 4, 41 + 17, cx - 7 - 14, cy - (204 - 169) - 15 - 7, NULL);
+	}
+	OutputDebugString(L"OnSize");
 }
