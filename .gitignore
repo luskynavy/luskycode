@@ -19,3 +19,4 @@ Ticket*.pdf
 *.pdb
 packages/
 node_modules/
+.aps
