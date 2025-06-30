@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 	TYPE_CALC xmax = 1;
 	TYPE_CALC ymax = 1;
 	TYPE_CALC xstep = (xmax - xmin) / steps;
-	TYPE_CALC ystep = (ymax - ymin) / steps;	
+	TYPE_CALC ystep = (ymax - ymin) / steps;
 
 	double starttime = CurrentSecond();
 	unsigned int total = 0;
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 	int xmandel = 0;
 	int ymandel = 0;
 	for (TYPE_CALC x = xmin; xmandel < steps; x += xstep, xmandel++)
-	{		
+	{
 		ymandel = 0;
 		for (TYPE_CALC y = ymin; ymandel < steps; y += ystep, ymandel++)
 		{
