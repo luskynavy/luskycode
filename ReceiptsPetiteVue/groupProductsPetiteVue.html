@@ -175,17 +175,18 @@
 				<label>Prix commencent à 0<input v-model="pricesStartAt0" type='checkbox' @click='changeChartYAxis();'></label>
 			</dialog>
 			<div v-show="modalProductsPrices" class="modal-overlay" #overlay @click="closeModalProductsPrices"></div>
-
-			<div>
-				<Label>Filtrer par groupe:</Label>
-				<input type="text" v-model="filterGroup" @keypress.enter="submit">
+			<div class="attop">
+				<div>
+					<Label>Filtrer par groupe:</Label>
+					<input type="text" v-model="filterGroup" @keypress.enter="submit">
+				</div>
+				<div>
+					<Label>Filtrer par nom:</Label>
+					<input type="text" v-model="filterName" @keypress.enter="submit">
+				</div>
+				<button @click="submit">Recherche</button>
+				<button @click="clear">Effacer</button>
 			</div>
-			<div>
-				<Label>Filtrer par nom:</Label>
-				<input type="text" v-model="filterName" @keypress.enter="submit">
-			</div>
-			<button @click="submit">Recherche</button>
-			<button @click="clear">Effacer</button>
 			<table class="alternateLines">
 				<thead>
 					<tr>
@@ -235,7 +236,18 @@
 	</body>
 </html>
 <style>
+	.attop {
+		position: sticky;
+		top: 0px;
+		background-color: #f0f0f0;
+	}
+	th {
+		background-color: #cccccc;
+		position: sticky;
+		top: 65px;
+	}
 	label {
+		color:black;
 		display: inline-block;
 		 width: 150px;
 	}
