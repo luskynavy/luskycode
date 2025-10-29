@@ -11,7 +11,9 @@ namespace ResourceReaderTest
             List<string> resourcesFiles = [
                 @".\ResourceReaderTest.dll",
                 @".\en\ResourceReaderTest.resources.dll",
-                @".\fr\ResourceReaderTest.resources.dll"
+                @".\fr\ResourceReaderTest.resources.dll",
+                @".\de\ResourceReaderTest.resources.dll",
+                @".\ru\ResourceReaderTest.resources.dll"
             ];
 
             foreach (string file in resourcesFiles)
