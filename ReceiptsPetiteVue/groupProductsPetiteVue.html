@@ -47,6 +47,7 @@
 				modalProductsPrices: false,
 				modalProductName: "",
 				pricesStartAt0: false,
+				products1price: false,
 				// methods
 				submit() {
 					this.filterGroupSubmitted = this.filterGroup;
@@ -55,6 +56,7 @@
 				clear() {
 					this.filterGroup = "";
 					this.filterName = "";
+					this.products1price = false;
 					this.submit();
 				},
 				changeGroup(group) {
@@ -62,10 +64,11 @@
 					this.submit();
 				},
 				filteredData() {
-					if (this.filterNameSubmitted.length > 0 || this.filterGroupSubmitted.length > 0) {
+					if (this.filterNameSubmitted.length > 0 || this.filterGroupSubmitted.length > 0 || !this.products1price) {
 						return this.products.filter(product =>
 							product.name.toLowerCase().includes(this.filterNameSubmitted.toLowerCase())
 							&& product.group.toLowerCase().includes(this.filterGroupSubmitted.toLowerCase())
+							&& (this.products1price || product.pricesCount != 1)
 						).slice(0, 30);
 					} else {
 						return this.products.slice(0, 30);
@@ -175,7 +178,7 @@
 				<label>Prix commencent à 0<input v-model="pricesStartAt0" type='checkbox' @click='changeChartYAxis();'></label>
 			</dialog>
 			<div v-show="modalProductsPrices" class="modal-overlay" #overlay @click="closeModalProductsPrices"></div>
-			<div class="attop">
+			<div class="attop" >
 				<div>
 					<Label>Filtrer par groupe:</Label>
 					<input type="text" v-model="filterGroup" @keypress.enter="submit">
@@ -184,6 +187,11 @@
 					<Label>Filtrer par nom:</Label>
 					<input type="text" v-model="filterName" @keypress.enter="submit">
 				</div>
+				<div>
+					<label>Inclure les produits avec un seul prix </label>
+					<input v-model="products1price" type='checkbox' @click='submit'>
+				</div>
+				<br>
 				<button @click="submit">Recherche</button>
 				<button @click="clear">Effacer</button>
 			</div>
@@ -241,15 +249,20 @@
 		top: 0px;
 		background-color: #f0f0f0;
 	}
+	.attop div {
+		display: inline-block;
+		margin-right: 10px;
+		margin-bottom: 5px;
+	}
 	th {
 		background-color: #cccccc;
 		position: sticky;
-		top: 65px;
+		top: 55px;
 	}
 	label {
 		color:black;
 		display: inline-block;
-		 width: 150px;
+		//width: 140px;
 	}
 	table.alternateLines > tbody > tr:nth-child(even) {
  	   background-color: #888888;
