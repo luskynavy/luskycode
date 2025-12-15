@@ -61,6 +61,7 @@ namespace ExtractReceipt
                 string pdfPath = @"..\..\..\Tickets\";
                 bool noCsv = false;
                 bool mysqlMode = false;
+                bool noAddMode = false;
 
                 //Manage options
                 foreach (var arg in args)
@@ -72,6 +73,10 @@ namespace ExtractReceipt
                     else if (arg == "-mysql")
                     {
                         mysqlMode = true;
+                    }
+                    else if(arg == "-noadd")
+                    {
+                        noAddMode = true;
                     }
                 }
 
@@ -92,20 +97,24 @@ namespace ExtractReceipt
                     Console.WriteLine($" in {sw.ElapsedMilliseconds} ms");
                 }
 
-                //Add products do db
-                Console.Write("AddProductsToDb" + (mysqlMode ? " MySql" : ""));
-                sw.Start();
-                int nbProductsAdded;
-                if (!mysqlMode)
+                // Don't add products to database in noAddMode
+                if (!noAddMode)
                 {
-                    nbProductsAdded = AddProductsToDb(allProducts);
+                    //Add products do db
+                    Console.Write("AddProductsToDb" + (mysqlMode ? " MySql" : ""));
+                    sw.Start();
+                    int nbProductsAdded;
+                    if (!mysqlMode)
+                    {
+                        nbProductsAdded = AddProductsToDb(allProducts);
+                    }
+                    else
+                    {
+                        nbProductsAdded = AddProductsToDbMysql(allProducts);
+                    }
+                    sw.Stop();
+                    Console.WriteLine($" added {nbProductsAdded} product(s) in {sw.ElapsedMilliseconds} ms");
                 }
-                else
-                {
-                    nbProductsAdded = AddProductsToDbMysql(allProducts);
-                }
-                sw.Stop();
-                Console.WriteLine($" added {nbProductsAdded} product(s) in {sw.ElapsedMilliseconds} ms");
 
                 Console.WriteLine("Done");
             }
