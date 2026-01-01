@@ -33,9 +33,10 @@
             // 
             // ButtonSendToast
             // 
-            ButtonSendToast.Location = new Point(277, 121);
+            ButtonSendToast.Location = new Point(116, 50);
+            ButtonSendToast.Margin = new Padding(3, 2, 3, 2);
             ButtonSendToast.Name = "ButtonSendToast";
-            ButtonSendToast.Size = new Size(94, 29);
+            ButtonSendToast.Size = new Size(132, 62);
             ButtonSendToast.TabIndex = 0;
             ButtonSendToast.Text = "Send Toast";
             ButtonSendToast.UseVisualStyleBackColor = true;
@@ -43,14 +44,14 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(383, 190);
             Controls.Add(ButtonSendToast);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
-            Text = "Form1";
-            FormClosing += Form1_FormClosing;
-            Load += Form1_Load;
+            Text = "ToastC#";
+            FormClosing += Form1_FormClosing;           
             ResumeLayout(false);
         }
 

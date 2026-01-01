@@ -55,12 +55,6 @@ namespace ToastCSharp
                          // and if you're using .NET 6 (or later),
                          // then your TFM must be net6.0-windows10.0.17763.0 or greater
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Clear toast list on leaving
