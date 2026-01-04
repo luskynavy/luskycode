@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<HomeCommand>http://www.jango.com</HomeCommand>
+	<PauseCommand>document.querySelector('[id=\"player-play-button\"]').click();</PauseCommand>
+	<NextCommand>document.querySelector('[data-icon=\"step-forward\"]').parentNode.click();</NextCommand>
+	<PauseKey>MediaPlayPause</PauseKey>
+	<NextKey>MediaNextTrack</NextKey>
+	<Width>320</Width>
+	<Height>650</Height>
+</Config>

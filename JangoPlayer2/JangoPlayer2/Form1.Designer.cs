@@ -41,42 +41,46 @@
             webView21.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             webView21.CreationProperties = null;
             webView21.DefaultBackgroundColor = Color.White;
-            webView21.Location = new Point(12, 8);
+            webView21.Location = new Point(10, 6);
+            webView21.Margin = new Padding(3, 2, 3, 2);
             webView21.Name = "webView21";
-            webView21.Size = new Size(1023, 430);
+            webView21.Size = new Size(291, 595);
             webView21.Source = new Uri("https://www.jango.com", UriKind.Absolute);
             webView21.TabIndex = 0;
             webView21.ZoomFactor = 1D;
             // 
             // buttonPlay
             // 
-            buttonPlay.Location = new Point(1, 5);
+            buttonPlay.Location = new Point(1, 4);
+            buttonPlay.Margin = new Padding(3, 2, 3, 2);
             buttonPlay.Name = "buttonPlay";
-            buttonPlay.Size = new Size(60, 29);
+            buttonPlay.Size = new Size(52, 22);
             buttonPlay.TabIndex = 1;
             buttonPlay.Text = "Play";
             buttonPlay.UseVisualStyleBackColor = true;
-            buttonPlay.Click += buttonPlay_Click;
+            buttonPlay.Click += ButtonPlay_Click;
             // 
             // buttonNext
             // 
-            buttonNext.Location = new Point(67, 5);
+            buttonNext.Location = new Point(59, 4);
+            buttonNext.Margin = new Padding(3, 2, 3, 2);
             buttonNext.Name = "buttonNext";
-            buttonNext.Size = new Size(57, 29);
+            buttonNext.Size = new Size(50, 22);
             buttonNext.TabIndex = 2;
             buttonNext.Text = "Next";
             buttonNext.UseVisualStyleBackColor = true;
-            buttonNext.Click += buttonNext_Click;
+            buttonNext.Click += ButtonNext_Click;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1038, 450);
+            ClientSize = new Size(304, 611);
             Controls.Add(buttonNext);
             Controls.Add(buttonPlay);
             Controls.Add(webView21);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "JangoPlayer2";
             ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
