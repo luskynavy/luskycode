@@ -153,5 +153,17 @@ namespace JangoPlayer2
             //webView21.ExecuteScriptAsync("document.querySelector('.fa-step-forwardn').parentNode.click();");
             webView21.ExecuteScriptAsync(config.NextCommand);
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //Update the window title with the page title
+            try
+            {
+                Text = webView21.CoreWebView2.DocumentTitle;
+            }
+            catch
+            {
+            }
+        }
     }
 }

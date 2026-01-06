@@ -5,6 +5,10 @@
 	<NextCommand>document.querySelector('[data-icon=\"step-forward\"]').parentNode.click();</NextCommand>
 	<PauseKey>MediaPlayPause</PauseKey>
 	<NextKey>MediaNextTrack</NextKey>
-	<Width>320</Width>
+	<!--Vertical-->
+	<!--<Width>320</Width>
+	<Height>650</Height>-->
+	<!--Horizontal-->
+	<Width>1110</Width>
 	<Height>650</Height>
 </Config>

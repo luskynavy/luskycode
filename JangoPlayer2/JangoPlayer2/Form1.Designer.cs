@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             buttonPlay = new Button();
             buttonNext = new Button();
+            timer1 = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             SuspendLayout();
             // 
@@ -71,6 +73,12 @@
             buttonNext.UseVisualStyleBackColor = true;
             buttonNext.Click += ButtonNext_Click;
             // 
+            // timer1
+            // 
+            timer1.Enabled = true;
+            timer1.Interval = 5000;
+            timer1.Tick += timer1_Tick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -92,5 +100,6 @@
         private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
         private Button buttonPlay;
         private Button buttonNext;
+        private System.Windows.Forms.Timer timer1;
     }
 }
