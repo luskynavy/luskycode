@@ -287,6 +287,13 @@ namespace ExtractReceipt
                      *  product list end with "Nombre de lignes d'article \d+"
                      */
                     var name = ExtractProductName(lines[i].Trim());
+
+                    // Special text to avoid
+                    if (lines[i + 1].Contains("Pesée manuelle"))
+                    {
+                        i++;
+                    }
+
                     var product = new Product()
                     {
                         Name = name,
@@ -295,7 +302,7 @@ namespace ExtractReceipt
                         DateReceipt = dateReceipt,
                         SourceName = pdfName,
                         SourceLine = i,
-                        FullData = lines[i].Trim() + " " + lines[i + 1].Trim()
+                        FullData = name + " " + lines[i + 1].Trim()
                     };
 
                     // Lines with *** are for cancellation, don't add
