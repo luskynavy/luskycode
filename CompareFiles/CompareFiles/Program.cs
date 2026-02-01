@@ -156,15 +156,17 @@ namespace CompareFiles
 					indexSrc++;
 					indexDst++;
 				}
-				//dstPath < srcPath
-				else if (compareOrdinal < 0)
+                //srcPath > dstPath
+                //c.txt > b.txt : destination is not present in source, skip destination
+                else if (compareOrdinal < 0)
 				{
 					result.Add(filesDst[indexDst]);
 					indexDst++;
 				}
-				//dstPath > srcPath
-				else
-				{
+                //srcPath < dstPath
+                //b.txt < c.txt : source is not present in destination, skip source
+                else
+                {
 					indexSrc++;
 				}
 			}
