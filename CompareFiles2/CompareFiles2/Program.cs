@@ -479,42 +479,39 @@ namespace CompareFiles
                 }
                 writer.WriteLine($"{options.prefixAdd} \"{options.srcPath}\\{f}\" \"{options.dstPath}\\{Path.GetDirectoryName(f)}\"");
 
-                //flush file every 10 lines
-                lineWritten++;
-                if (lineWritten %10 == 0)
-                {
-                    writer.Flush();
-                }
+                lineWritten = FlushIfNeeded(writer, lineWritten);
             }
 
             foreach (var f in results.differentSize)
             {
                 writer.WriteLine($"{options.prefixUpd} \"{options.srcPath}\\{f}\" \"{options.dstPath}\\{f}\"");
 
-                //flush file every 10 lines
-                lineWritten++;
-                if (lineWritten % 10 == 0)
-                {
-                    writer.Flush();
-                }
+                lineWritten = FlushIfNeeded(writer, lineWritten);
             }
 
             foreach (var f in results.onlyInDestination)
             {
-                writer.WriteLine($"{options.prefixDel} \"{options.srcPath}\\{f}\"");
+                writer.WriteLine($"{options.prefixDel} \"{options.dstPath}\\{f}\"");
 
-                //flush file every 10 lines
-                lineWritten++;
-                if (lineWritten % 10 == 0)
-                {
-                    writer.Flush();
-                }
+                lineWritten = FlushIfNeeded(writer, lineWritten);
             }
 
             if (writeToFile)
             {
                 writer.Flush();
                 writer.Close();
+            }
+
+            static int FlushIfNeeded(TextWriter writer, int lineWritten)
+            {
+                //flush file every 10 lines
+                lineWritten++;
+                if (lineWritten % 10 == 0)
+                {
+                    writer.Flush();
+                }
+
+                return lineWritten;
             }
         }
 
