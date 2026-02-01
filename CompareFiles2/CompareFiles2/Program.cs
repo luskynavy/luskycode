@@ -15,8 +15,7 @@ namespace CompareFiles
         //output file if set
         public string output = "";
 
-        //prefix and suffix for each line in output
-        // " must be backslashed in command line : -prefix "\"d:\mon rep\recycle.exe\" \"f:\d\\" -suffix "\""
+        //prefix for each line in output
         public string prefixAdd = "copy";
         public string prefixUpd = "copy /y";
         public string prefixDel = "recycler";
@@ -542,6 +541,12 @@ namespace CompareFiles
             //used to test FindDstNotPresentInSrc
             //TestDiff(@"..\..\src.txt", @"..\..\dst.txt", "");
             //return;
+
+            if (args.Length < 2 )
+            {
+                Console.WriteLine("Usage : CompareFiles2 sourcePath destinationPath [-output filename] [-prefixAdd prefixCommand] [-prefixUpd prefixCommand] [-prefixDel prefixCommand]");
+                return;
+            }
 
             Options options = ManageOptions(args);
 

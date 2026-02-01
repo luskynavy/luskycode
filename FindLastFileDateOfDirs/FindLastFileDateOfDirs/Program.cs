@@ -3,7 +3,7 @@
     internal class Program
     {
         //How to make a single file program, not needing .dll or .json:
-        //publish the project as folder with
+        //in build menu, publish the project as folder with
         //- deployement mode : framework dependent
         //- runtime: win-x64
         //- publish options : produce single file
