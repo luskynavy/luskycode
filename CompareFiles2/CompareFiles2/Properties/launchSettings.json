@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CompareFiles2": {
+      "commandName": "Project",
+      "commandLineArgs": "\"..\\..\\..\\Tests\\src\" \"..\\..\\..\\Tests\\dst\""
+    }
+  }
+}

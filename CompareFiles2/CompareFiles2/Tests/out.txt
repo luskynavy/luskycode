@@ -1,0 +1,4 @@
+"d:\mon rep\recycle.exe" "f:\d\b.txt"
+"d:\mon rep\recycle.exe" "f:\d\f.txt"
+"d:\mon rep\recycle.exe" "f:\d\g.txt"
+"d:\mon rep\recycle.exe" "f:\d\sub\a.txt"
