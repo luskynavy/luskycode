@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef DELAYEDLIBRARY_EXPORTS
-#define DELAYEDLIBRARY __declspec(dllexport)
+#define DELAYEDLIBRARY_API __declspec(dllexport)
 #else
 #define DELAYEDLIBRARY_API __declspec(dllimport)
 #endif
