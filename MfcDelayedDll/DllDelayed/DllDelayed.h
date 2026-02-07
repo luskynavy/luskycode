@@ -1,9 +1,21 @@
 #pragma once
 
-#ifdef DELAYEDLIBRARY_EXPORTS
-#define DELAYEDLIBRARY_API __declspec(dllexport)
+#ifdef DLLDELAYED_EXPORTS
+#define DELAYED_API __declspec(dllexport)
 #else
-#define DELAYEDLIBRARY_API __declspec(dllimport)
+#define DELAYED_API __declspec(dllimport)
 #endif
 
-extern "C" DELAYEDLIBRARY_API int get_value();
+extern "C" DELAYED_API int get_value();
+
+class DELAYED_API CppDll
+{
+public:
+	CppDll();
+	int IncrementCounter();
+	int Counter();
+	int Return43();
+private:
+	bool mInitDone = false;
+	int mCounter = 0;
+};

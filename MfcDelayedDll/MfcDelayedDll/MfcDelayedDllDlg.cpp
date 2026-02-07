@@ -4,7 +4,6 @@
 
 #include "pch.h"
 #include "framework.h"
-#include "MfcDelayedDll.h"
 #include "MfcDelayedDllDlg.h"
 #include "afxdialogex.h"
 
@@ -61,6 +60,7 @@ CMfcDelayedDllDlg::CMfcDelayedDllDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFCDELAYEDDLL_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	mCppDll = new CppDll();
 }
 
 void CMfcDelayedDllDlg::DoDataExchange(CDataExchange* pDX)
@@ -74,6 +74,7 @@ BEGIN_MESSAGE_MAP(CMfcDelayedDllDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON_UNLOAD, &CMfcDelayedDllDlg::OnBnClickedButtonUnload)
 	ON_BN_CLICKED(IDC_BUTTON_GET, &CMfcDelayedDllDlg::OnBnClickedButtonGet)
+	ON_BN_CLICKED(IDC_BUTTON_INCREMENT_COUNTER, &CMfcDelayedDllDlg::OnBnClickedButtonIncrementCounter)
 END_MESSAGE_MAP()
 
 
@@ -169,9 +170,26 @@ void CMfcDelayedDllDlg::OnBnClickedButtonGet()
 	int val = get_value();
 
 	wchar_t wstr[256];
-	swprintf_s(wstr, L"%d", val);
+	swprintf_s(wstr, L"From C function: %d", val);
 
 	CWnd* label = GetDlgItem(IDC_STATIC);
+	label->SetWindowText(wstr);
+
+	if (!mCppDll)
+	{
+		mCppDll = new CppDll();
+	}
+
+	val = mCppDll->Return43();
+	swprintf_s(wstr, L"From C++ class function: %d", val);
+
+	label = GetDlgItem(IDC_STATIC1);
+	label->SetWindowText(wstr);
+
+	val = mCppDll->Counter();
+	swprintf_s(wstr, L"From C++ class Counter: %d", val);
+
+	label = GetDlgItem(IDC_STATIC2);
 	label->SetWindowText(wstr);
 }
 
@@ -179,11 +197,43 @@ void CMfcDelayedDllDlg::OnBnClickedButtonGet()
 void CMfcDelayedDllDlg::OnBnClickedButtonUnload()
 {
 	BOOL TestReturn;
+	if (mCppDll)
+	{
+		delete mCppDll;
+		mCppDll = nullptr;
+	}
+
 	TestReturn = __FUnloadDelayLoadedDLL2("DllDelayed.dll");
 
 	CWnd* label = GetDlgItem(IDC_STATIC);
+	CWnd* label1 = GetDlgItem(IDC_STATIC1);
+	CWnd* label2 = GetDlgItem(IDC_STATIC2);
 	if (TestReturn)
+	{
 		label->SetWindowText(L"DLL was unloaded");
+		label1->SetWindowText(L"DLL was unloaded");
+		label2->SetWindowText(L"DLL was unloaded");
+	}
 	else
+	{
 		label->SetWindowText(L"DLL was not unloaded");
+		label1->SetWindowText(L"DLL was not unloaded");
+		label2->SetWindowText(L"DLL was not unloaded");
+	}
+}
+
+void CMfcDelayedDllDlg::OnBnClickedButtonIncrementCounter()
+{
+	if (!mCppDll)
+	{
+		mCppDll = new CppDll();
+	}
+
+	int val = mCppDll->IncrementCounter();
+
+	wchar_t wstr[256];
+	swprintf_s(wstr, L"From C++ class Counter: %d", val);
+
+	CWnd* label = GetDlgItem(IDC_STATIC2);
+	label->SetWindowText(wstr);
 }

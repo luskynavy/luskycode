@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include "MfcDelayedDll.h"
+#include "DllDelayed.h"
+
 
 // CMfcDelayedDllDlg dialog
 class CMfcDelayedDllDlg : public CDialogEx
@@ -25,6 +28,8 @@ public:
 protected:
 	HICON m_hIcon;
 
+	CppDll* mCppDll = nullptr;
+
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -36,4 +41,5 @@ public:
 	afx_msg void OnBnClickedButton2();
 	afx_msg void OnBnClickedButtonUnload();
 	afx_msg void OnBnClickedButtonGet();
+	afx_msg void OnBnClickedButtonIncrementCounter();
 };
