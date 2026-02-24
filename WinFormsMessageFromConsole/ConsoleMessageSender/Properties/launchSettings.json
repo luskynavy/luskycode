@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ConsoleMessageSender": {
+      "commandName": "Project",
+      "commandLineArgs": "33000 test"
+    }
+  }
+}
