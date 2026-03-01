@@ -43,32 +43,32 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(43, 29);
+            label2.Location = new Point(49, 39);
             label2.Name = "label2";
-            label2.Size = new Size(38, 15);
+            label2.Size = new Size(115, 20);
             label2.TabIndex = 4;
-            label2.Text = "label2";
+            label2.Text = "Winforms Timer";
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(43, 73);
+            textBox1.Location = new Point(49, 97);
+            textBox1.Margin = new Padding(3, 4, 3, 4);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.ReadOnly = true;
-            textBox1.Size = new Size(605, 237);
+            textBox1.Size = new Size(691, 315);
             textBox1.TabIndex = 5;
             textBox1.Text = "Waiting connection";
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(700, 338);
+            ClientSize = new Size(800, 451);
             Controls.Add(textBox1);
             Controls.Add(label2);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
-            Text = "Form1";
+            Text = "WinFormsMessageFromConsole";
             ResumeLayout(false);
             PerformLayout();
         }
