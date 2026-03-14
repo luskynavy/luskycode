@@ -41,9 +41,10 @@
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     //Do nothing, just don't stop
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
