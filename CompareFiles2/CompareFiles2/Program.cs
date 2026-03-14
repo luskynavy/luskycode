@@ -390,17 +390,22 @@ namespace CompareFiles
         /// <param name="options">options with srcPath and dstPath</param>
         private static void LocalMode(Options options)
         {
+            if (!string.IsNullOrEmpty(options.output))
+            {
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : Start");
+            }
+
             string[] filesSrc = GetFiles(options.srcPath);
             // Log only if output file specified
             if (!string.IsNullOrEmpty(options.output))
             {
-                Console.WriteLine("GetFiles src done");
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : GetFiles src done");
             }
             string[] filesDst = GetFiles(options.dstPath);
             // Log only if output file specified
             if (!string.IsNullOrEmpty(options.output))
             {
-                Console.WriteLine("GetFiles dst done");
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : GetFiles dst done");
             }
 
             //serialize test
@@ -408,6 +413,12 @@ namespace CompareFiles
             //string[] filesSrcSerialized = DeserializeFromXML();
 
             ShowResults(filesSrc, filesDst, options);
+
+            // Log only if output file specified
+            if (!string.IsNullOrEmpty(options.output))
+            {
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : Done");
+            }
         }
 
         /// <summary>
