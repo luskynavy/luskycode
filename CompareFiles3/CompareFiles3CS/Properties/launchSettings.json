@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CompareFiles3CS": {
+      "commandName": "Project",
+      "commandLineArgs": "\"..\\..\\..\\Tests\\src\" \"..\\..\\..\\Tests\\dst\" -output diff.bat "
+    }
+  }
+}

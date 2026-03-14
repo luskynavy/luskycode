@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CompareFiles3Cpp\CompareFiles3.vcxproj" Id="ad0b552f-f32d-45af-8e6a-84ee699ce7de" />
+  <Project Path="CompareFiles3CS/CompareFiles3CS.csproj" Id="5d0d5f42-a674-4d10-9d75-f690101d601a" />
+</Solution>
