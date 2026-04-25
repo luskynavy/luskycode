@@ -38,6 +38,7 @@
         if (context.Products is not null)
         {
             var groupsProducts = context.Products.
+                Where(p => p.Price > 0).
                 GroupBy(
                     p => new
                     {

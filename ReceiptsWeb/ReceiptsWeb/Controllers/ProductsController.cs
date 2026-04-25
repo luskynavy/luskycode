@@ -233,12 +233,13 @@ namespace ReceiptsWeb.Controllers
             if (products != null)
             {
                 //Method syntax
-                var groupsProducts = products.GroupBy(
-                                         p => new
-                                         {
-                                             p.Group,
-                                             p.Name
-                                         }).
+                var groupsProducts = products.
+                                        Where(p => p.Price > 0).
+                                        GroupBy(p => new
+                                        {
+                                            p.Group,
+                                            p.Name
+                                        }).
                                         Select(gp => new GroupProducts
                                         {
                                             Id = gp.Max(p => p.Id),

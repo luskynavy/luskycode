@@ -38,8 +38,8 @@
         if (context.Products is not null)
         {
             var groupsProducts = context.Products.
-                GroupBy(
-                    p => new
+                Where(p => p.Price > 0).
+                GroupBy(p => new
                     {
                         p.Group,
                         p.Name
@@ -96,7 +96,9 @@
         if (context.Products is not null)
         {
             //Get products list
-            var products = context.Products.OrderByDescending(p => p.DateReceipt).Select(products => new
+            var products = context.Products.
+            OrderByDescending(p => p.DateReceipt).
+            Select(products => new
             {
                 name = products.Name,
                 price = products.Price,

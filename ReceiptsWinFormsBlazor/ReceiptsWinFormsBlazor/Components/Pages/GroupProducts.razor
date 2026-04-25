@@ -325,7 +325,9 @@ else
         if (products != null)
         {
             //Method syntax
-            var groupsProducts = products.GroupBy(
+            var groupsProducts = products.
+                                    Where(p => p.Price > 0).
+                                    GroupBy(
                                      p => new
                                      {
                                          p.Group,

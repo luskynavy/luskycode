@@ -38,8 +38,8 @@
         if (context.Products is not null)
         {
             var groupsProducts = context.Products.
-                GroupBy(
-                    p => new
+                Where(p => p.Price > 0).
+                GroupBy(p => new
                     {
                         p.Group,
                         p.Name
