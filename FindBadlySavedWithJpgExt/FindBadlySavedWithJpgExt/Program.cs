@@ -11,12 +11,14 @@ namespace FindBadlySavedWithJpgExt
 
         static void Main(string[] args)
         {
+            string path = ".";
             if (args.Length > 0)
             {
-                Console.WriteLine($"Searching in {args[0]}");
-                FindBadImages(args[0]);
+                path = args[0];
             }
-        }
+            Console.WriteLine($"Searching in {path}");
+            FindBadImages(path);
+        }        
 
         static void FindBadImages(string path)
         {
