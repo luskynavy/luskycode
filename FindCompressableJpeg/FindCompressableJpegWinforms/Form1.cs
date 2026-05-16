@@ -210,15 +210,18 @@ namespace FindCompressableJpegWinforms
 						var nbPixels = height * width / 1024;
 						var sizeFor1024Pixel = file.Length / (nbPixels != 0 ? nbPixels : 1);
 
-						//Just for tests
-						//Thread.Sleep(50);
+                        //Get last write time in sortable format
+                        var date = file.LastWriteTime.ToString("yyyy-MM-dd");
 
-						//Only show value higher than treshold
-						if (sizeFor1024Pixel >= ratioTreshold.Value)
+                        //Just for tests
+                        //Thread.Sleep(50);
+
+                        //Only show value higher than treshold
+                        if (sizeFor1024Pixel >= ratioTreshold.Value)
 						{
 							//filename with absolute path from images path
 							var fileName = file.FullName[(dir.FullName.Length + 1)..];
-							string[] row = { fileName, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}", nbPixels.ToString() };
+							string[] row = { fileName, file.Length.ToString(), sizeFor1024Pixel.ToString(), $"{width} x {height}", nbPixels.ToString(), date };
 							listRow.Add(row);
 						}
 

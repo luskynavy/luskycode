@@ -36,11 +36,6 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            NameColumn = new DataGridViewTextBoxColumn();
-            FileSize = new DataGridViewTextBoxColumn();
-            Ratio = new DataGridViewTextBoxColumn();
-            Dimensions = new DataGridViewTextBoxColumn();
-            nbPixels = new DataGridViewTextBoxColumn();
             label1 = new Label();
             imagesPath = new TextBox();
             SelectPathButton = new Button();
@@ -51,6 +46,12 @@
             label3 = new Label();
             progressBar1 = new ProgressBar();
             recursive = new CheckBox();
+            NameColumn = new DataGridViewTextBoxColumn();
+            FileSize = new DataGridViewTextBoxColumn();
+            Ratio = new DataGridViewTextBoxColumn();
+            Dimensions = new DataGridViewTextBoxColumn();
+            nbPixels = new DataGridViewTextBoxColumn();
+            Date = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ratioTreshold).BeginInit();
             ((System.ComponentModel.ISupportInitialize)sizeTreshold).BeginInit();
@@ -60,16 +61,109 @@
             // 
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NameColumn, FileSize, Ratio, Dimensions, nbPixels });
-            dataGridView1.Location = new Point(14, 99);
-            dataGridView1.Margin = new Padding(3, 4, 3, 4);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NameColumn, FileSize, Ratio, Dimensions, nbPixels, Date });
+            dataGridView1.Location = new Point(12, 74);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1003, 485);
+            dataGridView1.Size = new Size(878, 364);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellMouseDoubleClick += dataGridView1_CellMouseDoubleClick;
             dataGridView1.SortCompare += dataGridView1_SortCompare;
             dataGridView1.KeyDown += dataGridView1_KeyDown;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(58, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Jpeg path";
+            // 
+            // imagesPath
+            // 
+            imagesPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            imagesPath.Location = new Point(105, 12);
+            imagesPath.Name = "imagesPath";
+            imagesPath.Size = new Size(651, 23);
+            imagesPath.TabIndex = 2;
+            // 
+            // SelectPathButton
+            // 
+            SelectPathButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            SelectPathButton.Location = new Point(762, 12);
+            SelectPathButton.Name = "SelectPathButton";
+            SelectPathButton.Size = new Size(39, 23);
+            SelectPathButton.TabIndex = 3;
+            SelectPathButton.Text = "...";
+            SelectPathButton.UseVisualStyleBackColor = true;
+            SelectPathButton.Click += SelectPathButton_Click;
+            // 
+            // GetRatiosButton
+            // 
+            GetRatiosButton.Location = new Point(503, 42);
+            GetRatiosButton.Name = "GetRatiosButton";
+            GetRatiosButton.Size = new Size(75, 23);
+            GetRatiosButton.TabIndex = 4;
+            GetRatiosButton.Text = "Get ratios";
+            GetRatiosButton.UseVisualStyleBackColor = true;
+            GetRatiosButton.Click += GetRatiosButton2_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 44);
+            label2.Name = "label2";
+            label2.Size = new Size(80, 15);
+            label2.TabIndex = 5;
+            label2.Text = "Ratio treshold";
+            // 
+            // ratioTreshold
+            // 
+            ratioTreshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
+            ratioTreshold.Location = new Point(105, 42);
+            ratioTreshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            ratioTreshold.Name = "ratioTreshold";
+            ratioTreshold.Size = new Size(120, 23);
+            ratioTreshold.TabIndex = 7;
+            ratioTreshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
+            // 
+            // sizeTreshold
+            // 
+            sizeTreshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
+            sizeTreshold.Location = new Point(346, 42);
+            sizeTreshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            sizeTreshold.Name = "sizeTreshold";
+            sizeTreshold.Size = new Size(120, 23);
+            sizeTreshold.TabIndex = 8;
+            sizeTreshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(260, 44);
+            label3.Name = "label3";
+            label3.Size = new Size(73, 15);
+            label3.TabIndex = 9;
+            label3.Text = "Size treshold";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            progressBar1.Location = new Point(612, 42);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(278, 23);
+            progressBar1.TabIndex = 10;
+            // 
+            // recursive
+            // 
+            recursive.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            recursive.Location = new Point(807, 14);
+            recursive.Name = "recursive";
+            recursive.Size = new Size(83, 19);
+            recursive.TabIndex = 11;
+            recursive.Text = "Recursive";
+            recursive.UseVisualStyleBackColor = true;
             // 
             // NameColumn
             // 
@@ -112,112 +206,18 @@
             nbPixels.Visible = false;
             nbPixels.Width = 125;
             // 
-            // label1
+            // Date
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(14, 20);
-            label1.Name = "label1";
-            label1.Size = new Size(74, 20);
-            label1.TabIndex = 1;
-            label1.Text = "Jpeg path";
-            // 
-            // imagesPath
-            // 
-            imagesPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            imagesPath.Location = new Point(120, 16);
-            imagesPath.Margin = new Padding(3, 4, 3, 4);
-            imagesPath.Name = "imagesPath";
-            imagesPath.Size = new Size(743, 27);
-            imagesPath.TabIndex = 2;
-            // 
-            // SelectPathButton
-            // 
-            SelectPathButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            SelectPathButton.Location = new Point(871, 16);
-            SelectPathButton.Margin = new Padding(3, 4, 3, 4);
-            SelectPathButton.Name = "SelectPathButton";
-            SelectPathButton.Size = new Size(45, 31);
-            SelectPathButton.TabIndex = 3;
-            SelectPathButton.Text = "...";
-            SelectPathButton.UseVisualStyleBackColor = true;
-            SelectPathButton.Click += SelectPathButton_Click;
-            // 
-            // GetRatiosButton
-            // 
-            GetRatiosButton.Location = new Point(575, 56);
-            GetRatiosButton.Margin = new Padding(3, 4, 3, 4);
-            GetRatiosButton.Name = "GetRatiosButton";
-            GetRatiosButton.Size = new Size(86, 31);
-            GetRatiosButton.TabIndex = 4;
-            GetRatiosButton.Text = "Get ratios";
-            GetRatiosButton.UseVisualStyleBackColor = true;
-            GetRatiosButton.Click += GetRatiosButton2_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(14, 59);
-            label2.Name = "label2";
-            label2.Size = new Size(102, 20);
-            label2.TabIndex = 5;
-            label2.Text = "Ratio treshold";
-            // 
-            // ratioTreshold
-            // 
-            ratioTreshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            ratioTreshold.Location = new Point(120, 56);
-            ratioTreshold.Margin = new Padding(3, 4, 3, 4);
-            ratioTreshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            ratioTreshold.Name = "ratioTreshold";
-            ratioTreshold.Size = new Size(137, 27);
-            ratioTreshold.TabIndex = 7;
-            ratioTreshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
-            // 
-            // sizeTreshold
-            // 
-            sizeTreshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            sizeTreshold.Location = new Point(395, 56);
-            sizeTreshold.Margin = new Padding(3, 4, 3, 4);
-            sizeTreshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            sizeTreshold.Name = "sizeTreshold";
-            sizeTreshold.Size = new Size(137, 27);
-            sizeTreshold.TabIndex = 8;
-            sizeTreshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(297, 59);
-            label3.Name = "label3";
-            label3.Size = new Size(94, 20);
-            label3.TabIndex = 9;
-            label3.Text = "Size treshold";
-            // 
-            // progressBar1
-            // 
-            progressBar1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            progressBar1.Location = new Point(699, 56);
-            progressBar1.Margin = new Padding(3, 4, 3, 4);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(318, 31);
-            progressBar1.TabIndex = 10;
-            // 
-            // recursive
-            // 
-            recursive.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            recursive.Location = new Point(922, 19);
-            recursive.Margin = new Padding(3, 4, 3, 4);
-            recursive.Name = "recursive";
-            recursive.Size = new Size(95, 25);
-            recursive.TabIndex = 11;
-            recursive.Text = "Recursive";
-            recursive.UseVisualStyleBackColor = true;
+            Date.HeaderText = "Date";
+            Date.Name = "Date";
+            Date.ReadOnly = true;
+            Date.Width = 125;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1031, 600);
+            ClientSize = new Size(902, 450);
             Controls.Add(recursive);
             Controls.Add(progressBar1);
             Controls.Add(label3);
@@ -229,7 +229,6 @@
             Controls.Add(imagesPath);
             Controls.Add(label1);
             Controls.Add(dataGridView1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "FindCompressableJpeg";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -248,14 +247,15 @@
         private Button GetRatiosButton;
         private Label label2;
         private NumericUpDown ratioTreshold;
+        private NumericUpDown sizeTreshold;
+        private Label label3;
+        private ProgressBar progressBar1;
+		private CheckBox recursive;
         private DataGridViewTextBoxColumn NameColumn;
         private DataGridViewTextBoxColumn FileSize;
         private DataGridViewTextBoxColumn Ratio;
         private DataGridViewTextBoxColumn Dimensions;
         private DataGridViewTextBoxColumn nbPixels;
-        private NumericUpDown sizeTreshold;
-        private Label label3;
-        private ProgressBar progressBar1;
-		private CheckBox recursive;
-	}
+        private DataGridViewTextBoxColumn Date;
+    }
 }
