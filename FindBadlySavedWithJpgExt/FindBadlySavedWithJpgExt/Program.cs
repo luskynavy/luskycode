@@ -46,7 +46,7 @@ namespace FindBadlySavedWithJpgExt
                 return;
             }
 
-            var buffer = new byte[4];
+            var buffer = new byte[8];
 
 
             foreach (FileInfo file in files)
@@ -70,6 +70,12 @@ namespace FindBadlySavedWithJpgExt
                         else if (buffer[0] == 'R' && buffer[1] == 'I' && buffer[2] == 'F' && buffer[3] == 'F')
                         {
                             Console.WriteLine($"{file.FullName[pathSize..]} : WEBP");
+                        }
+                        //avif magic
+                        else if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0 && buffer[3] == 24 
+                            && buffer[4] == 'f' && buffer[5] == 't' && buffer[6] == 'y' && buffer[7] == 'p')
+                        {
+                            Console.WriteLine($"{file.FullName[pathSize..]} : AVIF");
                         }
                         //something else
                         else
