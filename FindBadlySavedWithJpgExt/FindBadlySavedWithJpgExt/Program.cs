@@ -33,12 +33,13 @@ namespace FindBadlySavedWithJpgExt
             }
 
             var dir = new DirectoryInfo(path);
-            FileInfo[] files;
+            FileInfo[] files, filesJpeg;
 
             //Find jpg files recursively
             try
             {
                 files = dir.GetFiles("*.jpg", SearchOption.AllDirectories);
+                filesJpeg = dir.GetFiles("*.jpeg", SearchOption.AllDirectories);                
             }
             catch (Exception)
             {
@@ -53,38 +54,24 @@ namespace FindBadlySavedWithJpgExt
             {
                 try
                 {
-                    //Open file in read only
-                    using var stream = File.Open(file.FullName, FileMode.Open, FileAccess.Read);
-                    using var reader = new BinaryReader(stream);
-                    int bytesRead = reader.Read(buffer, 0, buffer.Length);
+                    FileStream stream;
+                    BinaryReader reader;
+                    totalSize = SearchInFiles(totalSize, pathSize, buffer, file, out stream, out reader);
+                }
+                catch (Exception)
+                {
 
-                    //jpg magic
-                    if (buffer[0] != 0xff && buffer[1] != 0xd8 && buffer[2] != 0xff && buffer[3] != 0xe0)
-                    {
-                        //png magic
-                        if (buffer[0] == 137 && buffer[1] == 'P' && buffer[2] == 'N' && buffer[3] == 'G')
-                        {
-                            Console.WriteLine($"{file.FullName[pathSize..]} : PNG");
-                        }
-                        //webp magic
-                        else if (buffer[0] == 'R' && buffer[1] == 'I' && buffer[2] == 'F' && buffer[3] == 'F')
-                        {
-                            Console.WriteLine($"{file.FullName[pathSize..]} : WEBP");
-                        }
-                        //avif magic
-                        else if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0 && buffer[3] == 24 
-                            && buffer[4] == 'f' && buffer[5] == 't' && buffer[6] == 'y' && buffer[7] == 'p')
-                        {
-                            Console.WriteLine($"{file.FullName[pathSize..]} : AVIF");
-                        }
-                        //something else
-                        else
-                        {
-                            Console.WriteLine(file.FullName[pathSize..]);
-                        }
+                    Console.WriteLine($"Can't read : {file.FullName[pathSize..]}");
+                }
+            }
 
-                        totalSize += file.Length;
-                    }
+            foreach (FileInfo file in filesJpeg)
+            {
+                try
+                {
+                    FileStream stream;
+                    BinaryReader reader;
+                    totalSize = SearchInFiles(totalSize, pathSize, buffer, file, out stream, out reader);
                 }
                 catch (Exception)
                 {
@@ -98,6 +85,44 @@ namespace FindBadlySavedWithJpgExt
             var totalSizeFormatted = totalSize.ToString("n0", formatNumber);
 
             Console.WriteLine($"Total size found : {totalSizeFormatted}");
+        }
+
+        private static long SearchInFiles(long totalSize, int pathSize, byte[] buffer, FileInfo file, out FileStream stream, out BinaryReader reader)
+        {
+            //Open file in read only
+            stream = File.Open(file.FullName, FileMode.Open, FileAccess.Read);
+            reader = new BinaryReader(stream);
+            int bytesRead = reader.Read(buffer, 0, buffer.Length);
+
+            //jpg magic
+            if (buffer[0] != 0xff && buffer[1] != 0xd8 && buffer[2] != 0xff && buffer[3] != 0xe0)
+            {
+                //png magic
+                if (buffer[0] == 137 && buffer[1] == 'P' && buffer[2] == 'N' && buffer[3] == 'G')
+                {
+                    Console.WriteLine($"{file.FullName[pathSize..]} : PNG");
+                }
+                //webp magic
+                else if (buffer[0] == 'R' && buffer[1] == 'I' && buffer[2] == 'F' && buffer[3] == 'F')
+                {
+                    Console.WriteLine($"{file.FullName[pathSize..]} : WEBP");
+                }
+                //avif magic
+                else if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0 && buffer[3] == 24
+                    && buffer[4] == 'f' && buffer[5] == 't' && buffer[6] == 'y' && buffer[7] == 'p')
+                {
+                    Console.WriteLine($"{file.FullName[pathSize..]} : AVIF");
+                }
+                //something else
+                else
+                {
+                    Console.WriteLine(file.FullName[pathSize..]);
+                }
+
+                totalSize += file.Length;
+            }
+
+            return totalSize;
         }
     }
 }

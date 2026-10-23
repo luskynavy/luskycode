@@ -12,9 +12,12 @@ namespace fs = std::filesystem;
 /// </summary>
 /// <param name="path">path for search</param>
 /// <param name="files">vector of file names for return</param>
-static void getFiles(fs::path path, std::vector<std::string>& files)
+/// <param name="weeksToKeep">number of weeks to keep files</param>
+static void getFiles(fs::path path, std::vector<std::string>& files, int weeksToKeep = 0)
 {
-    // Recursively iterate through the directory and collect file paths and sizes
+    auto now = fs::file_time_type::clock::now();
+
+    // Recursively iterate through the directory and collect file paths
     for (const auto& entry :
         fs::recursive_directory_iterator(path, fs::directory_options::skip_permission_denied))
     {
@@ -22,9 +25,13 @@ static void getFiles(fs::path path, std::vector<std::string>& files)
         {
             if (entry.is_regular_file())
             {
-                files.push_back(
-                    entry.path().string().substr(path.string().size() + 1)
+				// Check if the file's last write time is within the specified number of weeks
+                if (entry.last_write_time() >= now - std::chrono::weeks(weeksToKeep))
+                {
+                    files.push_back(
+                        entry.path().string().substr(path.string().size() + 1)
                     );
+                }
             }
         }
         catch (const fs::filesystem_error& e)
@@ -63,11 +70,13 @@ int main(int argc, char* argv[])
 {
     fs::path src = (argc > 1) ? argv[1] : ".";
 
+    int weeksToKeep = (argc > 2) ? std::stoi(argv[2]) : 0; 
+
     std::vector<std::string> filesSrc;
 
     try
     {
-        getFiles(src, filesSrc);
+        getFiles(src, filesSrc, weeksToKeep);
     }
     catch (const std::exception& e)
     {

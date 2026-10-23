@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="FindBadlySavedWithJpgExtCpp/FindBadlySavedWithJpgExtCpp.vcxproj" />
+  <Project Path="FindBadlySavedWithJpgExtCpp/FindBadlySavedWithJpgExtCpp.vcxproj" Id="502986bc-7672-4d90-a014-24e5e7c81ba9" />
 </Solution>

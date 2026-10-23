@@ -62,10 +62,11 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NameColumn, FileSize, Ratio, Dimensions, nbPixels, Date });
-            dataGridView1.Location = new Point(12, 74);
+            dataGridView1.Location = new Point(14, 99);
+            dataGridView1.Margin = new Padding(3, 4, 3, 4);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(878, 364);
+            dataGridView1.Size = new Size(1003, 485);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellMouseDoubleClick += dataGridView1_CellMouseDoubleClick;
             dataGridView1.SortCompare += dataGridView1_SortCompare;
@@ -74,26 +75,28 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 15);
+            label1.Location = new Point(14, 20);
             label1.Name = "label1";
-            label1.Size = new Size(58, 15);
+            label1.Size = new Size(74, 20);
             label1.TabIndex = 1;
             label1.Text = "Jpeg path";
             // 
             // imagesPath
             // 
             imagesPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            imagesPath.Location = new Point(105, 12);
+            imagesPath.Location = new Point(120, 16);
+            imagesPath.Margin = new Padding(3, 4, 3, 4);
             imagesPath.Name = "imagesPath";
-            imagesPath.Size = new Size(651, 23);
+            imagesPath.Size = new Size(743, 27);
             imagesPath.TabIndex = 2;
             // 
             // SelectPathButton
             // 
             SelectPathButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            SelectPathButton.Location = new Point(762, 12);
+            SelectPathButton.Location = new Point(871, 16);
+            SelectPathButton.Margin = new Padding(3, 4, 3, 4);
             SelectPathButton.Name = "SelectPathButton";
-            SelectPathButton.Size = new Size(39, 23);
+            SelectPathButton.Size = new Size(45, 31);
             SelectPathButton.TabIndex = 3;
             SelectPathButton.Text = "...";
             SelectPathButton.UseVisualStyleBackColor = true;
@@ -101,9 +104,10 @@
             // 
             // GetRatiosButton
             // 
-            GetRatiosButton.Location = new Point(503, 42);
+            GetRatiosButton.Location = new Point(575, 56);
+            GetRatiosButton.Margin = new Padding(3, 4, 3, 4);
             GetRatiosButton.Name = "GetRatiosButton";
-            GetRatiosButton.Size = new Size(75, 23);
+            GetRatiosButton.Size = new Size(86, 31);
             GetRatiosButton.TabIndex = 4;
             GetRatiosButton.Text = "Get ratios";
             GetRatiosButton.UseVisualStyleBackColor = true;
@@ -112,55 +116,59 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 44);
+            label2.Location = new Point(14, 59);
             label2.Name = "label2";
-            label2.Size = new Size(80, 15);
+            label2.Size = new Size(102, 20);
             label2.TabIndex = 5;
             label2.Text = "Ratio treshold";
             // 
             // ratioTreshold
             // 
             ratioTreshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            ratioTreshold.Location = new Point(105, 42);
+            ratioTreshold.Location = new Point(120, 56);
+            ratioTreshold.Margin = new Padding(3, 4, 3, 4);
             ratioTreshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             ratioTreshold.Name = "ratioTreshold";
-            ratioTreshold.Size = new Size(120, 23);
+            ratioTreshold.Size = new Size(137, 27);
             ratioTreshold.TabIndex = 7;
             ratioTreshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
             // 
             // sizeTreshold
             // 
             sizeTreshold.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            sizeTreshold.Location = new Point(346, 42);
+            sizeTreshold.Location = new Point(395, 56);
+            sizeTreshold.Margin = new Padding(3, 4, 3, 4);
             sizeTreshold.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             sizeTreshold.Name = "sizeTreshold";
-            sizeTreshold.Size = new Size(120, 23);
+            sizeTreshold.Size = new Size(137, 27);
             sizeTreshold.TabIndex = 8;
             sizeTreshold.Value = new decimal(new int[] { 300, 0, 0, 0 });
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(260, 44);
+            label3.Location = new Point(297, 59);
             label3.Name = "label3";
-            label3.Size = new Size(73, 15);
+            label3.Size = new Size(94, 20);
             label3.TabIndex = 9;
             label3.Text = "Size treshold";
             // 
             // progressBar1
             // 
             progressBar1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            progressBar1.Location = new Point(612, 42);
+            progressBar1.Location = new Point(699, 56);
+            progressBar1.Margin = new Padding(3, 4, 3, 4);
             progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(278, 23);
+            progressBar1.Size = new Size(318, 31);
             progressBar1.TabIndex = 10;
             // 
             // recursive
             // 
             recursive.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            recursive.Location = new Point(807, 14);
+            recursive.Location = new Point(922, 19);
+            recursive.Margin = new Padding(3, 4, 3, 4);
             recursive.Name = "recursive";
-            recursive.Size = new Size(83, 19);
+            recursive.Size = new Size(95, 25);
             recursive.TabIndex = 11;
             recursive.Text = "Recursive";
             recursive.UseVisualStyleBackColor = true;
@@ -179,7 +187,7 @@
             FileSize.MinimumWidth = 6;
             FileSize.Name = "FileSize";
             FileSize.ReadOnly = true;
-            FileSize.Width = 125;
+            FileSize.Width = 75;
             // 
             // Ratio
             // 
@@ -187,7 +195,7 @@
             Ratio.MinimumWidth = 6;
             Ratio.Name = "Ratio";
             Ratio.ReadOnly = true;
-            Ratio.Width = 125;
+            Ratio.Width = 75;
             // 
             // Dimensions
             // 
@@ -195,7 +203,6 @@
             Dimensions.MinimumWidth = 6;
             Dimensions.Name = "Dimensions";
             Dimensions.ReadOnly = true;
-            Dimensions.Width = 125;
             // 
             // nbPixels
             // 
@@ -204,20 +211,19 @@
             nbPixels.Name = "nbPixels";
             nbPixels.ReadOnly = true;
             nbPixels.Visible = false;
-            nbPixels.Width = 125;
             // 
             // Date
             // 
             Date.HeaderText = "Date";
+            Date.MinimumWidth = 6;
             Date.Name = "Date";
             Date.ReadOnly = true;
-            Date.Width = 125;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(902, 450);
+            ClientSize = new Size(1031, 600);
             Controls.Add(recursive);
             Controls.Add(progressBar1);
             Controls.Add(label3);
@@ -229,6 +235,7 @@
             Controls.Add(imagesPath);
             Controls.Add(label1);
             Controls.Add(dataGridView1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "FindCompressableJpeg";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
