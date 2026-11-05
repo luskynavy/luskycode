@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <ostream>
+#include <chrono>
 
 namespace fs = std::filesystem;
 
@@ -26,7 +27,7 @@ static void getFiles(fs::path path, std::vector<std::string>& files, int weeksTo
             if (entry.is_regular_file())
             {
 				// Check if the file's last write time is within the specified number of weeks
-                if (entry.last_write_time() >= now - std::chrono::weeks(weeksToKeep))
+                if (weeksToKeep == 0 || entry.last_write_time() >= now - std::chrono::weeks(weeksToKeep))
                 {
                     files.push_back(
                         entry.path().string().substr(path.string().size() + 1)
@@ -66,13 +67,60 @@ static void getFiles(fs::path path, std::vector<std::string>& files, int weeksTo
     }
 }
 
+/// <summary>
+/// Display file format based on magic numbers
+/// </summary>
+/// <param name="buffer">Buffer containing the first 8 bytes of the file</param>
+/// <param name="filename">Name of the file</param>
+static void DisplayFileFormat(unsigned char  buffer[8], const std::string& filename)
+{
+    //jpg magic
+    if (buffer[0] != 0xff && buffer[1] != 0xd8 && buffer[2] != 0xff && buffer[3] != 0xe0)
+    {
+        //png magic
+        if (buffer[0] == 137 && buffer[1] == 'P' && buffer[2] == 'N' && buffer[3] == 'G')
+        {
+            std::cout << filename << " : PNG\n";
+        }
+        //webp magic
+        else if (buffer[0] == 'R' && buffer[1] == 'I' && buffer[2] == 'F' && buffer[3] == 'F')
+        {
+            std::cout << filename << " : WEBP\n";
+        }
+        //avif magic
+        else if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0 && buffer[3] == 24
+            && buffer[4] == 'f' && buffer[5] == 't' && buffer[6] == 'y' && buffer[7] == 'p')
+        {
+            std::cout << filename << " : AVIF\n";
+        }
+        //something else
+        else
+        {
+            std::cout << filename << "\n";
+        }
+    }
+}
+
 int main(int argc, char* argv[])
 {
-    fs::path src = (argc > 1) ? argv[1] : ".";
+    std::string firstArg = (argc > 1) ? argv[1] : ".";
+	if (!fs::exists(firstArg) || !fs::is_directory(firstArg))
+	{
+		std::cerr << "Invalid directory: " << firstArg << std::endl;
+		return 1;
+	}
+    if (firstArg.ends_with(fs::path::preferred_separator))
+    {
+        firstArg.pop_back();
+    }
+    fs::path src = firstArg;
 
     int weeksToKeep = (argc > 2) ? std::stoi(argv[2]) : 0; 
 
     std::vector<std::string> filesSrc;
+
+    // Recording the timestamp at the start of the code
+    auto beg = std::chrono::high_resolution_clock::now();
 
     try
     {
@@ -89,37 +137,14 @@ int main(int argc, char* argv[])
         {
             // Open the file read only in binary
             std::fstream fs;
-            fs.open(f, std::ios::in | std::ios::binary);
+			std::string fullPath = (src / f).string();
+            fs.open(fullPath, std::ios::in | std::ios::binary);
 
             // Read the first 8 bytes to check for magic numbers
             unsigned char buffer[8];
             fs.read(reinterpret_cast<char*>(buffer), 8);
 
-            //jpg magic
-            if (buffer[0] != 0xff && buffer[1] != 0xd8 && buffer[2] != 0xff && buffer[3] != 0xe0)            
-            {
-                //png magic
-                if (buffer[0] == 137 && buffer[1] == 'P' && buffer[2] == 'N' && buffer[3] == 'G')
-                {
-                    std::cout << f << " : PNG\n";
-                }
-                //webp magic
-                else if (buffer[0] == 'R' && buffer[1] == 'I' && buffer[2] == 'F' && buffer[3] == 'F')
-                {
-                    std::cout << f << " : WEBP\n";
-                }
-                //avif magic
-                else if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0 && buffer[3] == 24
-                    && buffer[4] == 'f' && buffer[5] == 't' && buffer[6] == 'y' && buffer[7] == 'p')
-                {
-                    std::cout << f << " : AVIF\n";
-                }
-                //something else
-                else
-                {
-                    std::cout << f << "\n";
-                }                
-            }
+            DisplayFileFormat(buffer, f);
 
             fs.close();
 		}
@@ -128,5 +153,13 @@ int main(int argc, char* argv[])
             std::cerr << "Error processing file " << f << ": " << e.what() << std::endl;
         }
 	}
+
+    // Taking a timestamp after the code is ran
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto duration = duration_cast<std::chrono::milliseconds>(end - beg);
+
+    std::cout << "Done in: " << (double)duration.count() / 1000 << " s" << std::endl;
+
 }
 
