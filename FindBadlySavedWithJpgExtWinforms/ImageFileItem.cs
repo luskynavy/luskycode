@@ -13,7 +13,17 @@ namespace ImageMismatchFinder
         public string FileSizeFormatted => FormatFileSize(FileSize);
         public int Width { get; set; }
         public int Height { get; set; }
-        public string Dimensions => (Width > 0 && Height > 0) ? $"{Width} x {Height}" : "Unknown";
+        public string Dimensions
+        {
+            get
+            {
+                if (Width > 0 && Height > 0)
+                    return $"{Width} x {Height}";
+                if (string.Equals(RealType, "Empty", StringComparison.OrdinalIgnoreCase))
+                    return "-";
+                return "Unknown";
+            }
+        }
         public DateTime DateModified { get; set; }
         public string DateFormatted => DateModified.ToString("yyyy-MM-dd HH:mm:ss");
 

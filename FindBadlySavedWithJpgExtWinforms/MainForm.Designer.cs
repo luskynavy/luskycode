@@ -30,6 +30,7 @@ namespace ImageMismatchFinder
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripProgressBar progressBar;
+        private System.Windows.Forms.ToolStripStatusLabel lblTimer;
         private System.Windows.Forms.ToolStripStatusLabel lblCount;
         private System.Windows.Forms.ToolStripStatusLabel lblSelected;
 
@@ -82,6 +83,7 @@ namespace ImageMismatchFinder
             statusStrip = new System.Windows.Forms.StatusStrip();
             lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             progressBar = new System.Windows.Forms.ToolStripProgressBar();
+            lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             lblCount = new System.Windows.Forms.ToolStripStatusLabel();
             lblSelected = new System.Windows.Forms.ToolStripStatusLabel();
 
@@ -364,6 +366,7 @@ namespace ImageMismatchFinder
             statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                 lblStatus,
                 progressBar,
+                lblTimer,
                 lblCount,
                 lblSelected
             });
@@ -388,6 +391,16 @@ namespace ImageMismatchFinder
             progressBar.Size = new System.Drawing.Size(120, 19);
             progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             progressBar.Visible = false;
+
+            // 
+            // lblTimer
+            // 
+            lblTimer.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblTimer.ForeColor = System.Drawing.Color.FromArgb(40, 40, 40);
+            lblTimer.Name = "lblTimer";
+            lblTimer.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            lblTimer.Size = new System.Drawing.Size(66, 20);
+            lblTimer.Text = "00:00.0";
 
             // 
             // lblCount

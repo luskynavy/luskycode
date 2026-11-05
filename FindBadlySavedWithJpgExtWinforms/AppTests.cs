@@ -56,7 +56,23 @@ namespace ImageMismatchFinder
                 Assert(infoAvif.Format == DetectedImageFormat.Avif && infoAvif.Width == 1280 && infoAvif.Height == 720,
                     $"AVIF disguised as JPG detection (Got {infoAvif.FormatName}, {infoAvif.Width}x{infoAvif.Height})", ref passed, ref failed);
 
-                // Test 6: INI File Save and Load
+                // Test 6: Empty file with .jpg extension
+                string fakeEmpty = Path.Combine(testDir, "empty_file.jpg");
+                File.WriteAllBytes(fakeEmpty, Array.Empty<byte>());
+                var infoEmpty = ImageFormatDetector.Detect(fakeEmpty);
+                var itemEmpty = new ImageFileItem { RealType = infoEmpty.FormatName, Width = infoEmpty.Width, Height = infoEmpty.Height };
+                Assert(infoEmpty.Format == DetectedImageFormat.Empty && infoEmpty.FormatName == "Empty" && itemEmpty.Dimensions == "-",
+                    $"Empty file detection (Got {infoEmpty.FormatName}, dimensions: '{itemEmpty.Dimensions}')", ref passed, ref failed);
+
+                // Test 7: Unknown file with .jpg extension (e.g. text/binary file)
+                string fakeUnknown = Path.Combine(testDir, "unknown_doc.jpg");
+                File.WriteAllText(fakeUnknown, "Hello world, this is a plain text file disguised as a jpeg.");
+                var infoUnknown = ImageFormatDetector.Detect(fakeUnknown);
+                var itemUnknown = new ImageFileItem { RealType = infoUnknown.FormatName, Width = infoUnknown.Width, Height = infoUnknown.Height };
+                Assert(infoUnknown.Format == DetectedImageFormat.Unknown && infoUnknown.FormatName == "Unknown" && itemUnknown.Dimensions == "Unknown",
+                    $"Unknown file detection (Got {infoUnknown.FormatName}, dimensions: '{itemUnknown.Dimensions}')", ref passed, ref failed);
+
+                // Test 8: INI File Save and Load
                 string iniPath = Path.Combine(testDir, "test_settings.ini");
                 var ini1 = new IniFile(iniPath);
                 ini1.SetValue("Settings", "SearchPath", @"C:\TestDirectory");
@@ -72,7 +88,7 @@ namespace ImageMismatchFinder
                              ini2.GetBool("Settings", "CopyFullPath") == true;
                 Assert(iniOk, "INI Save and Load settings", ref passed, ref failed);
 
-                // Test 7: Subdirectory and Weeks Filter
+                // Test 9: Subdirectory, Weeks Filter, Empty & Unknown files included in search
                 string subDir = Path.Combine(testDir, "SubFolder");
                 Directory.CreateDirectory(subDir);
                 string nestedFakePng = Path.Combine(subDir, "nested_fake.jpeg");
@@ -83,7 +99,7 @@ namespace ImageMismatchFinder
                 CreateBitmapAndSave(oldFakePng, ImageFormat.Png, 500, 500);
                 File.SetLastWriteTime(oldFakePng, DateTime.Now.AddDays(-30));
 
-                // Perform simulated search with weeks = 1 (should exclude oldFakePng, but include fakePng, fakeBmp, fakeWebp, fakeAvif, nestedFakePng)
+                // Perform simulated search with weeks = 1 (should exclude oldFakePng, but include fakePng, fakeBmp, fakeWebp, fakeAvif, fakeEmpty, fakeUnknown, nestedFakePng)
                 var foundItems = new System.Collections.Generic.List<ImageFileItem>();
                 DateTime cutoff = DateTime.Now.AddDays(-7);
                 foreach (var file in Directory.EnumerateFiles(testDir, "*.*", SearchOption.AllDirectories))
@@ -98,7 +114,8 @@ namespace ImageMismatchFinder
                             continue;
 
                         var detected = ImageFormatDetector.Detect(file);
-                        if (detected.Format != DetectedImageFormat.Jpeg && detected.Format != DetectedImageFormat.Unknown)
+                        // All non-JPEG are considered mismatches (including Empty and Unknown)
+                        if (detected.Format != DetectedImageFormat.Jpeg)
                         {
                             foundItems.Add(new ImageFileItem
                             {
@@ -112,11 +129,13 @@ namespace ImageMismatchFinder
                     }
                 }
 
-                bool foundCorrect = foundItems.Count == 5 &&
+                bool foundCorrect = foundItems.Count == 7 &&
                                     !foundItems.Exists(f => f.FileName == "old_fake.jpg") &&
                                     !foundItems.Exists(f => f.FileName == "real_photo.jpg") &&
+                                    foundItems.Exists(f => f.FileName == "empty_file.jpg") &&
+                                    foundItems.Exists(f => f.FileName == "unknown_doc.jpg") &&
                                     foundItems.Exists(f => f.FileName == "nested_fake.jpeg");
-                Assert(foundCorrect, $"Search and weeks filter (Found {foundItems.Count}/5 expected items, excluded genuine JPG and old file)", ref passed, ref failed);
+                Assert(foundCorrect, $"Search includes Empty & Unknown and filters weeks (Found {foundItems.Count}/7 items)", ref passed, ref failed);
 
                 Console.WriteLine("==================================================");
                 Console.WriteLine($"Tests Finished: {passed} Passed, {failed} Failed.");

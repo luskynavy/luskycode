@@ -8,6 +8,7 @@ namespace ImageMismatchFinder
     public enum DetectedImageFormat
     {
         Unknown,
+        Empty,
         Jpeg,
         Png,
         WebP,
@@ -24,7 +25,7 @@ namespace ImageMismatchFinder
         public int Width { get; set; }
         public int Height { get; set; }
         public bool HasDimensions => Width > 0 && Height > 0;
-        public string DimensionsText => HasDimensions ? $"{Width} x {Height}" : "Unknown";
+        public string DimensionsText => HasDimensions ? $"{Width} x {Height}" : (Format == DetectedImageFormat.Empty ? "-" : "Unknown");
     }
 
     public static class ImageFormatDetector
@@ -39,6 +40,17 @@ namespace ImageMismatchFinder
             int bytesRead;
             try
             {
+                var fileInfo = new FileInfo(filePath);
+                if (!fileInfo.Exists)
+                    return info;
+
+                if (fileInfo.Length == 0)
+                {
+                    info.Format = DetectedImageFormat.Empty;
+                    info.FormatName = "Empty";
+                    return info;
+                }
+
                 using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 buffer = new byte[Math.Min(MaxHeaderRead, (int)Math.Min(fs.Length, MaxHeaderRead))];
                 bytesRead = fs.Read(buffer, 0, buffer.Length);
@@ -48,8 +60,12 @@ namespace ImageMismatchFinder
                 return info;
             }
 
-            if (bytesRead < 4)
+            if (bytesRead == 0)
+            {
+                info.Format = DetectedImageFormat.Empty;
+                info.FormatName = "Empty";
                 return info;
+            }
 
             var span = buffer.AsSpan(0, bytesRead);
 

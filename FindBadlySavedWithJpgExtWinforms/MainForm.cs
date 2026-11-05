@@ -20,6 +20,8 @@ namespace ImageMismatchFinder
 
         private readonly string _iniPath;
         private readonly SortableBindingList<ImageFileItem> _resultsList = new();
+        private readonly System.Windows.Forms.Timer _uiTimer = new();
+        private readonly Stopwatch _searchStopwatch = new();
         private CancellationTokenSource? _cts;
         private bool _isSearching;
 
@@ -41,6 +43,18 @@ namespace ImageMismatchFinder
                 dgvResults,
                 new object[] { true }
             );
+
+            // Timer update hook
+            _uiTimer.Interval = 100;
+            _uiTimer.Tick += (s, e) => UpdateTimerDisplay();
+        }
+
+        private void UpdateTimerDisplay()
+        {
+            var elapsed = _searchStopwatch.Elapsed;
+            lblTimer.Text = elapsed.Hours > 0
+                ? elapsed.ToString(@"hh\:mm\:ss\.f")
+                : elapsed.ToString(@"mm\:ss\.f");
         }
 
         private void MainForm_Load(object? sender, EventArgs e)
@@ -149,6 +163,11 @@ namespace ImageMismatchFinder
             lblStatus.Text = "Starting search...";
             lblCount.Text = "0 mismatches";
 
+            // Start elapsed search timer
+            _searchStopwatch.Restart();
+            lblTimer.Text = "00:00.0";
+            _uiTimer.Start();
+
             bool recursive = chkSubdirectories.Checked;
             int weeksLimit = (int)numWeeks.Value;
 
@@ -187,6 +206,10 @@ namespace ImageMismatchFinder
             }
             finally
             {
+                _uiTimer.Stop();
+                _searchStopwatch.Stop();
+                UpdateTimerDisplay();
+
                 _isSearching = false;
                 btnSearch.Enabled = true;
                 btnStop.Enabled = false;
@@ -416,29 +439,25 @@ namespace ImageMismatchFinder
                         continue;
                     }
 
-                    // If it is WebP, PNG, AVIF, BMP (or another image like GIF/TIFF)
-                    // It is a mismatch!
-                    if (imageInfo.Format != DetectedImageFormat.Unknown)
+                    // Any non-JPEG file (WebP, PNG, AVIF, BMP, GIF, TIFF, Empty, Unknown) is a mismatch!
+                    var item = new ImageFileItem
                     {
-                        var item = new ImageFileItem
-                        {
-                            FileName = fileInfo.Name,
-                            FilePath = fileInfo.FullName,
-                            Folder = fileInfo.DirectoryName ?? string.Empty,
-                            RealType = imageInfo.FormatName,
-                            FileSize = fileInfo.Length,
-                            Width = imageInfo.Width,
-                            Height = imageInfo.Height,
-                            DateModified = fileInfo.LastWriteTime
-                        };
+                        FileName = fileInfo.Name,
+                        FilePath = fileInfo.FullName,
+                        Folder = fileInfo.DirectoryName ?? string.Empty,
+                        RealType = imageInfo.FormatName,
+                        FileSize = fileInfo.Length,
+                        Width = imageInfo.Width,
+                        Height = imageInfo.Height,
+                        DateModified = fileInfo.LastWriteTime
+                    };
 
-                        progress.Report(new SearchProgressUpdate
-                        {
-                            ScannedCount = scannedCount,
-                            CurrentDirectory = currentDir,
-                            NewItem = item
-                        });
-                    }
+                    progress.Report(new SearchProgressUpdate
+                    {
+                        ScannedCount = scannedCount,
+                        CurrentDirectory = currentDir,
+                        NewItem = item
+                    });
                 }
             }
 
