@@ -438,7 +438,7 @@ namespace ImageMismatchFinder
             // 
             menuOpen.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             menuOpen.Name = "menuOpen";
-            menuOpen.ShortcutKeys = System.Windows.Forms.Keys.Return;
+            menuOpen.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Return;
             menuOpen.Size = new System.Drawing.Size(208, 22);
             menuOpen.Text = "Open Image";
             menuOpen.Click += menuOpen_Click;
