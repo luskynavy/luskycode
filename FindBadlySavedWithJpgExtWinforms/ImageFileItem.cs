@@ -5,14 +5,27 @@ namespace ImageMismatchFinder
 {
     public class ImageFileItem
     {
+        public static bool ShowFullFolderPath { get; set; }
+
+        public string RelativePath { get; set; } = string.Empty;
         public string FileName { get; set; } = string.Empty;
         public string FilePath { get; set; } = string.Empty;
-        public string Folder { get; set; } = string.Empty;
+        public string FullFolder { get; set; } = string.Empty;
+
+        public string DisplayFolder => ShowFullFolderPath ? FullFolder : string.Empty;
+
+        public string Folder
+        {
+            get => DisplayFolder;
+            set => FullFolder = value;
+        }
+
         public string RealType { get; set; } = string.Empty;
         public long FileSize { get; set; }
         public string FileSizeFormatted => FormatFileSize(FileSize);
         public int Width { get; set; }
         public int Height { get; set; }
+
         public string Dimensions
         {
             get
@@ -24,6 +37,7 @@ namespace ImageMismatchFinder
                 return "Unknown";
             }
         }
+
         public DateTime DateModified { get; set; }
         public string DateFormatted => DateModified.ToString("yyyy-MM-dd HH:mm:ss");
 

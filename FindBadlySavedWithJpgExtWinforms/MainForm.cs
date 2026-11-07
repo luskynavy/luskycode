@@ -88,6 +88,7 @@ namespace ImageMismatchFinder
                 numWeeks.Value = Math.Clamp(weeks, (int)numWeeks.Minimum, (int)numWeeks.Maximum);
 
                 chkCopyFullPath.Checked = ini.GetBool("Settings", "CopyFullPath", false);
+                ImageFileItem.ShowFullFolderPath = chkCopyFullPath.Checked;
             }
             catch (Exception ex)
             {
@@ -236,6 +237,12 @@ namespace ImageMismatchFinder
         private void btnCopy_Click(object? sender, EventArgs e)
         {
             CopySelectedItems(chkCopyFullPath.Checked);
+        }
+
+        private void chkCopyFullPath_CheckedChanged(object? sender, EventArgs e)
+        {
+            ImageFileItem.ShowFullFolderPath = chkCopyFullPath.Checked;
+            _resultsList.ResetBindings();
         }
 
         private void dgvResults_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
@@ -440,11 +447,22 @@ namespace ImageMismatchFinder
                     }
 
                     // Any non-JPEG file (WebP, PNG, AVIF, BMP, GIF, TIFF, Empty, Unknown) is a mismatch!
+                    string relativePath;
+                    try
+                    {
+                        relativePath = Path.GetRelativePath(rootDirectory, filePath);
+                    }
+                    catch
+                    {
+                        relativePath = fileInfo.Name;
+                    }
+
                     var item = new ImageFileItem
                     {
+                        RelativePath = relativePath,
                         FileName = fileInfo.Name,
                         FilePath = fileInfo.FullName,
-                        Folder = fileInfo.DirectoryName ?? string.Empty,
+                        FullFolder = fileInfo.DirectoryName ?? string.Empty,
                         RealType = imageInfo.FormatName,
                         FileSize = fileInfo.Length,
                         Width = imageInfo.Width,
@@ -511,7 +529,7 @@ namespace ImageMismatchFinder
                 return;
             }
 
-            var lines = selectedItems.Select(item => fullPath ? item.FilePath : item.FileName);
+            var lines = selectedItems.Select(item => fullPath ? item.FilePath : item.RelativePath);
             string clipboardText = string.Join(Environment.NewLine, lines);
 
             try

@@ -258,6 +258,7 @@ namespace ImageMismatchFinder
             chkCopyFullPath.TabIndex = 10;
             chkCopyFullPath.Text = "Include full paths";
             chkCopyFullPath.UseVisualStyleBackColor = true;
+            chkCopyFullPath.CheckedChanged += chkCopyFullPath_CheckedChanged;
 
             // 
             // dgvResults
@@ -309,7 +310,7 @@ namespace ImageMismatchFinder
             // 
             // colName
             // 
-            colName.DataPropertyName = "FileName";
+            colName.DataPropertyName = "RelativePath";
             colName.HeaderText = "Name";
             colName.Name = "colName";
             colName.ReadOnly = true;
@@ -355,7 +356,7 @@ namespace ImageMismatchFinder
             // colFolder
             // 
             colFolder.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            colFolder.DataPropertyName = "Folder";
+            colFolder.DataPropertyName = "DisplayFolder";
             colFolder.HeaderText = "Folder";
             colFolder.Name = "colFolder";
             colFolder.ReadOnly = true;

@@ -119,8 +119,10 @@ namespace ImageMismatchFinder
                         {
                             foundItems.Add(new ImageFileItem
                             {
+                                RelativePath = Path.GetRelativePath(testDir, fi.FullName),
                                 FileName = fi.Name,
                                 FilePath = fi.FullName,
+                                FullFolder = fi.DirectoryName ?? string.Empty,
                                 RealType = detected.FormatName,
                                 Width = detected.Width,
                                 Height = detected.Height
@@ -136,6 +138,17 @@ namespace ImageMismatchFinder
                                     foundItems.Exists(f => f.FileName == "unknown_doc.jpg") &&
                                     foundItems.Exists(f => f.FileName == "nested_fake.jpeg");
                 Assert(foundCorrect, $"Search includes Empty & Unknown and filters weeks (Found {foundItems.Count}/7 items)", ref passed, ref failed);
+
+                // Test 10: Subdirectories in Name and Full Path in Folder only when checked
+                var nestedItem = foundItems.Find(f => f.FileName == "nested_fake.jpeg");
+                bool relativeNameCorrect = nestedItem != null && nestedItem.RelativePath == Path.Combine("SubFolder", "nested_fake.jpeg");
+                Assert(relativeNameCorrect, $"Subdirectory included in Name ({nestedItem?.RelativePath})", ref passed, ref failed);
+
+                ImageFileItem.ShowFullFolderPath = false;
+                bool folderHidden = nestedItem != null && nestedItem.DisplayFolder == string.Empty;
+                ImageFileItem.ShowFullFolderPath = true;
+                bool folderShown = nestedItem != null && nestedItem.DisplayFolder == subDir;
+                Assert(folderHidden && folderShown, "Folder contains full path only when ShowFullFolderPath is true", ref passed, ref failed);
 
                 Console.WriteLine("==================================================");
                 Console.WriteLine($"Tests Finished: {passed} Passed, {failed} Failed.");
