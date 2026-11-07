@@ -143,31 +143,34 @@ class Program
     /// <param name="options">options with srcPath and dstPath</param>
     private static void LocalMode(Options options)
     {
-        if (!string.IsNullOrEmpty(options.output))
-        {
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : Start");
-        }
+        //if (!string.IsNullOrEmpty(options.output))
+        //{
+        //    Console.WriteLine(DateTime.Now.ToLongTimeString() + " : Start");
+        //}
+
+        Stopwatch sw = Stopwatch.StartNew();
 
         var filesSrc = GetFiles(Path.GetFullPath(options.srcPath));
-        // Log only if output file specified
-        if (!string.IsNullOrEmpty(options.output))
-        {
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : GetFiles src done");
-        }
+
+        TimeSpan ts = sw.Elapsed;
+
+        string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
+        Console.WriteLine("GetFiles src " + elapsedTime);
+
+        sw = Stopwatch.StartNew();
+
         var filesDst = GetFiles(Path.GetFullPath(options.dstPath));
-        // Log only if output file specified
-        if (!string.IsNullOrEmpty(options.output))
-        {
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : GetFiles dst done");
-        }
+
+        ts = sw.Elapsed;
+
+        elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
+        Console.WriteLine("GetFiles dst " + elapsedTime);
 
         ShowResults(filesSrc, filesDst, options);
-
-        // Log only if output file specified
-        if (!string.IsNullOrEmpty(options.output))
-        {
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : Done");
-        }
     }
 
     /// <summary>
@@ -211,12 +214,21 @@ class Program
             writer.WriteLine();
         }
 
+        Stopwatch sw = Stopwatch.StartNew();
+
         Results results = FindDstNotPresentOrDifferentSize(filesSrc, filesDst, options);
         if (options.verbose)
         {
             //show result
             writer.WriteLine("diff:");
         }
+
+        TimeSpan ts = sw.Elapsed;
+
+        string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
+        Console.WriteLine("Compare " + elapsedTime);
 
         int lineWritten = 0;
 
@@ -281,9 +293,20 @@ class Program
     /// <returns>array of file names</returns>
     private static FileInfoEntry[] GetFiles(string path)
     {
-        var dir = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
+        var dir = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Select(i => new FileInfo(i));
 
-        Console.WriteLine(DateTime.Now.ToLongTimeString() + " : EnumerateFiles done");
+        FileInfoEntry[] files = [];
+
+        foreach(var file in dir)
+        {
+            files.Append(new FileInfoEntry
+            {
+                Path = file.FullName.Substring(path.Length + 1),
+                Size = file.Length
+            });
+        }
+
+        /*var dir = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
 
         FileInfoEntry[] files = new FileInfoEntry[dir.Count()];       
 
@@ -298,13 +321,9 @@ class Program
                 Size = info.Length
             };
             i++;
-        }
-
-        Console.WriteLine(DateTime.Now.ToLongTimeString() + " : Array Fill done");
+        }*/
 
         Array.Sort(files, (x, y) => _stringComparer.Compare(x.Path, y.Path));
-
-        Console.WriteLine(DateTime.Now.ToLongTimeString() + " : Array Sort done");
 
         return files;
     }
@@ -387,8 +406,6 @@ class Program
 
         LocalMode(options);
         
-        Console.WriteLine($"Time elapsed: {sw.ElapsedMilliseconds} ms");
-
         TimeSpan ts = sw.Elapsed;
 
         string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
