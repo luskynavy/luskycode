@@ -283,7 +283,7 @@ static void showResults(std::vector<FileInfo>& filesSrc, std::vector<FileInfo>& 
     {
         std::filesystem::path dstPath(f);
         // Create destination directory it if don't exist
-        std::string fullDstPath = options.dstPath + "\\" + dstPath.parent_path().filename().string();
+        std::string fullDstPath = options.dstPath + "\\" + dstPath.parent_path().string();
         std::filesystem::path filepath = std::string(fullDstPath);
         if (!std::filesystem::is_directory(filepath))
         {
@@ -298,7 +298,7 @@ static void showResults(std::vector<FileInfo>& filesSrc, std::vector<FileInfo>& 
             }
         }
 
-		std::string command = options.prefixAdd + " \"" + options.srcPath + "\\" + f + "\" \"" + options.dstPath + "\\" + dstPath.parent_path().filename().string() + "\"" + "\n";
+		std::string command = options.prefixAdd + " \"" + options.srcPath + "\\" + f + "\" \"" + options.dstPath + "\\" + dstPath.parent_path().string() + "\"" + "\n";
         if (!options.output.empty())
         {
             ofs << command;
