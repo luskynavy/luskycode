@@ -36,6 +36,12 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
+            NameColumn = new DataGridViewTextBoxColumn();
+            FileSize = new DataGridViewTextBoxColumn();
+            Ratio = new DataGridViewTextBoxColumn();
+            Dimensions = new DataGridViewTextBoxColumn();
+            nbPixels = new DataGridViewTextBoxColumn();
+            Date = new DataGridViewTextBoxColumn();
             label1 = new Label();
             imagesPath = new TextBox();
             SelectPathButton = new Button();
@@ -46,12 +52,6 @@
             label3 = new Label();
             progressBar1 = new ProgressBar();
             recursive = new CheckBox();
-            NameColumn = new DataGridViewTextBoxColumn();
-            FileSize = new DataGridViewTextBoxColumn();
-            Ratio = new DataGridViewTextBoxColumn();
-            Dimensions = new DataGridViewTextBoxColumn();
-            nbPixels = new DataGridViewTextBoxColumn();
-            Date = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ratioTreshold).BeginInit();
             ((System.ComponentModel.ISupportInitialize)sizeTreshold).BeginInit();
@@ -72,6 +72,55 @@
             dataGridView1.SortCompare += dataGridView1_SortCompare;
             dataGridView1.KeyDown += dataGridView1_KeyDown;
             // 
+            // NameColumn
+            // 
+            NameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            NameColumn.HeaderText = "Name";
+            NameColumn.MinimumWidth = 6;
+            NameColumn.Name = "NameColumn";
+            NameColumn.ReadOnly = true;
+            // 
+            // FileSize
+            // 
+            FileSize.HeaderText = "File size";
+            FileSize.MinimumWidth = 6;
+            FileSize.Name = "FileSize";
+            FileSize.ReadOnly = true;
+            FileSize.Width = 75;
+            // 
+            // Ratio
+            // 
+            Ratio.HeaderText = "Ratio";
+            Ratio.MinimumWidth = 6;
+            Ratio.Name = "Ratio";
+            Ratio.ReadOnly = true;
+            Ratio.Width = 75;
+            // 
+            // Dimensions
+            // 
+            Dimensions.HeaderText = "Dimensions";
+            Dimensions.MinimumWidth = 6;
+            Dimensions.Name = "Dimensions";
+            Dimensions.ReadOnly = true;
+            Dimensions.Width = 125;
+            // 
+            // nbPixels
+            // 
+            nbPixels.HeaderText = "Nb pixels";
+            nbPixels.MinimumWidth = 6;
+            nbPixels.Name = "nbPixels";
+            nbPixels.ReadOnly = true;
+            nbPixels.Visible = false;
+            nbPixels.Width = 125;
+            // 
+            // Date
+            // 
+            Date.HeaderText = "Date";
+            Date.MinimumWidth = 6;
+            Date.Name = "Date";
+            Date.ReadOnly = true;
+            Date.Width = 125;
+            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -84,6 +133,8 @@
             // imagesPath
             // 
             imagesPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            imagesPath.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            imagesPath.AutoCompleteSource = AutoCompleteSource.FileSystemDirectories;
             imagesPath.Location = new Point(120, 16);
             imagesPath.Margin = new Padding(3, 4, 3, 4);
             imagesPath.Name = "imagesPath";
@@ -172,52 +223,6 @@
             recursive.TabIndex = 11;
             recursive.Text = "Recursive";
             recursive.UseVisualStyleBackColor = true;
-            // 
-            // NameColumn
-            // 
-            NameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            NameColumn.HeaderText = "Name";
-            NameColumn.MinimumWidth = 6;
-            NameColumn.Name = "NameColumn";
-            NameColumn.ReadOnly = true;
-            // 
-            // FileSize
-            // 
-            FileSize.HeaderText = "File size";
-            FileSize.MinimumWidth = 6;
-            FileSize.Name = "FileSize";
-            FileSize.ReadOnly = true;
-            FileSize.Width = 75;
-            // 
-            // Ratio
-            // 
-            Ratio.HeaderText = "Ratio";
-            Ratio.MinimumWidth = 6;
-            Ratio.Name = "Ratio";
-            Ratio.ReadOnly = true;
-            Ratio.Width = 75;
-            // 
-            // Dimensions
-            // 
-            Dimensions.HeaderText = "Dimensions";
-            Dimensions.MinimumWidth = 6;
-            Dimensions.Name = "Dimensions";
-            Dimensions.ReadOnly = true;
-            // 
-            // nbPixels
-            // 
-            nbPixels.HeaderText = "Nb pixels";
-            nbPixels.MinimumWidth = 6;
-            nbPixels.Name = "nbPixels";
-            nbPixels.ReadOnly = true;
-            nbPixels.Visible = false;
-            // 
-            // Date
-            // 
-            Date.HeaderText = "Date";
-            Date.MinimumWidth = 6;
-            Date.Name = "Date";
-            Date.ReadOnly = true;
             // 
             // Form1
             // 
